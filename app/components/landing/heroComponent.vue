@@ -1,5 +1,5 @@
 <template>
-    <div class="min-vh-100 justify-content-center align-items-center">
+    <div class="min-vh-100 justify-content-center align-items-center bg-light">
         <div class="row g-0 ">
             <div class=" d-none d-lg-flex col-lg-6 min-vh-50 justify-content-center align-items-center">
                 <div class="container ps-5">

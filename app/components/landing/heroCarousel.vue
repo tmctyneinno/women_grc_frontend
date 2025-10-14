@@ -38,22 +38,21 @@ const carouselConfig = {
 
 const slideItems: { header: string, info: string, image: string }[] = [
     {
-        header: `Comprehensive Background Checks`,
-        info: `Tired Of Poor And Shallow Background Checks? Relax and get to enjoy comprehensive background checks from us. Oysterchecks is dedicated in
-                conducting extensive background checks which are essential in the recruitment process.`,
-        image: `/images/hero/hero1.webp`
+        header: ``,
+        info: ``,
+        image: `/images//landing/hero1.webp`
     },
 
     {
-        header: `Had Enough Of Inconsistent KYC Check Results`,
-        info: `Oysterchecks addresses these shortcomings by performing KYC checks on people, ID documents and companies in a more effective way.`,
-        image: `/images/hero/hero2.webp`
+        header: ``,
+        info: ``,
+        image: `/images/landing/hero2.webp`
     },
 
     {
-        header: `Had Enough Of Inconsistent KYC Check Results`,
+        header: ``,
         info: `Oysterchecks addresses these shortcomings by performing KYC checks on people, ID documents and companies in a more effective way.`,
-        image: `/images/hero/hero3.webp`
+        image: `/images/landing/hero3.webp`
     },
 
 

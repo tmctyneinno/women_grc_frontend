@@ -13,7 +13,7 @@ export const useTemplateStore = defineStore('template', () => {
     },
     {
       title: 'About',
-      routePath: '#about-us'
+      routePath: '#landing-about'
     },
     {
       title: 'Recognition',
@@ -29,7 +29,7 @@ export const useTemplateStore = defineStore('template', () => {
     },
     {
       title: 'Blog',
-      routePath: '/'
+      routePath: '#landing-blog'
     },
     {
       title: 'Contact Us',

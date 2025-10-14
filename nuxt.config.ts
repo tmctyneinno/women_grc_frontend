@@ -14,6 +14,7 @@ export default defineNuxtConfig({
 
   css: [
     'bootstrap/dist/css/bootstrap.min.css',
+    'bootstrap-icons/font/bootstrap-icons.css',
     'vue-select/dist/vue-select.css',
     '@vuepic/vue-datepicker/dist/main.css',
     'sweetalert2/dist/sweetalert2.min.css',

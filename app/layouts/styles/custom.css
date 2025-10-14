@@ -179,13 +179,13 @@ hr.faint:after {
 
 /* text between lines */
 
-.between-lines {
+.text-between-lines {
   overflow: hidden;
   text-align: center;
 }
 
-.between-lines:before,
-.between-lines:after {
+.text-between-lines:before,
+.text-between-lines:after {
   background-color: #ccc;
   content: "";
   display: inline-block;
@@ -195,17 +195,48 @@ hr.faint:after {
   width: 50%;
 }
 
-.between-lines:before {
+.text-between-lines:before {
   right: 0.5em;
   margin-left: -50%;
 }
 
-.between-lines:after {
+.text-between-lines:after {
   left: 0.5em;
   margin-right: -50%;
 }
 
 /* text between lines */
+
+
+
+/* text after lines */
+
+.text-after-line {
+  overflow: hidden;
+  text-align: center;
+}
+
+.text-after-line:before {
+  background-color: #ccc;
+  content: "";
+  display: inline-block;
+  height: 1px;
+  position: relative;
+  vertical-align: middle;
+  width: 50%;
+}
+
+.text-after-line:before {
+  right: 0.5em;
+  margin-left: -50%;
+}
+
+.text-after-line:after {
+  left: 0.5em;
+  margin-right: -50%;
+}
+
+/* text after line */
 
 .border-right-lg, .border-right {
   border-right: 1px solid #e5e5e5;
