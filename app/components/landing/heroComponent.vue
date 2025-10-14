@@ -1,0 +1,50 @@
+<template>
+    <div class="min-vh-100 justify-content-center align-items-center">
+        <div class="row g-0 ">
+            <div class=" d-none d-lg-flex col-lg-6 min-vh-50 justify-content-center align-items-center">
+                <div class="container ps-5">
+                    <div class="hero-title mb-3">
+                        Empowering Women in Governance & Financial Crime Prevention
+                    </div>
+                    <div class="text-muted mb-3">
+                        Shaping the future of diversity, excellence and inclusion, foostering leadership, innovation in
+                        governance, risk and compliance and building a global network for women in GRC
+                    </div>
+                    <button class="btn btn-theme hover-tiltX">Register With Us</button>
+                </div>
+            </div>
+            <LandingHeroCarousel />
+        </div>
+    </div>
+</template>
+
+
+<style scoped>
+.hero-title {
+    font-weight: 700;
+    font-size: 2.9rem;
+    line-height: 1.3;
+}
+
+
+
+
+.hero-tem::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.358);
+    /* Black with 50% opacity */
+    backdrop-filter: blur(1px);
+    /* Blur effect */
+    z-index: 1;
+}
+
+.hero-tem>* {
+    position: relative;
+    z-index: 2;
+}
+</style>

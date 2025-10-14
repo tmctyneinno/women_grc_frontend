@@ -1,6 +1,4 @@
 <template>
-  <div>
-    <vue3-progress-bar />
-    <NuxtPage />
-  </div>
+  <vue3-progress-bar />
+  <NuxtPage />
 </template>

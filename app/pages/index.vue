@@ -1,12 +1,13 @@
 <template>
-    <div>
-        <div data-aos="fade-up">
-            {{ capsFirstLetter('home page') }}
-        </div>
-    </div>
+    <nuxt-layout name="landing-layout">
+        <landing-hero-component />
+        <landing-about-us-component />
+    </nuxt-layout>
+
 </template>
 
 <script setup lang="ts">
+
 
 const { capsFirstLetter } = useFxn
 

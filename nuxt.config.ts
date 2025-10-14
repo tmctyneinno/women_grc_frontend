@@ -2,7 +2,12 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: ['@pinia/nuxt', '@vueuse/nuxt', 'nuxt-aos'],
+  modules: [
+    '@pinia/nuxt',
+    '@vueuse/nuxt',
+    'nuxt-aos',
+    'vue3-carousel-nuxt',
+  ],
 
 
   ssr: false,   // For static hosting
@@ -14,14 +19,16 @@ export default defineNuxtConfig({
     'sweetalert2/dist/sweetalert2.min.css',
     'vue3-easy-data-table/dist/style.css',
     '@marcoschulte/vue3-progress/style',
-    'animate.css'
-    // 'main.css'
+    'animate.css',
+    'vue3-carousel/carousel.css',
+    '~/layouts/styles/custom.css'
   ],
 
   plugins: [
     './plugins/bootstrap.client.ts',
     './plugins/plugins.client.ts'
   ],
+
 
 })
 
@@ -45,5 +52,5 @@ export default defineNuxtConfig({
 - npm i -D @vueuse/nuxt @vueuse/core
 - npx nuxi@latest module add aos
 - npm i axios
-
+- npx nuxi@latest module add vue3-carousel-nuxt
 */

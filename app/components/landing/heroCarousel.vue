@@ -1,0 +1,81 @@
+<template>
+    <Carousel class="col-lg-6" v-bind="carouselConfig">
+        <Slide v-for="({ header, info, image }, index) in slideItems" :key="index">
+            <div :style="{ background: `url(${image}) center/cover no-repeat` }" class="w-100 hero-temp min-vh-100">
+
+                <div class="container d-lg-none">
+                    <div class="text-white text-center fs-2 fw-bold">
+                        Empowering Women in Governance & Financial Crime Prevention
+
+                    </div>
+                    <div class="small text-white text-center">
+                        Shaping the future of diversity, excellence and inclusion, foostering leadership, innovation
+                        in governance, risk and compliance and building a global network for women in GRC
+                    </div>
+                    <div class="text-center mt-3">
+                        <button class="btn btn-theme hover-tiltX mx-auto">Register With Us</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </Slide>
+        <template #addons>
+            <Pagination />
+            <!-- <Navigation /> -->
+        </template>
+    </Carousel>
+</template>
+
+<script setup lang="ts">
+
+const carouselConfig = {
+    itemsToShow: 1,
+    wrapAround: true,
+    autoplay: 5000
+}
+
+
+const slideItems: { header: string, info: string, image: string }[] = [
+    {
+        header: `Comprehensive Background Checks`,
+        info: `Tired Of Poor And Shallow Background Checks? Relax and get to enjoy comprehensive background checks from us. Oysterchecks is dedicated in
+                conducting extensive background checks which are essential in the recruitment process.`,
+        image: `/images/hero/hero1.webp`
+    },
+
+    {
+        header: `Had Enough Of Inconsistent KYC Check Results`,
+        info: `Oysterchecks addresses these shortcomings by performing KYC checks on people, ID documents and companies in a more effective way.`,
+        image: `/images/hero/hero2.webp`
+    },
+
+    {
+        header: `Had Enough Of Inconsistent KYC Check Results`,
+        info: `Oysterchecks addresses these shortcomings by performing KYC checks on people, ID documents and companies in a more effective way.`,
+        image: `/images/hero/hero3.webp`
+    },
+
+
+]
+
+</script>
+
+<style scoped>
+.side-img {
+    width: 70%;
+}
+
+
+
+.hero-temp {
+    /* This will make the image start from the top */
+    background-position: center top !important;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 40px;
+}
+</style>
