@@ -11,10 +11,13 @@
 
                     <Carousel v-bind="carouselConfig">
                         <Slide v-for="i in 6" :key="i">
-                            <div class="card bg-secondary-subtle border-0" style="max-width: 300px;">
+                            <div class="card bg-secondary-subtle border-0 h-100" style="max-width: 320px;">
                                 <div class="card-body">
                                     <div class="card-header fw-bold border-0 bg-transparent">
-                                        Emeka Iwuji
+                                        Amanda Samuel
+                                        <span class="float-end">
+                                            <i v-for="value in 5" class=" text-theme small bi bi-star-fill"></i>
+                                        </span>
                                     </div>
                                     <div class="card-body">
                                         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque, odio,
@@ -82,7 +85,7 @@ const clients = ref<AccordionInterface[]>([
 <style scoped>
 .main-page {
     padding-block: 60px;
-    min-height: 100vh;
+    /* min-height: 20vh; */
 }
 
 .header {

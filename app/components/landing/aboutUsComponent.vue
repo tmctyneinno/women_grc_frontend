@@ -7,7 +7,7 @@
                 </div>
                 <div class="header">About Us</div>
 
-                <nuxt-link to="/" class="btn btn-theme mt-3 hover-tiltX">Learn More</nuxt-link>
+                <nuxt-link to="/about-us" class="btn btn-theme mt-3 hover-tiltX">Learn More</nuxt-link>
             </div>
 
             <div class="col-lg-6" style="font-size: 18px; text-align: justify;">

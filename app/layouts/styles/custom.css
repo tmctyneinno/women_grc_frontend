@@ -326,11 +326,6 @@ input[type="radio"]:checked+label:before {
   }
 } */
 
-.d-flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 
 .vc-light.vc-attr, .vc-light .vc-attr {
@@ -347,9 +342,6 @@ input[type="radio"]:checked+label:before {
 }
 
 
-
-
-
 .dropdown-menu {
   border-radius: 5px !important;
   /* border: none !important; */
@@ -357,18 +349,7 @@ input[type="radio"]:checked+label:before {
 }
 
 
-/* quill editor */
-.ql-toolbar {
-  border-top-left-radius: 0.375rem !important;
-  border-top-right-radius: 0.375rem !important;
-  background-color: rgba(236, 237, 239, 0.336);
-  border-bottom: none !important;
-}
 
-.ql-container {
-  border-bottom-left-radius: 0.375rem !important;
-  border-bottom-right-radius: 0.375rem !important;
-}
 
 
 
@@ -392,6 +373,21 @@ input[type="radio"]:checked+label:before {
   /* Show overlay on hover */
 }
 
+
+
+
+/* quill editor */
+.ql-toolbar {
+  border-top-left-radius: 0.375rem !important;
+  border-top-right-radius: 0.375rem !important;
+  background-color: rgba(236, 237, 239, 0.336);
+  border-bottom: none !important;
+}
+
+.ql-container {
+  border-bottom-left-radius: 0.375rem !important;
+  border-bottom-right-radius: 0.375rem !important;
+}
 
 
 .carousel__pagination-button::after {

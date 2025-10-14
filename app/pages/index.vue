@@ -16,6 +16,10 @@
 
         <div id="landing-clients"></div>
         <landing-clients-component />
+
+        <div class="container py-5">
+            <subscribe-component />
+        </div>
     </nuxt-layout>
 
 </template>

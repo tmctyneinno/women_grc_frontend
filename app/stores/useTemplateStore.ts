@@ -9,23 +9,25 @@ export const useTemplateStore = defineStore('template', () => {
 
     {
       title: 'Home',
-      routePath: '/'
+      routePath: '/',
+      hideOnNavBar: true
     },
     {
       title: 'About',
-      routePath: '#landing-about'
+      routePath: '/about-us',
+      hideOnNavBar: true
     },
     {
       title: 'Recognition',
-      routePath: '/'
+      routePath: '/recognition'
     },
     {
       title: 'Membership',
-      routePath: '/'
+      routePath: '#'
     },
     {
       title: 'Resources',
-      routePath: '/'
+      routePath: '#'
     },
     {
       title: 'Blog',
@@ -33,7 +35,7 @@ export const useTemplateStore = defineStore('template', () => {
     },
     {
       title: 'Contact Us',
-      routePath: '/'
+      routePath: '/contact-us'
     },
   ]
 
