@@ -1,6 +1,3 @@
-import { reactive, ref } from 'vue'
-import { defineStore } from 'pinia'
-
 export const useTemplateStore = defineStore('template', () => {
 
   const activateToolTip = ref<number>(1)
@@ -23,15 +20,15 @@ export const useTemplateStore = defineStore('template', () => {
     },
     {
       title: 'Membership',
-      routePath: '#'
+      routePath: '/membership'
     },
     {
       title: 'Resources',
-      routePath: '#'
+      routePath: '/resources'
     },
     {
       title: 'Blog',
-      routePath: '#landing-blog'
+      routePath: '/#landing-blog'
     },
     {
       title: 'Contact Us',

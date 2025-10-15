@@ -11,14 +11,14 @@
                     </div>
                 </div>
                 <div class="col-lg-6 float-end">
-                    <div class="d-flex gap-2">
-                        <div class="col-lg-9">
+                    <div class="d-md-flex gap-2">
+                        <div class="col-md-9">
                             <div class="float-lg-end">
                                 <input placeholder="enter your email" type="text" class="form-control">
                                 <div class="xsmall">We care about your data in our privacy policy</div>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col mt-4 mt-md-0">
                             <button class="btn btn-light w-100">Subscribe</button>
                         </div>
                     </div>

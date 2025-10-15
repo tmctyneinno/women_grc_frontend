@@ -13,8 +13,8 @@
 
                 <div class="col-12">
                     <ul class="list-group list-group-flush">
-                        <li v-for="({ number, title, times, date }, index) in events" :key="index"
-                            class="list-group-item bg-transparent border-">
+                        <li v-for="({ number, title, times, date }, index) in pageContents.$home.sampleEvents"
+                            :key="index" class="list-group-item bg-transparent border-">
 
                             <div class="row g-3">
                                 <div class="col-2 event-number d-none d-lg-block">{{ number }}</div>
@@ -38,9 +38,7 @@
                                 </div>
                             </div>
                         </li>
-
                     </ul>
-
                 </div>
             </div>
         </div>
@@ -49,29 +47,8 @@
 
 
 <script lang="ts" setup>
-
-interface EventInterface {
-    number: string,
-    title: string,
-    times: string[],
-    date: Date
-}
-
-const events = ref<EventInterface[]>([
-    {
-        number: '01',
-        title: 'The Role of Women in Governance, Risk Management, and Compliance Practices',
-        times: ['9am-1pm', '4pm-9pm'],
-        date: new Date('2025-11-07')
-    },
-    {
-        number: '02',
-        title: 'The Role of Women in Leadership: Navigating Governance, and Risk',
-        times: ['9am-1pm', '4pm-9pm'],
-        date: new Date('2025-11-07')
-    }
-])
-
+import { useDateFormat } from '@vueuse/core'
+import pageContents from '~/stores/pageContents.json'
 
 </script>
 

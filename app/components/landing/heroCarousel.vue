@@ -1,7 +1,7 @@
 <template>
     <Carousel class="col-lg-6" v-bind="carouselConfig">
         <Slide v-for="({ header, info, image }, index) in slideItems" :key="index">
-            <div :style="{ background: `url(${image}) center/cover no-repeat` }" class="w-100 hero-temp min-vh-100">
+            <div :style="{ background: `url(${image}) center/cover no-repeat` }" class="w-100 hero min-vh-100">
 
                 <div class="container d-lg-none">
                     <div class="text-white text-center fs-2 fw-bold">
@@ -67,7 +67,7 @@ const slideItems: { header: string, info: string, image: string }[] = [
 
 
 
-.hero-temp {
+.hero {
     /* This will make the image start from the top */
     background-position: center top !important;
     overflow: hidden;

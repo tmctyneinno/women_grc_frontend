@@ -20,7 +20,8 @@
 
                     <li class="nav-item me-2">
                         <div class="dropdown">
-                            <button ref="dropdownToggler" class="nav-link dropdown-toggle" type="button" id="triggerId"
+                            <button ref="dropdownToggler" class="nav-link dropdown-toggle "
+                                :class="{ 'router-link-exact-active': onAboutRoute }" type="button" id="triggerId"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 About
                                 <!-- <i class="bi bi-chevron-down"></i> -->
@@ -69,6 +70,10 @@ const headerDropped = ref<boolean>(false)
 const route = useRoute()
 const router = useRouter()
 
+const onAboutRoute = computed(() => {
+    return ['/about-us', '/advisory-board'].includes(route.fullPath)
+})
+
 const customClass = computed(() => ({
     'bg-transparent text-white': !headerDropped.value && route.path == '/',
     'animate__animated animate__slideInDown animate__faster': headerDropped.value && route.path == '/',
@@ -90,11 +95,11 @@ onMounted(() => {
 
 
 <style scoped>
-/* .nav-item .router-link-exact-active {
+.nav-item .router-link-exact-active {
     font-weight: bolder;
     color: var(--theme-color);
-    border-bottom: 1px solid var(--theme-color) !important;
-} */
+    /* border-bottom: 1px solid var(--theme-color) !important; */
+}
 
 .navbar-nav .nav-link {
     transition: all ease-in-out 0.4s;

@@ -44,6 +44,10 @@ input::placeholder, textarea::placeholder {
 }
 
 
+.text-justify{
+  text-align: justify;
+}
+
 
 
 .cursor-notallowed{
@@ -110,13 +114,6 @@ font-weight: bold;
   } */
 
 }
-
-
-
-.space-from-header {
-  min-height: 60px
-}
-
 
 
 hr.faint {

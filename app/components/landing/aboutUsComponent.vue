@@ -11,11 +11,7 @@
             </div>
 
             <div class="col-lg-6" style="font-size: 18px; text-align: justify;">
-                Women in Governance, Risk, Compliance, Financial Crime, and Fraud Prevention is a pioneering initiative
-                founded by Dr. Foluso Amusa, PhD, dedicated to empowering women professionals in these critical fields.
-                Our mission is to foster leadership, inspire innovation, and create a collaborative platform for women
-                to thrive, lead, and make a lasting impact across industries.
-                We believe in the power of diversity and inclusion to drive ethical practices, enhance profession...
+                {{ pageContents.$about.regularText }}
             </div>
 
             <div class="col-12 mt-5">
@@ -25,6 +21,11 @@
         </div>
     </div>
 </template>
+
+<script lang="ts" setup>
+import pageContents from '~/stores/pageContents.json'
+
+</script>
 
 
 <style scoped>

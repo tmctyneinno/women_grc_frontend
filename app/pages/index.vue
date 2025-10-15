@@ -18,16 +18,8 @@
         <landing-clients-component />
 
         <div class="container py-5">
-            <subscribe-component />
+            <landing-subscribe-component />
         </div>
     </nuxt-layout>
 
 </template>
-
-<script setup lang="ts">
-
-
-
-
-
-</script>

@@ -1,0 +1,214 @@
+{
+  "$home": {
+    "faqs": [
+      {
+        "question": "How is privacy and data security handled?",
+        "answer": "We are committed to safeguarding your data with robust privacy and security measures. For details, refer to our Privacy Policy on the website."
+      },
+      {
+        "question": "How are women leaders recognized on this platform?",
+        "answer": "The Recognition section features profiles of accomplished women, their achievements, and awards, including a link to the GRCFINCRIME Awards website."
+      },
+      {
+        "question": "How can I contribute to the initiative?",
+        "answer": "You can contribute by volunteering, mentoring, sponsoring events, or making donations. You can send us an email to get started!"
+      },
+      {
+        "question": "Are the events virtual or in-person?",
+        "answer": "Our events include a mix of virtual webinars and in-person conferences, ensuring accessibility and global reach. Check the Events section for details on upcoming activities."
+      },
+      {
+        "question": "How does the mentorship program work?",
+        "answer": "The mentorship program pairs experienced professionals with mentees based on their expertise, goals, and interests. Regular sessions, progress tracking, and feedback tools ensure meaningful connections."
+      },
+      {
+        "question": "Who can become a member of the platform?",
+        "answer": "Any professional passionate about advancing women in GRC and financial crime prevention, including women leaders, aspiring professionals, and allies from all industries and sectors."
+      },
+      {
+        "question": "Can I access the platform globally?",
+        "answer": "Yes, the platform is designed for global accessibility, welcoming members from all regions and industries."
+      },
+      {
+        "question": "What resources are available in the Resource Library?",
+        "answer": "The Resource Library offers blogs, white papers, toolkits, case studies, and industry insights to help members stay informed and succeed in their fields."
+      },
+      {
+        "question": "Are there any membership fees?",
+        "answer": "Membership details, will be specified during the registration process. We aim to keep it accessible to a wide audience."
+      },
+      {
+        "question": "What is the purpose of the Diversity & Inclusion metrics?",
+        "answer": "The metrics showcase stories and initiatives promoting women's advancement in GRC and financial crime prevention, highlighting the impact of diversity in leadership."
+      },
+      {
+        "question": "How can I join the membership portal?",
+        "answer": "You can sign up through our user-friendly membership portal by creating an account, providing your professional details, and selecting your area of interest."
+      },
+      {
+        "question": "What is the purpose of this initiative?",
+        "answer": "The initiative aims to empower women in Governance, Risk, Compliance (GRC), financial crime prevention, and fraud prevention, fostering leadership and creating opportunities for professional growth and collaboration."
+      }
+    ],
+    "sampleEvents": [
+      {
+        "number": "01",
+        "title": "The Role of Women in Governance, Risk Management, and Compliance Practices",
+        "times": ["9am-1pm", "4pm-9pm"],
+        "date": "2025-11-07"
+      },
+      {
+        "number": "02",
+        "title": "The Role of Women in Leadership: Navigating Governance, and Risk",
+        "times": ["9am-1pm", "4pm-9pm"],
+        "date": "2025-11-07"
+      }
+    ]
+  },
+
+  "$about": {
+    "regularText": "Women in Governance, Risk, Compliance, Financial Crime, and Fraud Prevention is a pioneering initiative founded by Dr. Foluso Amusa, PhD, dedicated to empowering women professionals in these critical fields. Our mission is to foster leadership, inspire innovation, and create a collaborative platform for women to thrive, lead, and make a lasting impact across industries. We believe in the power of diversity and inclusion to drive ethical practices, enhance profession...",
+    "vision": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio quaerat quasi natus reiciendis sunt rem voluptatem maxime, tempora tempore consequuntur, inventore doloremque blanditiis esse perspiciatis quibusdam cumque dicta tenetur possimus.",
+    "purpose": "To create a supportive platform that champions the advancement of women in GRC, financial crime, and fraud prevention by fostering leadership, professional growth, and collaboration across industries and sectors.",
+    "missionStatements": [
+      "Promoting Leadership: Providing mentorship, training, and networking opportunities to prepare women for leadership roles.",
+      "Advancing Expertise: Offering access to cutting-edge knowledge, resources, and best practices in governance, compliance, and fraud prevention.",
+      "Fostering Inclusion: Advocating for diversity and equity in all sectors, driving systemic change to create a more balanced workforce.",
+      "Upholding Integrity: Encouraging ethical practices and professional excellence to combat financial crime and build trust in organizations.",
+      "Driving Collaboration: Connecting professionals across industries to share insights, develop solutions, and shape the future of GRC and financial crime prevention."
+    ],
+    "whatWeDo": [
+      {
+        "title": "Empower Leaders",
+        "text": "We provide mentorship, training, and resources to equip women with the skills and confidence to lead in their organizations.",
+        "img": "/images/about/about-what6.png"
+      },
+      {
+        "title": "Foster Collaboration",
+        "text": "Through events, networking opportunities, and partnerships, we connect professionals to exchange insights, share best practices, and solve real-world challenges.",
+        "img": "/images/about/about-what5.png"
+      },
+      {
+        "title": "Drive Innovation",
+        "text": "We stay at the forefront of industry trends, offering tools and knowledge to navigate the rapidly evolving GRC and financial crime landscape.",
+        "img": "/images/about/about-what4.png"
+      },
+      {
+        "title": "Global Events & Summits",
+        "text": "We organise international conferences, workshops, webinars, and forums that bring together regulators, professionals, and innovators to exchange knowledge, network, and set future directions.",
+        "img": "/images/about/about-what3.png"
+      },
+      {
+        "title": "Promote Integrity",
+        "text": "Upholding the highest ethical standards, we champion practices that build trust and drive sustainable change across industries.",
+        "img": "/images/about/about-what2.png"
+      },
+      {
+        "title": "Advocate for Equity",
+        "text": "We work to break down barriers and ensure that women have equal opportunities to excel in their careers.",
+        "img": "/images/about/about-what1.png"
+      }
+    ]
+  },
+
+  "$advisory": {
+    "board": [
+      {
+        "name": "Dr. Foluso Amusa, PhD",
+        "title": "Founder, WGRC",
+        "info": "<h5>Founder, Women in Governance, Risk, Compliance & Financial Crime Prevention (WGRCFP)</h5>\n\n<p>Dr. Foluso Amusa is a distinguished leader, seasoned entrepreneur, and globally recognized expert in Governance, Risk Management, Compliance (GRC), and Financial Crime Prevention. With over two decades of professional experience, he has played a pivotal role in shaping regulatory excellence, corporate governance frameworks, and financial crime prevention strategies across key industries, including banking, insurance, fintech, healthcare, aviation, and oil & gas.</p>\n\n<p>As the Founder of WGRCFP, Dr. Amusa is committed to fostering gender diversity and empowering women professionals in the GRC and financial crime prevention sectors. Through mentorship, thought leadership, and strategic networking, he has built a platform that supports professional development and inclusivity in these critical fields.</p>\n\n<p>Dr. Amusa is also the visionary behind THE MORGANS Consortium (established in 2014), a leading firm specializing in risk, compliance, and financial crime advisory services. His strategic initiatives include:</p>\n\n<ul>\n<li>The GRC & Financial Crime Prevention Awards & Summit – Africa & Europe</li>\n<li>Women in GRC & Financial Crime Prevention (WGRCFP), a platform advocating for gender diversity and leadership</li>\n<li>The Institute of Financial Crime and Fraud Prevention of Nigeria (IFPN), a premier institution dedicated to advancing compliance, financial crime prevention, and professional education in Nigeria</li>\n<li>GRC and Financial Crime Today Magazine, a leading publication providing insights into global regulatory and compliance trends</li>\n<li>GRC and Financial Crime Today TV, a digital platform...</li>\n</ul>\n\n<p>A sought-after speaker, thought leader, and consultant, Dr. Amusa continues to shape regulatory policies, corporate best practices, and financial crime prevention strategies globally. His mission is to elevate industry standards, drive innovation, and support the professional growth of practitioners in the GRC & Financial Crime Prevention ecosystem.</p>",
+        "image": "/images/advisory/foluso.png"
+      },
+      {
+        "name": "ELENA PYKHOVA",
+        "title": "VICE CHAIRPERSON, (WGRCFP)",
+        "info": "<h5>VICE CHAIRPERSON, (WGRCFP)</h5>\n\n<p>She is an award-winning risk expert, author, international trainer, and educator. Director and founder of a boutique risk management consultancy, The OpRisk Company, specializing in risk transformation, board and executive level advice on effective operational and enterprise risk management strategy, design, and implementation. Author of best-selling book, Operational Risk Management in Financial Services: A Practical Guide to Establishing Effective Solutions.</p>\n\n<p>Thought leader, influencer and founder of a prominent industry think tank, Best Practice Operational Risk Forum. Executive global trainer at the world leading venues including London Stock Exchange Academy, the Moller Institute, University of Cambridge, Euronext, Institute of Internal Auditors, and chair of Operational Risk Expert Panel, Association of Foreign Banks.</p>",
+        "image": "/images/advisory/elena.png"
+      },
+      {
+        "name": "CHINELO UBAH",
+        "title": "VICE CHAIRPERSON, (WGRCFP)",
+        "info": "<h5>VICE CHAIRPERSON, (WGRCFP)</h5>\n\n<p>She is an experienced lawyer and senior risk and compliance professional with a history of working for global and regional Financial institutions and managing Financial Crime risk. She specializes in the design and implementation of Compliance and financial crime risk management frameworks; Anti- Money Laundering/Counter Financing of Terrorism, Proliferation Financing (AML/CFT/PF), Sanctions, Anti Bribery and Corruption (ABC), regulatory Compliance and Conduct programs.</p>\n\n<p>She has successfully implemented and managed Compliance and Financial Crime risk assessments in her roles. She understands diverse risk assessment methodologies. She is skilled in the design and implementation of monitoring and testing programs; design of Policies and, Procedures and Training.</p>\n\n<p>Her professional experiences cut across the fields of Law, Operations, Compliance, Financial Crime, Conduct and Risk Management. In 2021, She emerged as a Global Talent in SCB's Global Talent accelerator program.</p>",
+        "image": "/images/advisory/chinelo.png"
+      },
+      {
+        "name": "LORETTA JOSEPH",
+        "title": "CHAIRPERSON, WGRC",
+        "info": "<h5>CHAIRPERSON, WOMEN IN GRC AND FINANCE PREVENTION (WGRCFP)</h5>\n\n<p>Loretta's career has included significant roles at the Board, MD, or senior management level in major investment banks across Asia and India, such as RBS (India), Macquarie Group (India), Deutsche Bank, Credit Suisse, and Elara Capital (India). Her extensive career has provided her with deep exposure to global financial markets, various asset classes, and emerging market environments.</p>\n\n<p>This experience has been instrumental in shaping her understanding of the financial landscape, particularly in relation to emerging technologies and digital assets.</p>\n\n<p>In her advisory capacity, Loretta has worked with the jurisdictions of Mauritius, Bermuda, Serbia, and Vanuatu on developing legal and regulatory frameworks for virtual assets.</p>",
+        "image": "/images/advisory/loretta.png"
+      },
+      {
+        "name": "DR. ADENIKE ODUKOMAIYA",
+        "title": "ADVISORY BOARD MEMBER",
+        "info": "<h5>ADVISORY BOARD MEMBER</h5>\n\n<p>Adenike Odukomaiya is the Chief Audit Executive for Stanbic IBTC Bank Ltd, Nigeria [a member of Standard Bank Group]. She has over 24 years of experience in Banking Operations, Risk and Control, Credit Risk, and Internal Audit, with a footprint across various African Subsidiaries. Her work experience includes the defunct Standard Trust Bank and United Bank for Africa.</p>\n\n<p>She possesses an in-depth knowledge of the application of the International Professional Practices Framework (IPPF) of the Institute of Internal Auditors (IIA), the COSO Enterprise Risk Management Framework and the COSO Framework on Internal Controls. Over the years, she has demonstrated the ability to identify and address problems with an appropriate sense of urgency and recommend changes and enhancements to existing policies, processes, and controls to ensure they are current, adequate, relevant, and implemented in accordance with relevant regulatory guidelines.</p>",
+        "image": "/images/advisory/adenike.png"
+      },
+      {
+        "name": "CHRIS GALLEN",
+        "title": "ADVISORY BOARD MEMBER",
+        "info": "<h5>ADVISORY BOARD MEMBER</h5>\n\n<p>Chris Gallen is an accomplished compliance and risk leader with nearly two decades of executive experience across global payment institutions and financial services organizations. With expertise spanning financial crime prevention, regulatory compliance, and enterprise risk frameworks, successfully led risk and compliance programs for international financial services businesses and led regulatory remediation projects.</p>\n\n<p>Chris specialises in designing scalable risk and compliance frameworks, leading financial crime prevention strategies, and working at the Board level to help global businesses manage their risk and compliance oversight responsibilities. Chris founded a specialised risk & compliance consultancy, providing services to Fintechs, Payment Firms, and Digital Banks. Chris holds an ICA Diploma in Compliance and brings this wealth of expertise to the Board of Women in Governance Risk and Compliance, reflecting a commitment to promoting diversity and excellence in the profession.</p>",
+        "image": "/images/advisory/chris.png"
+      },
+      {
+        "name": "WRITAM CHAKRABORTY",
+        "title": "ADVISORY BOARD MEMBER",
+        "info": "<h5>ADVISORY BOARD MEMBER</h5>\n\n<p>Writam Chakraborty is an experienced professional in risk management and quantitative analysis, currently serving as an IRB advisor at True North Partners since November 2022. Prior roles include consulting at HSBC focused on financial and model risk regulatory policy and positions at Shawbrook Bank and BAWAG P.S.K., where Writam led initiatives in management. risk model.</p>\n\n<p>She has a background in model management and development is emphasized from Writam's tenure as Director at Fitch Ratings and as a quantitative analytics expert at Barclays. Writam's academic credentials include a PhD in Mathematics from the Indian Institute of Engineering Science Technology, complemented by studies in Particle Physics at the University of Nottingham and a Master's degree from Jadavpur University.</p>",
+        "image": "/images/advisory/writam.png"
+      },
+      {
+        "name": "SISIETA OWEN",
+        "title": "ADVISORY BOARD MEMBER",
+        "info": "<h5>ADVISORY BOARD MEMBER</h5>\n\n<p>Sisieta's expertise and experience span across the financial services industry in both breadth and depth, driving risk strategies, cultures, building and implementing scalable risk and compliance frameworks, leading, coaching, and mentoring global teams. Beginning her financial services career at HSBC, Sisieta has since transitioned into the non-traditional finance space, helping the the understanding effective management of enterprise-wide risks and of with regulatory compliance being a core anchor.</p>\n\n<p>Stemming from her entire career and having served in multiple senior and strategic roles including, being a board executive director & an interim Chief Risk Officer, Sisieta believes that the best-in-class Compliance and Risk program is only ever as good as the organisation's risk culture, ethics, strategy and, has to be a tailored fit for the firm.</p>\n\n<p>On a personal note, Sisieta is the youngest of six siblings, of Nigerian origin, has lived and attended a boarding secondary school abroad, and holds strong Christian beliefs. She is a passionate advocate for inclusion and respect for difference.</p>\n\n<p>Sisieta is also a mum to two boys aged 13 and 10, both of whom are avid football players, with her eldest son playing professionally for Brentford FC's U14 youth academy; hence, when she isn't 'delivering and/or driving Risk and Compliance efforts, she can be found on football pitches across across the country or abroad</p>",
+        "image": "/images/advisory/sisieta.png"
+      },
+      {
+        "name": "DR. PERIHAN ABDELGHALY",
+        "title": "ADVISORY BOARD MEMBER",
+        "info": "<h5>ADVISORY BOARD MEMBER</h5>\n\n<p>Perihan Abdelghaly is an experienced ESG strategic lead and sustainable finance expert with 18 years in sustainable banking, finance, and consulting.</p>\n\n<p>She has a proven track record in leading sustainability strategy implementation, conducting ESG due diligence, and supporting clients in their transition to sustainable business models. She is adept at working in dynamic, fast-paced collaborating environments with diverse stakeholders.</p>",
+        "image": "/images/advisory/perihan.png"
+      },
+      {
+        "name": "JENNIFER SMITH",
+        "title": "ADVISORY BOARD MEMBER",
+        "info": "<h5>ADVISORY BOARD MEMBER</h5>\n\n<p>As a visionary and outcome-oriented leader with 20+ years of demonstrated success, She has built and directed diverse teams to drive transformational digital change through her expertise in mission-driven strategic thinking. She is passionate about leveraging cutting edge technology to achieve innovative solutions and drive top and bottom-line results. As an advocate for employees, She is committed to providing an environment where people can grow professionally and excel in their careers.</p>\n\n<p>Her specialties include: marketing and sales technology including CRM (Customer Relationship Management Tools), DXPs (Digital Experience Platforms) and CDPs (Customer Data Platforms). She is hands on with projects as needed or helpful.</p>",
+        "image": "/images/advisory/jennifer.png"
+      },
+      {
+        "name": "Yelena Ladyguina",
+        "title": "ADVISORY BOARD MEMBER",
+        "info": "<h5>ADVISORY BOARD MEMBER</h5>\n\n<p>Yelena Ladyguina is the Chair of the Supervisory Board at Ipoteka Bank and the director of YVL Ltd. She is also a member of the supervisory board and is based in London, Great Britain.</p>\n\n<p>She focuses on business mentoring and support, particularly for small businesses. She is also known for her work in helping displaced Ukrainian refugees relocate to the UK through schemes like “Home for Ukrainians.”</p>",
+        "image": "/images/advisory/yelena.png"
+      },
+      {
+        "name": "WILLIAM DU",
+        "title": "ADVISORY BOARD MEMBER",
+        "info": "<h5>ADVISORY BOARD MEMBER</h5>\n\n<p>William Du is the founder and Chief Executive Officer of the Ingenious Haus Group, a boutique financial services company, providing corporate finance, private equity, wealth management & investment services to entrepreneurs and business owners since 2004.</p>\n\n<p>William is currently the non executive director of TETEU:US, a SPAC on Nasdaq, and formerly the Chairman of Vertu Capital Ltd (London Stock Exchange).</p>\n\n<p>From 2020 2022, William was involved in Agroz Group, a vertical farm company; and Amazing Solar, a solar energy company, building a \"2-Farms\" concept where the vertical farm will be powered by the solar farm on rooftop.</p>\n\n<p>He started his career as a trainee accountant in London. Later, he joined PricewaterhouseCoopers (PwC) Malaysia, specializing in transfer pricing & tax investigations. He left PwC to join Star Cruises Ltd as senior corporate planning executive before he set up his own consultancy in 2004. William has extensive experience in debt and equity fund raising, corporate restructuring, corporate development & competitive strategy.</p>\n\n<p>William graduated from the University of Hertfordshire with Master of Business Administration and a first class honours in BA (Hons) Accounting. His MBA thesis, titled \"Acquisition of Midland Bank by HSBC,\" was presented at the 19th World Association for Case Method Research & Application conference in Mannheim, Germany, in 2002.</p>\n\n<p>William was awarded the \"Entrepreneur of the Year\" from Inti University Malaysia's Outstanding Alumni in conjunction with Inti's 30th anniversary in November 2016.</p>",
+        "image": "/images/advisory/william.png"
+      },
+      {
+        "name": "LILIA GEORGIEVA",
+        "title": "ADVISORY BOARD MEMBER",
+        "info": "<h5>ADVISORY BOARD MEMBER</h5>\n\n<p>Lilia Georgieva is an Assistant Professor in the School of Mathematical and Computer Sciences at Heriot-Watt University in the United Kingdom. Her research interests encompass modeling, verification, and knowledge management. She has contributed to various publications in these domains and has been involved in international collaborations.</p>\n\n<p>Lilia Georgieva is also co-founder and current treasurer of the UK chapter ACM women, a group that seeks to empower, encourage and support individuals from diverse backgrounds through programs, internships, conferences, webinars, talks and social events to get the knowledge, skills and confidence they need to pursue a successful career in computing, in both academia and industry.</p>",
+        "image": "/images/advisory/lilia.png"
+      },
+      {
+        "name": "NDIDI AHIAUZU",
+        "title": "ADVISORY BOARD MEMBER",
+        "info": "<h5>ADVISORY BOARD MEMBER</h5>\n\n<p>Her mission is to support organisations and governments in implementing regulatory requirements and ensuring transactional integrity, while fostering innovation and growth in the financial services sector.</p>\n\n<p>She has over 15 years of experience in Financial Crime Compliance, spanning various sectors and jurisdictions. She is also a Fellow of the International Compliance Association (ICA), a prestigious credential that demonstrates my commitment to the highest standards of professionalism and ethics in the compliance industry.</p>\n\n<p>Her core competencies include expertise in compliance policy and governance, Anti-Money Laundering (AML), cryptocurrencies, and compliance training. She holds a PhD in Law, with a focus on the international framework for AML, and a Specialist Certificate in Financial Crime Risks in Cryptocurrencies from the ICA.</p>",
+        "image": "/images/advisory/ndidi.png"
+      },
+      {
+        "name": "MARÍLIA AIRES",
+        "title": "ADVISORY BOARD MEMBER",
+        "info": "<h5>ADVISORY BOARD MEMBER</h5>\n\n<p>As a Legal Counsel and Data Protection Officer, she has a cooperation with Nova compliance Lab. Marília Aires provides expert advice and guidance on data protection law, compliance, and risk management over the years. With over 16 years of experience as a lawyer, She has a proven track record of delivering high-quality legal services to a diverse range of clients, nationally and internationally.</p>\n\n<p>She is passionate about using in-depth legal knowledge and skills to develop innovative and practical solutions to complex legal problems, while ensuring the highest standards of quality and client satisfaction. She works collaboratively with various stakeholders, including senior management, technical teams, and external partners, to support the company's strategic goals and vision.</p>\n\n<p>She also enjoys mentoring and sharing her technical and commercial expertise with new colleagues. lawyers and Marília Aires is always eager to learn and keep up to date with the dynamic and evolving field of data protection and regulation.</p>",
+        "image": "/images/advisory/marilia.png"
+      },
+      {
+        "name": "IPSITA PRADHAN",
+        "title": "ADVISORY BOARD MEMBER",
+        "info": "<h5>Advisory Board Member</h5>\n\n<p>Ipsita Pradhan is an experienced deputy with manager a demonstrated history of working in the banking industry.</p>\n\n<p>She is skilled in Analytical Skills, Market Risk, Securities, Asset Management, and Treasury.</p>\n\n<p>She is a strong professional with a Certified International Risk Management focused in International from Institute Risk Management.</p>",
+        "image": "/images/advisory/ipsita.png"
+      }
+    ]
+  }
+}

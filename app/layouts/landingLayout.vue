@@ -1,7 +1,7 @@
 <template>
-    <navbar-component />
+    <landing-navbar-component />
     <div class="min-vh-100 pb-5">
         <slot />
     </div>
-    <footer-component />
+    <landing-footer-component />
 </template>

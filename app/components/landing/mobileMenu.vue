@@ -31,7 +31,7 @@ const templateStore = useTemplateStore()
 const btnX = ref<any>(null)
 
 onBeforeRouteLeave(() => {
-    btnX.value.click()
+    btnX.value?.click()
 })
 
 onMounted(() => {
