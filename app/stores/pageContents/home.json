@@ -1,0 +1,66 @@
+  {
+    "faqs": [
+      {
+        "question": "How is privacy and data security handled?",
+        "answer": "We are committed to safeguarding your data with robust privacy and security measures. For details, refer to our Privacy Policy on the website."
+      },
+      {
+        "question": "How are women leaders recognized on this platform?",
+        "answer": "The Recognition section features profiles of accomplished women, their achievements, and awards, including a link to the GRCFINCRIME Awards website."
+      },
+      {
+        "question": "How can I contribute to the initiative?",
+        "answer": "You can contribute by volunteering, mentoring, sponsoring events, or making donations. You can send us an email to get started!"
+      },
+      {
+        "question": "Are the events virtual or in-person?",
+        "answer": "Our events include a mix of virtual webinars and in-person conferences, ensuring accessibility and global reach. Check the Events section for details on upcoming activities."
+      },
+      {
+        "question": "How does the mentorship program work?",
+        "answer": "The mentorship program pairs experienced professionals with mentees based on their expertise, goals, and interests. Regular sessions, progress tracking, and feedback tools ensure meaningful connections."
+      },
+      {
+        "question": "Who can become a member of the platform?",
+        "answer": "Any professional passionate about advancing women in GRC and financial crime prevention, including women leaders, aspiring professionals, and allies from all industries and sectors."
+      },
+      {
+        "question": "Can I access the platform globally?",
+        "answer": "Yes, the platform is designed for global accessibility, welcoming members from all regions and industries."
+      },
+      {
+        "question": "What resources are available in the Resource Library?",
+        "answer": "The Resource Library offers blogs, white papers, toolkits, case studies, and industry insights to help members stay informed and succeed in their fields."
+      },
+      {
+        "question": "Are there any membership fees?",
+        "answer": "Membership details, will be specified during the registration process. We aim to keep it accessible to a wide audience."
+      },
+      {
+        "question": "What is the purpose of the Diversity & Inclusion metrics?",
+        "answer": "The metrics showcase stories and initiatives promoting women's advancement in GRC and financial crime prevention, highlighting the impact of diversity in leadership."
+      },
+      {
+        "question": "How can I join the membership portal?",
+        "answer": "You can sign up through our user-friendly membership portal by creating an account, providing your professional details, and selecting your area of interest."
+      },
+      {
+        "question": "What is the purpose of this initiative?",
+        "answer": "The initiative aims to empower women in Governance, Risk, Compliance (GRC), financial crime prevention, and fraud prevention, fostering leadership and creating opportunities for professional growth and collaboration."
+      }
+    ],
+    "sampleEvents": [
+      {
+        "number": "01",
+        "title": "The Role of Women in Governance, Risk Management, and Compliance Practices",
+        "times": ["9am-1pm", "4pm-9pm"],
+        "date": "2025-11-07"
+      },
+      {
+        "number": "02",
+        "title": "The Role of Women in Leadership: Navigating Governance, and Risk",
+        "times": ["9am-1pm", "4pm-9pm"],
+        "date": "2025-11-07"
+      }
+    ]
+  }

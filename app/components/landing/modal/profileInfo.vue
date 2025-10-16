@@ -1,7 +1,6 @@
 <template>
     <div>
         <button ref="modalOpen" type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#advisoryModal">
-            Launch
         </button>
 
         <div class="modal fade" id="advisoryModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
@@ -32,7 +31,7 @@
 
 
 <script setup lang="ts">
-import { useLandingModalStore } from '~/components/landing/modals/useLandingModalStore'
+import { useLandingModalStore } from '~/components/landing/modal/useLandingModalStore'
 
 const landingModalStore = useLandingModalStore()
 

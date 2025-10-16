@@ -10,31 +10,9 @@
                 </div>
             </div>
             <div class="row g-3 mt-3">
-                <div v-for="(member, index) in pageContents.$advisory.board" :key="index" data-aos="fade-up"
+                <div v-for="(member, index) in pageContents.board" :key="index" data-aos="fade-up"
                     class="col-lg-3 col-md-4">
-                    <div @click="landingModalStore.advisoryInfoSwitch(member)"
-                        class="card h-100 border-0 cursor-pointer hover-tiltY advisory-card">
-                        <div class="card-header border-0 pb-0 bg-transparent">
-                            <span>&nbsp;</span>
-                            <span class="text-theme float-end">
-                                <div class="small text-theme read-more-icon">
-                                    <i class="bi bi-chevron-right"></i>
-                                </div>
-                            </span>
-                        </div>
-
-                        <div class="card-body">
-                            <div class="text-center my-3">
-                                <img :src="member.image" alt="image" width="60">
-                            </div>
-                            <div class="text-center fw-bold">
-                                {{ member.name }}
-                            </div>
-                            <div class="text-center">
-                                {{ member.title }}
-                            </div>
-                        </div>
-                    </div>
+                    <landing-profile-card-component :member />
                 </div>
             </div>
         </section>
@@ -43,22 +21,15 @@
             <landing-subscribe-component />
         </div>
 
+
     </nuxt-layout>
 
-    <landing-modals-advisory-info :info="'Emeka'" />
+    <landing-modal-profile-info />
 
 </template>
 
 <script setup lang="ts">
-import pageContents from '~/stores/pageContents.json'
-import { useLandingModalStore } from '~/components/landing/modals/useLandingModalStore'
-
-const landingModalStore = useLandingModalStore()
-
-function showInfo() {
-
-}
-
+import pageContents from '~/stores/pageContents/advisory.json'
 
 </script>
 
@@ -74,7 +45,6 @@ function showInfo() {
     justify-content: center;
     /* align-items: flex-end; */
     align-items: center;
-    padding-bottom: 40px;
 
     color: #fff;
     font-size: 64px;
@@ -82,23 +52,7 @@ function showInfo() {
 }
 
 .header1 {
-    font-size: 32px;
+    font-size: 40px;
     color: #333;
-}
-
-.advisory-card {
-    background-color: var(--bs-light);
-}
-
-.read-more-icon {
-    display: none;
-}
-
-.advisory-card:hover .read-more-icon {
-    display: block;
-}
-
-.advisory-card:hover {
-    background-color: var(--bs-secondary-bg-subtle);
 }
 </style>

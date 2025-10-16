@@ -17,7 +17,7 @@
 
                 <div class="col-12">
                     <div class="accordion accordion-flush" id="accordionFaqs">
-                        <div v-for="({ question, answer }, index) in pageContents.$home.faqs"
+                        <div v-for="({ question, answer }, index) in pageContents.faqs"
                             class="accordion-item bg-transparent">
                             <h2 class="accordion-header" :id="'flush-headingOne' + index">
                                 <button class="accordion-button fw-bold py-3 bg-transparent"
@@ -61,7 +61,7 @@
 
 
 <script lang="ts" setup>
-import pageContents from '~/stores/pageContents.json'
+import pageContents from '~/stores/pageContents/home.json'
 
 </script>
 

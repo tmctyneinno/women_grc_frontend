@@ -13,8 +13,8 @@
 
                 <div class="col-12">
                     <ul class="list-group list-group-flush">
-                        <li v-for="({ number, title, times, date }, index) in pageContents.$home.sampleEvents"
-                            :key="index" class="list-group-item bg-transparent border-">
+                        <li v-for="({ number, title, times, date }, index) in pageContents.sampleEvents" :key="index"
+                            class="list-group-item bg-transparent border-">
 
                             <div class="row g-3">
                                 <div class="col-2 event-number d-none d-lg-block">{{ number }}</div>
@@ -48,7 +48,7 @@
 
 <script lang="ts" setup>
 import { useDateFormat } from '@vueuse/core'
-import pageContents from '~/stores/pageContents.json'
+import pageContents from '~/stores/pageContents/home.json'
 
 </script>
 

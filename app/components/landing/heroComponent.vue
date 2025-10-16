@@ -1,7 +1,8 @@
 <template>
     <div class="min-vh-100 justify-content-center align-items-center bg-light">
         <div class="row g-0 ">
-            <div class=" d-none d-lg-flex col-lg-6 min-vh-50 justify-content-center align-items-center">
+            <div
+                class=" d-none d-lg-flex col-lg-6 min-vh-50 justify-content-center align-items-center animate__animated animate__slideInLeft">
                 <div class="container ps-5">
                     <div class="hero-title mb-3">
                         Empowering Women in Governance & Financial Crime Prevention
@@ -13,7 +14,7 @@
                     <button class="btn btn-theme hover-tiltX">Register With Us</button>
                 </div>
             </div>
-            <LandingHeroCarousel />
+            <LandingHeroCarousel class=" animate__animated animate__slideInRight" />
         </div>
     </div>
 </template>

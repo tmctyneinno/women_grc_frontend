@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="col-lg-6" style="font-size: 18px; text-align: justify;">
-                    {{ pageContents.$about.regularText }}
+                    {{ pageContents.regularText }}
                 </div>
 
                 <div class="col-12 mt-5">
@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="col-lg-6" style="font-size: 18px; text-align: justify;">
-                    {{ pageContents.$about.vision }}
+                    {{ pageContents.vision }}
                 </div>
 
             </div>
@@ -53,7 +53,7 @@
                 <div class="col-lg-6"></div>
 
                 <div class="col-lg-6" style="font-size: 18px; text-align: justify;">
-                    {{ pageContents.$about.purpose }}
+                    {{ pageContents.purpose }}
                 </div>
 
                 <div class="col-lg-6">
@@ -66,9 +66,9 @@
 
 
 
-        <section data-aos="fade-up" class=" py-5 container">
+        <section class=" py-5 container">
             <div class="row g-3 g-lg-5 justify-content-center align-items-center">
-                <div class="col-lg-6 order-1 order-lg-2">
+                <div data-aos="fade-left" class="col-lg-6 order-1 order-lg-2">
                     <div class="text-after-line text-muted2">
                         Mission
                     </div>
@@ -77,7 +77,7 @@
                     <div class="text-muted text-justify">
                         To advance the role of women in GRC and financial crime prevention by:
                         <ul>
-                            <li v-for="(statement, index) in pageContents.$about.missionStatements" :key="index">
+                            <li v-for="(statement, index) in pageContents.missionStatements" :key="index">
                                 {{ statement }}
                             </li>
                         </ul>
@@ -86,18 +86,18 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 order-2 order-lg-1">
+                <div data-aos="fade-right" class="col-lg-6 order-2 order-lg-1">
                     <img src="/images/about/about-statement.webp" style="width: 100%;" alt="">
                 </div>
 
             </div>
         </section>
 
-        <section data-aos="fade-up" class="py-5 container">
+        <section class="py-5 container">
             <div class="header1 text-center">What We Do</div>
             <div class="row g-3 mt-3">
-                <div v-for="({ title, text, img }, index) in pageContents.$about.whatWeDo" class="col-lg-4 col-md-6">
-                    <div class="card h-100 border-0">
+                <div v-for="({ title, text, img }, index) in pageContents.whatWeDo" class="col-lg-4 col-md-6">
+                    <div data-aos="fade-up" class="card h-100 border-0">
                         <div class="card-body">
                             <div class="text-center my-3">
                                 <img :src="img" alt="image" width="100">
@@ -123,7 +123,7 @@
 </template>
 
 <script setup lang="ts">
-import pageContents from '~/stores/pageContents.json'
+import pageContents from '~/stores/pageContents/about.json'
 
 </script>
 

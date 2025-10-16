@@ -11,7 +11,7 @@
             </div>
 
             <div class="col-lg-6" style="font-size: 18px; text-align: justify;">
-                {{ pageContents.$about.regularText }}
+                {{ pageContents.regularText }}
             </div>
 
             <div class="col-12 mt-5">
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import pageContents from '~/stores/pageContents.json'
+import pageContents from '~/stores/pageContents/about.json'
 
 </script>
 
