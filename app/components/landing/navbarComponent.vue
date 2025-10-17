@@ -77,7 +77,8 @@ const onAboutRoute = computed(() => {
 const customClass = computed(() => ({
     'bg-transparent text-white': !headerDropped.value && route.path == '/',
     'animate__animated animate__slideInDown animate__faster': headerDropped.value && route.path == '/',
-    'shadow-sm': headerDropped.value || route.path !== '/'
+    // 'shadow-sm': headerDropped.value || route.path !== '/'
+    'shadow-sm': headerDropped.value
 }))
 
 

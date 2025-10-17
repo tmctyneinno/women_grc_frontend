@@ -10,6 +10,19 @@ export default defineNuxtConfig({
   ],
 
 
+  app: {
+    head: {
+      title: 'Women in GRCFP',
+      // titleTemplate: '%s - WIGRCFP', // This adds suffix to all titles
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+      ]
+    }
+  },
+
+
+
   ssr: false,   // For static hosting
 
   css: [

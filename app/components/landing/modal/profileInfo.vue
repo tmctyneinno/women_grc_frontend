@@ -3,26 +3,25 @@
         <button ref="modalOpen" type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#advisoryModal">
         </button>
 
-        <div class="modal fade" id="advisoryModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
-            role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal fade" id="advisoryModal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-header border-0">
+                    <div class="modal-header border-0 bg-light">
                         <h5 class="modal-title fw-bold" id="modalTitleId">
                             {{ landingModalStore.advisoryInfo.content?.name }}
                         </h5>
-                        <button ref="modalClose" type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <!-- <button ref="modalClose" type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button> -->
                     </div>
                     <div v-html="landingModalStore.advisoryInfo.content?.info" class="modal-body">
 
                     </div>
-                    <!-- <div class="modal-footer">
-                        <button ref="modalClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <div class="modal-footer border-0">
+                        <button ref="modalClose" type="button" class="btn btn-light" data-bs-dismiss="modal">
                             Close
                         </button>
-                        <button type="button" class="btn btn-primary">Save</button>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>

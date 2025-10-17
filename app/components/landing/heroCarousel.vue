@@ -1,5 +1,5 @@
 <template>
-    <Carousel class="col-lg-6" v-bind="carouselConfig">
+    <Carousel class="col-lg-6" :slide-effect="'fade'" v-bind="carouselConfig">
         <Slide v-for="({ header, info, image }, index) in slideItems" :key="index">
             <div :style="{ background: `url(${image}) center/cover no-repeat` }" class="w-100 hero min-vh-100">
 
@@ -32,7 +32,9 @@
 const carouselConfig = {
     itemsToShow: 1,
     wrapAround: true,
-    autoplay: 5000
+    autoplay: 5000,
+    transition: 1500
+    // slideEffect: "fade"
 }
 
 

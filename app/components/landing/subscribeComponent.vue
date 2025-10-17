@@ -1,5 +1,5 @@
 <template>
-    <div class="card border-0 bg-gradient py-5 px-lg-3 text-white">
+    <div data-aos="fade-up" class="card border-0 bg-gradient py-5 px-lg-3 text-white">
         <div class="card-body">
             <div class="row g-3 justify-content-lg-center align-items-lg-center">
                 <div class="col-lg-6">

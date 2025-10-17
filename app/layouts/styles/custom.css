@@ -48,6 +48,14 @@ input::placeholder, textarea::placeholder {
   text-align: justify;
 }
 
+.min-vh-120{
+  min-height: 120vh;
+}
+
+.min-vh-110{
+  min-height: 110vh;
+}
+
 .min-vh-80{
   min-height: 80vh;
 }
