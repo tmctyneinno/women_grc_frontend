@@ -50,22 +50,144 @@
 
 
         <section data-aos="fade-up" class="py-5 container">
-            <div class="row">
+            <div class="row g-3">
                 <div class="col-md-4">
                     <div class="text-after-line">
                         Become Our Membership
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="header1 text-theme">
+                    <span class="header1 text-theme">
                         Our Membership Categories
+                    </span>
+                    <span class="float-md-end">
+                        <button class="btn btn-theme">Become a Member</button>
+                    </span>
+
+
+                </div>
+
+                <div class="col-md-12">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+
+                        <div class="accordion-item border-0 ">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne" aria-expanded="true"
+                                    aria-controls="flush-collapseOne">
+                                    1. Individual Membership
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <td class="text-theme "
+                                                        v-for="header in membershipCategories.individualMembership.headers">
+                                                        {{ header.text }}
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="item in membershipCategories.individualMembership.items">
+                                                    <td>{{ item.tier }}</td>
+                                                    <td>{{ item.annual_fee }}</td>
+                                                    <td>{{ item.target_audience }}</td>
+                                                    <td>{{ item.benefits }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="accordion-item border-0">
+                            <h2 class="accordion-header" id="flush-headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseTwo" aria-expanded="true"
+                                    aria-controls="flush-collapseTwo">
+                                    2. Cooperate & Institutional Membership
+                                </button>
+                            </h2>
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+
+
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <td class="text-theme "
+                                                        v-for="header in membershipCategories.coporateAndIndividual.headers">
+                                                        {{ header.text }}
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="item in membershipCategories.coporateAndIndividual.items">
+                                                    <td>{{ item.tier }}</td>
+                                                    <td>{{ item.annual_fee }}</td>
+                                                    <td>{{ item.target_audience }}</td>
+                                                    <td>{{ item.benefits }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="accordion-item border-0">
+                            <h2 class="accordion-header" id="flush-headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseThree" aria-expanded="true"
+                                    aria-controls="flush-collapseThree">
+                                    3. Mentor Membership
+                                </button>
+                            </h2>
+                            <div id="flush-collapseThree" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    For experienced professionals committed to guiding and mentoring others.
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="accordion-item border-0">
+                            <h2 class="accordion-header" id="flush-headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseFour" aria-expanded="true"
+                                    aria-controls="flush-collapseFour">
+                                    4. Affiliate Membership
+                                </button>
+                            </h2>
+                            <div id="flush-collapseFour" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    For those in related industries who support the objectives of the initiative.
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+
                 </div>
             </div>
 
-            <div class="mt-2">
-                <!-- SKIPPED -->
-            </div>
         </section>
 
 
@@ -187,6 +309,78 @@ const whoWeAreAttracting: { id: number, text: string }[] = [
 
 
 
+const headers = ref([
+    { text: "Tier", value: "tier" },
+    { text: "Annual Fee", value: "annual_fee" },
+    { text: "Target Audience", value: "target_audience" },
+    { text: "Benefits", value: "benefits" },
+])
+
+
+const membershipCategories = {
+    individualMembership: {
+        headers: [
+            { text: "Tier", value: "tier" },
+            { text: "Annual Fee", value: "annual_fee" },
+            { text: "Target Audience", value: "target_audience" },
+            { text: "Benefits", value: "benefits" },
+        ],
+        items: [
+            {
+                tier: "Student Member", annual_fee: "$50",
+                target_audience: "University students or recent graduates",
+                benefits: "Access to entry-level GRC and Financial Crime Prevention resources, internships/job board, career support"
+            },
+            {
+                tier: "Associate Member", annual_fee: "$75",
+                target_audience: "Early career professionals (0–5 years’ experience)",
+                benefits: "Monthly webinars, WGRCFP newsletter, member badge, discounted events"
+            },
+            {
+                tier: "Associate Member", annual_fee: "$150",
+                target_audience: "Mid-career professionals & specialists.",
+                benefits: "Full event access, member directory listing, speaker opportunities"
+            },
+            {
+                tier: "Associate Member", annual_fee: "$250",
+                target_audience: "Senior executives, directors, partners",
+                benefits: "Priority speaking roles, leadership roundtables, mentor opportunities"
+            },
+            {
+                tier: "Associate Member", annual_fee: "$300 (by invitation or assessment)",
+                target_audience: "Accredited senior experts & contributors",
+                benefits: "Voting rights, governance roles, advisory participation, advanced credentials"
+            }
+        ]
+    },
+    coporateAndIndividual: {
+        headers: [
+            { text: "Tier", value: "tier" },
+            { text: "Annual Fee", value: "annual_fee" },
+            { text: "Ideal For", value: "target_audience" },
+            { text: "Benefits", value: "benefits" },
+        ],
+        items: [
+            {
+                tier: "SME Partner", annual_fee: "$750",
+                target_audience: "Small–medium enterprises (up to 250 employees)",
+                benefits: "2 staff accounts, company logo on partner page, discounted training bundles"
+            },
+            {
+                tier: "Corporate Member", annual_fee: "$2,000",
+                target_audience: "Large organisations or regional offices",
+                benefits: "5 staff accounts, free event passes, internal workshop session, DEI support tools"
+            },
+            {
+                tier: "Strategic Partner", annual_fee: "$5,000+",
+                target_audience: "Multinationals, government, academic or regulatory institutions",
+                benefits: "Co-branded initiatives, 10 accounts, policy roundtable access, joint publications"
+            },
+
+        ]
+    }
+}
+
 
 </script>
 
@@ -215,5 +409,13 @@ const whoWeAreAttracting: { id: number, text: string }[] = [
     width: 80px;
     height: 80px;
     border-radius: 50%;
+}
+
+.accordion-button {
+    background-color: transparent;
+}
+
+.accordion-button:hover {
+    background-color: var(--bs-secondary-bg-subtle);
 }
 </style>
