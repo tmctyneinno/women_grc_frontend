@@ -22,13 +22,11 @@ export default defineNuxtConfig({
   },
 
 
-
   ssr: false,   // For static hosting
 
   css: [
     'bootstrap/dist/css/bootstrap.min.css',
     'bootstrap-icons/font/bootstrap-icons.css',
-    'vue-select/dist/vue-select.css',
     '@vuepic/vue-datepicker/dist/main.css',
     'sweetalert2/dist/sweetalert2.min.css',
     'vue3-easy-data-table/dist/style.css',
@@ -46,8 +44,6 @@ export default defineNuxtConfig({
 
 })
 
-
-
 // installation commands ############################
 
 /*
@@ -61,10 +57,11 @@ export default defineNuxtConfig({
 - npm install aos --save
 - npm i js-cookie
 - npm install vue3-easy-data-table
-- npm install vue-select@beta
 - npm install @vuepic/vue-datepicker
 - npm i -D @vueuse/nuxt @vueuse/core
 - npx nuxi@latest module add aos
 - npm i axios
 - npx nuxi@latest module add vue3-carousel-nuxt
+- npm add vue3-select-component
+
 */
