@@ -7,7 +7,16 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-aos',
     'vue3-carousel-nuxt',
+    'nuxt-vue3-google-signin',
   ],
+
+  runtimeConfig: {
+    public: {
+      googleSignIn: {
+        clientId: process.env.GOOGLE_CLIENT_ID || '',
+      }
+    }
+  },
 
 
   app: {
@@ -44,7 +53,7 @@ export default defineNuxtConfig({
 
 })
 
-// installation commands ############################
+// command-line installation ############################
 
 /*
 
@@ -63,5 +72,8 @@ export default defineNuxtConfig({
 - npm i axios
 - npx nuxi@latest module add vue3-carousel-nuxt
 - npm add vue3-select-component
+- npm install maska
+- npx nuxi@latest module add nuxt-vue3-google-signin
+- npm install --save-dev @types/node
 
 */

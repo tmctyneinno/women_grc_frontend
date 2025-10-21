@@ -1,6 +1,6 @@
 <template>
     <landing-navbar-component />
-    <div class="min-vh-100 pb-5">
+    <div class="min-vh-100 pb-5 overflow-hidden">
         <slot />
     </div>
     <landing-footer-component />

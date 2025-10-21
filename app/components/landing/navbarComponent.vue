@@ -11,48 +11,32 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
 
-
-                    <li class="nav-item ">
-                        <NuxtLink class="nav-link me-2 " to="/">
-                            Home
-                        </NuxtLink>
-                    </li>
-
-                    <li class="nav-item me-2">
-                        <div class="dropdown">
-                            <button ref="dropdownToggler" class="nav-link dropdown-toggle "
-                                :class="{ 'router-link-exact-active': onAboutRoute }" type="button" id="triggerId"
+                    <li v-for="({ title, routePath, hasDropDown, dropdownItems }, i) in templateStore.navBarMenus"
+                        :key="i" class="nav-item ">
+                        <div v-if="hasDropDown" class="dropdown">
+                            <button class="nav-link dropdown-toggle" type="button" :id="'triggerId' + i"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                About
-                                <!-- <i class="bi bi-chevron-down"></i> -->
+                                {{ title }}
                             </button>
-                            <div class="dropdown-menu animate__animated animate__zoomIn animate__faster"
-                                aria-labelledby="triggerId">
 
-                                <nuxt-link class="dropdown-item hover-tiltX cursor-pointer" to="/about-us">
-                                    Who We Are
-                                </nuxt-link>
+                            <div class="dropdown-menu animate__animated animate__slideInUp animate__faster"
+                                :aria-labelledby="'triggerId' + i">
 
-                                <nuxt-link class="dropdown-item hover-tiltX cursor-pointer" to="/advisory-board">
-                                    Advisory Board
+                                <nuxt-link v-for="(child, index) in dropdownItems" :key="index"
+                                    class="dropdown-item hover-tiltX cursor-pointer" :to="child.routePath">
+                                    {{ child.title }}
                                 </nuxt-link>
 
                             </div>
                         </div>
-
-                    </li>
-
-
-                    <li v-for="({ title, routePath, hideOnNavBar }, i) in templateStore.navBarMenus" :key="i"
-                        class="nav-item ">
-                        <NuxtLink v-if="!hideOnNavBar" class="nav-link me-2 "
+                        <NuxtLink v-else class="nav-link me-2 "
                             :class="{ 'text-whit': route.path == '/' && !headerDropped }" :to="routePath">
                             {{ title }}
                         </NuxtLink>
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <NuxtLink to="/" class="btn btn-theme nav-link  p-1 px-3">
+                    <NuxtLink to="/auth/register" class="btn btn-theme nav-link  p-1 px-3">
                         Register
                     </NuxtLink>
                 </div>
@@ -118,7 +102,8 @@ onMounted(() => {
 
 .dropdown:hover .dropdown-menu {
     display: block;
-    /* min-height: 150px; */
+    /* transform: translateY(0); */
+    /* animation: slideUp 0.3s ease-in-out; */
 }
 
 .dropdown-item:hover {

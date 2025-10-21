@@ -7,12 +7,15 @@ export const useTemplateStore = defineStore('template', () => {
     {
       title: 'Home',
       routePath: '/',
-      hideOnNavBar: true
     },
     {
       title: 'About',
       routePath: '/about-us',
-      hideOnNavBar: true
+      hasDropDown: true,
+      dropdownItems: [
+        { title: "Who We Are", routePath: '/about-us' },
+        { title: "Advisory Board", routePath: '/advisory-board' },
+      ]
     },
     {
       title: 'Recognition',
@@ -24,7 +27,12 @@ export const useTemplateStore = defineStore('template', () => {
     },
     {
       title: 'Resources',
-      routePath: '/resources'
+      routePath: '/mentorship',
+      hasDropDown: true,
+      dropdownItems: [
+        { title: "Mentorship", routePath: '/mentorship' },
+        { title: "Facilitators", routePath: '/facilitators' },
+      ]
     },
     {
       title: 'Blog',

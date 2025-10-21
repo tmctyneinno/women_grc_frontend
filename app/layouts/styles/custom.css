@@ -175,6 +175,10 @@ hr.faint:after {
   font-size: .754em;
 }
 
+.xxsmall {
+  font-size: .5em;
+}
+
 .text-muted2 {
   color: rgba(188, 192, 197, 0.75) !important;
 }

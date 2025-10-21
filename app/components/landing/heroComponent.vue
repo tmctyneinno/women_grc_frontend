@@ -11,7 +11,9 @@
                         Shaping the future of diversity, excellence and inclusion, foostering leadership, innovation in
                         governance, risk and compliance and building a global network for women in GRFCP
                     </div>
-                    <button class="btn btn-theme hover-tiltX">Register With Us</button>
+                    <nuxt-link class="btn btn-theme hover-tiltX" to="/auth/register">
+                        Register With Us
+                    </nuxt-link>
                 </div>
             </div>
             <LandingHeroCarousel class=" animate__animated animate__slideInRight" />

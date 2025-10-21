@@ -1,8 +1,8 @@
 <template>
     <nuxt-layout name="landing-layout">
         <div class="container">
-            <div class="hero animate__animated animate__fadeIn row g-3 justify-content-center align-items-center">
-                <div class="col-lg-6 order-2 order-lg-1">
+            <div class="hero  row g-3 justify-content-center align-items-center">
+                <div class="col-lg-6 order-2 order-lg-1 animate__animated animate__slideInLeft">
                     <div style="font-size: 24px; font-weight: 500;">
                         WGRCFP membership is designed to foster professional growth, visibility, and impact for women
                         working in or aspiring to lead within the fields of governance, risk management, compliance
@@ -14,8 +14,9 @@
                     </div>
                 </div>
                 <div class="col-lg-6 order-1 order-lg-2">
-                    <div class="text-center heroImage">
-                        <img class="float-lg-end " src="/images/membership/header.png" style="width: 80%;" alt=""></img>
+                    <div class="text-center heroImage ">
+                        <img class="float-lg-end animate__animated animate__slideInRight"
+                            src="/images/membership/header.png" style="width: 80%;" alt=""></img>
                     </div>
                 </div>
             </div>
@@ -206,17 +207,17 @@
             </div>
 
 
-            <div class="text-center">
+            <div class="text-center " data-aos="zoom-in">
                 <img src="/images/membership/people.png" style="width: 30%;" alt="">
             </div>
 
 
 
-            <div class="header1 text-theme">
+            <div class="header1 text-theme mb-3">
                 Applicant must at least must one of these criterias
             </div>
 
-            <ul>
+            <ul data-aos="fade-up">
                 <li>
                     <strong>Professional Experience</strong>
                     <div>Currently employed or previously worked in roles related to: Governance, Risk Management,

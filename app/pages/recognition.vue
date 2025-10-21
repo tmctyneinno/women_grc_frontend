@@ -1,6 +1,6 @@
 <template>
     <nuxt-layout name="landing-layout">
-        <div class="container animate__animated animate__fadeIn">
+        <div class="container animate__animated animate__slideInUp">
             <div class="min-vh-50 pt-5 d-flex justify-content-center align-items-center">
                 <div class="col-lg-6 mt-5">
                     <div class="text-center text-after-line">Recognizing Leaders
