@@ -5,11 +5,11 @@
                 class=" d-none d-lg-flex col-lg-6 min-vh-50 justify-content-center align-items-center animate__animated animate__slideInLeft">
                 <div class="container ps-5">
                     <div class="hero-title mb-3">
-                        Empowering Women in Governance & Financial Crime Prevention
+                        Empowering Women in Governance, Risk & Financial Crime Prevention
                     </div>
                     <div class="text-muted mb-3">
                         Shaping the future of diversity, excellence and inclusion, foostering leadership, innovation in
-                        governance, risk and compliance and building a global network for women in GRC
+                        governance, risk and compliance and building a global network for women in GRFCP
                     </div>
                     <button class="btn btn-theme hover-tiltX">Register With Us</button>
                 </div>

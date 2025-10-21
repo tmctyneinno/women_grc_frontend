@@ -43,6 +43,10 @@ input::placeholder, textarea::placeholder {
    color: var(--theme-color);
 }
 
+.bg-theme{
+   background-color: var(--theme-color);
+}
+
 
 .text-justify{
   text-align: justify;
