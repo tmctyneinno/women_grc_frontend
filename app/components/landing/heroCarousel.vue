@@ -5,7 +5,7 @@
 
                 <div class="container d-lg-none">
                     <div class="text-white text-center fs-2 fw-bold">
-                        Empowering Women in Governance & Financial Crime Prevention
+                        Empowering Women in Governance, Risk & Financial Crime Prevention
 
                     </div>
                     <div class="small text-white text-center">
@@ -13,7 +13,9 @@
                         in governance, risk and compliance and building a global network for women in GRC
                     </div>
                     <div class="text-center mt-3">
-                        <button class="btn btn-theme hover-tiltX mx-auto">Register With Us</button>
+                        <nuxt-link class="btn btn-theme hover-tiltX mx-auto" to="/auth/register">
+                            Register With Us
+                        </nuxt-link>
                     </div>
                 </div>
             </div>

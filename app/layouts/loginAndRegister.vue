@@ -2,10 +2,10 @@
     <div class="row g-0">
         <div class="col-lg-6 sideImage d-none d-lg-flex">
             <div class="container">
-                <div class="card bg-dark text-white">
+                <div class="card text-white sideCard">
                     <div class="card-body">
                         <div class="fw-bold fs-3 mb-3">
-                            Join the Women in GRC Community
+                            Join the Women in GRFCP Community
                         </div>
                         <div>
                             Whether you’re here to learn, lead, or support — this is where your journey begins.
@@ -36,5 +36,9 @@
     justify-content: center;
     align-items: flex-end;
     padding-bottom: 20px;
+}
+
+.sideCard {
+    background-color: #000000a0;
 }
 </style>

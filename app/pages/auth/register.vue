@@ -3,7 +3,7 @@
         <div class="col-lg-9 col-12">
             <div class="card border-0 animate__animated animate__slideInDown">
                 <div class="card-body py-5">
-                    <div class="row g-3">
+                    <form @submit.prevent="validateAndSignUp" class="row g-3">
                         <div class="col-12">
                             <div class="text-center">
                                 <img src="/images/WGRC-logo.png" width="40" alt="">
@@ -33,7 +33,9 @@
                                 Full Name
                                 <sup><i class="bi bi-asterisk xxsmall text-danger"></i></sup>
                             </div>
-                            <CustomInputText placeholder="enter your email" />
+                            <CustomInputText placeholder="enter your email" v-model="full_name"
+                                v-bind="full_nameAttr" />
+                            <div class="small text-danger">{{ errors?.full_name }}</div>
                         </div>
 
                         <div class="col-12">
@@ -41,7 +43,9 @@
                                 Email
                                 <sup><i class="bi bi-asterisk xxsmall text-danger"></i></sup>
                             </div>
-                            <CustomInputText type="email" placeholder="enter your email" />
+                            <CustomInputText type="email" placeholder="enter your email" v-model="email"
+                                v-bind="emailAttr" />
+                            <div class="small text-danger">{{ errors?.email }}</div>
                         </div>
 
                         <div class="col-12">
@@ -49,7 +53,9 @@
                                 LinkedIn
                                 <sup><i class="bi bi-asterisk xxsmall text-danger"></i></sup>
                             </div>
-                            <CustomInputText placeholder="enter your linkedIn URL" />
+                            <CustomInputText placeholder="enter your linkedIn URL" v-model="linked_in"
+                                v-bind="linked_inAttr" />
+                            <div class="small text-danger">{{ errors?.linked_in }}</div>
                         </div>
 
                         <div class="col-12">
@@ -57,7 +63,9 @@
                                 Password
                                 <sup><i class="bi bi-asterisk xxsmall text-danger"></i></sup>
                             </div>
-                            <CustomInputPassword placeholder="enter password" />
+                            <CustomInputPassword placeholder="enter password" v-model="password"
+                                v-bind="passwordAttr" />
+                            <div class="small text-danger">{{ errors?.password }}</div>
                         </div>
 
                         <div class="col-12">
@@ -65,16 +73,20 @@
                                 Confirm Password
                                 <sup><i class="bi bi-asterisk xxsmall text-danger"></i></sup>
                             </div>
-                            <CustomInputPassword placeholder="confirm password" />
+                            <CustomInputPassword placeholder="confirm password" v-model="confirm_password"
+                                v-bind="confirm_passwordAttr" />
+                            <div class="small text-danger">{{ errors?.confirm_password }}</div>
                         </div>
 
                         <div class="col-12 mt-4">
-                            <button class="btn btn-theme w-100 hover-tiltX">
+                            <CustomInputSubmitButton :loading="isSubmitting" type="submit"
+                                class-name="btn btn-theme w-100 hover-tiltX">
                                 <span class="float-start">
                                     Register
                                 </span>
                                 <i class="bi bi-arrow-right float-end"></i>
-                            </button>
+                            </CustomInputSubmitButton>
+
                         </div>
 
                         <div class="col-12 text-center">
@@ -82,7 +94,7 @@
                             <nuxt-link class="text-theme" to="/auth/login">Login</nuxt-link>
                         </div>
 
-                    </div>
+                    </form>
                     <div class="mt-3">
                         <nuxt-link to="/">Back to Home</nuxt-link>
                     </div>
@@ -96,28 +108,81 @@
 
 
 <script setup lang="ts">
+
+import { useForm } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/yup';
+import * as yup from 'yup';
+
 import {
     useTokenClient,
     type AuthCodeFlowSuccessResponse,
     type AuthCodeFlowErrorResponse,
 } from "vue3-google-signin";
 
+import api from '~/api';
+
+const { passwordRegex }: any = useFxn
+const { alertToast }: any = sweetAlerts
+const router = useRouter()
+
+// form and validation
+const validationRules = {
+    email: yup.string().email('Invalid email format').required('Email is required'),
+    full_name: yup.string().required('Full name is required'),
+    linked_in: yup.string().required('LinkedIn field is required'),
+    password: yup.string()
+        .required('Password is required')
+        .min(8, 'Password must be at least 8 characters')
+        .test(
+            'password-complexity',
+            'Must contain at least one number and one special character',
+            passwordRegex
+        ),
+    confirm_password: yup.string()
+        .required('Confirm Password is required')
+        .oneOf([yup.ref('password')], 'Passwords do not match')
+};
+
+const { errors, handleSubmit, defineField, setFieldValue, isSubmitting } = useForm({
+    validationSchema: toTypedSchema(yup.object(validationRules)),
+});
+
+const [email, emailAttr] = defineField('email');
+const [full_name, full_nameAttr] = defineField('full_name');
+const [linked_in, linked_inAttr] = defineField('linked_in');
+const [password, passwordAttr] = defineField('password');
+const [confirm_password, confirm_passwordAttr] = defineField('confirm_password');
+
+
+const validateAndSignUp = handleSubmit(async (values) => {
+
+    try {
+        values.full_name = values.full_name.trim();
+        values.linked_in = values.linked_in.trim();
+        values.email = values.email.trim().toLowerCase();
+        values.password = values.password.trim();
+
+        await api.register(values)
+
+        localStorage.setItem('WIGRFCTempReg', JSON.stringify(values))
+
+        router.push({
+            path: '/auth/reg-success',
+            query: { e: values.email, tm: new Date().getTime() }
+        })
+
+    }
+    catch (err: any) {
+        const errorMessage = err.response?.data?.errors;
+        errors.value.email = errorMessage?.email?.[0]
+        errors.value.password = errorMessage?.password?.[0]
+    }
+})
 
 
 
-const pass = ref('')
-
-
-
-
-
-
-
-
-
-
-// // google sign in ################################
-const handleOnSuccess = async (response: AuthCodeFlowSuccessResponse) => {
+// // google sign up START ################################
+const handleGoogleSuccess = async (response: AuthCodeFlowSuccessResponse) => {
     const accessToken = response.access_token
     try {
         const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
@@ -126,47 +191,48 @@ const handleOnSuccess = async (response: AuthCodeFlowSuccessResponse) => {
             },
         });
         const googleProfile = await response.json();
-        signinUsingGoogle(googleProfile)
+
+        const values = {
+            full_name: googleProfile?.name,
+            email: googleProfile?.email,
+            linked_in: '',
+            password: 'password',
+            is_google_account: true
+        }
+
+        isSubmitting.value = true
+        await api.register(values)
+
+        localStorage.setItem('WIGRFCTempReg', JSON.stringify(values))
+
+        router.push({
+            path: '/auth/reg-success',
+            query: { e: values.email, tm: new Date().getTime() }
+        })
+
+        isSubmitting.value = false
+
+
     } catch (error) {
         console.error("Error fetching user profile:", error);
-        // useFxn.toast('Sorry, Cannot initiate login now, check your internet', 'error')
+        alertToast('Sorry, Cannot initiate login now, check your internet', 'error')
+        isSubmitting.value = false
     }
 };
 
-const handleOnError = (errorResponse: AuthCodeFlowErrorResponse) => {
-    // useFxn.toast('Sorry, Cannot initiate login now,' + errorResponse, 'error')
+const handleGoogleError = (errorResponse: AuthCodeFlowErrorResponse) => {
+    alertToast('Sorry, Cannot initiate login now,' + errorResponse, 'error')
     console.log("Error: ", errorResponse);
 };
 
 const { isReady, login: loginWithGoogle } = useTokenClient({
-    onSuccess: handleOnSuccess,
-    onError: handleOnError,
-    // other options
+    onSuccess: handleGoogleSuccess,
+    onError: handleGoogleError,
 });
+// // google sign up END ################################
 
 
 
-async function signinUsingGoogle(googleProfile: any) {
-    // form.isLoading = true
-    try {
-        // const { data } = await api.userLoginWithGoogle(googleProfile)
-
-        // if (data.status === 200) {
-        //     // profile.login(data.body.token, 'user')
-        // }
-    } catch (error: any) {
-        console.log(error);
-        if (error.response.status === 401) {
-            // useFxn.toast(error?.response?.data?.message ?? 'Error occoured', 'error')
-        }
-        else {
-            // useFxn.toast('Sorry, error occured, check your internet', 'error')
-        }
-    }
-    finally {
-        // form.isLoading = false
-    }
-}
 </script>
 
 

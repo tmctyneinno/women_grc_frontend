@@ -2,7 +2,7 @@
     <nuxt-layout name="login-and-register">
         <div class="col-lg-9 col-12">
             <div class="card border-0 animate__animated animate__slideInDown">
-                <div class="card-body py-5">
+                <div class="card-body">
                     <div class="row g-3">
                         <div class="col-12">
                             <div class="text-center">

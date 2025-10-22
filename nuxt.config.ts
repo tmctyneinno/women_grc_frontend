@@ -42,7 +42,8 @@ export default defineNuxtConfig({
     '@marcoschulte/vue3-progress/style',
     'animate.css',
     'vue3-carousel/carousel.css',
-    '~/layouts/styles/custom.css'
+    '~/layouts/styles/custom.css',
+    'vue-tel-input/vue-tel-input.css'
   ],
 
   plugins: [
@@ -75,5 +76,8 @@ export default defineNuxtConfig({
 - npm install maska
 - npx nuxi@latest module add nuxt-vue3-google-signin
 - npm install --save-dev @types/node
+- npm install vue-tel-input
+- npm install vee-validate --save
+- npm install @vee-validate/yup
 
 */

@@ -18,7 +18,7 @@ defineProps({
     className: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     floatLabel: { type: Boolean, default: false },
-    type: { type: String, default: 'text' },
+    type: { type: String as PropType<'email' | 'text'>, default: 'text' },
 });
 
 const emit = defineEmits(['update:modelValue'])
