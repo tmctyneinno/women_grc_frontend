@@ -14,7 +14,7 @@
                 <hr>
 
                 <li class="list-group-item list-line">
-                    <nuxt-link class="text-theme" to="/">Sign Up</nuxt-link>
+                    <nuxt-link class="text-theme" to="/auth/register">Sign Up</nuxt-link>
                 </li>
             </ul>
         </div>

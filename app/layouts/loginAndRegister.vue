@@ -27,7 +27,7 @@
 
 <style>
 .sideImage {
-    background: url('/images/auth/auth-img.png') center/cover no-repeat;
+    background: url('/images/auth/auth-img.webp') center/cover no-repeat;
     background-position: center top !important;
     overflow: hidden;
     min-height: 100vh;

@@ -4,12 +4,12 @@
             <div
                 class=" d-none d-lg-flex col-lg-6 min-vh-50 justify-content-center align-items-center animate__animated animate__slideInLeft">
                 <div class="container ps-5">
-                    <div class="hero-title mb-3">
-                        Empowering Women in Governance, Risk & Financial Crime Prevention
+                    <div class="hero-title mb-1">
+                        Empowering Women in Governance, Risk, Compliance & Financial crime Prevention
                     </div>
                     <div class="text-muted mb-3">
                         Shaping the future of diversity, excellence and inclusion, foostering leadership, innovation in
-                        governance, risk and compliance and building a global network for women in GRFCP
+                        governance, risk and compliance and building a global network for women in GRCFP
                     </div>
                     <nuxt-link class="btn btn-theme hover-tiltX" to="/auth/register">
                         Register With Us
@@ -25,7 +25,7 @@
 <style scoped>
 .hero-title {
     font-weight: 700;
-    font-size: 2.9rem;
+    font-size: 2.3rem;
     line-height: 1.3;
 }
 

@@ -42,8 +42,8 @@ export default defineNuxtConfig({
     '@marcoschulte/vue3-progress/style',
     'animate.css',
     'vue3-carousel/carousel.css',
-    '~/layouts/styles/custom.css',
-    'vue-tel-input/vue-tel-input.css'
+    'vue-tel-input/vue-tel-input.css',
+    '~/layouts/styles/custom.css?v=' + Date.now()
   ],
 
   plugins: [

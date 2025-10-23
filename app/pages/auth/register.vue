@@ -1,6 +1,6 @@
 <template>
     <nuxt-layout name="login-and-register">
-        <div class="col-lg-9 col-12">
+        <div class="col-lg-9 col-12 py-5 py-lg-0">
             <div class="card border-0 animate__animated animate__slideInDown">
                 <div class="card-body py-5">
                     <form @submit.prevent="validateAndSignUp" class="row g-3">

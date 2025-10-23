@@ -7,8 +7,8 @@ const progresses = [] as ProgressFinisher[];
 
 
 // const hostURL = import.meta.env.VITE_API_URL;
-const hostURL = 'https://google';
-const apiURL = `${hostURL}/api/`;
+const hostURL = 'https://attendly-backend.onrender.com';
+const apiURL = `${hostURL}/api/alt-auth/`;
 
 const getHeaders = (type: 'json' | 'form') => ({
     Accept: 'application/json',

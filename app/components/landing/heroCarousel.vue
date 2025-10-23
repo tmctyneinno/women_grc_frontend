@@ -4,13 +4,13 @@
             <div :style="{ background: `url(${image}) center/cover no-repeat` }" class="w-100 hero min-vh-100">
 
                 <div class="container d-lg-none">
-                    <div class="text-white text-center fs-2 fw-bold">
-                        Empowering Women in Governance, Risk & Financial Crime Prevention
+                    <div class="text-white text-center fs-4 fw-bold">
+                        Empowering Women in Governance, Risk , Compliance & Financial crime Prevention
 
                     </div>
                     <div class="small text-white text-center">
                         Shaping the future of diversity, excellence and inclusion, foostering leadership, innovation
-                        in governance, risk and compliance and building a global network for women in GRC
+                        in governance, risk and compliance and building a global network for women in GRCFP
                     </div>
                     <div class="text-center mt-3">
                         <nuxt-link class="btn btn-theme hover-tiltX mx-auto" to="/auth/register">
@@ -23,7 +23,7 @@
 
         </Slide>
         <template #addons>
-            <Pagination />
+            <!-- <Pagination /> -->
             <!-- <Navigation /> -->
         </template>
     </Carousel>
@@ -35,8 +35,7 @@ const carouselConfig = {
     itemsToShow: 1,
     wrapAround: true,
     autoplay: 5000,
-    transition: 1500
-    // slideEffect: "fade"
+    transition: 1500,
 }
 
 
