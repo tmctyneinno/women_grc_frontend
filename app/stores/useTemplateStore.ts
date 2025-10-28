@@ -25,15 +25,15 @@ export const useTemplateStore = defineStore('template', () => {
       title: 'Membership',
       routePath: '/membership'
     },
-    // {
-    //   title: 'Resources',
-    //   routePath: '/mentorship',
-    //   hasDropDown: true,
-    //   dropdownItems: [
-    //     { title: "Mentorship", routePath: '/mentorship' },
-    //     { title: "Facilitators", routePath: '/facilitators' },
-    //   ]
-    // },
+    {
+      title: 'Resources',
+      routePath: '/mentorship',
+      hasDropDown: true,
+      dropdownItems: [
+        { title: "Mentorship", routePath: '/mentorship' },
+        { title: "Facilitators", routePath: '/facilitators' },
+      ]
+    },
     {
       title: 'Blog',
       routePath: '/#landing-blog'

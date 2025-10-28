@@ -43,8 +43,16 @@ textarea::placeholder {
   color: var(--theme-color);
 }
 
+.text-theme2 {
+  color: var(--theme-color2);
+}
+
 .bg-theme {
   background-color: var(--theme-color);
+}
+
+.bg-theme2 {
+  background-color: var(--theme-color2);
 }
 
 .text-justify {

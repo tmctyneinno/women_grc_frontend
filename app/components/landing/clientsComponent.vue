@@ -10,19 +10,22 @@
 
 
                     <Carousel v-bind="carouselConfig">
-                        <Slide v-for="i in 6" :key="i">
-                            <div class="card bg-secondary-subtle border-0 h-100" style="max-width: 320px;">
+                        <Slide v-for="(client, index) in clientsSay" :key="index">
+                            <div class="card bg-secondary-subtle border-0 h-100" style="max-width: 358px;">
                                 <div class="card-body">
                                     <div class="card-header fw-bold border-0 bg-transparent">
-                                        Amanda Samuel
-                                        <span class="float-end">
-                                            <i v-for="value in 5" class=" text-theme small bi bi-star-fill"></i>
-                                        </span>
+                                        {{ client.name }}
+
                                     </div>
                                     <div class="card-body">
-                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque, odio,
-                                        laudantium et
-                                        pariatur dolorum tene
+                                        <div>
+                                            {{ client.quote }}
+                                        </div>
+
+
+                                        <div class="float-end">
+                                            <i v-for="value in 5" class=" text-theme small bi bi-star-fill"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -61,17 +64,45 @@ const carouselConfig = {
 }
 
 
-
-interface AccordionInterface {
-    question: string,
-    answer: string,
-
-}
-
-const clients = ref<AccordionInterface[]>([
+const clientsSay = ref<{ name: string, quote: string }[]>([
     {
-        question: 'How is privacy and data security handled?',
-        answer: `We are committed to safeguarding your data with robust privacy and security measures. For details, refer to our Privacy Policy on the website.`,
+        name: 'GRC Consultant, InnovateCorp',
+        quote: `This initiative inspired me to take on leadership roles within my organization. The mentorship program truly empowers women to excel in governance an...`,
+    },
+    {
+        name: 'Fraud Analyst, SecureTech',
+        quote: `Being part of this community has opened doors I never thought possible. The events and networking opportunities have connected me with like-minded pr...`,
+    },
+    {
+        name: 'Risk Manager, SafeBank',
+        quote: `The resource library is a game-changer. The blogs and case studies provide actionable insights that I’ve used to enhance my organization's governance...`,
+    },
+    {
+        name: 'Compliance Officer, FinanceCorp',
+        quote: `Joining this initiative has been a transformative experience. The mentorship program helped me connect with inspiring leaders in GRC and financial cr...`,
+    },
+    {
+        name: 'Director, RiskPro',
+        quote: `This platform not only provides resources but also inspires women like me to lead change within our organizations. It's a must-join for anyone in the...`,
+    }, {
+        name: 'Compliance Specialist, ProSecure',
+        quote: `The community forum is my go-to place for staying updated on trends in governance and financial crime prevention. The discussions are always engaging...`,
+    },
+    {
+        name: 'Fraud Investigator, InsightGroup',
+        quote: `I've connected with mentors and peers who have challenged me to grow both personally and professionally. This initiative is a beacon of empowerment f..`,
+    },
+    {
+        name: 'Head of Compliance, FinSafe',
+        quote: `The recognition awards inspired me to push boundaries in my career. This platform celebrates and uplifts women in remarkable ways.`,
+    },
+    {
+        name: 'Senior Analyst, TrustBank',
+        quote: `I've attended webinars and training sessions that were incredibly insightful and practical. They've improved my understanding of financial crime prev...`,
+    },
+    {
+        name: 'Policy Advisor, GlobalEthics',
+        quote: `The diversity and inclusion initiatives showcased here give hope for a balanced future in boardrooms and executive teams worldwide.`,
     },
 
 ])

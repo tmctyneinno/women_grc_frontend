@@ -5,5 +5,40 @@
     "Statement of Interest or Motivation (Optional)",
     "Agreement to WGRCFP Code of Conduct & Membership Terms",
     "Valid professional email or referral (for executive/committee roles)"
+  ],
+
+  "whatYouWillGain": [
+    {
+      "title": "Global Network",
+      "text": "Connect and collaborate with professionals and leaders in GRC, Financial Crime, and Fraud Prevention worldwide."
+    },
+    {
+      "title": "Learning & Certification",
+      "text": "Access premium training, certifications, and expert resources to boost your credibility."
+    },
+    {
+      "title": "Mentorship & Growth",
+      "text": "Get guidance from seasoned experts through structured mentorship programs."
+    },
+    {
+      "title": "Advocacy & Leadership",
+      "text": "Support gender diversity, inclusion, and women’s leadership in GRC."
+    },
+    {
+      "title": "Scholarships & Opportunities",
+      "text": "Access scholarships, internships, and educational programs for professional advancement."
+    },
+    {
+      "title": "LinkedIn Community",
+      "text": "Access the exclusive WGRCFP LinkedIn group to connect and network globally."
+    },
+    {
+      "title": "Global Newsletter",
+      "text": "Receive the monthly WGRCFP newsletter with insights, updates, and opportunities."
+    },
+    {
+      "title": "Award Nominations",
+      "text": "Gain eligibility for WGRCFP Awards recognizing excellence and leadership."
+    }
   ]
 }

@@ -287,9 +287,30 @@
 
 
 
-        <div class="container py-5">
-            <landing-subscribe-component />
-        </div>
+        <section class="py-5 container">
+            <h5 class="fw-bold text-center fs-5 mb-4">What You Will Gain</h5>
+            <div class="row g-3">
+                <div v-for="(gain, index) in pageContents.whatYouWillGain" :key="index" class="col-lg-3">
+                    <div class="card border-0 bg-light h-10">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <i class="theme-circle bi bi-laptop fs-4"></i>
+                            </div>
+                            <div class="text-center small my-3 fw-bold">
+                                {{ gain.title }}
+                            </div>
+
+                            <div class="text-center small my-2">
+                                {{ gain.text }}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
 
 
     </nuxt-layout>
@@ -410,6 +431,18 @@ const membershipCategories = {
     width: 80px;
     height: 80px;
     border-radius: 50%;
+}
+
+
+.theme-circle {
+    background-color: var(--theme-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #fff;
 }
 
 .accordion-button {

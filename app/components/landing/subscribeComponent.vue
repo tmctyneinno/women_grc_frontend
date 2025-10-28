@@ -32,6 +32,6 @@
 <style scoped>
 .bg-gradient {
     /* background-color: red; */
-    background: linear-gradient(75deg, #293567 5%, #B03436) !important;
+    background: linear-gradient(90deg, var(--theme-color) 5%, var(--theme-color2)) !important;
 }
 </style>

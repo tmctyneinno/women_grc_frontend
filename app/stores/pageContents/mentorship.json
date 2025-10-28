@@ -1,0 +1,121 @@
+{
+  "programObjectives": [
+    {
+      "title": "Networking Opportunities",
+      "text": "Facilitate connections with experienced professionals and industry leaders."
+    },
+    {
+      "title": "Career Development",
+      "text": "Provide guidance for professional advancement and leadership growth."
+    },
+    {
+      "title": "Skill Enhancement",
+      "text": "Support mentees in developing essential industry skills."
+    },
+    {
+      "title": "Knowledge Sharing",
+      "text": "Promote the exchange of ideas, best practices, and industry insights."
+    },
+    {
+      "title": "Diversity Advocacy",
+      "text": "Complete application and meet program criteria"
+    }
+  ],
+
+  "programStructure": [
+    {
+      "title": "Eligibility",
+      "text": "Facilitate connections with experienced professionals and industry leaders."
+    },
+    {
+      "title": "Matching Process",
+      "text": "Carefully paired based on goals and expetise"
+    },
+    {
+      "title": "Meeting Frequency",
+      "text": "Regular sessions and milestone check-ins"
+    },
+    {
+      "title": "Content & Activities",
+      "text": "Workshops, networking events, and skill development"
+    }
+  ],
+
+  "keyBenefits": {
+    "mentees": [
+      {
+        "icon": "bi bi-airplane",
+        "title": "Career Acceleration",
+        "text": "Fast-track your GRC career growth"
+      },
+      {
+        "icon": "bi bi-lightbulb",
+        "title": "Guidance Expertise",
+        "text": "Learn from industry leaders"
+      },
+      {
+        "icon": "bi bi-gem",
+        "title": "Professional Network",
+        "text": "Building lasting professional relationships"
+      }
+    ],
+    "mentors": [
+      {
+        "icon": "bi bi-people-fill",
+        "title": "Leadership Development",
+        "text": "Enhance leadership skills through mentoring"
+      },
+      {
+        "icon": "bi bi-person-arms-up",
+        "title": "Expand Network",
+        "text": "Connect with emerging professionals"
+      },
+      {
+        "icon": "bi bi-person-workspace",
+        "title": "Recognition",
+        "text": "Industry recognition for contribution"
+      }
+    ]
+  },
+
+  "applicationProcess": [
+    {
+      "icon": "bi bi-card-text",
+      "title": "Submit Application",
+      "text": "Complete your application form with background and goals"
+    },
+    {
+      "icon": "bi bi-search",
+      "title": "Review & Selection",
+      "text": "Our team reviews applications and selects participants based on program fit."
+    },
+    {
+      "icon": "bi bi-mortarboard-fill",
+      "title": "Orientation",
+      "text": "Welcome session with program guidelines and mentor-mentee matching"
+    }
+  ],
+
+  "programGuidelines": [
+    {
+      "icon": "bi bi-lock",
+      "title": "Confidentiality",
+      "text": "Maintain strict confidentiality in all discussions"
+    },
+    {
+      "icon": "bi bi-heart",
+      "title": "Respect",
+      "text": "Foster mutual respect and understanding"
+    },
+    {
+      "icon": "bi bi-hand-thumbs-up",
+      "title": "Commitment",
+      "text": "Dedicated participation throughout the program"
+    },
+    {
+      "icon": "bi bi-chat-right-text",
+      "title": "Communication",
+      "text": "Open and honest communication channels"
+    }
+  ]
+}

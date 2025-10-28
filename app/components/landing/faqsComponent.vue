@@ -48,7 +48,7 @@
                     <div>
                         Can’t find the answer you’re looking for? Please chat to our friendly team.
                     </div>
-                    <nuxt-link to="/" class="btn btn-theme mt-4">Get in touch</nuxt-link>
+                    <nuxt-link to="/contact-us" class="btn btn-theme mt-4">Get in touch</nuxt-link>
                 </div>
             </div>
         </div>

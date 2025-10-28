@@ -25,13 +25,32 @@ export default defineNuxtConfig({
       // titleTemplate: '%s - WIGRCFP', // This adds suffix to all titles
       meta: [
         { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+
+        // Open Graph meta tags
+        { property: 'og:title', content: 'Women in GRCFP' },
+        { property: 'og:description', content: 'Women in Governance, Risk, Compliance, Financial Crime, and Fraud Prevention is a pioneering initiative founded by Dr. Foluso Amusa, PhD, dedicated to empowering women professionals in these critical fields. Our mission is to foster leadership, inspire innovation, and create a collaborative platform for women to thrive, lead, and make a lasting impact across industries.' },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: 'https://wgrcfp.org' },
+        { property: 'og:image', content: 'https://wgrcfp.org/images/WGRC-logo.png' },
+
+        // Twitter meta tags
+        // { name: 'twitter:card', content: 'summary_large_image' },
+        // { name: 'twitter:title', content: 'Women in GRCFP' },
+        // { name: 'twitter:description', content: 'Women in Governance, Risk, Compliance, Financial Crime, and Fraud Prevention is a pioneering initiative founded by Dr. Foluso Amusa, PhD, dedicated to empowering women professionals in these critical fields. Our mission is to foster leadership, inspire innovation, and create a collaborative platform for women to thrive, lead, and make a lasting impact across industries.' },
+        // { name: 'twitter:image', content: 'https://wgrcfp.org/images/WGRC-logo.png' },
+
+        // Fallback description for search engines
+        { name: 'description', content: 'Women in Governance, Risk, Compliance, Financial Crime, and Fraud Prevention is a pioneering initiative founded by Dr. Foluso Amusa, PhD, dedicated to empowering women professionals in these critical fields. Our mission is to foster leadership, inspire innovation, and create a collaborative platform for women to thrive, lead, and make a lasting impact across industries.' }
+
+
       ]
     }
   },
 
 
-  ssr: false,   // For static hosting
+  // ssr: false,   
+  nitro: { preset: 'static' },
 
   css: [
     'bootstrap/dist/css/bootstrap.min.css',
@@ -43,7 +62,7 @@ export default defineNuxtConfig({
     'animate.css',
     'vue3-carousel/carousel.css',
     'vue-tel-input/vue-tel-input.css',
-    '~/layouts/styles/custom.css?v=' + Date.now()
+    '~/layouts/styles/custom.css'
   ],
 
   plugins: [
