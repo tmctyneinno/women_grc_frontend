@@ -1,0 +1,156 @@
+{
+  "objectives": [
+    {
+      "icon": "bi bi-mortarboard-fill",
+      "iconBg": "#19BDAB",
+      "title": "Leadership Developmentity",
+      "text": "Enhance leadership skills and professional growth"
+    },
+    {
+      "icon": "bi bi-heart-fill",
+      "iconBg": "#DE4DE6",
+      "title": "Community Engagement",
+      "text": "Foster meaningful connections and collaboration"
+    },
+    {
+      "icon": "bi bi-megaphone-fill",
+      "iconBg": "#F6A50D",
+      "title": "Advocacy & Awareness",
+      "text": "Promote gender equality and inclusion"
+    },
+    {
+      "icon": "bi bi-diagram-3-fill",
+      "iconBg": "#4583F6",
+      "title": "Professional Networking",
+      "text": "Build valuable industry connections"
+    }
+  ],
+
+  "rolesOfFacilitators": [
+    {
+      "title": "Plan & Organize",
+      "text": "Coordinate event logistics and ensure seamless execution."
+    },
+    {
+      "title": "Facilitate",
+      "text": "Lead discussions and create engaging experiences."
+    },
+    {
+      "title": "Promote",
+      "text": "Market events and build attendance through networks."
+    },
+    {
+      "title": "Gather Feedback",
+      "text": "Collect insights to improve future events."
+    }
+  ],
+
+  "typesOfEvents": [
+    {
+      "icon": "bi bi-person-fill-gear",
+      "iconColor": "#3FACA2",
+      "backgroundColor": "#E8FDF8",
+      "title": "Workshops",
+      "text": "Interactive skill-building sessions focused on practical GRC applications"
+    },
+    {
+      "icon": "bi bi-camera-video-fill",
+      "iconColor": "#9333EA",
+      "backgroundColor": "#F9F4FF",
+      "title": "Webinars",
+      "text": "Virtual presentations on emerging trends and industry insights"
+    },
+    {
+      "icon": "bi bi-people-fill",
+      "iconColor": "#293567",
+      "backgroundColor": "#E4E7F5",
+      "title": "Networking Events",
+      "text": "Structured opportunities for professional relationship building"
+    },
+    {
+      "icon": "bi bi-chat-left-fill",
+      "iconColor": "#9333EA",
+      "backgroundColor": "#F9F4FF",
+      "title": "Panel Discussions",
+      "text": "Expert-led conversations on critical industry challenges"
+    },
+    {
+      "icon": "bi bi-person-video2",
+      "iconColor": "#3FACA2",
+      "backgroundColor": "#E8FDF8",
+      "title": "Conferences",
+      "text": "Large-scale gatherings featuring keynotes and breakout sessions"
+    }
+  ],
+
+  "eligibilityRequirement": [
+    "Minimum 3 years experience in GRC or financial crime prevention",
+    "Demonstrated commitment to promoting women in the industry",
+    "Strong communication and presentation skills",
+    "Availability to facilitate at least 2 events per year"
+  ],
+
+  "supportForFacilitators": [
+    {
+      "icon": "bi bi-card-list",
+      "title": "Team Support",
+      "text": "Dedicated team assistance for event planning and execution"
+    },
+    {
+      "icon": "bi bi-search",
+      "title": "Marketing Help",
+      "text": "Professional marketing and promotional support for events"
+    },
+    {
+      "icon": "bi bi-mortarboard",
+      "title": "Training Sessions",
+      "text": "Regular skill development and facilitation training workshops"
+    },
+    {
+      "icon": "bi bi-mortarboard",
+      "title": "Recognition",
+      "text": "Public recognition and awards for outstanding contributions"
+    }
+  ],
+
+  "keyBenefits": [
+    {
+      "image": "/images/resources/facilitator-leadership.png",
+      "title": "Leadership Growth",
+      "text": "Develop advanced leadership skills through real-world event management experience and mentorship opportunities"
+    },
+    {
+      "image": "/images/resources/facilitator-networking.png",
+      "title": "Networking",
+      "text": "Build meaningful connections with industry leaders, peers, and emerging professionals across the GRC community"
+    },
+    {
+      "image": "/images/resources/facilitator-visibility.png",
+      "title": "Visibility",
+      "text": "Gain industry recognition and establish yourself as a thought leader in financial crime prevention and GRC"
+    }
+  ],
+
+  "facilitatorsGuidelines": [
+    {
+      "title": "Inclusivity",
+      "text": "Foster welcoming environments that embrace diverse perspectives and backgrounds"
+    },
+    {
+      "title": "Communication",
+      "text": "Maintain clear, respectful, and professional communication with all participants"
+    },
+    {
+      "title": "Feedback",
+      "text": "Actively collect and share participant feedback to improve future events"
+    },
+    {
+      "title": "Commitment",
+      "text": "Honor time commitments and maintain high standards of professionalism"
+    },
+    {
+      "title": "Ethics",
+      "text": "Uphold the highest ethical standards and promote integrity in all interactions"
+    }
+  ]
+}

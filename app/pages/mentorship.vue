@@ -4,7 +4,7 @@
             <div class="container animate__animated animate__slideInUp">
                 <div class="d-flex justify-content-center align-items-center">
                     <div class="row justify-content-center">
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-6">
                             <div class="text-center text-after-line">Resource
                             </div>
                         </div>
@@ -282,7 +282,7 @@ import pageContents from '~/stores/pageContents/mentorship.json'
 <style scoped>
 .hero {
     min-height: 100vh;
-    background: url('/images/mentorship/mentorship-hero.webp') center/cover no-repeat;
+    background: url('/images/resources/mentorship-hero.webp') center/cover no-repeat;
     /* This will make the image start from the top */
     background-position: center top !important;
     overflow: hidden;
