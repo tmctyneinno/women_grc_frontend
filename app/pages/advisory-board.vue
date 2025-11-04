@@ -55,4 +55,11 @@ import pageContents from '~/stores/pageContents/advisory.json'
     font-size: 40px;
     color: #333;
 }
+
+
+@media (max-width: 767px) {
+    .header1 {
+        font-size: 24px;
+    }
+}
 </style>

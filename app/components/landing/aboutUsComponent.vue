@@ -7,7 +7,7 @@
                 </div>
                 <div class="header">About Us</div>
 
-                <nuxt-link to="/about-us" class="btn btn-theme mt-3 hover-tiltX">Learn More</nuxt-link>
+                <nuxt-link to="/about" class="btn btn-theme mt-3 hover-tiltX">Learn More</nuxt-link>
             </div>
 
             <div class="col-lg-6" style="font-size: 18px; text-align: justify;">
@@ -37,5 +37,11 @@ import pageContents from '~/stores/pageContents/about.json'
 .header {
     font-size: 40px;
     color: #333;
+}
+
+@media (max-width: 767px) {
+    .header {
+        font-size: 24px;
+    }
 }
 </style>

@@ -13,21 +13,24 @@
 
                 <div class="col-12">
                     <ul class="list-group list-group-flush">
-                        <li v-for="({ number, title, times, date }, index) in pageContents.sampleEvents" :key="index"
+                        <li v-for="({ edition, title, venue, date }, index) in pageContents.events" :key="index"
                             class="list-group-item bg-transparent border-">
 
                             <div class="row g-3">
-                                <div class="col-2 event-number d-none d-lg-block">{{ number }}</div>
+                                <div class="col-2 event-number d-none d-lg-block">0{{ (index + 1) }}</div>
                                 <div class="col d-flex justify-content-start align-items-center">
                                     <div>
+                                        <span class=" fw-medium">{{ edition }}</span>
                                         <div class="event-title">
                                             {{ title }}
                                         </div>
                                         <div class="text-muted">
-                                            <span class="text-muted me-2" v-for="time in times" :key="time">
-                                                {{ time }},
-                                            </span>
-                                            <span>{{ useDateFormat(new Date(date), 'DD MMMM YYYY') }}</span>
+                                            <div class="text-muted">
+                                                <i class="bi bi-clock me-1"></i> {{ date }}
+                                            </div>
+                                            <div class="text-muted">
+                                                <i class="bi bi-geo-alt me-1"></i> {{ venue }}
+                                            </div>
                                         </div>
                                         <div class="hover-tiltX mt-2">
                                             <nuxt-link class="text-muted small text-decoration-none" to="/">
@@ -47,7 +50,6 @@
 
 
 <script lang="ts" setup>
-import { useDateFormat } from '@vueuse/core'
 import pageContents from '~/stores/pageContents/home.json'
 
 </script>
@@ -72,6 +74,7 @@ import pageContents from '~/stores/pageContents/home.json'
 .event-title {
     font-size: 30px;
     font-weight: 700;
+    line-height: 1.3;
 }
 
 @media (max-width: 767px) {

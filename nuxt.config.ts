@@ -2,13 +2,28 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: [
-    '@pinia/nuxt',
-    '@vueuse/nuxt',
-    'nuxt-aos',
-    'vue3-carousel-nuxt',
-    'nuxt-vue3-google-signin',
-  ],
+  routeRules: {
+    '/account/**': { ssr: false },
+
+    '/_nuxt/**': {
+      headers: { 'Cache-Control': 'public, max-age=31536000, immutable' }
+    },
+    '/_assets/**': {
+      headers: { 'Cache-Control': 'public, max-age=31536000, immutable' }
+    },
+    '/_ipx/**': {
+      headers: { 'Cache-Control': 'public, max-age=31536000, immutable' }
+    },
+    '/images/**': {
+      headers: { 'Cache-Control': 'public, max-age=31536000, immutable' }
+    },
+    '**/*.ico': {
+      headers: { 'Cache-Control': 'public, max-age=31536000, immutable' }
+    }
+  },
+
+
+  nitro: { preset: 'static' },
 
   runtimeConfig: {
     public: {
@@ -18,8 +33,16 @@ export default defineNuxtConfig({
     }
   },
 
+  modules: [
+    '@pinia/nuxt',
+    '@vueuse/nuxt',
+    'nuxt-aos',
+    'vue3-carousel-nuxt',
+    'nuxt-vue3-google-signin',
+  ],
 
   app: {
+    buildAssetsDir: '/_assets/',
     head: {
       title: 'Women in GRCFP',
       // titleTemplate: '%s - WIGRCFP', // This adds suffix to all titles
@@ -47,10 +70,6 @@ export default defineNuxtConfig({
       ]
     }
   },
-
-
-  // ssr: false,   
-  nitro: { preset: 'static' },
 
   css: [
     'bootstrap/dist/css/bootstrap.min.css',

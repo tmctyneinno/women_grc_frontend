@@ -10,10 +10,10 @@ export const useTemplateStore = defineStore('template', () => {
     },
     {
       title: 'About',
-      routePath: '/about-us',
+      routePath: '/about',
       hasDropDown: true,
       dropdownItems: [
-        { title: "Who We Are", routePath: '/about-us' },
+        { title: "Who We Are", routePath: '/about' },
         { title: "Advisory Board", routePath: '/advisory-board' },
       ]
     },

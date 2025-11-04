@@ -48,14 +48,13 @@
 
 <script setup lang="ts">
 
-
 const templateStore = useTemplateStore()
 const headerDropped = ref<boolean>(false)
 const route = useRoute()
 const router = useRouter()
 
 const onAboutRoute = computed(() => {
-    return ['/about-us', '/advisory-board'].includes(route.fullPath)
+    return ['/about', '/advisory-board'].includes(route.fullPath)
 })
 
 const customClass = computed(() => ({

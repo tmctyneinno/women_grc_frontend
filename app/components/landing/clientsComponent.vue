@@ -125,6 +125,12 @@ const clientsSay = ref<{ name: string, quote: string }[]>([
     text-align: center;
 }
 
+@media (max-width: 767px) {
+    .header {
+        font-size: 24px;
+    }
+}
+
 .accordion-button:not(.collapsed) {
     color: var(--theme-color) !important;
     background-color: var(--theme-bg-subtle) !important;

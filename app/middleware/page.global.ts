@@ -7,11 +7,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
         })
     }
 
-    console.log(to);
-
-
-
-
+    // console.log(to);
 
     // const store = useAuthStore()
     // return abortNavigation('Page is blocked')

@@ -7,14 +7,28 @@
         </div>
         <div class="offcanvas-body">
             <ul class="list-group list-group-flush">
-                <li v-for="({ title, routePath }, i) in templateStore.navBarMenus" :key="i"
-                    class="list-group-item list-line">
+                <li v-for="({ title, routePath, hasDropDown, dropdownItems }, i) in templateStore.navBarMenus" :key="i"
+                    class="list-group-item border-0 dismiss-on-click">
                     <nuxt-link :to="routePath">{{ title }}</nuxt-link>
-                </li>
-                <hr>
+                    <!-- <div v-if="hasDropDown" style="border-left: 1px solid var(--bs-border-color)"> -->
+                    <div v-if="hasDropDown">
+                        <ul class="list-group list-group-flush">
+                            <li v-for="dropdownItem in dropdownItems" class="list-group-item border-0">
+                                <i class="bi bi-dash"></i>
+                                <nuxt-link :to="dropdownItem.routePath">
+                                    {{ dropdownItem.title }}
+                                </nuxt-link>
+                            </li>
+                        </ul>
 
-                <li class="list-group-item list-line">
-                    <nuxt-link class="text-theme" to="/auth/register">Sign Up</nuxt-link>
+                    </div>
+                </li>
+
+
+                <hr style="color: var(--bs-border-color);">
+
+                <li class="list-group-item border-0 dismiss-on-click">
+                    <nuxt-link class="btn btn-theme w-100" to="/auth/register">Sign Up</nuxt-link>
                 </li>
             </ul>
         </div>
@@ -35,7 +49,7 @@ onBeforeRouteLeave(() => {
 })
 
 onMounted(() => {
-    const divs = document.querySelectorAll('.list-line');
+    const divs = document.querySelectorAll('.dismiss-on-click');
     // const targetDiv = document.querySelector('[aria-current="page"]');
     divs.forEach((div) => {
         div.setAttribute('data-bs-dismiss', 'offcanvas');
@@ -46,7 +60,7 @@ onMounted(() => {
 
 <style scoped>
 .offcanvas {
-    width: 250px;
+    width: 270px;
 }
 
 .list-group-item {

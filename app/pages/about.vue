@@ -150,4 +150,10 @@ import pageContents from '~/stores/pageContents/about.json'
     font-size: 32px;
     color: #333;
 }
+
+@media (max-width: 767px) {
+    .header1 {
+        font-size: 24px;
+    }
+}
 </style>

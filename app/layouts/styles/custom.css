@@ -156,25 +156,25 @@ hr.faint {
     to(rgba(0, 0, 0, 0))
   );
   background: -webkit-linear-gradient(
-    left,
+    to right,
     rgba(0, 0, 0, 0),
     #333333,
     rgba(0, 0, 0, 0)
   );
   background: -moz-linear-gradient(
-    left,
+    to right,
     rgba(0, 0, 0, 0),
     #333333,
     rgba(0, 0, 0, 0)
   );
   background: -o-linear-gradient(
-    left,
+    to right,
     rgba(0, 0, 0, 0),
     #333333,
     rgba(0, 0, 0, 0)
   );
   background: linear-gradient(
-    left,
+    to right,
     rgba(0, 0, 0, 0),
     #333333,
     rgba(0, 0, 0, 0)

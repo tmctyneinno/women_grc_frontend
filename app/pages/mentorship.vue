@@ -41,7 +41,7 @@
                     Objectives
                 </div>
             </div>
-            <div class="col-12 text-theme fw-bold fs-4">
+            <div class="col-12 text-theme fw-bold fs-5">
                 Our Programme Objectives
             </div>
             <div class="row g-2 mt-3">
@@ -62,7 +62,7 @@
 
         <section class="bg-light">
             <div data-aos="fade-up" class="py-5 container">
-                <div class="text-center fw-bolder fs-4">Programme Overview</div>
+                <div class="text-center fw-bolder fs-5">Programme Overview</div>
                 <div class="text-center">
                     Designed to foster growth, leadership and professional development for Women in GRC
                 </div>
@@ -105,7 +105,7 @@
 
         <section>
             <div data-aos="fade-up" class="py-5 container">
-                <div class="text-center fw-bolder fs-4">Programme Structure</div>
+                <div class="text-center fw-bolder fs-5">Programme Structure</div>
                 <div class="text-center">
                     Your journey through our mentorship programs
                 </div>
@@ -134,7 +134,7 @@
 
         <section class="bg-light">
             <div data-aos="fade-up" class="py-5 container">
-                <div class="text-center fw-bolder fs-4">Key Benefits</div>
+                <div class="text-center fw-bolder fs-5">Key Benefits</div>
                 <div class="text-center">
                     Discover the value of meaningful mentorship — whether you’re guiding others or growing your own
                     career.

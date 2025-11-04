@@ -12,7 +12,7 @@ const route = useRoute()
 const title = computed(() => {
     const path = route.path.replace(/^\/+|\/+$/g, '')
 
-    if (!path) return 'Women in GRCFP | Landing'
+    if (!path) return 'Women in GRCFP | Home'
 
     const formattedPath = path
         .split(/[-\/]/)

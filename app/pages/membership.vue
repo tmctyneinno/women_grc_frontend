@@ -452,4 +452,10 @@ const membershipCategories = {
 .accordion-button:hover {
     background-color: var(--bs-secondary-bg-subtle);
 }
+
+@media (max-width: 767px) {
+    .header1 {
+        font-size: 24px;
+    }
+}
 </style>
