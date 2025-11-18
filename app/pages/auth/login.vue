@@ -48,10 +48,8 @@
                             <CustomInputPassword placeholder="enter password" />
                         </div>
 
-
-
                         <div class="col-12 mt-4">
-                            <button class="btn btn-theme w-100 hover-tiltX">
+                            <button @click="goToDashboard" class="btn btn-theme w-100 hover-tiltX">
                                 <span class="float-start">
                                     Login
                                 </span>
@@ -78,19 +76,18 @@
 
 
 <script setup lang="ts">
+import { log } from "console";
 import {
     useTokenClient,
     type AuthCodeFlowSuccessResponse,
     type AuthCodeFlowErrorResponse,
 } from "vue3-google-signin";
 
+const router = useRouter()
 
-
-
-const pass = ref('')
-
-
-
+const goToDashboard = () => {
+    router.push({ path: '/account/dashboard' })
+}
 
 
 

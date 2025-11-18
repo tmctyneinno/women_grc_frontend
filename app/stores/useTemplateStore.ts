@@ -44,10 +44,39 @@ export const useTemplateStore = defineStore('template', () => {
     },
   ]
 
+
+  const accountMenus: any[] = [
+
+    {
+      title: 'Dashboard',
+      routePath: '/account/dashboard',
+    },
+    {
+      title: 'Learning Center',
+      routePath: '/account/learning-center',
+    },
+    {
+      title: 'Forum',
+      routePath: '/account/forum',
+    },
+
+    {
+      title: 'Members',
+      routePath: '/account/members',
+    },
+
+    {
+      title: 'events',
+      routePath: '/account/events',
+    }
+  ]
+
+
   const themeColors = reactive({
     base: '#293567',
+    accountBg: '#F5F7FD'
   })
 
 
-  return { navBarMenus, themeColors, activateToolTip }
+  return { navBarMenus, accountMenus, themeColors, activateToolTip }
 })
