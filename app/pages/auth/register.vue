@@ -109,6 +109,10 @@
 
 <script setup lang="ts">
 
+definePageMeta({
+    middleware: 'auth-route-middleware'
+})
+
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/yup';
 import * as yup from 'yup';

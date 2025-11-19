@@ -26,10 +26,13 @@
 
 const { swalConfirm } = sweetAlerts
 
+const authStore = useAuthStore()
+
 function confirmDelete() {
     swalConfirm(`Are you sure you want to logout`, `You'll be signed out of your guest session. You can log back in anytime once your account is verified.`, 'Logout', 'warning')
         .then((confirm) => {
             if (confirm.value) {
+                authStore.logout()
             }
         })
 }

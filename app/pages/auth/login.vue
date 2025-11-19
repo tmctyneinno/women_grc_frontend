@@ -49,7 +49,7 @@
                         </div>
 
                         <div class="col-12 mt-4">
-                            <button @click="goToDashboard" class="btn btn-theme w-100 hover-tiltX">
+                            <button @click="login" class="btn btn-theme w-100 hover-tiltX">
                                 <span class="float-start">
                                     Login
                                 </span>
@@ -76,7 +76,11 @@
 
 
 <script setup lang="ts">
-import { log } from "console";
+
+definePageMeta({
+    middleware: 'auth-route-middleware'
+})
+
 import {
     useTokenClient,
     type AuthCodeFlowSuccessResponse,
@@ -84,8 +88,15 @@ import {
 } from "vue3-google-signin";
 
 const router = useRouter()
+const authStore = useAuthStore()
 
-const goToDashboard = () => {
+async function login() {
+
+    // 
+
+
+
+    authStore.login('lgonToken')
     router.push({ path: '/account/dashboard' })
 }
 

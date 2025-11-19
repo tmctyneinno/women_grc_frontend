@@ -163,6 +163,11 @@
 </template>
 
 <script setup lang="ts">
+
+definePageMeta({
+    middleware: 'account-route-middleware'
+})
+
 const templateStore = useTemplateStore()
 
 

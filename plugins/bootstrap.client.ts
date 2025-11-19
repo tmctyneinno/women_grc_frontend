@@ -4,7 +4,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     if (process.client) {
         try {
             const bootstrap = await import('bootstrap')
-            console.log('✅ Bootstrap loaded successfully')
+            // console.log('✅ Bootstrap loaded successfully')
 
             const initTooltips = () => {
                 document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
