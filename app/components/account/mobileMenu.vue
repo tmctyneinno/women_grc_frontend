@@ -1,12 +1,12 @@
 <template>
     <div data-bs-scroll="true" class="offcanvas offcanvas-start" tabindex="-1" id="menuOffcanvas"
         aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel"></h5>
+        <div class="offcanvas-header bg-light">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">WIGRCFCP</h5>
             <button ref="btnX" type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <ul class="list-group list-group-flush">
+            <ul class="list-group list-group-flush mt-5" :class="{ 'hide-but-keep-space': isGuest }">
                 <li v-for="({ title, routePath, hasDropDown, dropdownItems }, i) in templateStore.accountMenus" :key="i"
                     class="list-group-item border-0 dismiss-on-click">
                     <nuxt-link :to="routePath">{{ title }}</nuxt-link>
@@ -55,6 +55,9 @@ onMounted(() => {
         div.setAttribute('data-bs-dismiss', 'offcanvas');
     });
 })
+
+const authStore = useAuthStore()
+const { isGuest } = storeToRefs(authStore)
 
 </script>
 

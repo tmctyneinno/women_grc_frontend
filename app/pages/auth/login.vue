@@ -87,7 +87,6 @@ import {
     type AuthCodeFlowErrorResponse,
 } from "vue3-google-signin";
 
-const router = useRouter()
 const authStore = useAuthStore()
 
 async function login() {
@@ -97,7 +96,11 @@ async function login() {
 
 
     authStore.login('lgonToken')
-    router.push({ path: '/account/dashboard' })
+    navigateTo({
+        path: '/account/dashboard/guest',
+        // query: { guest: 1 },
+        replace: true
+    })
 }
 
 

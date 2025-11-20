@@ -1,5 +1,6 @@
 <template>
   <!-- <vue3-progress-bar v-if="mounted" /> -->
+  <NuxtLoadingIndicator />
   <NuxtPage />
 </template>
 

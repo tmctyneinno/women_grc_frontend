@@ -9,7 +9,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0" :class="{ 'hide-but-keep-space': isGuest }">
 
                     <li v-for="({ title, routePath, hasDropDown, dropdownItems }, i) in templateStore.accountMenus"
                         :key="i" class="nav-item ">
@@ -35,10 +35,10 @@
                         </NuxtLink>
                     </li>
                 </ul>
-                <div class="mx-auto">
+                <div class="mx-auto" :class="{ 'hide-but-keep-space': isGuest }">
                     <CustomInputSearch placeholder="Search courses, topics,platform..." />
                 </div>
-                <div class="mx-auto">
+                <div class="mx-auto" :class="{ 'hide-but-keep-space': isGuest }">
                     <AccountNotificationsComponent />
                 </div>
 
@@ -56,6 +56,9 @@
 const templateStore = useTemplateStore()
 const headerDropped = ref<boolean>(false)
 const route = useRoute()
+
+const authStore = useAuthStore()
+const { isGuest } = storeToRefs(authStore)
 
 
 

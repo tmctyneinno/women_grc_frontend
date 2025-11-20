@@ -7,12 +7,12 @@
                 <div class="card-body">
 
                     <div class="fw-semibold">Welcome, Sarah!</div>
-                    <div>
+                    <div class="mb-3">
                         Let’s get you started on your growth journey. Here, you can join events, connect with
                         mentors, learn, and grow in Governance, Risk, and Compliance.
                     </div>
 
-                    <div class="card border-0" :style="{ backgroundColor: templateStore.themeColors.accountBg }">
+                    <div class="card border-0 bg-account">
                         <div class="card-body">
                             <div class="fw-medium">
                                 <i class="bi bi-lightbulb text-warning-emphasis"></i>
@@ -155,9 +155,6 @@
                 </div>
             </div>
         </div>
-
-
-
     </NuxtLayout>
 
 </template>
@@ -166,6 +163,13 @@
 
 definePageMeta({
     middleware: 'account-route-middleware'
+})
+
+const route = useRoute()
+
+onMounted(() => {
+    if (route.query?.guest == '1')
+        navigateTo({ path: '/account/dashboard-guest', replace: true })
 })
 
 const templateStore = useTemplateStore()

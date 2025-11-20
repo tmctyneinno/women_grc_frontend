@@ -5,6 +5,7 @@ interface PersonInterface {
     id: number;
     name: string;
     email: string;
+    isGuest?: Boolean;
 }
 
 export const useAuthStore = defineStore('authStore', () => {
@@ -14,6 +15,7 @@ export const useAuthStore = defineStore('authStore', () => {
         sameSite: 'strict'
     })
     const person = ref<PersonInterface | null>(null);
+    const isGuest = ref<Boolean>(false);
 
     const isLoggedIn = computed(() => !!token.value);
     const isAuthenticated = computed(() => isLoggedIn.value && !!person.value);
@@ -21,9 +23,9 @@ export const useAuthStore = defineStore('authStore', () => {
 
     const login = (authToken: string) => {
         token.value = authToken;
-        nextTick(() => {
+        setTimeout(() => {
             window.location.reload();
-        });
+        }, 100);
     };
 
     function logout() {
@@ -53,6 +55,7 @@ export const useAuthStore = defineStore('authStore', () => {
 
     return {
         person,
+        isGuest,
         user,
         token: readonly(token),
         isLoggedIn,

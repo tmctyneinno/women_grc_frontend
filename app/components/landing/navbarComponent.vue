@@ -51,7 +51,6 @@
 const templateStore = useTemplateStore()
 const headerDropped = ref<boolean>(false)
 const route = useRoute()
-const router = useRouter()
 
 const onAboutRoute = computed(() => {
     return ['/about', '/advisory-board'].includes(route.fullPath)

@@ -127,7 +127,6 @@ import api from '~/api';
 
 const { passwordRegex }: any = useFxn
 const { alertToast }: any = sweetAlerts
-const router = useRouter()
 
 // form and validation
 const validationRules = {
@@ -170,7 +169,7 @@ const validateAndSignUp = handleSubmit(async (values) => {
 
         localStorage.setItem('WIGRFCTempReg', JSON.stringify(values))
 
-        router.push({
+        navigateTo({
             path: '/auth/reg-success',
             query: { e: values.email, tm: new Date().getTime() }
         })
@@ -209,7 +208,7 @@ const handleGoogleSuccess = async (response: AuthCodeFlowSuccessResponse) => {
 
         localStorage.setItem('WIGRFCTempReg', JSON.stringify(values))
 
-        router.push({
+        navigateTo({
             path: '/auth/reg-success',
             query: { e: values.email, tm: new Date().getTime() }
         })
