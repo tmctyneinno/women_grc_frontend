@@ -1,9 +1,9 @@
 <template>
-    <account-navbar-component />
+    <AccountNavBar />
     <div class="content-slot bg-account">
         <slot />
     </div>
-    <account-footer-component />
+    <AccountFooter />
 </template>
 
 <script setup lang="ts">
@@ -34,7 +34,7 @@ const templateStore = useTemplateStore()
     /* background-color: v-bind('templateStore.themeColors.accountBg'); */
     min-height: 100vh;
     overflow: hidden;
-    padding-top: 130px;
+    padding-top: 110px;
     /* padding-bottom: 200px; */
 }
 </style>

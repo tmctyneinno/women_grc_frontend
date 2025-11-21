@@ -108,9 +108,4 @@ onMounted(() => {
     color: var(--theme-color);
     background: transparent;
 }
-
-.dropdown-menu {
-    --bs-dropdown-link-active-color: var(--bs-body-color);
-    --bs-dropdown-link-active-bg: transparent;
-}
 </style>

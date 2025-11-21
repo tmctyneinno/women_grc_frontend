@@ -30,7 +30,7 @@
             </ul>
         </div>
         <div class="offcanvas-footer bg-light p-4 ps-1">
-            <AccountLogoutComponent />
+            <AccountNavBarLogout />
         </div>
     </div>
 </template>

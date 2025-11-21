@@ -10,7 +10,6 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0" :class="{ 'hide-but-keep-space': isGuest }">
-
                     <li v-for="({ title, routePath, hasDropDown, dropdownItems }, i) in templateStore.accountMenus"
                         :key="i" class="nav-item ">
                         <div v-if="hasDropDown" class="dropdown">
@@ -39,16 +38,22 @@
                     <CustomInputSearch placeholder="Search courses, topics,platform..." />
                 </div>
                 <div class="mx-auto" :class="{ 'hide-but-keep-space': isGuest }">
-                    <AccountNotificationsComponent />
+                    <AccountNavBarNotification />
+                </div>
+
+                <div class="mx-auto" :class="{ 'hide-but-keep-space': isGuest }">
+                    <AccountNavBarCart />
                 </div>
 
 
-                <AccountLogoutComponent />
+                <span class="mx-auto">
+                    <AccountNavBarLogout />
+                </span>
 
             </div>
         </div>
     </nav>
-    <AccountMobileMenu />
+    <AccountNavMobile />
 </template>
 
 <script setup lang="ts">
@@ -113,10 +118,5 @@ onMounted(() => {
 .dropdown-item:hover {
     color: var(--theme-color);
     background: transparent;
-}
-
-.dropdown-menu {
-    --bs-dropdown-link-active-color: var(--bs-body-color);
-    --bs-dropdown-link-active-bg: transparent;
 }
 </style>

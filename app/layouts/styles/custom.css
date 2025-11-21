@@ -427,6 +427,11 @@ input[type="radio"]:checked + label:before {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
+.dropdown-menu {
+  --bs-dropdown-link-active-color: var(--bs-body-color);
+  --bs-dropdown-link-active-bg: transparent;
+}
+
 /* Custom-Hover-Overlay */
 .custom-hover-overlay .overlay {
   position: absolute;
