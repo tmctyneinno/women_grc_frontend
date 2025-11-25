@@ -1,9 +1,15 @@
 import axios from 'axios';
 // @ts-ignore
 import Cookies from 'js-cookie';
-import { type ProgressFinisher, useProgress } from '@marcoschulte/vue3-progress';
+// import { type ProgressFinisher, useProgress } from '@marcoschulte/vue3-progress';
+const { progress, isLoading, start, finish, clear } = useLoadingIndicator({
+    duration: 2000,
+    throttle: 200,
+    // This is how progress is calculated by default
+    estimatedProgress: (duration, elapsed) => (2 / Math.PI * 100) * Math.atan(elapsed / duration * 100 / 50),
+})
 
-const progresses = [] as ProgressFinisher[];
+// const progresses = [] as ProgressFinisher[];
 
 
 // const hostURL = import.meta.env.VITE_API_URL;
@@ -30,17 +36,20 @@ const setAuthAndStartProgress = (config: any) => {
     const token = Cookies.get('');
     if (token) config.headers.Authorization = `Bearer ${token}`;
 
-    progresses.push(useProgress().start());
+    start({ force: true })
+    // progresses.push(useProgress().start());
     return config;
 };
 
 const finishProgress = (response: any) => {
-    progresses.pop()?.finish();
+    // progresses.pop()?.finish();
+    finish()
     return response;
 };
 
 const handleError = (error: any) => {
-    progresses.pop()?.finish();
+    // progresses.pop()?.finish();
+    finish()
     return Promise.reject(error);
 };
 

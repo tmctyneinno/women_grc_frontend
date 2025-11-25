@@ -69,7 +69,7 @@ const cards = ref<{ level: string, type: string, title: string, info: string }[]
 
 function goToCourseContent() {
     const id = new Date().getTime()
-    navigateTo(`/account/my-learning/${id}`)
+    navigateTo(`/account/my-learning/details/${id}`)
 }
 
 </script>
