@@ -20,7 +20,7 @@
         <div class="row g-3 mt-3">
             <div v-for="({ image, date, title, text }, index) in blogs" class="col-lg-4 col-md-6">
                 <div class="card cursor-pointer hover-tiltY">
-                    <img class="card-img-top" :src="image" />
+                    <NuxtImg class="card-img-top" :src="image" />
                     <div class="card-body">
                         <div class="card-titl fw-bold small">
                             {{ useDateFormat(new Date(date), 'DD MMM, YYYY') }}

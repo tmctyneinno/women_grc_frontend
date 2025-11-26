@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="col-12 mt-5">
-                    <img src="/images/about/about-img2.webp" style="width: 100%;" alt="">
+                    <NuxtImg src="/images/about/about-img2.webp" style="width: 100%;" alt="" />
                 </div>
 
             </div>
@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <img src="/images/about/about-purpose.webp" style="width: 100%;" alt="">
+                    <NuxtImg src="/images/about/about-purpose.webp" style="width: 100%;" alt="" />
                 </div>
 
             </div>
@@ -87,7 +87,7 @@
                 </div>
 
                 <div data-aos="fade-right" class="col-lg-6 order-2 order-lg-1">
-                    <img src="/images/about/about-statement.webp" style="width: 100%;" alt="">
+                    <NuxtImg src="/images/about/about-statement.webp" style="width: 100%;" alt="" />
                 </div>
 
             </div>
@@ -100,7 +100,7 @@
                     <div data-aos="fade-up" class="card h-100 border-0">
                         <div class="card-body">
                             <div class="text-center my-3">
-                                <img :src="img" alt="image" width="100">
+                                <NuxtImg :src="img" alt="image" width="100" />
                             </div>
                             <div class="text-center fw-bold mb-2">
                                 {{ title }}

@@ -6,7 +6,7 @@
                     <form @submit.prevent="validateAndSignUp" class="row g-3">
                         <div class="col-12">
                             <div class="text-center">
-                                <img src="/images/WGRC-logo.png" width="40" alt="">
+                                <NuxtImg src="/images/WGRC-logo.png" width="40" alt="" />
                             </div>
                             <div class="text-center fw-600 fw-bold fs-4">
                                 Join us!
@@ -19,7 +19,7 @@
                             <div :disabled="!isReady" @click="() => loginWithGoogle()"
                                 class="card google-card rounded-0 p-2 my-3">
                                 <div class="text-center theme-color">
-                                    <img src="/images/auth/google-icon.png" width="20"> &nbsp;signin with Google
+                                    <NuxtImg src="/images/auth/google-icon.png" width="20" /> &nbsp;signin with Google
                                 </div>
                             </div>
 

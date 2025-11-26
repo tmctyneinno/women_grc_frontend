@@ -71,7 +71,7 @@
 
                 <div class="row g-3 justify-content-center align-items-center mt-3">
                     <div class="col-6 d-none d-lg-block">
-                        <img src="/images/resources/facilitators.webp" alt=""></img>
+                        <NuxtImg src="/images/resources/facilitators.webp" alt="" />
                     </div>
                     <div class="col-lg-6">
                         <ul class="list-group list-group-flush">
@@ -300,7 +300,7 @@
                         <div class="card border-0 bg-transparent h-100">
                             <div class="card-body">
                                 <div class="d-flex justify-content-center mb-3">
-                                    <img :src="obj.image" alt="">
+                                    <NuxtImg :src="obj.image" alt="" />
 
                                 </div>
                                 <div class="fw-bold my-2 text-center">

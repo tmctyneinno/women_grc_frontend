@@ -2,7 +2,7 @@
     <div class="dropdown cursor-pointer">
         <div class="dropdown-toggle d-flex justify-content-center align-items-center gap-2" type=" button"
             id="triggerId" data-bs-toggle="dropdown">
-            <img src="/images/advisory/elena.png" width="30" alt="">
+            <NuxtImg src="/images/advisory/elena.png" width="30" alt="" />
             <div class="xsmall">
                 <div class="fw-semibold lh-1">Sarah Chen
                     <i class="bi bi-chevron-down"></i>

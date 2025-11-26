@@ -50,7 +50,7 @@
                         <div v-for="(event, index) in waitingEvents" :key="index" class="col-lg-4">
                             <div class="card h-100 border-0 position-relative">
                                 <i class="bi bi-lock lock-icon"></i>
-                                <img class="card-img-top" :src="event.img"></img>
+                                <NuxtImg class="card-img-top" :src="event.img" />
                                 <div class="card-body">
                                     <div class="badge rounded-pill text-bg-light fw-semibold text-muted">
                                         {{ event.type }}

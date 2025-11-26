@@ -4,7 +4,7 @@
             <div class="row g-3">
                 <div class="col-md-8">
                     <NuxtLink class="navbar-brand" to="/">
-                        <img src="/images/WGRC-logo.png" width="35" alt="site_logo">
+                        <NuxtImg src="/images/WGRC-logo.png" width="35" alt="site_logo" />
                     </NuxtLink>
 
                     <ul class="list-group list-group-flush">

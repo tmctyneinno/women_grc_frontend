@@ -77,7 +77,7 @@
             <div class="row g-3 mt-2">
                 <div v-for="(card, index) in cards" :key="index" class="col-lg-3 col-md-4">
                     <div class="card small h-100">
-                        <img class="card-img-top" src="/images/account/learning/image.png" alt="img">
+                        <NuxtImg class="card-img-top" src="/images/account/learning/image.png" alt="img" />
                         <div class="card-body pb-0">
                             <span :class="card.level + '-class'" class="badge rounded-pill  fw-normal mb-2">
                                 {{ card.level }}

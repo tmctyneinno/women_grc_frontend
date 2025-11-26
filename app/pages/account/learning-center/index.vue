@@ -28,9 +28,9 @@ definePageMeta({
     middleware: 'account-route-middleware'
 })
 
-import infoClient from './components/info.client.vue';
-import myLearningClient from './components/myLearning.client.vue';
-import mostPopularClient from './components/mostPopular.client.vue';
-import courseCatalogClient from './components/courseCatalog.client.vue';
+import infoClient from './includes/info.client.vue';
+import myLearningClient from './includes/myLearning.client.vue';
+import mostPopularClient from './includes/mostPopular.client.vue';
+import courseCatalogClient from './includes/courseCatalog.client.vue';
 
 </script>

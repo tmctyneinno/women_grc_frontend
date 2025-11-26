@@ -12,7 +12,7 @@
 
         <div class="card-body">
             <div class="text-center my-3">
-                <img :src="member.image" alt="image" width="60">
+                <NuxtImg :src="member.image" alt="image" width="60" />
             </div>
             <div class="text-center fw-bold">
                 {{ member.name }}

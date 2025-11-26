@@ -16,6 +16,6 @@ definePageMeta({
     middleware: 'account-route-middleware'
 })
 
-import myLearningClient from '../learning-center/components/myLearning.client.vue';
+import myLearningClient from '../learning-center/includes/myLearning.client.vue';
 
 </script>

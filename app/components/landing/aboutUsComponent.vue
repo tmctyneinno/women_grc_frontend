@@ -15,7 +15,7 @@
             </div>
 
             <div class="col-12 mt-5">
-                <img src="/images/landing/about.webp" style="width: 100%;" alt="">
+                <NuxtImg src="/images/landing/about.webp" style="width: 100%;" />
             </div>
 
         </div>

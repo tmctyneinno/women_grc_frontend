@@ -5,7 +5,7 @@
             <div class="min-vh-100 d-flex justify-content-center align-items-center">
                 <div class="col-lg-8 col-12">
                     <div class="text-center">
-                        <img src="/images/auth/congrats.png" width="100" alt=""></img>
+                        <NuxtImg src="/images/auth/congrats.png" width="100" alt="" />
                     </div>
                     <div class="fw-bold text-center fs-2">
                         Registration Confirmed!

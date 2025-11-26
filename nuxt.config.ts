@@ -33,13 +33,7 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: [
-    '@pinia/nuxt',
-    '@vueuse/nuxt',
-    'nuxt-aos',
-    'vue3-carousel-nuxt',
-    'nuxt-vue3-google-signin',
-  ],
+  modules: ['@pinia/nuxt', '@vueuse/nuxt', 'nuxt-aos', 'vue3-carousel-nuxt', 'nuxt-vue3-google-signin', '@nuxt/image'],
 
   app: {
     buildAssetsDir: '/_assets/',

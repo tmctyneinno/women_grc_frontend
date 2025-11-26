@@ -15,8 +15,8 @@
                 </div>
                 <div class="col-lg-6 order-1 order-lg-2">
                     <div class="text-center heroImage ">
-                        <img class="float-lg-end animate__animated animate__slideInRight"
-                            src="/images/membership/header.png" style="width: 80%;" alt=""></img>
+                        <NuxtImg class="float-lg-end animate__animated animate__slideInRight"
+                            src="/images/membership/header.png" style="width: 80%;" alt=""></NuxtImg>
                     </div>
                 </div>
             </div>
@@ -208,7 +208,7 @@
 
 
             <div class="text-center " data-aos="zoom-in">
-                <img src="/images/membership/people.png" style="width: 30%;" alt="">
+                <NuxtImg src="/images/membership/people.png" style="width: 30%;" alt="" />
             </div>
 
 
