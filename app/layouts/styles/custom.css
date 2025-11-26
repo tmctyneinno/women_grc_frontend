@@ -1,5 +1,6 @@
 @import "./base.css";
 @import "./plugins/date-picker.css";
+@import "./plugins/vue-select.css";
 @import "./plugins/easy-data-table.css";
 /* @import './theme-style.css'; */
 
@@ -11,7 +12,8 @@ button:focus,
 .page-link:focus {
   outline: none !important;
   box-shadow: none !important;
-  border-color: #dee2e6 !important;
+  /* border-color: #dee2e6 !important; */
+  border-color: var(--theme-color) !important;
 }
 
 /* remove tiny mark at bottom left of textareas */

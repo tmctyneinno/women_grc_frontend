@@ -7,9 +7,8 @@ export default defineNuxtRouteMiddleware((to, from) => {
         })
     }
 
+
     // console.log(to);
-
-
 
 
     // return abortNavigation('Page is blocked')

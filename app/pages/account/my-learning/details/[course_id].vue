@@ -58,16 +58,18 @@
 
 <script setup lang="ts">
 
+definePageMeta({
+    middleware: 'account-route-middleware'
+})
+
 import CourseContentClient from './tab-components/courseContent.client.vue'
 import overviewClient from './tab-components/overview.client.vue'
 
-
 const route = useRoute()
 
+type TabOptionType = 'course_content' | 'overview' | 'reviews' | 'QandA' | 'certifications'
 
-type TabValue = 'course_content' | 'overview' | 'reviews' | 'QandA' | 'certifications'
-
-const tabs: { title: string, value: TabValue }[] = [
+const tabs: { title: string, value: TabOptionType }[] = [
     { title: 'Course Content', value: 'course_content' },
     { title: 'Overview', value: 'overview' },
     { title: 'Reviews', value: 'reviews' },
@@ -75,7 +77,7 @@ const tabs: { title: string, value: TabValue }[] = [
     { title: 'Certifications', value: 'certifications' },
 ]
 
-const selectedTab = ref<TabValue>('course_content')
+const selectedTab = ref<TabOptionType>('course_content')
 </script>
 
 <style scoped>
