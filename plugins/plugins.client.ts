@@ -1,5 +1,5 @@
 // @ts-nocheck
-import VueSelect from "vue3-select-component";
+import VueSelect from '@vueform/multiselect'
 import VueDatePicker from '@vuepic/vue-datepicker';
 import VueSweetalert2 from 'vue-sweetalert2'
 import EasyDataTable from 'vue3-easy-data-table';

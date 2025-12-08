@@ -1,6 +1,7 @@
 <template>
     <NuxtLayout name="account-layout">
         <div class="container">
+
             <div class="video-card">
                 <i class="bi bi-play-circle cursor-pointer hover-tiltY text-white" style="font-size: 6rem;"></i>
             </div>
@@ -45,6 +46,7 @@
 
             </ul>
 
+
             <div class="tab-content p-3 min-vh-50 bg-white mt-3 rounded-3">
                 <CourseContentClient v-if="selectedTab == 'course_content'" />
                 <overviewClient v-if="selectedTab == 'overview'" />
@@ -57,6 +59,8 @@
 </template>
 
 <script setup lang="ts">
+
+const option = ref(null)
 
 definePageMeta({
     middleware: 'account-route-middleware'

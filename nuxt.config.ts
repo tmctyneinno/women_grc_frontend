@@ -75,6 +75,7 @@ export default defineNuxtConfig({
     'animate.css',
     'vue3-carousel/carousel.css',
     'vue-tel-input/vue-tel-input.css',
+    '@vueform/multiselect/themes/default.css',
     '~/layouts/styles/custom.css'
   ],
 
@@ -104,7 +105,7 @@ export default defineNuxtConfig({
 - npx nuxi@latest module add aos
 - npm i axios
 - npx nuxi@latest module add vue3-carousel-nuxt
-- npm add vue3-select-component
+- npm i @vueform/multiselect
 - npm install maska
 - npx nuxi@latest module add nuxt-vue3-google-signin
 - npm install --save-dev @types/node
