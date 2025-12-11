@@ -1,3 +1,5 @@
+import { createPopper, type VirtualElement } from '@popperjs/core'
+
 export const useTemplateStore = defineStore('template', () => {
 
   const activateToolTip = ref<number>(1)
@@ -78,5 +80,47 @@ export const useTemplateStore = defineStore('template', () => {
   })
 
 
-  return { navBarMenus, accountMenus, themeColors, activateToolTip }
+  const vueSelectPositioning = (dropdownList: HTMLElement, component: { $refs: { toggle: Element | VirtualElement; }; $el: { classList: { toggle: (arg0: string, arg1: boolean) => void; }; }; }, { width }: any) => {
+    dropdownList.style.width = width
+
+    const calculatePlacement = () => {
+      const rect = component.$refs.toggle.getBoundingClientRect()
+      const viewportHeight = window.innerHeight
+
+      const spaceAbove = rect.top
+      const spaceBelow = viewportHeight - rect.bottom
+
+      return spaceBelow < spaceAbove ? 'top' : 'bottom'
+    }
+
+    const placement = calculatePlacement()
+
+    const popper = createPopper(component.$refs.toggle, dropdownList, {
+      placement: placement,
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [0, -1],
+          },
+        },
+        {
+          name: 'toggleClass',
+          enabled: true,
+          phase: 'write',
+          fn({ state }) {
+            component.$el.classList.toggle(
+              'drop-up',
+              state.placement === 'top'
+            )
+          },
+        },
+      ],
+    })
+
+    return () => popper.destroy()
+  }
+
+
+  return { navBarMenus, accountMenus, themeColors, activateToolTip, vueSelectPositioning }
 })

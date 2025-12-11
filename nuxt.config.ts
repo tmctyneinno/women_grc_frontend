@@ -33,7 +33,13 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@pinia/nuxt', '@vueuse/nuxt', 'nuxt-aos', 'vue3-carousel-nuxt', 'nuxt-vue3-google-signin', '@nuxt/image'],
+  modules: ['@pinia/nuxt',
+    '@vueuse/nuxt',
+    'nuxt-aos',
+    'vue3-carousel-nuxt',
+    'nuxt-vue3-google-signin',
+    '@nuxt/image',
+  ],
 
   app: {
     buildAssetsDir: '/_assets/',
@@ -75,7 +81,7 @@ export default defineNuxtConfig({
     'animate.css',
     'vue3-carousel/carousel.css',
     'vue-tel-input/vue-tel-input.css',
-    '@vueform/multiselect/themes/default.css',
+    'vue-select/dist/vue-select.css',
     '~/layouts/styles/custom.css'
   ],
 

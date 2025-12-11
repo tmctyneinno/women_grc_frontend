@@ -1,79 +1,53 @@
 :root {
-  --ms-font-size: 1rem;
-  --ms-line-height: 1.375;
-  --ms-bg: #ffffff;
-  --ms-bg-disabled: #f3f4f6;
-  --ms-border-color: #d1d5db;
-  --ms-border-width: 1px;
-  --ms-border-color-active: #d1d5db;
-  --ms-border-width-active: 1px;
-  --ms-radius: 4px;
-  --ms-py: 0.5rem;
-  --ms-px: 0.875rem;
-  --ms-ring-width: 0px;
-  --ms-ring-color: #10b98130;
-  --ms-placeholder-color: #9ca3af;
-  --ms-max-height: 10rem;
+  /* --vs-controls-color: var(--vt-c-white); */
+  /* --vs-border-color: var(--bs-border-color); */
 
-  --ms-spinner-color: var(--theme-color);
-  --ms-caret-color: #999999;
-  --ms-clear-color: #999999;
-  --ms-clear-color-hover: #000000;
+  /* --vs-dropdown-bg: var(--theme-color); */
+  /* --vs-dropdown-color: var(--dynamic-color); */
+  /* --vs-dropdown-option-color:var(--dynamic-color); */
 
-  --ms-tag-font-size: 0.875rem;
-  --ms-tag-line-height: 1.25rem;
-  --ms-tag-font-weight: 600;
-  --ms-tag-bg: var(--theme-color);
-  --ms-tag-bg-disabled: #9ca3af;
-  --ms-tag-color: #ffffff;
-  --ms-tag-color-disabled: #ffffff;
-  --ms-tag-radius: 4px;
-  --ms-tag-py: 0.125rem;
-  --ms-tag-px: 0.5rem;
-  --ms-tag-my: 0.25rem;
-  --ms-tag-mx: 0.25rem;
+  /* --vs-selected-bg: var(--theme-color); */
+  /* --vs-selected-color: var(--vt-c-white); */
 
-  --ms-tag-remove-radius: 4px;
-  --ms-tag-remove-py: 0.25rem;
-  --ms-tag-remove-px: 0.25rem;
-  --ms-tag-remove-my: 0rem;
-  --ms-tag-remove-mx: 0.125rem;
+  /* --vs-search-input-color: var(--dynamic-color); */
 
-  --ms-dropdown-bg: #ffffff;
-  --ms-dropdown-border-color: #d1d5db;
-  --ms-dropdown-border-width: 1px;
-  --ms-dropdown-radius: 4px;
+  /* --vs-dropdown-option--active-color: #eeeeee; */
+  --vs-dropdown-option--active-bg: var(--theme-color) !important;
+  --vs-dropdown-z-index: 9999;
+}
 
-  --ms-group-label-py: 0.3rem;
-  --ms-group-label-px: 0.75rem;
-  --ms-group-label-line-height: 1.375;
-  --ms-group-label-bg: #e5e7eb;
-  --ms-group-label-color: #374151;
-  --ms-group-label-bg-pointed: #d1d5db;
-  --ms-group-label-color-pointed: #374151;
-  --ms-group-label-bg-disabled: #f3f4f6;
-  --ms-group-label-color-disabled: #d1d5db;
-  --ms-group-label-bg-selected: var(--theme-color);
-  --ms-group-label-color-selected: #ffffff;
-  --ms-group-label-bg-selected-pointed: var(--theme-color);
-  --ms-group-label-color-selected-pointed: #ffffff;
-  --ms-group-label-bg-selected-disabled: #75cfb1;
-  --ms-group-label-color-selected-disabled: #d1fae5;
+.vs__search {
+  line-height: 1.75rem !important;
+  border: 0px !important;
+}
 
-  --ms-option-font-size: 1rem;
-  --ms-option-line-height: 1.375;
-  --ms-option-bg-pointed: #ffffff;
-  --ms-option-color-pointed: #1f2937;
-  --ms-option-bg-selected: var(--theme-color);
-  --ms-option-color-selected: #ffffff;
-  --ms-option-bg-disabled: #ffffff;
-  --ms-option-color-disabled: #d1d5db;
-  --ms-option-bg-selected-pointed: var(--theme-color);
-  --ms-option-color-selected-pointed: #ffffff;
-  --ms-option-bg-selected-disabled: #ffffff;
-  --ms-option-color-selected-disabled: #d1fae5;
-  --ms-option-py: 0.5rem;
-  --ms-option-px: 0.75rem;
+.vs--single {
+  &:not(.vs--open) .vs__selected + .vs__search {
+    width: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    height: 0;
+  }
 
-  --ms-empty-color: #4b5563;
+  .vs__selected-options {
+    width: 0;
+  }
+
+  .vs__selected {
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    overflow: hidden;
+    line-height: inherit;
+  }
+}
+
+.vs--multiple {
+  .vs__selected {
+    /* margin-bottom: 5px !important; */
+    padding: 5px !important;
+    font-size: 11px !important;
+  }
 }

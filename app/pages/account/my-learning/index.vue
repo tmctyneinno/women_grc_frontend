@@ -3,7 +3,7 @@
         <div class="container">
 
             <div class="mb-3">
-                <myLearningClient :is-all="true" />
+                <AccountLearningCenterMyLearning :is-all="true" />
             </div>
 
         </div>
@@ -16,6 +16,5 @@ definePageMeta({
     middleware: 'account-route-middleware'
 })
 
-import myLearningClient from '../learning-center/includes/myLearning.client.vue';
 
 </script>

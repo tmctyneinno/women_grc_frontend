@@ -3,19 +3,23 @@
         <div class="container">
 
             <div class="mb-3">
-                <infoClient />
+                <!-- info -->
+                <AccountLearningCenterInfo />
             </div>
 
             <div class="mb-3">
-                <myLearningClient />
+                <!-- my-learning -->
+                <AccountLearningCenterMyLearning />
             </div>
 
             <div class="mb-3">
-                <mostPopularClient />
+                <!-- most-popular -->
+                <AccountLearningCenterMostPopular />
             </div>
 
             <div class="mb-3">
-                <courseCatalogClient />
+                <!-- course-catalog -->
+                <AccountLearningCenterCourseCatalog />
             </div>
 
         </div>
@@ -27,10 +31,4 @@
 definePageMeta({
     middleware: 'account-route-middleware'
 })
-
-import infoClient from './includes/info.client.vue';
-import myLearningClient from './includes/myLearning.client.vue';
-import mostPopularClient from './includes/mostPopular.client.vue';
-import courseCatalogClient from './includes/courseCatalog.client.vue';
-
 </script>
