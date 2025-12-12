@@ -8,56 +8,65 @@
                 <i class="bi bi-play-circle cursor-pointer hover-tiltY text-white" style="font-size: 6rem;"></i>
             </div>
 
-            <div class="fw-semibold mt-3">
-                Introduction
-            </div>
+            <div class="ps-lg-3">
 
-            <div class="d-flex gap-2 text-muted">
-                <div class="small">
-                    A course by {{ course.author }}
+                <div class="fw-semibold mt-3">
+                    Introduction
                 </div>
 
-                <i class="bi bi-dot"></i>
+                <div class="d-flex gap-2 text-muted">
+                    <div class="small">
+                        A course by {{ course.author }}
+                    </div>
 
-                <div class="fw-medium small">
-                    4.8
+                    <i class="bi bi-dot"></i>
+
+                    <div class="fw-medium small">
+                        4.8
+                    </div>
+
+                    <div class="small">
+                        <RatingStar class="me-1" v-for="i in 5" />
+                        {{ course.total_ratings }} Ratings
+                    </div>
+
+                    <i class="bi bi-dot"></i>
+
+                    <div class="small">
+                        <i class="bi bi-person"></i>
+                        {{ course.learners }} Learners
+                    </div>
+
                 </div>
 
-                <div class="small">
-                    <i v-for="i in 2" class="bi bi-star-fill text-warning me-1 "></i>
-                    {{ course.total_ratings }} Ratings
+                <ul class="nav nav-tabs nav-tabs-v1 mt-4" id="myTab" role="tablist">
+                    <li v-for="tab in tabs" class="nav-item" role="presentation">
+                        <button @click="selectedTab = tab.value" class="nav-link"
+                            :class="{ 'active': selectedTab == tab.value }" :id="tab.value + '-tab'"
+                            data-bs-toggle="tab" type="button" role="tab" aria-selected="true">
+                            {{ tab.title }}
+                        </button>
+                    </li>
+
+                </ul>
+
+                <div class="tab-content p-3 min-vh-50 bg-white mt-3 rounded-3">
+
+                    <!-- courseContent -->
+                    <AccountMyLearningCourseContentTab v-if="selectedTab == 'courseContent'" />
+
+                    <!-- overview -->
+                    <AccountMyLearningOverviewTab v-if="selectedTab == 'overview'" />
+
+                    <!-- reviews -->
+                    <AccountMyLearningReviewsTab v-if="selectedTab == 'reviews'" />
+
+                    <!-- QandA -->
+                    <AccountMyLearningQAndATab v-if="selectedTab == 'QandA'" />
+
+                    <!-- certifications -->
+                    <AccountMyLearningCertificationsTab v-if="selectedTab == 'certifications'" />
                 </div>
-
-                <i class="bi bi-dot"></i>
-
-                <div class="small">
-                    <i class="bi bi-person"></i>
-                    {{ course.learners }} Learners
-                </div>
-
-            </div>
-
-            <ul class="nav nav-tabs nav-tabs-v1 mt-4" id="myTab" role="tablist">
-                <li v-for="tab in tabs" class="nav-item" role="presentation">
-                    <button @click="selectedTab = tab.value" class="nav-link"
-                        :class="{ 'active': selectedTab == tab.value }" :id="tab.value + '-tab'" data-bs-toggle="tab"
-                        type="button" role="tab" aria-selected="true">
-                        {{ tab.title }}
-                    </button>
-                </li>
-
-            </ul>
-
-            <div class="tab-content p-3 min-vh-50 bg-white mt-3 rounded-3">
-
-                <!-- courseContent -->
-                <AccountMyLearningCourseContentTab v-if="selectedTab == 'courseContent'" />
-
-                <!-- overview -->
-                <AccountMyLearningOverviewTab v-if="selectedTab == 'overview'" />
-
-                <!-- reviews -->
-                <AccountMyLearningReviewsTab v-if="selectedTab == 'reviews'" />
             </div>
 
 

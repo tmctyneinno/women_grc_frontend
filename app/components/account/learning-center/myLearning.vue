@@ -33,11 +33,8 @@
 
                         </div>
                         <div class="card-footer border-0 bg-transparent">
-                            <div class="progress mb-2" style="height: 5px;">
-                                <div class="progress-bar bg-theme" role="progressbar" style="width: 25%;"
-                                    aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                </div>
-                            </div>
+                            <CustomProgress class="mb-2" :height="5" :width="25" color-class="bg-theme" />
+
                             <button @click="goToCourseContent" class="btn btn-theme w-100 btn-sm">Continue
                                 Learning</button>
                         </div>

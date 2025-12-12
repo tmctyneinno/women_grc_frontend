@@ -97,7 +97,7 @@
 
                         <div class="card-footer border-0 bg-transparent">
                             <div class="mb-2 small">
-                                <i v-for="i in 5" class="xsmall bi bi-star-fill text-warning me-1"></i>
+                                <RatingStar class="me-1" v-for="i in 5" />
                                 <span class="text-muted">
                                     4.8 (245)
                                 </span>
@@ -106,11 +106,7 @@
                                 </span>
                             </div>
 
-                            <div class="progress mb-2" style="height: 5px;">
-                                <div class="progress-bar bg-theme" role="progressbar" style="width: 25%;"
-                                    aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                </div>
-                            </div>
+                            <CustomProgress class="mb-2" :height="5" :width="25" color-class="bg-theme" />
 
                             <div class="row justify-content-center align-items-center">
                                 <div class="col-8">

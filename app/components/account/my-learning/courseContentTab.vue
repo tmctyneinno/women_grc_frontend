@@ -12,11 +12,8 @@
                 {{ course.progress.completed }}/ {{ course.progress.total }} Lessons
             </span>
         </div>
-        <div class="progress" style="height: 10px;">
-            <div class="progress-bar bg-theme" role="progressbar" :style="{ width: course.progress.percent + '%' }"
-                :aria-valuenow="course.progress.percent" aria-valuemin="0" aria-valuemax="100">
-            </div>
-        </div>
+        <CustomProgress :height="10" :width="25" color-class="bg-theme" />
+
     </div>
 
 

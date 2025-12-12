@@ -42,11 +42,8 @@
                                 Getting Started
                                 <span class="badge rounded-pill bg-theme float-end fw-normal small">25% complete</span>
                             </div>
-                            <div class="progress" style="height: 10px;">
-                                <div class="progress-bar bg-theme" role="progressbar" style="width: 25%;"
-                                    aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                </div>
-                            </div>
+
+                            <CustomProgress :height="10" :width="25" color-class="bg-theme" />
 
                             <div class="mt-3">
                                 <ul class="list-group list-group-flush">
@@ -127,12 +124,9 @@
                                                     <span class=" float-end fw-normal small">25%
                                                         complete</span>
                                                 </div>
-                                                <div class="progress" style="height: 10px;">
-                                                    <div class="progress-bar bg-theme" role="progressbar"
-                                                        style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                                                        aria-valuemax="100">
-                                                    </div>
-                                                </div>
+
+                                                <CustomProgress :height="10" :width="25" color-class="bg-theme" />
+
                                             </div>
 
                                             <button class="btn btn-theme w-100 mt-4">

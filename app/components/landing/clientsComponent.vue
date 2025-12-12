@@ -24,7 +24,7 @@
 
 
                                         <div class="float-end">
-                                            <i v-for="value in 5" class=" text-theme small bi bi-star-fill"></i>
+                                            <RatingStar class="me-1" v-for="i in 5" />
                                         </div>
                                     </div>
                                 </div>

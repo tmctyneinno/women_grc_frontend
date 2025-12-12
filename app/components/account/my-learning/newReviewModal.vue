@@ -19,13 +19,13 @@
                             <div class="col-12">
                                 <div class="form-label">Select Rating </div>
 
-                                <CustomInputSelect v-model="selectedRating" :options="ratingOptions">
+                                <CustomInputSelect v-model="newReviewForm.rating" :options="ratingOptions">
                                     <template #option="option">
-                                        <i v-for="i in option.label" class="bi bi-star-fill text-warning xsmall"></i>
+                                        <RatingStar class="me-1" v-for="i in option.label" />
                                     </template>
 
                                     <template #selected-option="option">
-                                        <i v-for="i in option.label" class="bi bi-star-fill text-warning xsmall"></i>
+                                        <RatingStar class="me-1" v-for="i in option.label" />
                                     </template>
                                 </CustomInputSelect>
 
@@ -35,7 +35,7 @@
                                 <div class="form-label">
                                     Give Review
                                 </div>
-                                <textarea class="form-control" style="height: 100px;"
+                                <textarea v-model="newReviewForm.review" class="form-control" style="height: 100px;"
                                     placeholder="add your feedback.." />
                             </div>
                         </div>
@@ -54,8 +54,6 @@
 
 <script setup lang="ts">
 const myLearningStore = useMyLearningStore()
-const templateStore = useTemplateStore()
-
 
 const ratingOptions = ref([
     { value: 1, label: 1 },
@@ -64,7 +62,11 @@ const ratingOptions = ref([
     { value: 4, label: 4 },
     { value: 5, label: 5 },
 ])
-const selectedRating = ref<any>(null)
+
+const newReviewForm = reactive({
+    rating: null,
+    review: ''
+})
 
 const modalOpen = ref<any>(null)
 const modalClose = ref<any>(null)

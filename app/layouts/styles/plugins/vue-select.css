@@ -12,7 +12,7 @@
   /* --vs-search-input-color: var(--dynamic-color); */
 
   /* --vs-dropdown-option--active-color: #eeeeee; */
-  --vs-dropdown-option--active-bg: var(--theme-color) !important;
+  --vs-dropdown-option--active-bg: #eeeeee !important;
   --vs-dropdown-z-index: 9999;
 }
 
