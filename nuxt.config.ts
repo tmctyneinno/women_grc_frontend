@@ -40,6 +40,9 @@ export default defineNuxtConfig({
     'nuxt-vue3-google-signin',
     '@nuxt/image',
   ],
+  build: {
+    transpile: ['@vuepic/vue-datepicker']
+  },
 
   app: {
     buildAssetsDir: '/_assets/',

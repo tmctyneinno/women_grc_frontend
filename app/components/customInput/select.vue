@@ -49,7 +49,7 @@ const props = defineProps({
     },
     placeholder: {
         type: String,
-        default: 'select ...'
+        default: 'select'
     },
     clearable: {
         type: Boolean,
