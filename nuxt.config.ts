@@ -121,5 +121,6 @@ export default defineNuxtConfig({
 - npm install vue-tel-input
 - npm install vee-validate --save
 - npm install @vee-validate/yup
+- npm i country-state-city
 
 */
