@@ -28,13 +28,14 @@
 
         <div class="col-lg-3">
             <div class="form-label"> Region/State </div>
-            <CustomInputSelect :options="states" :label="'name'" v-model="form.state" />
+            <CustomInputSelect :options="states" :label="'name'" v-model="form.state" :noOptionsText="'No States'" />
         </div>
 
 
         <div class="col-lg-3">
             <div class="form-label"> City </div>
-            <CustomInputSelect :options="cities" :label="'name'" v-model="form.city" :taggable="true" />
+            <CustomInputSelect :options="cities" :label="'name'" v-model="form.city" :taggable="true"
+                :noOptionsText="'No Cities, Enter City'" />
         </div>
 
 

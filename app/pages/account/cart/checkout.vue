@@ -53,9 +53,9 @@
 
 
 
-                                    <div class="btn btn-theme w-100 mt-2">
+                                    <button @click="showSuccessAlert" class="btn btn-theme w-100 mt-2">
                                         Pay ${{ totalToPay }}
-                                    </div>
+                                    </button>
                                     <div class="small text-muted">
                                         By completing your purchase, you agree to these Terms of Use
                                     </div>
@@ -79,9 +79,20 @@ const cartStore = useCartStore()
 
 
 const { arraySum, digitDisplay }: any = useFxn
+const { swalSuccess }: any = sweetAlerts
 
 const totalToPay = computed(() => {
     return digitDisplay(arraySum(cartStore.items, 'price') + cartStore.tax)
 })
+
+
+function showSuccessAlert() {
+    swalSuccess('Payment Successful',
+        'You can now start learning. Thank you!',
+        'Start Learning',
+        'success').then((confirm: any) => {
+            //    if (confirm.value)
+        })
+}
 
 </script>
