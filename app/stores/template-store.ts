@@ -4,7 +4,16 @@ export const useTemplateStore = defineStore('template', () => {
 
   const activateToolTip = ref<number>(1)
 
-  const navBarMenus: any[] = [
+  interface NavBarMenuInterface {
+    title: string,
+    routePath: string,
+    hasDropDown?: Boolean
+    dropdownItems?: any[]
+    relatedRoutes?: string[]
+  }
+
+
+  const navBarMenus: NavBarMenuInterface[] = [
 
     {
       title: 'Home',
@@ -17,6 +26,10 @@ export const useTemplateStore = defineStore('template', () => {
       dropdownItems: [
         { title: "Who We Are", routePath: '/about' },
         { title: "Advisory Board", routePath: '/advisory-board' },
+      ],
+      relatedRoutes: [
+        '/about',
+        '/advisory-board'
       ]
     },
     {
@@ -34,6 +47,10 @@ export const useTemplateStore = defineStore('template', () => {
       dropdownItems: [
         { title: "Mentorship", routePath: '/mentorship' },
         { title: "Facilitators", routePath: '/facilitators' },
+      ],
+      relatedRoutes: [
+        '/mentorship',
+        '/facilitators'
       ]
     },
     {

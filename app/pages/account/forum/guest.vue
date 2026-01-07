@@ -3,6 +3,7 @@
         <div class="container">
 
             <div class="row g-3">
+
                 <section class="col-12">
                     <AccountForumHeadCardWithSearch />
                 </section>

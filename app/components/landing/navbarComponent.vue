@@ -11,11 +11,13 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
 
-                    <li v-for="({ title, routePath, hasDropDown, dropdownItems }, i) in templateStore.navBarMenus"
+                    <li v-for="({ title, routePath, hasDropDown, dropdownItems, relatedRoutes }, i) in templateStore.navBarMenus"
                         :key="i" class="nav-item ">
                         <div v-if="hasDropDown" class="dropdown">
                             <button class="nav-link dropdown-toggle" type="button" :id="'triggerId' + i"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :class="{
+                                    'router-link-active': (relatedRoutes ?? []).includes(route.path)
+                                }">
                                 {{ title }}
                             </button>
 
@@ -29,8 +31,10 @@
 
                             </div>
                         </div>
-                        <NuxtLink v-else class="nav-link me-2 "
-                            :class="{ 'text-whit': route.path == '/' && !headerDropped }" :to="routePath">
+                        <NuxtLink v-else class="nav-link me-2 " :class="{
+                            'text-whit': route.path == '/' && !headerDropped,
+                            'router-link-active': (relatedRoutes ?? []).includes(route.path)
+                        }" :to="routePath">
                             {{ title }}
                         </NuxtLink>
                     </li>
@@ -78,6 +82,7 @@ onMounted(() => {
 
 
 <style scoped>
+.nav-item .router-link-active,
 .nav-item .router-link-exact-active {
     font-weight: bolder;
     color: var(--theme-color);
