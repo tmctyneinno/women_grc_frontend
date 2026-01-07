@@ -23,19 +23,23 @@ export default {
         }, 0);
     },
 
-    digitDisplay: (numb: any) => {
+    digitDisplay: (numb: any, decimal = true) => {
         // 1. Safety check: ensure it is a valid number
         const value = Number(numb);
-        if (isNaN(value)) return "0.00";
+        if (isNaN(value)) return decimal ? "0.00" : "0";
 
-        // 2. Convert to string with fixed 2 decimal places
-        // This turns 5000 into "5000.00" and 5000.5 into "5000.50"
-        const parts: any = value.toFixed(2).split(".");
-
-        // 3. Add commas to the integer part (index 0)
-        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-        // 4. Rejoin
-        return parts.join(".");
+        // 2. If decimal is true, format with 2 decimal places
+        if (decimal) {
+            // Convert to string with fixed 2 decimal places
+            const parts: any[] = value.toFixed(2).split(".");
+            // Add commas to the integer part
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return parts.join(".");
+        } else {
+            // For non-decimal formatting, convert to string without decimals
+            const integerPart = Math.trunc(value).toString();
+            // Add commas to the integer part
+            return integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
     },
 }

@@ -5,7 +5,7 @@ export interface cartItemInterface {
     level: string,
     category: string,
     title: string,
-    text: string
+    text: string,
     stars: number,
     rating: number,
     total_rating: number,

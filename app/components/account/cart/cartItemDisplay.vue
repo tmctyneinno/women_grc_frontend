@@ -41,7 +41,7 @@
 
 <script lang="ts" setup>
 
-const props = defineProps<{ item: cartItemInterface }>()
+defineProps<{ item: cartItemInterface }>()
 
 const emit = defineEmits(['remove'])
 </script>
