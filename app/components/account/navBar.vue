@@ -10,7 +10,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0" :class="{ 'hide-but-keep-space': isGuest }">
-                    <li v-for="({ title, routePath, hasDropDown, dropdownItems }, i) in templateStore.accountMenus"
+                    <li v-for="({ title, routePath, hasDropDown, dropdownItems, relatedRoutes }, i) in templateStore.accountMenus"
                         :key="i" class="nav-item ">
                         <div v-if="hasDropDown" class="dropdown">
                             <button class="nav-link dropdown-toggle" type="button" :id="'triggerId' + i"
@@ -28,10 +28,13 @@
 
                             </div>
                         </div>
-                        <NuxtLink v-else class="nav-link me-2 "
-                            :class="{ 'text-whit': route.path == '/' && !headerDropped }" :to="routePath">
+                        <NuxtLink v-else class="nav-link me-2 " :class="{
+                            'text-whit': route.path == '/' && !headerDropped,
+                            'router-link-active': (relatedRoutes ?? []).includes(route.path)
+                        }" :to="routePath">
                             {{ title }}
                         </NuxtLink>
+
                     </li>
                 </ul>
                 <div class="mx-auto" :class="{ 'hide-but-keep-space': isGuest }">
@@ -89,7 +92,8 @@ onMounted(() => {
 
 
 <style scoped>
-.nav-item .router-link-exact-active {
+.nav-item .router-link-exact-active,
+.nav-item .router-link-active {
     font-weight: bolder;
     color: var(--theme-color);
     /* border-bottom: 1px solid var(--theme-color) !important; */

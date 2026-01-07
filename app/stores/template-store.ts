@@ -47,7 +47,16 @@ export const useTemplateStore = defineStore('template', () => {
   ]
 
 
-  const accountMenus: any[] = [
+  interface AccountMenuInterface {
+    title: string,
+    routePath: string,
+    hasDropDown?: Boolean
+    dropdownItems?: any[]
+    relatedRoutes?: string[]
+  }
+
+
+  const accountMenus: AccountMenuInterface[] = [
 
     {
       title: 'Dashboard',
@@ -56,10 +65,17 @@ export const useTemplateStore = defineStore('template', () => {
     {
       title: 'Learning Center',
       routePath: '/account/learning-center',
+      relatedRoutes: [
+        '/account/cart',
+        '/account/cart/checkout',
+      ]
     },
     {
       title: 'Forum',
       routePath: '/account/forum',
+      relatedRoutes: [
+        '/account/forum/guest',
+      ]
     },
 
     {
