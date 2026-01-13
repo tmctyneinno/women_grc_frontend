@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="card-footer border-0 bg-transparent pt-0">
-            <button class="btn btn-link fw-medium text-theme hover-tiltX p-0 border-0">
+            <button class="btn btn-link fw-medium text-theme hover-tiltX p-0 border-0 text-decoration-none">
                 {{ action }} <i class="bi bi-arrow-right "></i>
             </button>
         </div>

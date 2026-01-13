@@ -85,6 +85,8 @@ export const useTemplateStore = defineStore('template', () => {
       relatedRoutes: [
         '/account/cart',
         '/account/cart/checkout',
+        '/account/my-learning',
+        '/account/my-learning/details',
       ]
     },
     {

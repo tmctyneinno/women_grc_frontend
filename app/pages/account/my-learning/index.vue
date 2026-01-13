@@ -16,5 +16,4 @@ definePageMeta({
     middleware: 'account-route-middleware'
 })
 
-
 </script>

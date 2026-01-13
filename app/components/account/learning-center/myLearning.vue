@@ -11,7 +11,7 @@
             </div>
 
             <div class="row g-3 mt-2">
-                <div v-for="(card, index) in cards" :key="index" class="col-lg-3 col-md-4">
+                <div v-for="(card, index) in cards" :key="index" class="col-lg-3 col-md-6">
                     <div class="card small h-100">
                         <NuxtImg class="card-img-top" src="/images/account/learning/image.png" alt="img" />
                         <div class="card-body pb-0">
@@ -66,7 +66,7 @@ const cards = ref<{ level: string, type: string, title: string, info: string }[]
 
 function goToCourseContent() {
     const id = new Date().getTime()
-    navigateTo(`/account/my-learning/${id}`)
+    navigateTo(`/account/my-learning/details?id=${id}`)
 }
 
 </script>

@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2'
 
 
-type ICONTYPES = 'warning' | 'success' | 'error' | 'info'
+type ICONTYPES = 'warning' | 'success' | 'error' | 'info' | 'question'
 const themeColor = '#293567'
 const errorColor = '#dc3545'
 const successColor = '#1ceb64ff'
@@ -36,7 +36,7 @@ export default {
             // cancelButtonColor: 'transparent',
             reverseButtons: true,
 
-            width: '370px',
+            // width: '370px',
         })
     },
 

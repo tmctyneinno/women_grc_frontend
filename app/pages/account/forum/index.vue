@@ -17,6 +17,10 @@
                                 <section class="col-12">
                                     <AccountForumRegionalForums />
                                 </section>
+
+                                <section class="col-12">
+                                    <AccountForumTrendingDiscussions />
+                                </section>
                             </div>
                         </div>
 
@@ -28,6 +32,10 @@
 
                                 <section class="col-12">
                                     <AccountForumTopContributors />
+                                </section>
+
+                                <section class="col-12">
+                                    <AccountForumGuidelines />
                                 </section>
                             </div>
                         </div>
