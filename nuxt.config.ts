@@ -3,6 +3,9 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   routeRules: {
+    '/api/images/**': {
+      proxy: 'http://localhost:8000/storage/**'
+    },
     '/account/**': { ssr: false },
 
     '/_nuxt/**': {
