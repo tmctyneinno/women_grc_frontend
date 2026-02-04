@@ -1,16 +1,14 @@
-export const formatImageUrl = (path) => {
+export const getImageUrl = (path) => {
   if (!path) return '/images/placeholder.jpg';
   
-  const apiUrl = process.env.API_BASE_URL || 'http://localhost:8000';
+  // If it's already a full URL
+  if (path.startsWith('http')) return path;
   
-  // Check different possible path formats
-  if (path.includes('storage/')) {
-    return `${apiUrl}/${path}`;
-  }
+  // If it's a relative path, prepend your API URL
+  const baseUrl = process.env.API_URL || 'http://localhost:8000';
   
-  if (path.includes('events/featured/')) {
-    return `${apiUrl}/storage/${path}`;
-  }
+  // Remove leading slash if present
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
   
-  return path;
+  return `${baseUrl}/storage/${cleanPath}`;
 };
