@@ -64,7 +64,7 @@ class EventService {
      */
     async getEvent(id) {
         try {
-            const response = await this.api.get(`/events/slug/${slug}`);
+            const response = await this.api.get(`/events/slug/${id}`);
             return response.data;
         } catch (error) {
             this.handleError(error);
