@@ -23,12 +23,12 @@
                   </svg>
                 </div>
                <input 
-              v-model="searchQuery"
-              @input="handleSearch"
-              type="text"
-              placeholder="Search events, topics, or speakers..."
-              class="w-full pl-12 pr-4 py-4 rounded-xl bg-black/10 border border-white/20 text-black placeholder:text-gray-800 placeholder:font-semibold focus:outline-none focus:ring-2 focus:ring-black-400 focus:border-transparent transition-all duration-200"
-            />
+                  v-model="searchQuery"
+                  @input="handleSearch"
+                  type="text"
+                  placeholder="Search events, topics, or speakers..."
+                  class="w-full pl-12 pr-4 py-4 rounded-xl bg-black/10 border border-white/20 text-black placeholder:text-gray-800 placeholder:font-semibold focus:outline-none focus:ring-2 focus:ring-black-400 focus:border-transparent transition-all duration-200"
+                />
               </div>
             </div>
           </div>
