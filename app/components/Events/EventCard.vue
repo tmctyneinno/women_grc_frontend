@@ -21,10 +21,10 @@
         <!-- Event Image -->
         <div class="relative h-48 overflow-hidden">
             <img 
-             
                 :src="getImageUrl(event.featured_image)" 
                 :alt="event.title"
-                class="w-full h-12 object-containe group-hover:scale-110 transition-transform duration-500"
+                class="w-100 object-fit-contain transition-all"
+                style="height: 200px; object-fit: cover;"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
             
