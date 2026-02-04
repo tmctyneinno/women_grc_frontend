@@ -183,15 +183,32 @@ const imageError = ref(false);
 
 // Helper function to get image URL
 const getImageUrl = (path) => {
-    if (!path) return '/images/placeholder.jpg';
-  
-  if (path.startsWith('http')) return path;
-  
-  const baseUrl = import.meta.env.VITE_APP_URL || 'http://localhost:8000';
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  
-  // Use the storage link URL
-  return `${baseUrl}/storage/${cleanPath}`;
+    if (!path) return '/images/event-placeholder.jpg';
+    
+    if (path.startsWith('http') || path.startsWith('//')) {
+        return path;
+    }
+    
+    if (path.startsWith('data:')) {
+        return path;
+    }
+     
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    
+    let cleanPath = path;
+    if (cleanPath.startsWith('/')) {
+        cleanPath = cleanPath.substring(1);
+    }
+    
+    if (cleanPath.includes('storage/')) {
+        return `${baseUrl}/${cleanPath}`;
+    }
+    
+    if (cleanPath.includes('events/') || cleanPath.includes('uploads/')) {
+        return `${baseUrl}/storage/${cleanPath}`;
+    }
+    
+    return `${baseUrl}/storage/${cleanPath}`;
 };
 
 // Image handlers
