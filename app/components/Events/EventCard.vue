@@ -31,7 +31,7 @@
       </div>
       
       <!-- Error State -->
-      <div v-if="imageError" class="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+      <div v-if="imageError" class="absolute inset-0  flex items-center justify-center">
         <div class="text-center">
           <svg class="w-10 h-10 text-gray-400 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -51,10 +51,8 @@
         @error="onImageError"
         crossorigin="anonymous"
       />
-      
       <!-- Gradient Overlay -->
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-      
       <!-- Type Badge -->
       <div class="absolute bottom-4 left-4">
         <div :class="[
@@ -75,7 +73,6 @@
         </div>
       </div>
     </div>
-    <p>{{ event.featured_image }}</p>
 
     <!-- Event Content -->
     <div class="p-6">
@@ -202,46 +199,40 @@ const eventImage = ref(null);
 const imageLoaded = ref(false);
 const imageError = ref(false);
 
-// Image URL computed property
-const imageUrl = computed(() => {
-  return getImageUrl(props.event?.featured_image);
-});
-
-// Image helper function
-
+// Image URL computed property - FIXED VERSION
 const eventImageUrl = computed(() => {
-  if (!event.value?.featured_image) {
-    return '/images/event-placeholder.jpg'
+  if (!props.event?.featured_image) {
+    return '/images/event-placeholder.jpg';
   }
   
-  const imgPath = event.value.featured_image
+  const imgPath = props.event.featured_image;
   
   // Already a full URL
   if (imgPath.startsWith('http')) {
-    return imgPath
+    return imgPath;
   }
   
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-  const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
+  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+  const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath;
   
   // Use the proxy route for CORS
-  return `${baseUrl}/images/proxy/${cleanPath}`
-})
+  return `${baseUrl}/images/proxy/${cleanPath}`;
+});
 
-// Image handlers
+// Image handlers - UPDATED TO USE eventImageUrl
 const onImageLoad = () => {
-    console.log('✅ Image loaded successfully:', imageUrl.value);
+    console.log('✅ Image loaded successfully:', eventImageUrl.value);
     imageLoaded.value = true;
     imageError.value = false;
 };
 
 const onImageError = (error) => {
-    console.error('❌ Image failed to load:', imageUrl.value, error);
+    console.error('❌ Image failed to load:', eventImageUrl.value, error);
     imageLoaded.value = true;
     imageError.value = true;
     
     // Try to load placeholder if original failed
-    if (eventImage.value && imageUrl.value !== '/images/event-placeholder.jpg') {
+    if (eventImage.value && eventImageUrl.value !== '/images/event-placeholder.jpg') {
         eventImage.value.src = '/images/event-placeholder.jpg';
     }
 };
