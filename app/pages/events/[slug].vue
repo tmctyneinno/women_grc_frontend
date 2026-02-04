@@ -164,7 +164,7 @@
                   </div>
                 </div>
               </div>
-              
+              <p>{{ event.meeting_link }}</p>
               <!-- Call to Action -->
               <div class="flex flex-wrap gap-4">
                 <button 
