@@ -208,7 +208,7 @@
       <!-- Event Image Section (NOT as background) -->
       <section class="py-12 bg-white">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="max-w-4xl mx-auto">
+          <div class="max-w-2xl mx-auto">
             <!-- Image Container -->
             <div class="relative rounded-3xl overflow-hidden shadow-2xl">
               <!-- Loading State -->
