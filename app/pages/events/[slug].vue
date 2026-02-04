@@ -76,7 +76,7 @@
           <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-4xl">
               <!-- Event Type Badge -->
-              <div class="inline-flex items-center gap-3 mb-8">
+              <div class="inline-flex items-center gap-3 mb-4">
                 <span class="px-4 py-2 bg-white/20 backdrop-blur-md text-white text-sm font-semibold rounded-full border border-white/30">
                   {{ formattedType }}
                 </span>
