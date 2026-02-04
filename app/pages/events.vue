@@ -1,31 +1,33 @@
 <!-- components/Events/EventList.vue -->
 <template>
     <nuxt-layout name="landing-layout">
-        <div class="min-vh-100 bg-light">
+        <div class="min-h-screen bg-gradient-to-br from-gray-50 to-white">
             <!-- Hero Section -->
-            <div class="position-relative overflow-hidden bg-primary">
-                <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-20"></div>
-                <div class="position-relative container px-4 py-24">
+            <div class="relative overflow-hidden bg-gradient-to-r from-purple-900 via-indigo-800 to-purple-900">
+                <div class="absolute inset-0 bg-black/20"></div>
+                <div class="relative container mx-auto px-4 py-24">
                     <div class="max-w-3xl mx-auto text-center">
-                        <h1 class="display-4 display-md-3 display-lg-2 fw-bold text-white mb-4">
-                            Discover <span class="text-gradient-cyan-purple">Inspiring</span> Events
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+                            Discover <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Inspiring</span> Events
                         </h1>
-                        <p class="fs-4 text-white-50 mb-5">
+                        <p class="text-xl text-gray-200 mb-10">
                             Join top GRC professionals at conferences, workshops, and networking sessions that shape the industry.
                         </p>
                         
                         <!-- Search Bar -->
                         <div class="max-w-2xl mx-auto">
-                            <div class="position-relative">
-                                <div class="position-absolute top-50 start-0 translate-middle-y ps-3 d-flex align-items-center">
-                                    <i class="bi bi-search text-body-tertiary"></i>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
                                 </div>
                                 <input 
                                     v-model="searchQuery"
                                     @input="handleSearch"
                                     type="text"
                                     placeholder="Search events, topics, or speakers..."
-                                    class="form-control ps-5 py-3 rounded-3 bg-white bg-opacity-10 backdrop-filter-blur border border-white border-opacity-20 text-white placeholder-white-50 focus-outline-cyan"
+                                    class="w-full pl-12 pr-4 py-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-200"
                                 />
                             </div>
                         </div>
@@ -33,28 +35,27 @@
                 </div>
                 
                 <!-- Decorative elements -->
-                <div class="position-absolute top-0 start-0 w-64 h-64 bg-info rounded-circle opacity-20 blur-3 animate-pulse"></div>
-                <div class="position-absolute bottom-0 end-0 w-64 h-64 bg-purple rounded-circle opacity-20 blur-3 animate-pulse"></div>
+                <div class="absolute top-0 left-0 w-64 h-64 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+                <div class="absolute bottom-0 right-0 w-64 h-64 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
             </div>
 
             <!-- Main Content -->
-            <div class="container px-4 py-5">
+            <div class="container mx-auto px-4 py-12">
                 <!-- Filter Bar -->
-                <div class="mb-5">
-                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-4 p-4 bg-white rounded-3 shadow border">
+                <div class="mb-12">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 bg-white rounded-2xl shadow-lg shadow-gray-200/50 border border-gray-100">
                         <div>
-                            <h2 class="h1 fw-bold text-dark mb-2">Browse Events</h2>
-                            <p class="text-secondary">Filter by type to find exactly what you're looking for</p>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Browse Events</h2>
+                            <p class="text-gray-600">Filter by type to find exactly what you're looking for</p>
                         </div>
                         
-                        <div class="d-flex flex-wrap align-items-center gap-3">
+                        <div class="flex flex-wrap items-center gap-4">
                             <!-- Event Type Filter -->
-                            <div class="position-relative">
+                            <div class="relative">
                                 <select 
                                     v-model="selectedType"
                                     @change="filterByType"
-                                    class="form-select pe-4 py-2 rounded-3 border focus-outline-cyan cursor-pointer"
-                                    style="appearance: none; min-width: 180px;"
+                                    class="appearance-none bg-white pl-4 pr-10 py-3 rounded-xl border border-gray-200 text-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200 cursor-pointer"
                                 >
                                     <option value="">All Event Types</option>
                                     <option value="conference">Conference</option>
@@ -63,22 +64,24 @@
                                     <option value="networking">Networking</option>
                                     <option value="meeting">Meeting</option>
                                 </select>
-                                <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
-                                    <i class="bi bi-chevron-down text-body-tertiary"></i>
+                                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 20 20" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7l3-3 3 3m0 6l-3 3-3-3" />
+                                    </svg>
                                 </div>
                             </div>
                             
                             <!-- Status Filter -->
-                            <div class="d-flex align-items-center gap-2">
+                            <div class="flex items-center space-x-2">
                                 <button 
                                     v-for="status in statusFilters"
                                     :key="status.value"
                                     @click="toggleStatusFilter(status.value)"
                                     :class="[
-                                        'btn btn-sm px-3 py-2 rounded-pill fw-medium transition-all',
+                                        'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200',
                                         activeStatusFilters.includes(status.value) 
-                                            ? 'bg-gradient-cyan-purple text-white shadow-lg' 
-                                            : 'btn-light text-secondary hover-light'
+                                            ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-lg shadow-cyan-500/25' 
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                     ]"
                                 >
                                     {{ status.label }}
@@ -89,42 +92,46 @@
                 </div>
 
                 <!-- Loading State -->
-                <div v-if="loading" class="d-flex flex-column align-items-center justify-content-center py-5">
-                    <div class="position-relative">
-                        <div class="spinner-border text-primary border-4 border-top-0 border-end-0 border-bottom-0" style="width: 4rem; height: 4rem;" role="status"></div>
-                        <div class="position-absolute top-50 start-50 translate-middle">
-                            <div class="bg-gradient-cyan-purple rounded-circle animate-ping" style="width: 2rem; height: 2rem;"></div>
+                <div v-if="loading" class="flex flex-col items-center justify-center py-20">
+                    <div class="relative">
+                        <div class="w-16 h-16 border-4 border-cyan-200 border-t-cyan-500 rounded-full animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-8 h-8 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full animate-ping"></div>
                         </div>
                     </div>
-                    <p class="mt-4 fs-5 text-secondary fw-medium">Loading inspiring events...</p>
+                    <p class="mt-6 text-lg text-gray-600 font-medium">Loading inspiring events...</p>
                 </div>
 
                 <!-- Error State -->
-                <div v-else-if="error" class="max-w-md mx-auto text-center py-5">
-                    <div class="d-inline-flex align-items-center justify-content-center w-5 h-5 rounded-circle bg-danger bg-opacity-10 mb-4">
-                        <i class="bi bi-exclamation-triangle-fill text-danger fs-2"></i>
+                <div v-else-if="error" class="max-w-md mx-auto text-center py-20">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-100 mb-6">
+                        <svg class="w-10 h-10 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.998-.833-2.732 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        </svg>
                     </div>
-                    <h3 class="h2 fw-bold text-dark mb-3">Unable to Load Events</h3>
-                    <p class="text-secondary mb-4">{{ error }}</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">Unable to Load Events</h3>
+                    <p class="text-gray-600 mb-8">{{ error }}</p>
                     <button 
                         @click="fetchEvents"
-                        class="btn bg-gradient-cyan-purple text-white fw-medium rounded-pill px-4 py-2 hover-lift transition-all"
+                        class="px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium rounded-full hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-200 transform hover:-translate-y-0.5"
                     >
                         Try Again
                     </button>
                 </div>
 
                 <!-- Empty State -->
-                <div v-else-if="filteredEvents.length === 0" class="max-w-md mx-auto text-center py-5">
-                    <div class="d-inline-flex align-items-center justify-content-center w-5 h-5 rounded-circle bg-light mb-4">
-                        <i class="bi bi-calendar text-body-secondary fs-2"></i>
+                <div v-else-if="filteredEvents.length === 0" class="max-w-md mx-auto text-center py-20">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-100 mb-6">
+                        <svg class="w-10 h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
                     </div>
-                    <h3 class="h2 fw-bold text-dark mb-3">No Events Found</h3>
-                    <p class="text-secondary">We couldn't find any events matching your criteria.</p>
-                    <p class="text-body-tertiary mt-2">Try adjusting your filters or check back soon for new events!</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">No Events Found</h3>
+                    <p class="text-gray-600">We couldn't find any events matching your criteria.</p>
+                    <p class="text-gray-500 mt-2">Try adjusting your filters or check back soon for new events!</p>
                     <button 
                         @click="resetFilters"
-                        class="btn btn-dark text-white fw-medium rounded-pill px-4 py-2 mt-4 transition-all"
+                        class="mt-8 px-6 py-3 bg-gray-800 text-white font-medium rounded-full hover:bg-gray-900 transition-all duration-200"
                     >
                         Reset Filters
                     </button>
@@ -132,101 +139,97 @@
 
                 <!-- Featured Events Section -->
                 <div v-else>
-                    <section v-if="featuredEvents.length > 0" class="mb-5">
-                        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-4 gap-3">
+                    <section v-if="featuredEvents.length > 0" class="mb-16">
+                        <div class="flex items-center justify-between mb-8">
                             <div>
-                                <h2 class="h1 fw-bold text-dark d-flex align-items-center gap-3 mb-0">
-                                    <span class="d-inline-flex align-items-center justify-content-center w-3 h-3 rounded-circle bg-gradient-warning">
-                                        <i class="bi bi-star-fill text-white"></i>
+                                <h2 class="text-3xl font-bold text-gray-800 flex items-center gap-3">
+                                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500">
+                                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
                                     </span>
                                     Featured Events
                                 </h2>
-                                <p class="text-secondary mt-2">Curated selection of must-attend industry events</p>
+                                <p class="text-gray-600 mt-2">Curated selection of must-attend industry events</p>
                             </div>
-                            <div class="d-none d-md-block">
-                                <div class="d-flex gap-2">
-                                    <button @click="scrollFeaturedLeft" class="btn btn-light rounded-circle p-2 hover-light">
-                                        <i class="bi bi-chevron-left text-dark"></i>
+                            <div class="hidden md:block">
+                                <div class="flex space-x-2">
+                                    <button @click="scrollFeaturedLeft" class="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
+                                        <svg class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                        </svg>
                                     </button>
-                                    <button @click="scrollFeaturedRight" class="btn btn-light rounded-circle p-2 hover-light">
-                                        <i class="bi bi-chevron-right text-dark"></i>
+                                    <button @click="scrollFeaturedRight" class="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
+                                        <svg class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                        </svg>
                                     </button>
                                 </div>
                             </div>
                         </div>
 
-                        <div ref="featuredContainer" class="d-flex overflow-auto pb-3 gap-4 scrollbar-hide scroll-smooth" style="scroll-snap-type: x mandatory;">
+                        <div ref="featuredContainer" class="flex overflow-x-auto pb-8 space-x-6 scrollbar-hide scroll-smooth">
                             <div 
                                 v-for="event in featuredEvents" 
                                 :key="event.id" 
-                                class="flex-shrink-0"
-                                :style="{ width: '100%', maxWidth: 'calc(100% - 1rem)' }"
-                                style="scroll-snap-align: start;"
+                                class="flex-shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
                             >
-                                <div class="d-md-none">
-                                    <EventCard :event="event" :is-featured="true" />
-                                </div>
-                                <div class="d-none d-md-block d-lg-none">
-                                    <EventCard :event="event" :is-featured="true" />
-                                </div>
-                                <div class="d-none d-lg-block">
-                                    <EventCard :event="event" :is-featured="true" />
-                                </div>
+                                <EventCard :event="event" :is-featured="true" />
                             </div>
                         </div>
                     </section>
 
                     <!-- All Events Section -->
                     <section>
-                        <div class="mb-4">
-                            <h2 class="h2 fw-bold text-dark">All Events</h2>
-                            <p class="text-secondary mt-1">Discover {{ filteredEvents.length }} events matching your criteria</p>
+                        <div class="mb-8">
+                            <h2 class="text-2xl font-bold text-gray-800">All Events</h2>
+                            <p class="text-gray-600 mt-1">Discover {{ filteredEvents.length }} events matching your criteria</p>
                         </div>
 
                         <!-- Events Grid -->
-                        <div class="row g-4">
-                            <div 
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <EventCard 
                                 v-for="event in paginatedEvents" 
                                 :key="event.id" 
-                                class="col-12 col-md-6 col-lg-4"
-                            >
-                                <EventCard :event="event" />
-                            </div>
+                                :event="event" 
+                            />
                         </div>
 
                         <!-- Pagination -->
-                        <div v-if="pagination.last_page > 1" class="mt-5">
-                            <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-4">
-                                <div class="text-secondary">
-                                    Showing <span class="fw-semibold text-dark">{{ showingFrom }}-{{ showingTo }}</span> of 
-                                    <span class="fw-semibold text-dark">{{ pagination.total }}</span> events
+                        <div v-if="pagination.last_page > 1" class="mt-16">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                                <div class="text-gray-600">
+                                    Showing <span class="font-semibold text-gray-800">{{ showingFrom }}-{{ showingTo }}</span> of 
+                                    <span class="font-semibold text-gray-800">{{ pagination.total }}</span> events
                                 </div>
                                 
-                                <div class="d-flex align-items-center gap-2">
+                                <div class="flex items-center space-x-2">
                                     <button 
                                         @click="changePage(pagination.current_page - 1)"
                                         :disabled="pagination.current_page === 1"
                                         :class="[
-                                            'btn d-flex align-items-center gap-2 px-3 py-2 rounded transition-all',
+                                            'flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200',
                                             pagination.current_page === 1
-                                                ? 'text-body-tertiary bg-light cursor-not-allowed'
-                                                : 'btn-outline-secondary hover-light'
+                                                ? 'text-gray-400 cursor-not-allowed bg-gray-100'
+                                                : 'text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 hover:shadow-md'
                                         ]"
                                     >
-                                        <i class="bi bi-chevron-left"></i>
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                        </svg>
                                         Previous
                                     </button>
                                     
-                                    <div class="d-flex align-items-center gap-1">
+                                    <div class="flex items-center space-x-1">
                                         <button 
                                             v-for="page in visiblePages" 
                                             :key="page"
                                             @click="changePage(page)"
                                             :class="[
-                                                'btn px-3 py-2 rounded fw-medium transition-all',
+                                                'w-10 h-10 rounded-lg font-medium transition-all duration-200',
                                                 page === pagination.current_page
-                                                    ? 'bg-gradient-cyan-purple text-white shadow'
-                                                    : 'text-dark hover-light'
+                                                    ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-lg shadow-cyan-500/25'
+                                                    : 'text-gray-700 hover:bg-gray-100'
                                             ]"
                                         >
                                             {{ page }}
@@ -237,14 +240,16 @@
                                         @click="changePage(pagination.current_page + 1)"
                                         :disabled="pagination.current_page === pagination.last_page"
                                         :class="[
-                                            'btn d-flex align-items-center gap-2 px-3 py-2 rounded transition-all',
+                                            'flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200',
                                             pagination.current_page === pagination.last_page
-                                                ? 'text-body-tertiary bg-light cursor-not-allowed'
-                                                : 'btn-outline-secondary hover-light'
+                                                ? 'text-gray-400 cursor-not-allowed bg-gray-100'
+                                                : 'text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 hover:shadow-md'
                                         ]"
                                     >
                                         Next
-                                        <i class="bi bi-chevron-right"></i>
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                        </svg>
                                     </button>
                                 </div>
                             </div>
@@ -253,29 +258,29 @@
                 </div>
 
                 <!-- Stats Section -->
-                <div v-if="!loading && !error && filteredEvents.length > 0" class="mt-5">
-                    <div class="bg-gradient-dark rounded-3 p-4 p-md-5">
-                        <div class="row g-4">
-                            <div v-for="stat in stats" :key="stat.label" class="col-6 col-md-3 text-center">
-                                <div class="display-6 fw-bold text-white mb-2">{{ stat.value }}</div>
-                                <div class="text-white-50">{{ stat.label }}</div>
+                <div v-if="!loading && !error && filteredEvents.length > 0" class="mt-24">
+                    <div class="bg-gradient-to-r from-gray-900 to-black rounded-3xl p-8 md:p-12">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                            <div v-for="stat in stats" :key="stat.label" class="text-center">
+                                <div class="text-3xl md:text-4xl font-bold text-white mb-2">{{ stat.value }}</div>
+                                <div class="text-gray-300">{{ stat.label }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Newsletter CTA -->
-                <div class="mt-5 text-center">
+                <div class="mt-24 text-center">
                     <div class="max-w-2xl mx-auto">
-                        <h3 class="h2 fw-bold text-dark mb-3">Never Miss an Event</h3>
-                        <p class="text-secondary mb-4">Subscribe to get notified about upcoming conferences, workshops, and networking opportunities</p>
-                        <div class="d-flex flex-column flex-sm-row gap-3 max-w-md mx-auto">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Never Miss an Event</h3>
+                        <p class="text-gray-600 mb-8">Subscribe to get notified about upcoming conferences, workshops, and networking opportunities</p>
+                        <div class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
                             <input 
                                 type="email" 
                                 placeholder="Enter your email address" 
-                                class="form-control flex-grow-1 px-4 py-2 rounded-pill focus-outline-cyan"
+                                class="flex-1 px-6 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200"
                             />
-                            <button class="btn bg-gradient-cyan-purple text-white fw-medium rounded-pill px-4 py-2 hover-lift transition-all">
+                            <button class="px-8 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium rounded-full hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-200 transform hover:-translate-y-0.5">
                                 Subscribe
                             </button>
                         </div>
@@ -289,7 +294,7 @@
 <script setup>
 import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import { useEventStore } from '@/stores/eventStore';
-import EventCard from '@/components/Events/EventCard.vue';
+import EventCard from '@/components/Events/';
 
 // Store
 const eventStore = useEventStore();
@@ -514,66 +519,6 @@ watch(activeStatusFilters, () => {
 </script>
 
 <style scoped>
-/* Custom CSS for Bootstrap enhancements */
-.text-gradient-cyan-purple {
-    background: linear-gradient(to right, #0dcaf0, #6f42c1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.bg-gradient-cyan-purple {
-    background: linear-gradient(to right, #0dcaf0, #6f42c1);
-}
-
-.bg-gradient-warning {
-    background: linear-gradient(to right, #ffc107, #fd7e14);
-}
-
-.bg-gradient-dark {
-    background: linear-gradient(to right, #212529, #000);
-}
-
-.bg-purple {
-    background-color: #6f42c1;
-}
-
-.backdrop-filter-blur {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
-.focus-outline-cyan:focus {
-    outline: none;
-    border-color: #0dcaf0 !important;
-    box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25) !important;
-}
-
-.blur-3 {
-    filter: blur(3rem);
-}
-
-.animate-pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.animate-ping {
-    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-
-.hover-light:hover {
-    background-color: rgba(248, 249, 250, 0.8) !important;
-}
-
-.hover-lift:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0.5rem 1rem rgba(13, 202, 240, 0.25) !important;
-}
-
-.transition-all {
-    transition: all 0.2s ease;
-}
-
 .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -581,6 +526,11 @@ watch(activeStatusFilters, () => {
 
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
+}
+
+/* Smooth scrolling */
+.scroll-smooth {
+    scroll-behavior: smooth;
 }
 
 /* Custom animations */
@@ -593,111 +543,7 @@ watch(activeStatusFilters, () => {
     }
 }
 
-@keyframes pulse {
-    0%, 100% {
-        opacity: 0.2;
-    }
-    50% {
-        opacity: 0.4;
-    }
-}
-
-@keyframes ping {
-    75%, 100% {
-        transform: scale(2);
-        opacity: 0;
-    }
-}
-
-/* Responsive display classes */
-.display-md-3 {
-    font-size: calc(1.3rem + 3.6vw);
-}
-
-@media (min-width: 768px) {
-    .display-md-3 {
-        font-size: 2.5rem;
-    }
-}
-
-.display-lg-2 {
-    font-size: calc(1.3rem + 3.6vw);
-}
-
-@media (min-width: 992px) {
-    .display-lg-2 {
-        font-size: 3rem;
-    }
-}
-
-/* Spacing utilities */
-.max-w-2xl {
-    max-width: 42rem;
-}
-
-.max-w-3xl {
-    max-width: 48rem;
-}
-
-.max-w-md {
-    max-width: 28rem;
-}
-
-.w-64 {
-    width: 16rem;
-}
-
-.h-64 {
-    height: 16rem;
-}
-
-.w-5 {
-    width: 3rem;
-}
-
-.h-5 {
-    height: 3rem;
-}
-
-.w-3 {
-    width: 2.5rem;
-}
-
-.h-3 {
-    height: 2.5rem;
-}
-
-/* Border utilities */
-.border-top-0 {
-    border-top: 0 !important;
-}
-
-.border-end-0 {
-    border-right: 0 !important;
-}
-
-.border-bottom-0 {
-    border-bottom: 0 !important;
-}
-
-/* Text color utilities */
-.text-white-50 {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.placeholder-white-50::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.border-white {
-    border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-.border-opacity-20 {
-    border-opacity: 0.2;
-}
-
-.bg-opacity-10 {
-    background-opacity: 0.1;
+.animate-float {
+    animation: float 3s ease-in-out infinite;
 }
 </style>
