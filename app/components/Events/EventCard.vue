@@ -330,7 +330,7 @@ const viewDetails = () => {
     } else {
         router.push(`/events/${props.event.id}`);
     }
-};
+}; 
 
 const registerEvent = (event) => {
     event.preventDefault();
