@@ -43,7 +43,7 @@
       <!-- Actual Image -->
       <img 
         ref="eventImage"
-        :src="imageUrl" 
+        :src="eventImageUrl" 
         :alt="event.title"
         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         :class="{'opacity-0': !imageLoaded || imageError, 'opacity-100': imageLoaded && !imageError}"
