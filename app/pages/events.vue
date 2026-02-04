@@ -173,13 +173,13 @@
                         </div>
 
                         <!-- Events Grid -->
-                        <div class="tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 lg:tw-grid-cols-3 xl:tw-grid-cols-4 tw-gap-8">
-    <EventCard 
-        v-for="event in paginatedEvents" 
-        :key="event.id" 
-        :event="event" 
-    />
-</div>
+                        <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-8">
+                            <EventCard 
+                                v-for="event in paginatedEvents" 
+                                :key="event.id" 
+                                :event="event" 
+                            />
+                        </div>
 
                         <!-- Pagination -->
                         <div v-if="pagination.last_page > 1" class="tw-mt-16">

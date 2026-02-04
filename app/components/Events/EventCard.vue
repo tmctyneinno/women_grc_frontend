@@ -1,6 +1,6 @@
 <!-- components/Events/EventCard.vue -->
 <template>
-    <div class="tw-tailwind-container">
+   
         <!-- Event Card Container -->
         <div class="event-card tw-group tw-relative tw-bg-white tw-rounded-2xl tw-overflow-hidden tw-shadow-lg hover:tw-shadow-2xl tw-transition-all tw-duration-300 hover:tw--translate-y-2 tw-border tw-border-gray-100 tw-transform-gpu">
             <!-- Featured Ribbon -->
@@ -141,7 +141,7 @@
                 </div>
             </div>
         </div>
-    </div>
+ 
 </template>
 
 <script setup>
