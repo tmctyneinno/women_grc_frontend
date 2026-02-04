@@ -133,23 +133,74 @@ const eventImageUrl = computed(() => {
     return imgPath
   }
   
-  // Data URL
-  if (imgPath.startsWith('data:')) {
-    return imgPath
-  }
-  
   const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-  
-  // Remove leading slash if present
   const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
   
-  // Your URL pattern is correct
-  const fullUrl = `${baseUrl}/storage/${cleanPath}`
-  
-  console.log('📸 Image URL:', fullUrl)
-  
-  return fullUrl
+  return `${baseUrl}/storage/${cleanPath}`
 })
+
+// Load image with CORS handling
+const loadImage = async () => {
+  try {
+    imageLoaded.value = false
+    imageError.value = false
+    
+    console.log('🔄 Loading image:', eventImageUrl.value)
+    
+    // Try to fetch the image as blob first (handles CORS better)
+    const response = await fetch(eventImageUrl.value, {
+      mode: 'cors',
+      credentials: 'omit' // Try 'include' if this doesn't work
+    })
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+    }
+    
+    const blob = await response.blob()
+    const objectUrl = URL.createObjectURL(blob)
+    
+    console.log('✅ Image fetched as blob, size:', blob.size, 'bytes')
+    
+    // Set the blob URL as image source
+    imageSrc.value = objectUrl
+    imageLoaded.value = true
+    
+    // Clean up object URL when component unmounts
+    onUnmounted(() => {
+      if (imageSrc.value.startsWith('blob:')) {
+        URL.revokeObjectURL(imageSrc.value)
+      }
+    })
+    
+  } catch (error) {
+    console.error('❌ Failed to load image:', error)
+    
+    // Fallback: try direct loading
+    console.log('🔄 Trying direct image loading...')
+    imageSrc.value = eventImageUrl.value
+    
+    // Create a test image element
+    const testImg = new Image()
+    testImg.crossOrigin = 'anonymous'
+    
+    testImg.onload = () => {
+      console.log('✅ Direct loading worked')
+      imageLoaded.value = true
+    }
+    
+    testImg.onerror = (err) => {
+      console.error('❌ Direct loading also failed:', err)
+      imageError.value = true
+      imageLoaded.value = true
+      
+      // Use placeholder
+      imageSrc.value = '/images/event-placeholder.jpg'
+    }
+    
+    testImg.src = eventImageUrl.value
+  }
+}
 
 
 const formattedType = computed(() => {
