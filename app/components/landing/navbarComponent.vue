@@ -3,7 +3,7 @@
         <div class="container">
             <NuxtLink class="navbar-brand" to="/">
                 <NuxtImg src="/images/WGRC-logo.png" width="45" alt="site_logo" />
-            </NuxtLink>
+            </NuxtLink> 
             <button class="navbar-toggler border-0" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas"
                 aria-controls="menuOffcanvas" type="button">
                 <span class="navbar-toggler-icon"></span>
