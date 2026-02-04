@@ -502,10 +502,10 @@
                   For sponsorship and partnership opportunities
                 </p>
                 <a 
-                  href="mailto:enquiries@wgrcfp.com"
+                  href="mailto:enquiries@wgrcfp.org"
                   class="text-amber-600 hover:text-amber-700 font-medium text-sm inline-flex items-center gap-2 group"
                 >
-                  Contact: enquiries@wgrcfp.com
+                  Contact: enquiries@wgrcfp.org
                   <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
