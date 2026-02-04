@@ -2,6 +2,26 @@
 import { defineStore } from 'pinia';
 import EventService from '@/services/EventService';
 
+// Helper function for time calculation
+const calculateTimeRemaining = (date) => {
+    const now = new Date();
+    const eventDate = new Date(date);
+    const diffTime = eventDate - now;
+    
+    if (diffTime <= 0) return 'Starting soon';
+    
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    
+    if (diffDays > 0) {
+        return `In ${diffDays} day${diffDays > 1 ? 's' : ''}`;
+    } else if (diffHours > 0) {
+        return `In ${diffHours} hour${diffHours > 1 ? 's' : ''}`;
+    } else {
+        return 'Starting soon';
+    }
+};
+
 export const useEventStore = defineStore('events', {
     state: () => ({
         events: [],
@@ -45,16 +65,52 @@ export const useEventStore = defineStore('events', {
                 }),
                 // Time remaining
                 timeRemaining: event.is_upcoming 
-                    ? this.calculateTimeRemaining(event.start_date)
+                    ? calculateTimeRemaining(event.start_date)
                     : null,
                 // Short description
                 excerpt: event.short_description 
                     ? event.short_description.substring(0, 120) + '...'
-                    : event.description.substring(0, 120) + '...'
+                    : (event.description ? event.description.substring(0, 120) + '...' : '')
             }));
         },
 
-       
+        // Get formatted featured events
+        formattedFeaturedEvents: (state) => {
+            return state.featuredEvents.map(event => ({
+                ...event,
+                formattedDate: new Date(event.start_date).toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                }),
+                timeRemaining: event.is_upcoming 
+                    ? calculateTimeRemaining(event.start_date)
+                    : null,
+                excerpt: event.short_description 
+                    ? event.short_description.substring(0, 100) + '...'
+                    : (event.description ? event.description.substring(0, 100) + '...' : '')
+            }));
+        },
+
+        // Get formatted upcoming events
+        formattedUpcomingEvents: (state) => {
+            return state.upcomingEvents.map(event => ({
+                ...event,
+                formattedDate: new Date(event.start_date).toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                }),
+                timeRemaining: event.is_upcoming 
+                    ? calculateTimeRemaining(event.start_date)
+                    : null,
+                excerpt: event.short_description 
+                    ? event.short_description.substring(0, 100) + '...'
+                    : (event.description ? event.description.substring(0, 100) + '...' : '')
+            }));
+        }
     },
 
     actions: {
@@ -67,13 +123,17 @@ export const useEventStore = defineStore('events', {
                 const response = await EventService.getEvents(page);
                 
                 if (response.success) {
-                    this.events = response.data.data;
-                    this.pagination = {
-                        current_page: response.data.current_page,
-                        last_page: response.data.last_page,
-                        per_page: response.data.per_page,
-                        total: response.data.total
-                    };
+                    this.events = response.data.data || response.data;
+                    
+                    // Handle pagination if available
+                    if (response.data.current_page) {
+                        this.pagination = {
+                            current_page: response.data.current_page,
+                            last_page: response.data.last_page,
+                            per_page: response.data.per_page,
+                            total: response.data.total
+                        };
+                    }
                 }
             } catch (error) {
                 this.error = error.message;
@@ -86,6 +146,7 @@ export const useEventStore = defineStore('events', {
         // Fetch featured events
         async fetchFeaturedEvents() {
             this.loading = true;
+            this.error = null;
             
             try {
                 const response = await EventService.getFeaturedEvents();
@@ -94,6 +155,7 @@ export const useEventStore = defineStore('events', {
                     this.featuredEvents = response.data;
                 }
             } catch (error) {
+                this.error = error.message;
                 console.error('Error fetching featured events:', error);
             } finally {
                 this.loading = false;
@@ -103,6 +165,7 @@ export const useEventStore = defineStore('events', {
         // Fetch upcoming events
         async fetchUpcomingEvents() {
             this.loading = true;
+            this.error = null;
             
             try {
                 const response = await EventService.getUpcomingEvents();
@@ -111,6 +174,7 @@ export const useEventStore = defineStore('events', {
                     this.upcomingEvents = response.data;
                 }
             } catch (error) {
+                this.error = error.message;
                 console.error('Error fetching upcoming events:', error);
             } finally {
                 this.loading = false;
@@ -128,14 +192,15 @@ export const useEventStore = defineStore('events', {
                 
                 let response;
                 if (isSlug) {
-                // Fetch by slug - you may need to adjust your API endpoint
-                response = await EventService.getEventBySlug(identifier);
+                    response = await EventService.getEventBySlug(identifier);
+                } else {
+                    response = await EventService.getEventById(identifier);
                 }
                 
                 if (response.success) {
-                this.currentEvent = response.data;
+                    this.currentEvent = response.data;
                 } else {
-                throw new Error('Event not found');
+                    throw new Error('Event not found');
                 }
             } catch (error) {
                 this.error = error.message;
@@ -149,6 +214,7 @@ export const useEventStore = defineStore('events', {
         // Search events
         async searchEvents(query, type = null) {
             this.loading = true;
+            this.error = null;
             
             try {
                 const response = await EventService.searchEvents(query, type);
@@ -157,6 +223,7 @@ export const useEventStore = defineStore('events', {
                     this.events = response.data.data || response.data;
                 }
             } catch (error) {
+                this.error = error.message;
                 console.error('Error searching events:', error);
             } finally {
                 this.loading = false;
@@ -167,9 +234,11 @@ export const useEventStore = defineStore('events', {
         clearEvents() {
             this.events = [];
             this.currentEvent = null;
+        },
+
+        // Clear error
+        clearError() {
+            this.error = null;
         }
     }
-
-    
 });
-
