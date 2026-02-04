@@ -100,7 +100,7 @@
               </h1>
 
               <!-- Event Description -->
-              <p v-if="event.short_description" class="text-xl text-white/90 mb-10 max-w-3xl leading-relaxed">
+              <p v-if="event.short_description" class="text-xl text-white mb-10 max-w-3xl leading-relaxed">
                 {{ event.short_description }}
               </p>
 
