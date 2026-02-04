@@ -3,7 +3,7 @@
   <nuxt-layout name="landing-layout">
     <div class="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       <!-- Hero Section -->
-      <div class="relative overflow-hidden bg-gradient-to-r from-blue-200 via-white to-blue-200 ">
+      <div class="relative overflow-hidden bg-gradient-to-r from-blue-800 via-white to-blue-[#293567] ">
         <div class="absolute inset-0 bg-black/20"></div>
         <div class="relative container mx-auto px-4 py-24">
           <div class="max-w-3xl mx-auto text-center">
