@@ -11,7 +11,7 @@
     </div>
 
     <!-- Error State -->
-    <div v-else-if="error" class="fixed inset-0  z-50 flex items-center justify-center">
+    <div v-else-if="error" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
       <div class="text-center max-w-md px-6">
         <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-red-100 to-red-50 mb-6">
           <svg class="w-10 h-10 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
