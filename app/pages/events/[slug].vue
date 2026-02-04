@@ -268,7 +268,7 @@
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">About This Event</h2>
                 <div class="prose prose-lg max-w-none">
                   <p class="text-gray-600 leading-relaxed whitespace-pre-line">
-                    {{ event.description }}
+                    {{ plainDescription }}
                   </p>
                 </div>
               </div>
