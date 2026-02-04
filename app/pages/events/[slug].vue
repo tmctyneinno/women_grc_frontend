@@ -123,50 +123,31 @@ const eventImageUrl = computed(() => {
     return '/images/event-placeholder.jpg'
   }
   
-  const imagePath = event.value.featured_image
+  const imgPath = event.value.featured_image
   
   // Already a full URL
-  if (imagePath.startsWith('http')) {
-    return imagePath
+  if (imgPath.startsWith('http')) {
+    return imgPath
   }
   
   // Data URL
-  if (imagePath.startsWith('data:')) {
-    return imagePath
+  if (imgPath.startsWith('data:')) {
+    return imgPath
   }
   
   const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
   
   // Remove leading slash if present
-  let cleanPath = imagePath
-  if (cleanPath.startsWith('/')) {
-    cleanPath = cleanPath.substring(1)
-  }
+  const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
   
-  console.log('Original path:', imagePath)
-  console.log('Clean path:', cleanPath)
+  // Your URL pattern is correct
+  const fullUrl = `${baseUrl}/storage/${cleanPath}`
   
-  // Check different storage patterns
-  if (cleanPath.startsWith('storage/')) {
-    // Example: storage/events/image.jpg
-    return `${baseUrl}/${cleanPath}`
-  }
+  console.log('📸 Image URL:', fullUrl)
   
-  if (cleanPath.startsWith('app/public/')) {
-    // Example: app/public/events/image.jpg
-    const publicPath = cleanPath.replace('app/public/', '')
-    return `${baseUrl}/storage/${publicPath}`
-  }
-  
-  if (cleanPath.startsWith('public/')) {
-    // Example: public/events/image.jpg
-    const publicPath = cleanPath.replace('public/', '')
-    return `${baseUrl}/storage/${publicPath}`
-  }
-  
-  // Default: assume it's relative to storage/app/public
-  return `${baseUrl}/storage/${cleanPath}`
+  return fullUrl
 })
+
 
 const formattedType = computed(() => {
   if (!event.value?.type) return 'Event'
