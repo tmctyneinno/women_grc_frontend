@@ -534,7 +534,7 @@
                     <h4 class="font-bold text-gray-800 text-lg">The Morgans</h4>
                     
                     <a 
-                      :href="ccc"
+                      :href="https://morgansconsortium.com"
                       target="_blank"
                       class="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-medium text-sm mt-3 group"
                     >
