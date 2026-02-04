@@ -1,147 +1,146 @@
 <!-- components/Events/EventCard.vue -->
 <template>
-   
-        <!-- Event Card Container -->
-        <div class="event-card tw-group tw-relative tw-bg-white tw-rounded-2xl tw-overflow-hidden tw-shadow-lg hover:tw-shadow-2xl tw-transition-all tw-duration-300 hover:tw--translate-y-2 tw-border tw-border-gray-100 tw-transform-gpu">
-            <!-- Featured Ribbon -->
-            <div v-if="isFeatured" class="tw-absolute tw-top-4 tw-left-4 tw-z-10">
-                <div class="tw-px-4 tw-py-1.5 tw-bg-gradient-to-r tw-from-yellow-400 tw-to-orange-500 tw-text-white tw-text-xs tw-font-bold tw-rounded-full tw-shadow-lg tw-shadow-yellow-500/25">
-                    <i class="bi bi-star-fill tw-mr-1 tw-text-xs"></i> Featured
-                </div>
+    <!-- REMOVE the tw-tailwind-container wrapper -->
+    <!-- Event Card Container -->
+    <div class="event-card tw-group tw-relative tw-bg-white tw-rounded-2xl tw-overflow-hidden tw-shadow-lg hover:tw-shadow-2xl tw-transition-all tw-duration-300 hover:tw--translate-y-2 tw-border tw-border-gray-100 tw-transform-gpu tw-h-full">
+        <!-- Featured Ribbon -->
+        <div v-if="isFeatured" class="tw-absolute tw-top-4 tw-left-4 tw-z-10">
+            <div class="tw-px-4 tw-py-1.5 tw-bg-gradient-to-r tw-from-yellow-400 tw-to-orange-500 tw-text-white tw-text-xs tw-font-bold tw-rounded-full tw-shadow-lg tw-shadow-yellow-500/25">
+                <i class="bi bi-star-fill tw-mr-1 tw-text-xs"></i> Featured
             </div>
+        </div>
 
-            <!-- Status Badge -->
-            <div class="tw-absolute tw-top-4 tw-right-4 tw-z-10">
+        <!-- Status Badge -->
+        <div class="tw-absolute tw-top-4 tw-right-4 tw-z-10">
+            <div :class="[
+                'tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-font-semibold tw-border tw-border-opacity-20',
+                statusClass
+            ]">
+                {{ formattedStatus }}
+            </div>
+        </div>
+
+        <!-- Event Image Section -->
+        <div class="tw-relative tw-h-48 tw-overflow-hidden tw-group-hover:tw-shadow-inner">
+            <div class="tw-absolute tw-inset-0 tw-bg-gray-200 tw-animate-pulse" v-if="!imageLoaded"></div>
+            <img 
+                ref="eventImage"
+                :src="getImageUrl(event.featured_image)" 
+                :alt="event.title"
+                class="tw-w-full tw-h-full tw-object-cover tw-transition-transform tw-duration-500 group-hover:tw-scale-105"
+                :class="{'tw-opacity-0': !imageLoaded}"
+                @load="onImageLoad"
+                @error="onImageError"
+            />
+            <div class="tw-absolute tw-inset-0 tw-bg-gradient-to-t tw-from-black/60 tw-to-transparent"></div>
+            
+            <!-- Type Badge -->
+            <div class="tw-absolute tw-bottom-4 tw-left-4">
                 <div :class="[
-                    'tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-font-semibold tw-border tw-border-opacity-20',
-                    statusClass
+                    'tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-font-semibold tw-text-white tw-backdrop-blur-sm tw-border tw-border-white/20',
+                    typeClass
                 ]">
-                    {{ formattedStatus }}
+                    {{ formattedType }}
                 </div>
             </div>
-
-            <!-- Event Image Section -->
-            <div class="tw-relative tw-h-48 tw-overflow-hidden tw-group-hover:tw-shadow-inner">
-                <div class="tw-absolute tw-inset-0 tw-bg-gray-200 tw-animate-pulse" v-if="!imageLoaded"></div>
-                <img 
-                    ref="eventImage"
-                    :src="getImageUrl(event.featured_image)" 
-                    :alt="event.title"
-                    class="tw-w-full tw-h-full tw-object-cover tw-transition-transform tw-duration-500 group-hover:tw-scale-105"
-                    :class="{'tw-opacity-0': !imageLoaded}"
-                    @load="onImageLoad"
-                    @error="onImageError"
-                />
-                <div class="tw-absolute tw-inset-0 tw-bg-gradient-to-t tw-from-black/60 tw-to-transparent"></div>
-                
-                <!-- Type Badge -->
-                <div class="tw-absolute tw-bottom-4 tw-left-4">
-                    <div :class="[
-                        'tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-font-semibold tw-text-white tw-backdrop-blur-sm tw-border tw-border-white/20',
-                        typeClass
-                    ]">
-                        {{ formattedType }}
-                    </div>
-                </div>
-                
-                <!-- Online Badge -->
-                <div v-if="event.is_online" class="tw-absolute tw-bottom-4 tw-right-4">
-                    <div class="tw-px-3 tw-py-1 tw-rounded-full tw-bg-blue-600/90 tw-backdrop-blur-sm tw-text-white tw-text-xs tw-font-semibold tw-border tw-border-white/20">
-                        <i class="bi bi-camera-video-fill tw-mr-1"></i> Online
-                    </div>
-                </div>
-            </div>
-
-            <!-- Event Content -->
-            <div class="tw-p-6">
-                <!-- Date & Location -->
-                <div class="tw-flex tw-items-center tw-gap-4 tw-mb-4">
-                    <div class="tw-flex-shrink-0 tw-w-14 tw-h-14 tw-bg-gradient-to-br tw-from-cyan-50 tw-to-purple-50 tw-rounded-xl tw-flex tw-flex-col tw-items-center tw-justify-center tw-border tw-border-gray-100">
-                        <div class="tw-text-2xl tw-font-bold tw-text-gray-800 tw-leading-none">{{ formattedDay }}</div>
-                        <div class="tw-text-xs tw-font-semibold tw-text-gray-500 tw-uppercase tw-tracking-wide tw-mt-1">{{ formattedMonth }}</div>
-                    </div>
-                    <div class="tw-flex-1 tw-min-w-0">
-                        <div class="tw-text-sm tw-text-gray-600 tw-flex tw-items-center tw-gap-2">
-                            <i class="bi bi-clock-fill tw-text-gray-400"></i>
-                            <span class="tw-truncate">{{ formattedTime }}</span>
-                        </div>
-                        <div class="tw-text-sm tw-text-gray-600 tw-flex tw-items-center tw-gap-2 tw-mt-1">
-                            <i class="bi bi-geo-alt-fill tw-text-gray-400"></i>
-                            <span class="tw-truncate" :title="event.venue">{{ event.venue }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Title -->
-                <h3 class="tw-text-lg tw-font-bold tw-text-gray-800 tw-mb-3 tw-line-clamp-2 group-hover:tw-text-cyan-600 tw-transition-colors tw-duration-200">
-                    {{ event.title }}
-                </h3>
-
-                <!-- Description -->
-                <p class="tw-text-gray-600 tw-text-sm tw-mb-4 tw-line-clamp-2">
-                    {{ event.short_description || truncateDescription(event.description) }}
-                </p>
-
-                <!-- Price & Capacity -->
-                <div class="tw-flex tw-items-center tw-justify-between tw-mb-6">
-                    <div class="tw-text-xl tw-font-bold tw-text-gray-800">
-                        {{ event.formatted_price || 'Free' }}
-                        <span v-if="event.formatted_price !== 'Free'" class="tw-text-sm tw-text-gray-500 tw-font-normal">per person</span>
-                    </div>
-                    <div v-if="event.capacity" class="tw-text-sm tw-text-gray-600 tw-flex tw-items-center">
-                        <i class="bi bi-people-fill tw-mr-1 tw-text-gray-400"></i>
-                        <span>{{ event.registered_count || 0 }}/{{ event.capacity }}</span>
-                    </div>
-                </div>
-
-                <!-- Progress Bar -->
-                <div v-if="event.capacity && event.registered_count > 0" class="tw-mb-6">
-                    <div class="tw-h-1.5 tw-bg-gray-200 tw-rounded-full tw-overflow-hidden">
-                        <div 
-                            :style="{ width: `${Math.min(100, ((event.registered_count || 0) / event.capacity) * 100)}%` }"
-                            class="tw-h-full tw-bg-gradient-to-r tw-from-cyan-500 tw-to-purple-500 tw-rounded-full tw-transition-all tw-duration-500"
-                        ></div>
-                    </div>
-                    <div class="tw-flex tw-justify-between tw-text-xs tw-text-gray-500 tw-mt-1">
-                        <span>Booked</span>
-                        <span class="tw-font-semibold">{{ bookingPercentage }}%</span>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="tw-flex tw-gap-3">
-                    <button 
-                        @click="viewDetails"
-                        class="tw-btn-detail tw-flex-1 tw-px-4 tw-py-3 tw-bg-gray-50 tw-text-gray-700 tw-font-semibold tw-rounded-xl hover:tw-bg-gray-100 tw-transition-all tw-duration-200 tw-flex tw-items-center tw-justify-center tw-gap-2 tw-border tw-border-gray-200 group-hover:tw-border-gray-300"
-                        :title="`View details for ${event.title}`"
-                    >
-                        <i class="bi bi-info-circle-fill tw-text-gray-500 group-hover:tw-text-cyan-500 tw-transition-colors"></i>
-                        Details
-                    </button>
-                    <button 
-                        v-if="event.has_capacity && !event.is_past"
-                        @click="registerEvent"
-                        :disabled="!event.has_capacity || event.is_past || isFullyBooked"
-                        :class="[
-                            'tw-btn-register tw-flex-1 tw-px-4 tw-py-3 tw-font-semibold tw-rounded-xl tw-transition-all tw-duration-200 tw-flex tw-items-center tw-justify-center tw-gap-2 tw-border',
-                            isFullyBooked
-                                ? 'tw-bg-red-50 tw-text-red-700 tw-border-red-200 tw-cursor-not-allowed'
-                                : event.has_capacity && !event.is_past
-                                    ? 'tw-bg-gradient-to-r tw-from-cyan-500 tw-to-purple-500 tw-text-white hover:tw-shadow-lg hover:tw-shadow-cyan-500/30 tw-border-transparent hover:tw-from-cyan-600 hover:tw-to-purple-600'
-                                    : 'tw-bg-gray-100 tw-text-gray-500 tw-border-gray-200 tw-cursor-not-allowed'
-                        ]"
-                        :title="registerButtonTitle"
-                    >
-                        <i :class="[
-                            'bi',
-                            isFullyBooked ? 'bi-x-circle-fill' : 'bi-ticket-perforated-fill'
-                        ]"></i>
-                        {{ registerButtonText }}
-                    </button>
+            
+            <!-- Online Badge -->
+            <div v-if="event.is_online" class="tw-absolute tw-bottom-4 tw-right-4">
+                <div class="tw-px-3 tw-py-1 tw-rounded-full tw-bg-blue-600/90 tw-backdrop-blur-sm tw-text-white tw-text-xs tw-font-semibold tw-border tw-border-white/20">
+                    <i class="bi bi-camera-video-fill tw-mr-1"></i> Online
                 </div>
             </div>
         </div>
- 
+
+        <!-- Event Content -->
+        <div class="tw-p-6">
+            <!-- Date & Location -->
+            <div class="tw-flex tw-items-center tw-gap-4 tw-mb-4">
+                <div class="tw-flex-shrink-0 tw-w-14 tw-h-14 tw-bg-gradient-to-br tw-from-cyan-50 tw-to-purple-50 tw-rounded-xl tw-flex tw-flex-col tw-items-center tw-justify-center tw-border tw-border-gray-100">
+                    <div class="tw-text-2xl tw-font-bold tw-text-gray-800 tw-leading-none">{{ formattedDay }}</div>
+                    <div class="tw-text-xs tw-font-semibold tw-text-gray-500 tw-uppercase tw-tracking-wide tw-mt-1">{{ formattedMonth }}</div>
+                </div>
+                <div class="tw-flex-1 tw-min-w-0">
+                    <div class="tw-text-sm tw-text-gray-600 tw-flex tw-items-center tw-gap-2">
+                        <i class="bi bi-clock-fill tw-text-gray-400"></i>
+                        <span class="tw-truncate">{{ formattedTime }}</span>
+                    </div>
+                    <div class="tw-text-sm tw-text-gray-600 tw-flex tw-items-center tw-gap-2 tw-mt-1">
+                        <i class="bi bi-geo-alt-fill tw-text-gray-400"></i>
+                        <span class="tw-truncate" :title="event.venue">{{ event.venue }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Title -->
+            <h3 class="tw-text-lg tw-font-bold tw-text-gray-800 tw-mb-3 tw-line-clamp-2 group-hover:tw-text-cyan-600 tw-transition-colors tw-duration-200">
+                {{ event.title }}
+            </h3>
+
+            <!-- Description -->
+            <p class="tw-text-gray-600 tw-text-sm tw-mb-4 tw-line-clamp-2">
+                {{ event.short_description || truncateDescription(event.description) }}
+            </p>
+
+            <!-- Price & Capacity -->
+            <div class="tw-flex tw-items-center tw-justify-between tw-mb-6">
+                <div class="tw-text-xl tw-font-bold tw-text-gray-800">
+                    {{ event.formatted_price || 'Free' }}
+                    <span v-if="event.formatted_price !== 'Free'" class="tw-text-sm tw-text-gray-500 tw-font-normal">per person</span>
+                </div>
+                <div v-if="event.capacity" class="tw-text-sm tw-text-gray-600 tw-flex tw-items-center">
+                    <i class="bi bi-people-fill tw-mr-1 tw-text-gray-400"></i>
+                    <span>{{ event.registered_count || 0 }}/{{ event.capacity }}</span>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div v-if="event.capacity && event.registered_count > 0" class="tw-mb-6">
+                <div class="tw-h-1.5 tw-bg-gray-200 tw-rounded-full tw-overflow-hidden">
+                    <div 
+                        :style="{ width: `${Math.min(100, ((event.registered_count || 0) / event.capacity) * 100)}%` }"
+                        class="tw-h-full tw-bg-gradient-to-r tw-from-cyan-500 tw-to-purple-500 tw-rounded-full tw-transition-all tw-duration-500"
+                    ></div>
+                </div>
+                <div class="tw-flex tw-justify-between tw-text-xs tw-text-gray-500 tw-mt-1">
+                    <span>Booked</span>
+                    <span class="tw-font-semibold">{{ bookingPercentage }}%</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="tw-flex tw-gap-3">
+                <button 
+                    @click="viewDetails"
+                    class="tw-btn-detail tw-flex-1 tw-px-4 tw-py-3 tw-bg-gray-50 tw-text-gray-700 tw-font-semibold tw-rounded-xl hover:tw-bg-gray-100 tw-transition-all tw-duration-200 tw-flex tw-items-center tw-justify-center tw-gap-2 tw-border tw-border-gray-200 group-hover:tw-border-gray-300"
+                    :title="`View details for ${event.title}`"
+                >
+                    <i class="bi bi-info-circle-fill tw-text-gray-500 group-hover:tw-text-cyan-500 tw-transition-colors"></i>
+                    Details
+                </button>
+                <button 
+                    v-if="event.has_capacity && !event.is_past"
+                    @click="registerEvent"
+                    :disabled="!event.has_capacity || event.is_past || isFullyBooked"
+                    :class="[
+                        'tw-btn-register tw-flex-1 tw-px-4 tw-py-3 tw-font-semibold tw-rounded-xl tw-transition-all tw-duration-200 tw-flex tw-items-center tw-justify-center tw-gap-2 tw-border',
+                        isFullyBooked
+                            ? 'tw-bg-red-50 tw-text-red-700 tw-border-red-200 tw-cursor-not-allowed'
+                            : event.has_capacity && !event.is_past
+                                ? 'tw-bg-gradient-to-r tw-from-cyan-500 tw-to-purple-500 tw-text-white hover:tw-shadow-lg hover:tw-shadow-cyan-500/30 tw-border-transparent hover:tw-from-cyan-600 hover:tw-to-purple-600'
+                                : 'tw-bg-gray-100 tw-text-gray-500 tw-border-gray-200 tw-cursor-not-allowed'
+                    ]"
+                    :title="registerButtonTitle"
+                >
+                    <i :class="[
+                        'bi',
+                        isFullyBooked ? 'bi-x-circle-fill' : 'bi-ticket-perforated-fill'
+                    ]"></i>
+                    {{ registerButtonText }}
+                </button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
@@ -363,14 +362,10 @@ defineExpose({
 </script>
 
 <style scoped>
-/* Container to scope Tailwind styles */
-.tw-tailwind-container {
-    isolation: isolate;
-}
-
 /* Custom styles that work with Tailwind CDN */
 .event-card {
     will-change: transform, box-shadow;
+    height: 100%; /* Make all cards equal height */
 }
 
 /* Line clamp utility */
@@ -385,42 +380,4 @@ defineExpose({
 /* Smooth transitions */
 .tw-transition-transform {
     transition-property: transform;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Button hover effects */
-.tw-btn-detail:hover {
-    transform: translateY(-1px);
-}
-
-.tw-btn-register:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-/* Image loading animation */
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
-}
-
-.tw-animate-pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Ensure Bootstrap icons are properly sized */
-.bi {
-    font-size: 1em;
-    vertical-align: -0.125em;
-}
-
-/* Performance optimizations */
-.event-card * {
-    transform: translateZ(0);
-    backface-visibility: hidden;
-}
-</style>
+    transition-timing-function: cubic-b
