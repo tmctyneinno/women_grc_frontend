@@ -281,7 +281,7 @@ const formattedMonth = computed(() => {
     }
 });
 
-const formattedDateTime = computed(() => {
+const formattedTime = computed(() => {
     if (!props.event.start_date || !props.event.start_time) return '';
     
     try {
