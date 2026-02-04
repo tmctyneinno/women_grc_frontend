@@ -121,12 +121,31 @@ const imageLoaded = ref(false)
 const eventImageUrl = computed(() => {
   if (!event.value?.featured_image) return '/images/event-placeholder.jpg'
   
-  if (event.value.featured_image.startsWith('http')) {
-    return event.value.featured_image
+  const imagePath = event.value.featured_image
+  
+  // Full URL
+  if (imagePath.startsWith('http')) return imagePath
+  if (imagePath.startsWith('data:')) return imagePath
+  
+  // Check if it's a public path
+  if (imagePath.startsWith('/images/') || imagePath.startsWith('/uploads/')) {
+    return imagePath // Use as-is for public folder
   }
   
+  // Assume it's a storage path
   const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-  return `${baseUrl}/storage/${event.value.featured_image}`
+  const cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath
+  
+  // Handle different Laravel storage paths
+  if (cleanPath.startsWith('storage/')) {
+    return `${baseUrl}/${cleanPath}`
+  }
+  
+  if (cleanPath.startsWith('app/public/')) {
+    return `${baseUrl}/storage/${cleanPath.replace('app/public/', '')}`
+  }
+  
+  return `${baseUrl}/storage/${cleanPath}`
 })
 
 const formattedType = computed(() => {
