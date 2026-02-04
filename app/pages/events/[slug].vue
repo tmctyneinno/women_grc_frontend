@@ -520,10 +520,9 @@
                 <div class="flex items-center gap-4">
                   <div class="flex-shrink-0">
                     <div class="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg">
-                      <NuxtImg src="/images/WGRC-logo.png" width="45" alt="site_logo" />
-                      <img 
-                        :src="e"
-                        class="w-full h-full object-cover"
+                      <NuxtImg 
+                        src="/images/the_morgans_logo.png"
+                        class="w-full h-full object-contain"
                       />
                       <div class="w-full h-full flex items-center justify-center text-white font-bold text-xl">
                         The Morgans
