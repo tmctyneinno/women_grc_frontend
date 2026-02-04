@@ -259,7 +259,18 @@
           </section>
         </div>
 
-       
+        <!-- Stats Section -->
+        <!-- <div v-if="!loading && !error && filteredEvents.length > 0" class="mt-24">
+          <div class="bg-gradient-to-r from-gray-900 to-black rounded-3xl p-8 md:p-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+              <div v-for="stat in stats" :key="stat.label" class="text-center">
+                <div class="text-3xl md:text-4xl font-bold text-white mb-2">{{ stat.value }}</div>
+                <div class="text-gray-300">{{ stat.label }}</div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
         <!-- Newsletter CTA -->
         <div class="mt-24 text-center">
           <div class="max-w-2xl mx-auto">
