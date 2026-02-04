@@ -75,7 +75,7 @@
         </div>
       </div>
     </div>
-    <p>{{ event.is_online }}</p>
+    <p>{{ event.featured_image }}</p>
 
     <!-- Event Content -->
     <div class="p-6">
