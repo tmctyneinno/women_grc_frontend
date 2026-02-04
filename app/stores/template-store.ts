@@ -38,7 +38,7 @@ export const useTemplateStore = defineStore('template', () => {
     },
     {
       title: 'Events',
-      routePath: '/event/events'
+      routePath: '/events'
     },
     {
       title: 'Membership',
