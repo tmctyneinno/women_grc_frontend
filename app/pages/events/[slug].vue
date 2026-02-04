@@ -385,7 +385,7 @@
                       <a 
                         :href="event.meeting_link"
                         target="_blank"
-                        class="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-800 to-bluw-100 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 transform hover:-translate-y-1"
+                        class="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-800 to-blue-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 transform hover:-translate-y-1"
                       >
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
@@ -489,6 +489,34 @@
                 </div>
               </div>
 
+             
+
+              <!-- Sponsorship Contact Section (ADD THIS) -->
+  <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl shadow-xl p-8 border border-amber-200">
+    <div class="flex items-center gap-4 mb-6">
+      <div class="flex-shrink-0">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </div>
+      </div>
+      <h3 class="text-xl font-bold text-gray-800">Sponsorship Opportunities</h3>
+    </div>
+    <p class="text-gray-700 mb-6">
+      Interested in sponsoring this event? Contact us for partnership opportunities and visibility options.
+    </p>
+    <a 
+      href="mailto:enquiries@wgrcfp.com"
+      class="inline-flex items-center justify-center gap-3 w-full px-6 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-amber-500/25 transition-all duration-300 transform hover:-translate-y-1"
+    >
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+      enquiries@wgrcfp.com
+    </a>
+  </div>
+
               <!-- Organizer Info -->
               <!-- <div v-if="event.organizer" class="bg-white rounded-3xl shadow-xl p-8"> -->
               <div class="bg-white rounded-3xl shadow-xl p-8">
@@ -522,34 +550,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- Sponsorship Contact Section (ADD THIS) -->
-  <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl shadow-xl p-8 border border-amber-200">
-    <div class="flex items-center gap-4 mb-6">
-      <div class="flex-shrink-0">
-        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
-          <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
-        </div>
-      </div>
-      <h3 class="text-xl font-bold text-gray-800">Sponsorship Opportunities</h3>
-    </div>
-    <p class="text-gray-700 mb-6">
-      Interested in sponsoring this event? Contact us for partnership opportunities and visibility options.
-    </p>
-    <a 
-      href="mailto:enquiries@wgrcfp.com"
-      class="inline-flex items-center justify-center gap-3 w-full px-6 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-amber-500/25 transition-all duration-300 transform hover:-translate-y-1"
-    >
-      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-      </svg>
-      enquiries@wgrcfp.com
-    </a>
-  </div>
-
-
 
 
             </div>
