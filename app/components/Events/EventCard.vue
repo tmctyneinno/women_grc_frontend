@@ -139,7 +139,7 @@
         <button 
           @click="viewDetails"
           class="btn-detail flex-1 px-4 py-3 bg-gray-50 text-gray-700 font-semibold rounded-xl hover:bg-gray-100 transition-all duration-200 flex items-center justify-center gap-2 border border-gray-200 group-hover:border-gray-300"
-          :title="`View details for ${event.title}`"
+          :title="`View details for ${event.meeting_link}`"
         >
           <svg class="w-5 h-5 text-gray-500 group-hover:text-cyan-500 transition-colors" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
