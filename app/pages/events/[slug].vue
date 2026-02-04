@@ -119,32 +119,52 @@ const imageLoaded = ref(false)
 
 // Computed properties
 const eventImageUrl = computed(() => {
-  if (!event.value?.featured_image) return '/images/event-placeholder.jpg'
+  if (!event.value?.featured_image) {
+    return '/images/event-placeholder.jpg'
+  }
   
   const imagePath = event.value.featured_image
   
-  // Full URL
-  if (imagePath.startsWith('http')) return imagePath
-  if (imagePath.startsWith('data:')) return imagePath
-  
-  // Check if it's a public path
-  if (imagePath.startsWith('/images/') || imagePath.startsWith('/uploads/')) {
-    return imagePath // Use as-is for public folder
+  // Already a full URL
+  if (imagePath.startsWith('http')) {
+    return imagePath
   }
   
-  // Assume it's a storage path
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-  const cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath
+  // Data URL
+  if (imagePath.startsWith('data:')) {
+    return imagePath
+  }
   
-  // Handle different Laravel storage paths
+  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+  
+  // Remove leading slash if present
+  let cleanPath = imagePath
+  if (cleanPath.startsWith('/')) {
+    cleanPath = cleanPath.substring(1)
+  }
+  
+  console.log('Original path:', imagePath)
+  console.log('Clean path:', cleanPath)
+  
+  // Check different storage patterns
   if (cleanPath.startsWith('storage/')) {
+    // Example: storage/events/image.jpg
     return `${baseUrl}/${cleanPath}`
   }
   
   if (cleanPath.startsWith('app/public/')) {
-    return `${baseUrl}/storage/${cleanPath.replace('app/public/', '')}`
+    // Example: app/public/events/image.jpg
+    const publicPath = cleanPath.replace('app/public/', '')
+    return `${baseUrl}/storage/${publicPath}`
   }
   
+  if (cleanPath.startsWith('public/')) {
+    // Example: public/events/image.jpg
+    const publicPath = cleanPath.replace('public/', '')
+    return `${baseUrl}/storage/${publicPath}`
+  }
+  
+  // Default: assume it's relative to storage/app/public
   return `${baseUrl}/storage/${cleanPath}`
 })
 
