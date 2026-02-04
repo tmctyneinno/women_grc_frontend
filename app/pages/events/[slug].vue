@@ -208,7 +208,7 @@
       <!-- Event Image Section (NOT as background) -->
       <section class="py-12 bg-white">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="max-w-6xl mx-auto">
+          <div class="max-w-4xl mx-auto">
             <!-- Image Container -->
             <div class="relative rounded-3xl overflow-hidden shadow-2xl">
               <!-- Loading State -->
@@ -234,7 +234,7 @@
               <img 
                 :src="eventImageUrl"
                 :alt="event.title"
-                class="w-full h-[300px] md:h-[500px] object-cover transition-opacity duration-700"
+                class="w-full h-[300px] md:h-[400px] object-contain transition-opacity duration-700"
                 :class="{
                   'opacity-0': !imageLoaded || imageError,
                   'opacity-100': imageLoaded && !imageError
