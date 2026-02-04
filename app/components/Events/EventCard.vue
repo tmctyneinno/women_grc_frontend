@@ -20,7 +20,6 @@
 
         <!-- Event Image -->
         <div class="relative h-48 overflow-hidden">
-            <p>event.featured_image</p>
             <img 
                 :src="event.featured_image || '/images/event-default.jpg'" 
                 :alt="event.title"
