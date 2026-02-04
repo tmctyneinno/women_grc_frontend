@@ -23,7 +23,7 @@
             <p>{{ event.featured_image }}</p>
             <img 
              
-                :src='public/events/featured/dYThVwfIN3wHNyNd1Vk6RpKKoSEPt2Unoi4kUnIt.jpg'
+                :src="getImageUrl(event.image)" 
                 :alt="event.title"
                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
