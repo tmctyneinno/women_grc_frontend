@@ -3,17 +3,15 @@
       <link 
         rel="stylesheet" 
         href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-        @load="onTailwindLoad"
       />
-      <!-- OR use with configuration -->
-      <script src="https://cdn.tailwindcss.com"></script>
+      <!-- Script configuration -->
       <script>
         // Configure Tailwind to avoid conflicts with Bootstrap
         tailwind.config = {
           prefix: 'tw-',
-          important: '.tw-tailwind-container', // Scope to our container
+          important: '.tw-tailwind-container',
           corePlugins: {
-            preflight: false, // Disable Tailwind's CSS reset to avoid conflicts
+            preflight: false,
           }
         }
       </script>
