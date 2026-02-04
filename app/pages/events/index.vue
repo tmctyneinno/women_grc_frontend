@@ -22,13 +22,13 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
-                <input 
-                  v-model="searchQuery"
-                  @input="handleSearch"
-                  type="text"
-                  placeholder="Search events, topics, or speakers..."
-                  class="w-full pl-12 pr-4 py-4 rounded-xl bg-black/10 border border-white/20 text-black placeholder:text-black placeholder:font-medium focus:outline-none focus:ring-2 focus:ring-black-400 focus:border-transparent transition-all duration-200"
-                />
+               <input 
+              v-model="searchQuery"
+              @input="handleSearch"
+              type="text"
+              placeholder="Search events, topics, or speakers..."
+              class="w-full pl-12 pr-4 py-4 rounded-xl bg-black/10 border border-white/20 text-black placeholder:text-gray-800 placeholder:font-semibold focus:outline-none focus:ring-2 focus:ring-black-400 focus:border-transparent transition-all duration-200"
+            />
               </div>
             </div>
           </div>
