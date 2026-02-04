@@ -1,21 +1,5 @@
 <template>
-    <Head>
-      <link 
-        rel="stylesheet" 
-        href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      />
-      <!-- Script configuration -->
-      <script>
-        // Configure Tailwind to avoid conflicts with Bootstrap
-        tailwind.config = {
-          prefix: 'tw-',
-          important: '.tw-tailwind-container',
-          corePlugins: {
-            preflight: false,
-          }
-        }
-      </script>
-    </Head>
+    
     <nuxt-layout name="landing-layout">
         <landing-hero-component /> 
 

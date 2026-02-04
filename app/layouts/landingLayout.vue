@@ -22,6 +22,8 @@ const title = computed(() => {
     return `Women in GRCFP | ${formattedPath}`
 })
 
+
+
 useSeoMeta({
     title
 })
