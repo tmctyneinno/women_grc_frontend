@@ -26,7 +26,7 @@
       <div class="absolute inset-0 bg-gray-200 animate-pulse" v-if="!imageLoaded"></div>
       <img 
         ref="eventImage"
-        :src="getImageUrl(event.featured_image)" 
+        :src="imageUrl" 
         :alt="event.title"
         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         :class="{'opacity-0': !imageLoaded}"
