@@ -643,15 +643,7 @@ const formattedDateTime = computed(() => {
       minute: '2-digit',
       hour12: true 
     }
-    
-    const timeStr = startDate.toLocaleTimeString('en-US', timeOptions)
-    
-    if (endDate) {
-      const endTimeStr = endDate.toLocaleTimeString('en-US', timeOptions)
-      return `${startDate.toLocaleDateString()} • ${timeStr} - ${endTimeStr}`
-    }
-    
-    return `${startDate.toLocaleDateString()} • ${timeStr}`
+    return `${startDate.toLocaleDateString()}`
   } catch {
     return 'Date information not available'
   }
