@@ -420,7 +420,8 @@
                   </div>
                   <div class="flex items-center justify-between py-4 border-b border-gray-100">
                     <span class="text-gray-600 font-medium">Date & Time</span>
-                    <span class="font-semibold text-gray-800 text-right">{{ formattedDateTime }}</span>
+                    <!-- <span class="font-semibold text-gray-800 text-right">{{ formattedDateTime }}</span> -->
+                    <span class="font-semibold text-gray-800 text-right">12:00PM</span>
                   </div>
                   <div class="flex items-center justify-between py-4 border-b border-gray-100">
                     <span class="text-gray-600 font-medium">Venue</span>
