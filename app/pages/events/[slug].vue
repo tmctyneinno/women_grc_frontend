@@ -496,17 +496,21 @@
                 <div class="flex items-center gap-4">
                   <div class="flex-shrink-0">
                     <div class="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg">
-                      
+                      <img 
+                        :src="event.organizer.logo" 
+                        :alt="event.organizer.name"
+                        class="w-full h-full object-cover"
+                      />
                       <div class="w-full h-full flex items-center justify-center text-white font-bold text-xl">
                         The Morgans
                       </div>
                     </div>
                   </div>
                   <div>
-                    <h4 class="font-bold text-gray-800 text-lg">{{ event.organizer.name }}</h4>
+                    <h4 class="font-bold text-gray-800 text-lg">The Morgans</h4>
                     
                     <a 
-                     
+                      :href="ccc"
                       target="_blank"
                       class="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-medium text-sm mt-3 group"
                     >
