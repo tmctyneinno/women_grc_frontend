@@ -52,9 +52,6 @@
         crossorigin="anonymous"
       />
       
-      <!-- Gradient Overlay -->
-      <!-- <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div> -->
-      
       <!-- Type Badge -->
       <div class="absolute bottom-4 left-4">
         <div :class="[
@@ -201,46 +198,40 @@ const eventImage = ref(null);
 const imageLoaded = ref(false);
 const imageError = ref(false);
 
-// Image URL computed property
-const imageUrl = computed(() => {
-  return getImageUrl(props.event?.featured_image);
-});
-
-// Image helper function
-
+// Image URL computed property - FIXED VERSION
 const eventImageUrl = computed(() => {
-  if (!event.value?.featured_image) {
-    return '/images/event-placeholder.jpg'
+  if (!props.event?.featured_image) {
+    return '/images/event-placeholder.jpg';
   }
   
-  const imgPath = event.value.featured_image
+  const imgPath = props.event.featured_image;
   
   // Already a full URL
   if (imgPath.startsWith('http')) {
-    return imgPath
+    return imgPath;
   }
   
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-  const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
+  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+  const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath;
   
   // Use the proxy route for CORS
-  return `${baseUrl}/images/proxy/${cleanPath}`
-})
+  return `${baseUrl}/images/proxy/${cleanPath}`;
+});
 
-// Image handlers
+// Image handlers - UPDATED TO USE eventImageUrl
 const onImageLoad = () => {
-    console.log('✅ Image loaded successfully:', imageUrl.value);
+    console.log('✅ Image loaded successfully:', eventImageUrl.value);
     imageLoaded.value = true;
     imageError.value = false;
 };
 
 const onImageError = (error) => {
-    console.error('❌ Image failed to load:', imageUrl.value, error);
+    console.error('❌ Image failed to load:', eventImageUrl.value, error);
     imageLoaded.value = true;
     imageError.value = true;
     
     // Try to load placeholder if original failed
-    if (eventImage.value && imageUrl.value !== '/images/event-placeholder.jpg') {
+    if (eventImage.value && eventImageUrl.value !== '/images/event-placeholder.jpg') {
         eventImage.value.src = '/images/event-placeholder.jpg';
     }
 };
