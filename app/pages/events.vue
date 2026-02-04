@@ -173,12 +173,15 @@
                         </div>
 
                         <!-- Events Grid -->
+                        <!-- In EventList.vue - Update the grid section -->
                         <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-8">
-                            <EventCard 
+                            <div 
                                 v-for="event in paginatedEvents" 
                                 :key="event.id" 
-                                :event="event" 
-                            />
+                                class="tw-h-full"
+                            >
+                                <EventCard :event="event" />
+                            </div>
                         </div>
 
                         <!-- Pagination -->
