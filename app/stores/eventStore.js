@@ -136,17 +136,30 @@ export const useEventStore = defineStore('events', {
         },
 
         // Fetch single event
-        async fetchEvent(id) {
+        async fetchEvent(identifier) {
             this.loading = true;
-            this.currentEvent = null;
+            this.error = null;
             
             try {
-                const response = await EventService.getEvent(id);
+                // Check if it's a slug or ID
+                const isSlug = isNaN(identifier);
+                
+                let response;
+                if (isSlug) {
+                // Fetch by slug - you may need to adjust your API endpoint
+                response = await EventService.getEventBySlug(identifier);
+                } else {
+                // Fetch by ID
+                response = await EventService.getEvent(identifier);
+                }
                 
                 if (response.success) {
-                    this.currentEvent = response.data;
+                this.currentEvent = response.data;
+                } else {
+                throw new Error('Event not found');
                 }
             } catch (error) {
+                this.error = error.message;
                 console.error('Error fetching event:', error);
                 throw error;
             } finally {
