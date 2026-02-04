@@ -173,7 +173,7 @@
                   @click="addToMeetingLink"
                   :disabled="isFullyBooked"
                   :class="[
-                    'group relative px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:-translate-y-1',
+                    'group relative px-8 py-3 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:-translate-y-1',
                     isFullyBooked
                       ? 'bg-gradient-to-r from-red-500 to-red-600 text-white cursor-not-allowed'
                       : 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:shadow-2xl hover:shadow-cyan-500/30'
