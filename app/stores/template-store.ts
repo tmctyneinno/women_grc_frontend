@@ -37,6 +37,10 @@ export const useTemplateStore = defineStore('template', () => {
       routePath: '/recognition'
     },
     {
+      title: 'Events',
+      routePath: '/events'
+    },
+    {
       title: 'Membership',
       routePath: '/membership'
     },
