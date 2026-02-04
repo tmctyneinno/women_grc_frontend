@@ -760,6 +760,21 @@ const addToCalendar = () => {
   if (!event.value) return
   
   try {
+   
+    
+    const googleCalendarUrl = `${${calendarEvent.end}&details=${encodeURIComponent(calendarEvent.description)}&location=${encodeURIComponent(calendarEvent.location)}`
+    
+    window.open(googleCalendarUrl, '_blank')
+  } catch (error) {
+    console.error('Error creating calendar event:', error)
+    alert('Unable to create calendar event')
+  }
+}
+
+const addToCalendar = () => {
+  if (!event.value) return
+  
+  try {
     const startDate = new Date(event.value.start_date)
     const endDate = event.value.end_date ? new Date(event.value.end_date) : new Date(startDate.getTime() + 2 * 60 * 60 * 1000)
     
