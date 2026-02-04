@@ -282,14 +282,19 @@ const formattedMonth = computed(() => {
 });
 
 const formattedTime = computed(() => {
-    if (!props.event.start_time || !props.event.start_time) return '';
-    
+    if (!props.event.start_time) return '';
     try {
-        const time = new Date(props.event.start_time);
-       
-        return `${time}`;
+        const timeString = props.event.start_time;
+        
+        const timeWithoutSeconds = timeString.split(':').slice(0, 2).join(':');
+        
+        const [hours, minutes] = timeWithoutSeconds.split(':').map(Number);
+        const period = hours >= 12 ? 'PM' : 'AM';
+        const formattedHours = hours % 12 || 12; 
+        
+        return `${formattedHours}:${minutes.toString().padStart(2, '0')} ${period}`;
     } catch {
-        return '';
+        return props.event.start_time || ''; 
     }
 });
 
