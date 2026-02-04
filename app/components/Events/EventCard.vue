@@ -73,9 +73,9 @@
     </div>
 
     <!-- Event Content -->
-    <div class="p-6">
+    <div class="p-2">
       <!-- Date & Location -->
-      <div class="flex items-center gap-4 mb-4">
+      <div class="flex items-center gap-4 mb-2">
         <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-cyan-50 to-purple-50 rounded-xl flex flex-col items-center justify-center border border-gray-100">
           <div class="text-2xl font-bold text-gray-800 leading-none">{{ formattedDay }}</div>
           <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{{ formattedMonth }}</div>
