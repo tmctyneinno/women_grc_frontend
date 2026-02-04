@@ -1,4 +1,115 @@
 <!-- pages/events/[slug].vue -->
+<script setup>
+import { ref, computed, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from '#imports'
+
+const route = useRoute()
+const router = useRouter()
+const slug = route.params.slug
+
+// State
+const loading = ref(true)
+const error = ref(null)
+const event = ref(null)
+const imageLoaded = ref(false)
+const imageError = ref(false)
+
+// Computed image URL with proxy
+const eventImageUrl = computed(() => {
+  if (!event.value?.featured_image) {
+    return '/placeholder.jpg' // Use a simple placeholder
+  }
+  
+  const imgPath = event.value.featured_image
+  
+  // Already a full URL
+  if (imgPath.startsWith('http')) {
+    return imgPath
+  }
+  
+  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+  const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
+  
+  // Use proxy route instead of direct storage
+  return `${baseUrl}/images/proxy/${cleanPath}`
+  
+  // OR if you want to keep the storage URL but handle CORS differently:
+  // return `${baseUrl}/storage/${cleanPath}?t=${Date.now()}`
+})
+
+// Image handlers
+const onImageLoad = () => {
+  console.log('✅ Image loaded successfully')
+  imageLoaded.value = true
+  imageError.value = false
+}
+
+const onImageError = (e) => {
+  console.error('❌ Image error')
+  imageError.value = true
+  imageLoaded.value = true
+  
+  // Try alternative URL
+  if (event.value?.featured_image) {
+    const imgPath = event.value.featured_image
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+    const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
+    
+    // Try direct URL with cache bust
+    const alternativeUrl = `${baseUrl}/storage/${cleanPath}?t=${Date.now()}`
+    console.log('Trying alternative URL:', alternativeUrl)
+    
+    // Create a new image element to test
+    const testImg = new Image()
+    testImg.onload = () => {
+      console.log('✅ Alternative URL worked')
+      // Update the image src
+      const imgElement = document.querySelector('.event-hero-image')
+      if (imgElement) {
+        imgElement.src = alternativeUrl
+      }
+    }
+    testImg.src = alternativeUrl
+  }
+}
+
+// Fetch event data
+const fetchEvent = async () => {
+  try {
+    loading.value = true
+    console.log('Fetching event with slug:', slug)
+    
+    const response = await fetch(`http://localhost:8000/api/v1/events/slug/${slug}`)
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    
+    const result = await response.json()
+    
+    if (result.success) {
+      event.value = result.data
+      console.log('Event data loaded:', event.value)
+      
+      useHead({
+        title: `${event.value.title} | Event Details`
+      })
+    } else {
+      throw new Error(result.message || 'Event not found')
+    }
+  } catch (err) {
+    console.error('Error fetching event:', err)
+    error.value = err.message
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(async () => {
+  await fetchEvent()
+})
+</script>
+
 <template>
   <nuxt-layout name="landing-layout">
     <div class="min-h-screen bg-gradient-to-br from-gray-50 to-white">
@@ -130,179 +241,3 @@
   </nuxt-layout>
 </template>
 
-<script setup>
-import { ref, computed, onMounted, nextTick, watch, onUnmounted } from 'vue'
-import { useRoute, useRouter } from '#imports'
-
-const route = useRoute()
-const router = useRouter()
-const slug = route.params.slug
-
-// State
-const loading = ref(true)
-const error = ref(null)
-const event = ref(null)
-
-// Image state
-const imageElement = ref(null)
-const imageLoaded = ref(false)
-const imageError = ref(false)
-const imageSrc = ref('')
-
-// Computed properties
-const eventImageUrl = computed(() => {
-  if (!event.value?.featured_image) {
-    return '/images/event-placeholder.jpg'
-  }
-  
-  const imgPath = event.value.featured_image
-  
-  console.log('🖼️ Image Debug:')
-  console.log('Original path:', imgPath)
-  
-  // Already a full URL
-  if (imgPath.startsWith('http')) {
-    return imgPath
-  }
-  
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-  const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
-  
-  const fullUrl = `${baseUrl}/storage/${cleanPath}`
-  console.log('Computed URL:', fullUrl)
-  
-  return fullUrl
-})
-
-const formattedType = computed(() => {
-  if (!event.value?.type) return 'Event'
-  return event.value.type.charAt(0).toUpperCase() + event.value.type.slice(1)
-})
-
-const formattedDate = computed(() => {
-  if (!event.value?.start_date) return ''
-  
-  const startDate = new Date(event.value.start_date)
-  const options = { 
-    weekday: 'long', 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  }
-  
-  return startDate.toLocaleDateString('en-US', options)
-})
-
-// Image handlers
-const onImageLoad = () => {
-  console.log('✅ Image loaded successfully')
-  imageLoaded.value = true
-  imageError.value = false
-}
-
-const onImageError = (e) => {
-  console.error('❌ Image error:', e)
-  console.error('Failed URL:', eventImageUrl.value)
-  imageError.value = true
-  imageLoaded.value = true
-  
-  // Use placeholder
-  imageSrc.value = '/images/event-placeholder.jpg'
-}
-
-// Load event data
-const fetchEvent = async () => {
-  try {
-    loading.value = true
-    imageLoaded.value = false
-    imageError.value = false
-    console.log('Fetching event with slug:', slug)
-    
-    // Call your API
-    const response = await fetch(`http://localhost:8000/api/v1/events/slug/${slug}`)
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-    
-    const result = await response.json()
-    
-    if (result.success) {
-      event.value = result.data
-      console.log('Event data loaded:', event.value)
-      
-      // Set image source
-      imageSrc.value = eventImageUrl.value
-      
-      // Set page title
-      useHead({
-        title: `${event.value.title} | Event Details`
-      })
-    } else {
-      throw new Error(result.message || 'Event not found')
-    }
-  } catch (err) {
-    console.error('Error fetching event:', err)
-    error.value = err.message
-  } finally {
-    loading.value = false
-  }
-}
-
-// Test image accessibility
-const testImageAccessibility = async () => {
-  if (!event.value?.featured_image) return
-  
-  console.log('🔍 Testing image accessibility...')
-  
-  try {
-    const response = await fetch(eventImageUrl.value, { 
-      method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache'
-    })
-    
-    console.log(`Image fetch status: ${response.status} ${response.statusText}`)
-    
-    if (response.ok) {
-      console.log('✅ Image is accessible')
-    } else {
-      console.warn(`⚠️ Image returned status: ${response.status}`)
-    }
-  } catch (fetchErr) {
-    console.error('❌ Image fetch error:', fetchErr)
-  }
-}
-
-// Lifecycle
-onMounted(async () => {
-  await fetchEvent()
-})
-
-// Watch for event changes
-watch(() => event.value, (newEvent) => {
-  if (newEvent) {
-    // Reset image state
-    imageLoaded.value = false
-    imageError.value = false
-    imageSrc.value = eventImageUrl.value
-    
-    // Test image
-    nextTick(() => {
-      if (imageElement.value?.complete) {
-        onImageLoad()
-      }
-      testImageAccessibility()
-    })
-  }
-}, { immediate: true })
-
-// Clean up
-onUnmounted(() => {
-  if (imageSrc.value.startsWith('blob:')) {
-    URL.revokeObjectURL(imageSrc.value)
-  }
-})
-</script>
