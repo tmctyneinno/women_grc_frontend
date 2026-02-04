@@ -281,15 +281,21 @@ const formattedMonth = computed(() => {
     }
 });
 
-const formattedTime = computed(() => {
-    if (!props.event.start_date) return '';
+const formattedDateTime = computed(() => {
+    if (!props.event.start_date || !props.event.start_time) return '';
+    
     try {
         const date = new Date(props.event.start_date);
-        return date.toLocaleTimeString('en-US', { 
-            hour: 'numeric', 
-            minute: '2-digit',
-            hour12: true 
+        const formattedDate = date.toLocaleDateString('en-US', {
+            weekday: 'short',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
         });
+        
+        const time = formattedTime.value; // Use the formattedTime computed property
+        
+        return `${formattedDate} • ${time}`;
     } catch {
         return '';
     }
