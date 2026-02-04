@@ -71,6 +71,15 @@ class EventService {
         }
     }
 
+    async getEventBySlug(slug) {
+        try {
+            const response = await this.api.get(`/events/slug/${slug}`);
+            return response.data;
+        } catch (error) {
+            this.handleError(error);
+        }
+    }
+
     /**
      * Search events
      * @param {string} query - Search term
