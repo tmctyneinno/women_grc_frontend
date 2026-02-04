@@ -23,17 +23,37 @@
 
     <!-- Event Image Section -->
     <div class="relative h-48 overflow-hidden group-hover:shadow-inner">
-      <div class="absolute inset-0 bg-gray-200 animate-pulse" v-if="!imageLoaded"></div>
+      <!-- Loading State -->
+      <div v-if="!imageLoaded && !imageError" class="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse flex items-center justify-center">
+        <svg class="w-10 h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      </div>
+      
+      <!-- Error State -->
+      <div v-if="imageError" class="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+        <div class="text-center">
+          <svg class="w-10 h-10 text-gray-400 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <p class="text-gray-500 text-xs">Image not available</p>
+        </div>
+      </div>
+      
+      <!-- Actual Image -->
       <img 
         ref="eventImage"
         :src="imageUrl" 
         :alt="event.title"
         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        :class="{'opacity-0': !imageLoaded}"
+        :class="{'opacity-0': !imageLoaded || imageError, 'opacity-100': imageLoaded && !imageError}"
         @load="onImageLoad"
         @error="onImageError"
+        crossorigin="anonymous"
       />
-      <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+      
+      <!-- Gradient Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
       
       <!-- Type Badge -->
       <div class="absolute bottom-4 left-4">
@@ -55,7 +75,6 @@
         </div>
       </div>
     </div>
-    <p>{{ event.featured_image }}</p>
 
     <!-- Event Content -->
     <div class="p-6">
@@ -162,7 +181,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { getImageUrl } from '@/utils/imageHelper';
 
 const props = defineProps({
     event: {
@@ -183,17 +201,57 @@ const eventImage = ref(null);
 const imageLoaded = ref(false);
 const imageError = ref(false);
 
+// Image URL computed property
+const imageUrl = computed(() => {
+  return getImageUrl(props.event?.featured_image);
+});
+
+// Image helper function
+const getImageUrl = (path) => {
+  if (!path || path === 'null' || path === 'undefined' || path === '') {
+    return '/images/event-placeholder.jpg';
+  }
+  
+  // Already a full URL
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path;
+  }
+  
+  // Laravel storage paths
+  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+  
+  // Remove any leading slashes
+  const cleanPath = path.replace(/^\/+/, '');
+  
+  // Check for common Laravel storage patterns
+  if (cleanPath.startsWith('storage/')) {
+    return `${baseUrl}/${cleanPath}`;
+  }
+  
+  // If it looks like a file path (has extension)
+  if (cleanPath.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
+    // Assume it's in storage
+    return `${baseUrl}/storage/${cleanPath}`;
+  }
+  
+  // Fallback - try with storage prefix
+  return `${baseUrl}/storage/${cleanPath}`;
+};
 
 // Image handlers
 const onImageLoad = () => {
+    console.log('✅ Image loaded successfully:', imageUrl.value);
     imageLoaded.value = true;
     imageError.value = false;
 };
 
-const onImageError = () => {
+const onImageError = (error) => {
+    console.error('❌ Image failed to load:', imageUrl.value, error);
     imageLoaded.value = true;
     imageError.value = true;
-    if (eventImage.value) {
+    
+    // Try to load placeholder if original failed
+    if (eventImage.value && imageUrl.value !== '/images/event-placeholder.jpg') {
         eventImage.value.src = '/images/event-placeholder.jpg';
     }
 };
