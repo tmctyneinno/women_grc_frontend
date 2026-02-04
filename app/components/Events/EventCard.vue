@@ -293,7 +293,7 @@ const formattedDateTime = computed(() => {
             day: 'numeric'
         });
         
-        const time = formattedTime.value; // Use the formattedTime computed property
+        const time = formattedTime.value; 
         
         return `${formattedDate} • ${time}`;
     } catch {
