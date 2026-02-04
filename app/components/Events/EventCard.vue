@@ -209,40 +209,24 @@ const imageUrl = computed(() => {
 
 // Image helper function
 
-const getImageUrl = (path) => {
-  if (!path || path === 'null' || path === 'undefined' || path === '') {
-    return '/images/event-placeholder.jpg';
+const eventImageUrl = computed(() => {
+  if (!event.value?.featured_image) {
+    return '/images/event-placeholder.jpg'
   }
   
-  console.log('Original image path:', path);
+  const imgPath = event.value.featured_image
   
   // Already a full URL
-  if (path.startsWith('http://') || path.startsWith('https://')) {
-    return path;
+  if (imgPath.startsWith('http')) {
+    return imgPath
   }
   
-  // Laravel API base URL
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+  const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
   
-  // If path looks like: events/featured/filename.jpg
-  // This is a common Laravel storage path format
-  if (path.includes('events/') && (path.endsWith('.jpg') || path.endsWith('.jpeg') || path.endsWith('.png') || path.endsWith('.gif') || path.endsWith('.webp'))) {
-    return `${baseUrl}/storage/${path}`;
-  }
-  
-  // If path starts with storage/
-  if (path.startsWith('storage/')) {
-    return `${baseUrl}/${path}`;
-  }
-  
-  // If path starts with /storage
-  if (path.startsWith('/storage')) {
-    return `${baseUrl}${path}`;
-  }
-  
-  // For any other file path, assume it's in storage
+  // Use the proxy route for CORS
   return `${baseUrl}/images/proxy/${cleanPath}`
-};
+})
 
 // Image handlers
 const onImageLoad = () => {
