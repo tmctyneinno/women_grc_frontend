@@ -490,6 +490,7 @@
               </div>
 
               <!-- Organizer Info -->
+              <!-- <div v-if="event.organizer" class="bg-white rounded-3xl shadow-xl p-8"> -->
               <div v-if="event.organizer" class="bg-white rounded-3xl shadow-xl p-8">
                 <h3 class="text-xl font-bold text-gray-800 mb-6">Organized By</h3>
                 <div class="flex items-center gap-4">
