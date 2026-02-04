@@ -151,7 +151,7 @@
                   <div>
                     <h3 class="text-lg font-semibold text-white mb-2">Details</h3>
                     <p class="text-2xl font-bold text-white mb-1">{{ eventPrice }}</p>
-                    <p v-if="event.capacity" class="text-white/70 text-sm">
+                    <p v-if="event.capacity" class="text-white text-sm">
                       {{ event.registered_count || 0 }} of {{ event.capacity }} spots filled
                     </p>
                     <div v-if="event.capacity && event.registered_count > 0" class="mt-2">
