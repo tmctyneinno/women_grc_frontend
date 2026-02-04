@@ -173,7 +173,7 @@
                         </div>
 
                         <!-- Events Grid -->
-                        <div class="tw-grid tw-grid-cols-4 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-8">
+                        <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-8">
                             <EventCard 
                                 v-for="event in paginatedEvents" 
                                 :key="event.id" 
