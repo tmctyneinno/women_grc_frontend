@@ -53,26 +53,13 @@
       />
       <!-- Type Badge -->
       <div class="absolute bottom-4 left-4">
-        <div :class="[
-          'px-3 py-1 rounded-full text-xs font-semibold text-white backdrop-blur-sm border border-white/20',
-          typeClass
-        ]">
-          {{ formattedType }}
+        <div class="px-4 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-black/80 to-black/30 backdrop-blur-md border border-white/20 shadow-xl">
+          <span class="bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
+            {{ formattedType }}
+          </span>
         </div>
       </div>
-      <div class="absolute bottom-4 left-4">
-  <div :class="[
-    'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-white backdrop-blur-lg border border-white/30 shadow-lg',
-    typeClass
-  ]">
-    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-      <path v-if="event.type === 'conference'" d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/>
-      <path v-else-if="event.type === 'workshop'" d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-      <path v-else d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
-    </svg>
-    {{ formattedType }}
-  </div>
-</div>
+      
       
       <!-- Online Badge -->
       <div v-if="event.is_online" class="absolute bottom-4 right-4">
