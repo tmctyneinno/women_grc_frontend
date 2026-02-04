@@ -155,7 +155,7 @@ onMounted(async () => {
     console.log('Fetching event with slug:', slug)
     
     // Call your API
-    const response = await fetch(`http://localhost:8000/api/events/${slug}`)
+    const response = await fetch(`http://localhost:8000/api/v1/events/slug/${slug}`)
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
