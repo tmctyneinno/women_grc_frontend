@@ -1,6 +1,6 @@
 <!-- pages/events/[slug].vue -->
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from '#imports'
 
 const route = useRoute()
@@ -14,62 +14,66 @@ const event = ref(null)
 const imageLoaded = ref(false)
 const imageError = ref(false)
 
-// Computed image URL with proxy
+// Computed image URL - Use the proxy endpoint
 const eventImageUrl = computed(() => {
   if (!event.value?.featured_image) {
-    return '/placeholder.jpg' // Use a simple placeholder
+    // Use a placeholder from your public folder
+    return '/placeholder-event.jpg'
   }
   
   const imgPath = event.value.featured_image
   
-  // Already a full URL
-  if (imgPath.startsWith('http')) {
-    return imgPath
+  console.log('Image path:', imgPath)
+  
+  // If API already returns image_url, use it
+  if (event.value?.image_url) {
+    return event.value.image_url
   }
   
   const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
   const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
   
-  // Use proxy route instead of direct storage
+  // Use the proxy route you created
   return `${baseUrl}/images/proxy/${cleanPath}`
-  
-  // OR if you want to keep the storage URL but handle CORS differently:
-  // return `${baseUrl}/storage/${cleanPath}?t=${Date.now()}`
 })
 
 // Image handlers
 const onImageLoad = () => {
-  console.log('✅ Image loaded successfully')
+  console.log('✅ Image loaded successfully:', eventImageUrl.value)
   imageLoaded.value = true
   imageError.value = false
 }
 
 const onImageError = (e) => {
-  console.error('❌ Image error')
+  console.error('❌ Image failed to load')
+  console.error('URL:', eventImageUrl.value)
   imageError.value = true
   imageLoaded.value = true
   
-  // Try alternative URL
+  // Try fallback to direct storage URL (some browsers may load it despite CORS)
   if (event.value?.featured_image) {
     const imgPath = event.value.featured_image
     const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
     const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
+    const fallbackUrl = `${baseUrl}/storage/${cleanPath}?t=${Date.now()}`
     
-    // Try direct URL with cache bust
-    const alternativeUrl = `${baseUrl}/storage/${cleanPath}?t=${Date.now()}`
-    console.log('Trying alternative URL:', alternativeUrl)
+    console.log('Trying fallback URL:', fallbackUrl)
     
-    // Create a new image element to test
+    // Create a test image to see if it loads
     const testImg = new Image()
     testImg.onload = () => {
-      console.log('✅ Alternative URL worked')
-      // Update the image src
-      const imgElement = document.querySelector('.event-hero-image')
-      if (imgElement) {
-        imgElement.src = alternativeUrl
+      console.log('✅ Fallback URL worked!')
+      // Update the main image src
+      const imgEl = document.querySelector('.event-main-image')
+      if (imgEl) {
+        imgEl.src = fallbackUrl
+        imageError.value = false
       }
     }
-    testImg.src = alternativeUrl
+    testImg.onerror = () => {
+      console.error('❌ Fallback also failed')
+    }
+    testImg.src = fallbackUrl
   }
 }
 
@@ -77,11 +81,21 @@ const onImageError = (e) => {
 const fetchEvent = async () => {
   try {
     loading.value = true
+    imageLoaded.value = false
+    imageError.value = false
+    
     console.log('Fetching event with slug:', slug)
     
-    const response = await fetch(`http://localhost:8000/api/v1/events/slug/${slug}`)
+    // Use the correct API endpoint
+    const apiUrl = `http://localhost:8000/api/v1/events/${slug}`
+    console.log('API URL:', apiUrl)
+    
+    const response = await fetch(apiUrl)
     
     if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error('Event not found')
+      }
       throw new Error(`HTTP error! status: ${response.status}`)
     }
     
@@ -91,9 +105,22 @@ const fetchEvent = async () => {
       event.value = result.data
       console.log('Event data loaded:', event.value)
       
+      // Set page title
       useHead({
         title: `${event.value.title} | Event Details`
       })
+      
+      // Test the image URL
+      if (event.value.featured_image) {
+        console.log('Testing image URL:', eventImageUrl.value)
+        
+        // Test if image loads
+        const testImg = new Image()
+        testImg.onload = () => console.log('✅ Image should load successfully')
+        testImg.onerror = () => console.warn('⚠️ Image may have issues loading')
+        testImg.src = eventImageUrl.value
+      }
+      
     } else {
       throw new Error(result.message || 'Event not found')
     }
@@ -154,37 +181,36 @@ onMounted(async () => {
         <div class="relative">
           <!-- Event Image -->
           <div class="relative h-96 md:h-[500px] overflow-hidden bg-gray-900">
-            <!-- Loading state for image -->
+            <!-- Image loading state -->
             <div v-if="!imageLoaded && !imageError" class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
               <div class="text-center">
                 <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-white/20 border-t-white/60 mb-3"></div>
-                <p class="text-white/70 text-sm">Loading image...</p>
+                <p class="text-white/70 text-sm">Loading event image...</p>
               </div>
             </div>
-
-            <!-- Error state for image -->
+            
+            <!-- Image error state -->
             <div v-if="imageError" class="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
               <div class="text-center">
                 <svg class="w-12 h-12 mx-auto mb-3 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <p class="text-white/70 text-sm">Image not available</p>
+                <p class="text-white/70 text-sm">Event image not available</p>
               </div>
             </div>
-
-            <!-- Actual Image -->
+            
+            <!-- Main image -->
             <img 
-              ref="imageElement"
-              :src="imageSrc" 
+              class="event-main-image w-full h-full object-cover transition-opacity duration-500"
+              :src="eventImageUrl"
               :alt="event.title"
-              class="w-full h-full object-cover transition-opacity duration-500"
-              :class="{
-                'opacity-0 scale-100': !imageLoaded || imageError,
-                'opacity-100 scale-105': imageLoaded && !imageError
-              }"
               @load="onImageLoad"
               @error="onImageError"
               crossorigin="anonymous"
+              :class="{
+                'opacity-0': !imageLoaded || imageError,
+                'opacity-100 scale-105': imageLoaded && !imageError
+              }"
             />
             
             <!-- Gradient overlay -->
@@ -209,7 +235,7 @@ onMounted(async () => {
                 <div class="max-w-4xl">
                   <!-- Event Type Badge -->
                   <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full mb-4">
-                    <span class="text-sm font-medium">{{ formattedType }}</span>
+                    <span class="text-sm font-medium">{{ event.type || 'Event' }}</span>
                     <span v-if="event.is_online" class="flex items-center gap-1 text-sm">
                       <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
@@ -227,17 +253,39 @@ onMounted(async () => {
                       <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
                       </svg>
-                      <span>{{ formattedDate }}</span>
+                      <span>{{ new Date(event.start_date).toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      }) }}</span>
                     </div>
-                    <!-- ... rest of your template ... -->
+                    
+                    <div v-if="event.venue" class="flex items-center gap-2">
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                      </svg>
+                      <span>{{ event.venue }}</span>
+                      <span v-if="event.city" class="text-white/70">, {{ event.city }}</span>
+                    </div>
+                    
+                    <div v-if="event.capacity" class="flex items-center gap-2">
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                      </svg>
+                      <span>{{ event.registered_count || 0 }} / {{ event.capacity }} registered</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        
+        <!-- Rest of your event details content here -->
       </div>
     </div>
   </nuxt-layout>
 </template>
-
