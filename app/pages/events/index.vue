@@ -7,7 +7,7 @@
         <div class="absolute inset-0 bg-black/20"></div>
         <div class="relative container mx-auto px-4 py-24">
           <div class="max-w-3xl mx-auto text-center">
-            <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+            <h1 class="text-4xl md:text-5xl lg:text-5xl font-bold text-white mb-6">
               Discover Inspiring Events
             </h1>
             <p class="text-xl text-gray-200 mb-10">
