@@ -23,7 +23,7 @@
             <p>{{ event.featured_image }}</p>
             <img 
              
-                :src="getImageUrl(event.image)" 
+                :src="formatImageUrl(event.image)" 
                 :alt="event.title"
                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
@@ -132,6 +132,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { getImageUrl } from '@/utils/imageHelper';
 
 const formatImageUrl = (path) => {
   if (!path) return '/images/placeholder.jpg';
