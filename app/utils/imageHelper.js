@@ -8,6 +8,4 @@ export const getImageUrl = (path) => {
   
   // Use the storage link URL
   return `${baseUrl}/storage/${cleanPath}`;
-  //   return `${baseUrl}/storage/${path}`;
-//   return `http://localhost:8000/storage/${path}`;
 };
