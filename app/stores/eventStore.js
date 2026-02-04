@@ -54,25 +54,7 @@ export const useEventStore = defineStore('events', {
             }));
         },
 
-        // Calculate time remaining for upcoming events
-        calculateTimeRemaining: () => (date) => {
-            const now = new Date();
-            const eventDate = new Date(date);
-            const diffTime = eventDate - now;
-            
-            if (diffTime <= 0) return 'Starting soon';
-            
-            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-            const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            
-            if (diffDays > 0) {
-                return `In ${diffDays} day${diffDays > 1 ? 's' : ''}`;
-            } else if (diffHours > 0) {
-                return `In ${diffHours} hour${diffHours > 1 ? 's' : ''}`;
-            } else {
-                return 'Starting soon';
-            }
-        }
+       
     },
 
     actions: {
@@ -187,4 +169,7 @@ export const useEventStore = defineStore('events', {
             this.currentEvent = null;
         }
     }
+
+    
 });
+
