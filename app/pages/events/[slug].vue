@@ -138,8 +138,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <nuxt-layout name="">
-    <div class="">
+  <nuxt-layout name="landing-layout">
+    <div class="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       <!-- Loading State -->
       <div v-if="loading" class="flex items-center justify-center min-h-screen">
         <div class="text-center">
@@ -178,9 +178,9 @@ onMounted(async () => {
       <!-- Main Content -->
       <div v-else-if="event" class="pb-20">
         <!-- Hero Section -->
-        <div class="">
+        <div class="relative">
           <!-- Event Image -->
-          <div class="">
+          <div class="relative h-96 md:h-[500px] overflow-hidden bg-gray-900">
             <!-- Image loading state -->
             <!-- <div v-if="!imageLoaded && !imageError" class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
               <div class="text-center">
