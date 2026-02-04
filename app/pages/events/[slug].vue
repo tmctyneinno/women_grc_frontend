@@ -756,13 +756,13 @@ const registerForEvent = () => {
   }
 }
 
-const addToCalendar = () => {
+const addToMeetingLink= () => {
   if (!event.value) return
   
   try {
    
     
-    const googleCalendarUrl = `${${calendarEvent.end}&details=${encodeURIComponent(calendarEvent.description)}&location=${encodeURIComponent(calendarEvent.location)}`
+    const googleCalendarUrl = `${ event.value.meeting_link}`
     
     window.open(googleCalendarUrl, '_blank')
   } catch (error) {
