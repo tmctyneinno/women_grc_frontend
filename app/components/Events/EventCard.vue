@@ -53,8 +53,8 @@
       />
       <!-- Type Badge -->
       <div class="absolute bottom-4 left-4">
-        <div class="px-4 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-black/80 to-black/30 backdrop-blur-md border border-white/20 shadow-xl">
-          <span class="bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
+        <div class="px-4 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-blue/50 to-blue/30 backdrop-blur-md border border-white/20 shadow-xl">
+          <span class="bg-gradient-to-r from-black to-gray-200 bg-clip-text text-transparent">
             {{ formattedType }}
           </span>
         </div>
