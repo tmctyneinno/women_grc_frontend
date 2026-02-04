@@ -209,6 +209,24 @@ const imageUrl = computed(() => {
 
 // Image helper function
 const getImageUrl = (path) => {
+  if (!event.value?.featured_image) {
+    return '/images/event-placeholder.jpg'
+  }
+  
+  const imgPath = event.value.featured_image
+  
+  // Already a full URL
+  if (imgPath.startsWith('http')) {
+    return imgPath
+  }
+  
+  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+  const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
+  
+  // Use the proxy route for CORS
+  return `${baseUrl}/images/proxy/${cleanPath}`
+})
+const getImageUrl = (path) => {
   if (!path || path === 'null' || path === 'undefined' || path === '') {
     return '/images/event-placeholder.jpg';
   }
