@@ -173,7 +173,7 @@
                   @click="addToMeetingLink"
                   :disabled="isFullyBooked"
                   :class="[
-                    'group relative px-8 py-3 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:-translate-y-1',
+                    'group border border-white/20  relative px-8 py-3 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:-translate-y-1',
                     isFullyBooked
                       ? 'bg-gradient-to-r from-red-500 to-red-600 text-white cursor-not-allowed'
                       : 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:shadow-2xl hover:shadow-cyan-500/30'
@@ -234,7 +234,7 @@
               <img 
                 :src="eventImageUrl"
                 :alt="event.title"
-                class="w-full h-[400px] md:h-[500px] object-cover transition-opacity duration-700"
+                class="w-full h-[300px] md:h-[500px] object-cover transition-opacity duration-700"
                 :class="{
                   'opacity-0': !imageLoaded || imageError,
                   'opacity-100': imageLoaded && !imageError
