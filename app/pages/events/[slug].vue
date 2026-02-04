@@ -420,7 +420,7 @@
                   </div>
                   <div class="flex items-center justify-between py-4 border-b border-gray-100">
                     <span class="text-gray-600 font-medium">Date & Time</span>
-                    <span class="font-semibold text-gray-800 text-right"> {{formattedTime}}</span>
+                    <span class="font-semibold text-gray-800 text-right">{{ formattedDateTime }} </span>
                   </div>
                   <div class="flex items-center justify-between py-4 border-b border-gray-100">
                     <span class="text-gray-600 font-medium">Venue</span>
@@ -615,9 +615,9 @@ const formattedMonth = computed(() => {
 })
 
 const formattedTime = computed(() => {
-    if (!props.event.start_time) return '';
+    if (!event.value?.start_time) return '';
     try {
-        const timeString = props.event.start_time;
+        const timeString = event.value.start_time;
         
         const timeWithoutSeconds = timeString.split(':').slice(0, 2).join(':');
         
