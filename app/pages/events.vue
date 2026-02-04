@@ -36,7 +36,7 @@
         
         <!-- Decorative elements -->
         <div class="absolute top-0 left-0 w-64 h-64 bg-cyan-800 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-        <!-- <div class="absolute bottom-0 right-0 w-64 h-64 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div> -->
+        <div class="absolute bottom-0 right-0 w-64 h-64 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
       </div>
 
       <!-- Main Content -->
