@@ -3,9 +3,11 @@ export const getImageUrl = (path) => {
   
   if (path.startsWith('http')) return path;
   
-  const baseUrl =  'http://localhost:8000';
+  const baseUrl = import.meta.env.VITE_APP_URL || 'http://localhost:8000';
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
   
   // Use the storage link URL
-  return `http://localhost:8000/storage/events/featured/FYS6H4c5ck9ttaMdqBfocj4JYkXjVNHsmmneEoAI.jpg`;
+  return `${baseUrl}/storage/${cleanPath}`;
+  //   return `${baseUrl}/storage/${path}`;
+//   return `http://localhost:8000/storage/${path}`;
 };
