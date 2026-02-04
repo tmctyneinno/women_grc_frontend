@@ -260,7 +260,7 @@
         </div>
 
         <!-- Stats Section -->
-        <!-- <div v-if="!loading && !error && filteredEvents.length > 0" class="mt-24">
+        <div v-if="!loading && !error && filteredEvents.length > 0" class="mt-24">
           <div class="bg-gradient-to-r from-gray-900 to-black rounded-3xl p-8 md:p-12">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div v-for="stat in stats" :key="stat.label" class="text-center">
@@ -269,7 +269,7 @@
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
 
         <!-- Newsletter CTA -->
         <div class="mt-24 text-center">
