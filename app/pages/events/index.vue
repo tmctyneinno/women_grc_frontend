@@ -3,7 +3,7 @@
   <nuxt-layout name="landing-layout">
     <div class="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       <!-- Hero Section -->
-      <div class="relative overflow-hidden bg-gradient-to-r from-blue-900 via-blue-100 to-blue-900">
+      <div class="relative overflow-hidden bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900">
         <div class="absolute inset-0 bg-black/20"></div>
         <div class="relative container mx-auto px-4 py-24">
           <div class="max-w-3xl mx-auto text-center">
@@ -27,7 +27,7 @@
                   @input="handleSearch"
                   type="text"
                   placeholder="Search events, topics, or speakers..."
-                  class="w-full pl-12 pr-4 py-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-200"
+                  class="w-full pl-12 pr-4 py-4 rounded-xl bg-black/10  border border-white/20 text-black placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-200"
                 />
               </div>
             </div>
