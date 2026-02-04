@@ -148,9 +148,6 @@ export const useEventStore = defineStore('events', {
                 if (isSlug) {
                 // Fetch by slug - you may need to adjust your API endpoint
                 response = await EventService.getEventBySlug(identifier);
-                } else {
-                // Fetch by ID
-                response = await EventService.getEvent(identifier);
                 }
                 
                 if (response.success) {
