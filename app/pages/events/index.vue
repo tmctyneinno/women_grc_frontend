@@ -8,7 +8,7 @@
         <div class="relative container mx-auto px-4 py-24">
           <div class="max-w-3xl mx-auto text-center">
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Discover <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Inspiring</span> Events
+              Discover Inspiring Events
             </h1>
             <p class="text-xl text-gray-200 mb-10">
               Join top GRC professionals at conferences, workshops, and networking sessions that shape the industry.
