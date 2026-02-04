@@ -167,7 +167,37 @@ const formattedDate = computed(() => {
   
   return startDate.toLocaleDateString('en-US', options)
 })
-
+onMounted(() => {
+  nextTick(() => {
+    if (imageElement.value) {
+      // Check if image is already loaded (cached)
+      if (imageElement.value.complete) {
+        onImageLoad()
+      }
+      
+      // Test if image is accessible
+      console.log('🔍 Testing image accessibility...')
+      fetch(eventImageUrl.value, { method: 'HEAD', mode: 'no-cors' })
+        .then(() => {
+          console.log('✅ Image is accessible (HEAD request succeeded)')
+        })
+        .catch(err => {
+          console.warn('⚠️ HEAD request failed (may be CORS issue):', err)
+          // Try a full fetch to see detailed error
+          fetch(eventImageUrl.value)
+            .then(res => {
+              console.log(`Image fetch status: ${res.status} ${res.statusText}`)
+              if (!res.ok) {
+                console.error('Image fetch failed with status:', res.status)
+              }
+            })
+            .catch(fetchErr => {
+              console.error('Full fetch error:', fetchErr)
+            })
+        })
+    }
+  })
+})
 // Fetch event data
 onMounted(async () => {
   try {
