@@ -44,6 +44,7 @@
           {{ formattedType }}
         </div>
       </div>
+      <p>{{ event.featured_image }}</p>
       
       <!-- Online Badge -->
       <div v-if="event.is_online" class="absolute bottom-4 right-4">
