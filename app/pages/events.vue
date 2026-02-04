@@ -288,7 +288,7 @@
 
 <script setup>
 import { ref, computed, onMounted, watch, nextTick } from 'vue';
-import { useEventStore } from '@/';
+import { useEventStore } from '@/stores/eventStore';
 import EventCard from '@/components/Events/EventCard.vue';
 
 // Store
