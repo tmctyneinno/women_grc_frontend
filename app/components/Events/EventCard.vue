@@ -213,24 +213,34 @@ const getImageUrl = (path) => {
     return '/images/event-placeholder.jpg';
   }
   
-  console.log('Processing image path:', path, 'Type:', typeof path);
+  console.log('Original image path:', path);
   
   // Already a full URL
-  if (typeof path === 'string' && (path.startsWith('http://') || path.startsWith('https://'))) {
+  if (path.startsWith('http://') || path.startsWith('https://')) {
     return path;
   }
   
   // Laravel API base URL
   const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
   
-  // Remove any leading slashes
-  const cleanPath = path.replace(/^\/+/, '');
+  // If path looks like: events/featured/filename.jpg
+  // This is a common Laravel storage path format
+  if (path.includes('events/') && (path.endsWith('.jpg') || path.endsWith('.jpeg') || path.endsWith('.png') || path.endsWith('.gif') || path.endsWith('.webp'))) {
+    return `${baseUrl}/storage/${path}`;
+  }
   
-  // Build the full URL - Laravel storage link
-  const fullUrl = `${baseUrl}/storage/${cleanPath}`;
-  console.log('Generated image URL:', fullUrl);
+  // If path starts with storage/
+  if (path.startsWith('storage/')) {
+    return `${baseUrl}/${path}`;
+  }
   
-  return fullUrl;
+  // If path starts with /storage
+  if (path.startsWith('/storage')) {
+    return `${baseUrl}${path}`;
+  }
+  
+  // For any other file path, assume it's in storage
+  return `${baseUrl}/storage/${path}`;
 };
 
 // Image handlers
