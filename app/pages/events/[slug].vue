@@ -491,19 +491,14 @@
 
               <!-- Organizer Info -->
               <!-- <div v-if="event.organizer" class="bg-white rounded-3xl shadow-xl p-8"> -->
-              <div v-if="event.organizer" class="bg-white rounded-3xl shadow-xl p-8">
+              <div class="bg-white rounded-3xl shadow-xl p-8">
                 <h3 class="text-xl font-bold text-gray-800 mb-6">Organized By</h3>
                 <div class="flex items-center gap-4">
                   <div class="flex-shrink-0">
                     <div class="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg">
-                      <img 
-                        v-if="event.organizer.logo" 
-                        :src="event.organizer.logo" 
-                        :alt="event.organizer.name"
-                        class="w-full h-full object-cover"
-                      />
-                      <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-xl">
-                        {{ event.organizer.name.charAt(0) }}
+                      
+                      <div class="w-full h-full flex items-center justify-center text-white font-bold text-xl">
+                        The Morgans
                       </div>
                     </div>
                   </div>
@@ -513,8 +508,7 @@
                       {{ event.organizer.description }}
                     </p>
                     <a 
-                      v-if="event.organizer.website"
-                      :href="event.organizer.website"
+                      :href='''
                       target="_blank"
                       class="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-medium text-sm mt-3 group"
                     >
