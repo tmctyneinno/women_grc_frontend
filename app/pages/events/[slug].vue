@@ -117,7 +117,7 @@
                   <div>
                     <h3 class="text-lg font-semibold text-white mb-2">Date & Time</h3>
                     <!-- <p class="text-white">{{ formattedDateTime }}</p> -->
-                    <p v-if="eventDuration" class="text-white text-sm mt-1">Duration: {{ eventDuration }}</p>
+                    <p v-if="eventDuration" class="text-white text-sm mt-1">Duration: {{ formattedTime }}</p>
                   </div>
                 </div>
 
@@ -617,7 +617,7 @@ const formattedMonth = computed(() => {
 const formattedTime = computed(() => {
     if (!event.value?.start_time) return '';
     try {
-        const timeString = event.value.start_time;
+        const timeString = event.value?.start_time;
         
         const timeWithoutSeconds = timeString.split(':').slice(0, 2).join(':');
         
@@ -627,7 +627,7 @@ const formattedTime = computed(() => {
         
         return `${formattedHours}:${minutes.toString().padStart(2, '0')} ${period}`;
     } catch {
-        return props.event.start_time || ''; 
+        return event.value?.start_time || ''; 
     }
 });
 
