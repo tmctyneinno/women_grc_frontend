@@ -596,6 +596,13 @@ const formattedDay = computed(() => {
   }
 })
 
+const plainDescription = computed(() => {
+  if (!event.value?.description) return ''
+  
+  // Remove HTML tags
+  return event.value.description.replace(/<[^>]*>/g, '')
+})
+
 const formattedMonth = computed(() => {
   if (!event.value?.start_date) return '---'
   try {
