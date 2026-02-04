@@ -2,7 +2,7 @@
 <template>
   <nuxt-layout name="landing-layout">
     <!-- Loading State -->
-    <div v-if="loading" class="fixed inset-0 bg-white/90 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div v-if="loading" class="fixed pt-5 inset-0 bg-white/90 backdrop-blur-sm z-50 flex items-center justify-center">
       <div class="text-center">
         <div class="inline-block animate-spin rounded-full h-16 w-16 border-4 border-cyan-200 border-t-cyan-500 mb-4"></div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Loading Event Details</h3>
