@@ -57,7 +57,7 @@
           'px-3 py-1 rounded-full text-xs font-semibold text-white backdrop-blur-sm border border-white/20',
           typeClass
         ]">
-          {{ formattedType }}c
+          {{ formattedType }}
         </div>
       </div>
       
