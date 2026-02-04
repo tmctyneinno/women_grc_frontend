@@ -116,8 +116,8 @@
                   </div>
                   <div>
                     <h3 class="text-lg font-semibold text-white mb-2">Date & Time</h3>
-                    <p class="text-white/90">{{ formattedDateTime }}</p>
-                    <p v-if="eventDuration" class="text-white0 text-sm mt-1">Duration: {{ eventDuration }}</p>
+                    <p class="text-white">{{ formattedDateTime }}</p>
+                    <p v-if="eventDuration" class="text-white text-sm mt-1">Duration: {{ eventDuration }}</p>
                   </div>
                 </div>
 
@@ -132,8 +132,8 @@
                   </div>
                   <div>
                     <h3 class="text-lg font-semibold text-white mb-2">Location</h3>
-                    <p class="text-white/90">{{ event.venue }}</p>
-                    <p v-if="event.city || event.country" class="text-white/70 text-sm mt-1">
+                    <p class="text-white">{{ event.venue }}</p>
+                    <p v-if="event.city || event.country" class="text-white text-sm mt-1">
                       {{ [event.city, event.state, event.country].filter(Boolean).join(', ') }}
                     </p>
                   </div>
