@@ -497,8 +497,8 @@
                   <div class="flex-shrink-0">
                     <div class="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg">
                       <img 
-                        :src="event.organizer.logo" 
-                        :alt="event.organizer.name"
+                        :src="e"
+                       
                         class="w-full h-full object-cover"
                       />
                       <div class="w-full h-full flex items-center justify-center text-white font-bold text-xl">
