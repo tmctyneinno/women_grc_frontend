@@ -182,12 +182,12 @@ onMounted(async () => {
           <!-- Event Image -->
           <div class="relative h-96 md:h-[500px] overflow-hidden bg-gray-900">
             <!-- Image loading state -->
-            <!-- <div v-if="!imageLoaded && !imageError" class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
+            <div v-if="!imageLoaded && !imageError" class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
               <div class="text-center">
                 <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-white/20 border-t-white/60 mb-3"></div>
                 <p class="text-white/70 text-sm">Loading event image...</p>
               </div>
-            </div> -->
+            </div>
             
             <!-- Image error state -->
             <div v-if="imageError" class="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
@@ -207,7 +207,10 @@ onMounted(async () => {
               @load="onImageLoad"
               @error="onImageError"
               crossorigin="anonymous"
-             
+              :class="{
+                'opacity-0': !imageLoaded || imageError,
+                'opacity-100 scale-105': imageLoaded && !imageError
+              }"
             />
             
             <!-- Gradient overlay -->
