@@ -105,7 +105,8 @@
       <p class="text-gray-600 text-sm mb-4 line-clamp-2">
         {{ event.short_description || truncateDescription(event.description) }}
       </p>
-
+<!-- Add this somewhere to debug -->
+<p class="text-white">Debug: is_online={{ event.is_online }}, meeting_link={{ event.meeting_link }}, has_capacity={{ event.has_capacity }}</p>
       <!-- Price & Capacity -->
       <div class="flex items-center justify-between mb-6">
         <div class="text-xl font-bold text-gray-800">
