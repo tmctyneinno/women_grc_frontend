@@ -1,17 +1,17 @@
 <!-- components/Events/EventCard.vue -->
 <template>
-    <div class="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
+    <div class="tw-group tw-relative tw-bg-white tw-rounded-2xl tw-overflow-hidden tw-shadow-lg hover:tw-shadow-2xl tw-transition-all tw-duration-300 hover:tw--translate-y-2 tw-border tw-border-gray-100">
         <!-- Featured Ribbon -->
-        <div v-if="isFeatured" class="absolute top-4 left-4 z-10">
-            <div class="px-4 py-1.5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold rounded-full shadow-lg">
-                <i class="bi bi-star-fill mr-1"></i> Featured
+        <div v-if="isFeatured" class="tw-absolute tw-top-4 tw-left-4 tw-z-10">
+            <div class="tw-px-4 tw-py-1.5 tw-bg-gradient-to-r tw-from-yellow-400 tw-to-orange-500 tw-text-white tw-text-xs tw-font-bold tw-rounded-full tw-shadow-lg">
+                <i class="bi bi-star-fill tw-mr-1"></i> Featured
             </div>
         </div>
 
         <!-- Status Badge -->
-        <div class="absolute top-4 right-4 z-10">
+        <div class="tw-absolute tw-top-4 tw-right-4 tw-z-10">
             <div :class="[
-                'px-3 py-1 rounded-full text-xs font-semibold',
+                'tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-font-semibold',
                 statusClass
             ]">
                 {{ formattedStatus }}
@@ -19,19 +19,19 @@
         </div>
 
         <!-- Event Image -->
-        <div class="relative h-48 overflow-hidden">
+        <div class="tw-relative tw-h-48 tw-overflow-hidden">
             <img 
                 :src="getImageUrl(event.featured_image)" 
                 :alt="event.title"
-                class="w-100 object-fit-contain transition-all"
-                style="height: 200px; object-fit: cover;"
+                class="tw-w-full tw-object-cover tw-transition-all"
+                style="height: 200px;"
             />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            <div class="tw-absolute tw-inset-0 tw-bg-gradient-to-t tw-from-black/50 tw-to-transparent"></div>
             
             <!-- Type Badge -->
-            <div class="absolute bottom-4 left-4">
+            <div class="tw-absolute tw-bottom-4 tw-left-4">
                 <div :class="[
-                    'px-3 py-1 rounded-full text-xs font-semibold text-white backdrop-blur-sm',
+                    'tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-font-semibold tw-text-white tw-backdrop-blur-sm',
                     typeClass
                 ]">
                     {{ formattedType }}
@@ -39,72 +39,72 @@
             </div>
             
             <!-- Online Badge -->
-            <div v-if="event.is_online" class="absolute bottom-4 right-4">
-                <div class="px-3 py-1 rounded-full bg-blue-500/80 backdrop-blur-sm text-white text-xs font-semibold">
-                    <i class="bi bi-camera-video mr-1"></i> Online
+            <div v-if="event.is_online" class="tw-absolute tw-bottom-4 tw-right-4">
+                <div class="tw-px-3 tw-py-1 tw-rounded-full tw-bg-blue-500/80 tw-backdrop-blur-sm tw-text-white tw-text-xs tw-font-semibold">
+                    <i class="bi bi-camera-video tw-mr-1"></i> Online
                 </div>
             </div>
         </div>
 
         <!-- Event Content -->
-        <div class="p-6">
+        <div class="tw-p-6">
             <!-- Date -->
-            <div class="flex items-center gap-3 mb-4">
-                <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-cyan-50 to-purple-50 rounded-xl flex flex-col items-center justify-center">
-                    <div class="text-2xl font-bold text-gray-800">{{ formattedDay }}</div>
-                    <div class="text-xs font-semibold text-gray-500 uppercase">{{ formattedMonth }}</div>
+            <div class="tw-flex tw-items-center tw-gap-3 tw-mb-4">
+                <div class="tw-flex-shrink-0 tw-w-14 tw-h-14 tw-bg-gradient-to-br tw-from-cyan-50 tw-to-purple-50 tw-rounded-xl tw-flex tw-flex-col tw-items-center tw-justify-center">
+                    <div class="tw-text-2xl tw-font-bold tw-text-gray-800">{{ formattedDay }}</div>
+                    <div class="tw-text-xs tw-font-semibold tw-text-gray-500 tw-uppercase">{{ formattedMonth }}</div>
                 </div>
-                <div class="flex-1">
-                    <div class="text-sm text-gray-600 flex items-center gap-2">
+                <div class="tw-flex-1">
+                    <div class="tw-text-sm tw-text-gray-600 tw-flex tw-items-center tw-gap-2">
                         <i class="bi bi-clock"></i>
                         {{ formattedTime }}
                     </div>
-                    <div class="text-sm text-gray-600 flex items-center gap-2 mt-1">
+                    <div class="tw-text-sm tw-text-gray-600 tw-flex tw-items-center tw-gap-2 tw-mt-1">
                         <i class="bi bi-geo-alt"></i>
-                        <span class="truncate">{{ event.venue }}</span>
+                        <span class="tw-truncate">{{ event.venue }}</span>
                     </div>
                 </div>
             </div>
 
             <!-- Title -->
-            <h3 class="text-xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-cyan-600 transition-colors">
+            <h3 class="tw-text-xl tw-font-bold tw-text-gray-800 tw-mb-3 tw-line-clamp-2 group-hover:tw-text-cyan-600 tw-transition-colors">
                 {{ event.title }}
             </h3>
 
             <!-- Description -->
-            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+            <p class="tw-text-gray-600 tw-text-sm tw-mb-4 tw-line-clamp-2">
                 {{ event.short_description || event.description.substring(0, 100) + '...' }}
             </p>
 
             <!-- Price & Capacity -->
-            <div class="flex items-center justify-between mb-6">
-                <div class="text-2xl font-bold text-gray-800">
+            <div class="tw-flex tw-items-center tw-justify-between tw-mb-6">
+                <div class="tw-text-2xl tw-font-bold tw-text-gray-800">
                     {{ event.formatted_price || 'Free' }}
                 </div>
-                <div v-if="event.capacity" class="text-sm text-gray-600">
-                    <i class="bi bi-people mr-1"></i>
+                <div v-if="event.capacity" class="tw-text-sm tw-text-gray-600">
+                    <i class="bi bi-people tw-mr-1"></i>
                     {{ event.registered_count || 0 }}/{{ event.capacity }}
                 </div>
             </div>
 
             <!-- Progress Bar (if capacity exists) -->
-            <div v-if="event.capacity" class="mb-6">
-                <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div v-if="event.capacity" class="tw-mb-6">
+                <div class="tw-h-2 tw-bg-gray-200 tw-rounded-full tw-overflow-hidden">
                     <div 
                         :style="{ width: `${Math.min(100, ((event.registered_count || 0) / event.capacity) * 100)}%` }"
-                        class="h-full bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full"
+                        class="tw-h-full tw-bg-gradient-to-r tw-from-cyan-500 tw-to-purple-500 tw-rounded-full"
                     ></div>
                 </div>
-                <div class="text-xs text-gray-500 mt-1 text-right">
+                <div class="tw-text-xs tw-text-gray-500 tw-mt-1 tw-text-right">
                     {{ Math.min(100, Math.round(((event.registered_count || 0) / event.capacity) * 100)) }}% booked
                 </div>
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex gap-3">
+            <div class="tw-flex tw-gap-3">
                 <button 
                     @click="viewDetails"
-                    class="flex-1 px-4 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center gap-2"
+                    class="tw-flex-1 tw-px-4 tw-py-3 tw-bg-gray-100 tw-text-gray-700 tw-font-semibold tw-rounded-xl hover:tw-bg-gray-200 tw-transition-colors tw-duration-200 tw-flex tw-items-center tw-justify-center tw-gap-2"
                 >
                     <i class="bi bi-info-circle"></i>
                     Details
@@ -114,10 +114,10 @@
                     @click="registerEvent"
                     :disabled="!event.has_capacity || event.is_past"
                     :class="[
-                        'flex-1 px-4 py-3 font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2',
+                        'tw-flex-1 tw-px-4 tw-py-3 tw-font-semibold tw-rounded-xl tw-transition-all tw-duration-200 tw-flex tw-items-center tw-justify-center tw-gap-2',
                         event.has_capacity && !event.is_past
-                            ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:shadow-lg hover:shadow-cyan-500/25'
-                            : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                            ? 'tw-bg-gradient-to-r tw-from-cyan-500 tw-to-purple-500 tw-text-white hover:tw-shadow-lg hover:tw-shadow-cyan-500/25'
+                            : 'tw-bg-gray-200 tw-text-gray-500 tw-cursor-not-allowed'
                     ]"
                 >
                     <i class="bi bi-ticket-perforated"></i>
@@ -131,9 +131,6 @@
 <script setup>
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { getImageUrl } from '@/utils/imageHelper';
-
-
 
 const props = defineProps({
     event: {
@@ -155,13 +152,13 @@ const formattedType = computed(() => {
 
 const typeClass = computed(() => {
     const types = {
-        conference: 'bg-purple-600/80',
-        workshop: 'bg-emerald-600/80',
-        seminar: 'bg-blue-600/80',
-        networking: 'bg-pink-600/80',
-        meeting: 'bg-amber-600/80'
+        conference: 'tw-bg-purple-600/80',
+        workshop: 'tw-bg-emerald-600/80',
+        seminar: 'tw-bg-blue-600/80',
+        networking: 'tw-bg-pink-600/80',
+        meeting: 'tw-bg-amber-600/80'
     };
-    return types[props.event.type] || 'bg-gray-600/80';
+    return types[props.event.type] || 'tw-bg-gray-600/80';
 });
 
 const formattedDay = computed(() => {
@@ -194,10 +191,10 @@ const formattedStatus = computed(() => {
 });
 
 const statusClass = computed(() => {
-    if (props.event.is_upcoming) return 'bg-green-100 text-green-800';
-    if (props.event.is_ongoing) return 'bg-yellow-100 text-yellow-800';
-    if (props.event.is_past) return 'bg-red-100 text-red-800';
-    return 'bg-gray-100 text-gray-800';
+    if (props.event.is_upcoming) return 'tw-bg-green-100 tw-text-green-800';
+    if (props.event.is_ongoing) return 'tw-bg-yellow-100 tw-text-yellow-800';
+    if (props.event.is_past) return 'tw-bg-red-100 tw-text-red-800';
+    return 'tw-bg-gray-100 tw-text-gray-800';
 });
 
 // Methods
@@ -207,38 +204,32 @@ const viewDetails = () => {
 
 const registerEvent = () => {
     if (props.event.has_capacity && !props.event.is_past) {
-        // Handle registration
-        console.log('Register for event:', props.event.id);
-        // You could emit an event or navigate to registration page
         router.push(`/events/${props.event.id}/register`);
     }
 };
 </script>
 
 <style scoped>
-.line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+/* Import Tailwind only for this component */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Override prefix if needed */
+.tw-group {
+  /* Custom styles */
 }
 
-/* Custom scrollbar for featured container */
-.featured-container::-webkit-scrollbar {
-    height: 6px;
+.tw-line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.featured-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
-}
-
-.featured-container::-webkit-scrollbar-thumb {
-    background: linear-gradient(to right, #06b6d4, #8b5cf6);
-    border-radius: 3px;
-}
-
-.featured-container::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(to right, #0891b2, #7c3aed);
+/* Ensure Bootstrap icons are styled properly */
+.bi {
+  display: inline-block;
+  vertical-align: -.125em;
 }
 </style>
