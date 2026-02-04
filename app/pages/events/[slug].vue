@@ -106,6 +106,10 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from '#imports'
+const imageElement = ref(null)
+const imageLoaded = ref(false)
+const imageError = ref(false)
+
 
 const route = useRoute()
 const router = useRouter()
@@ -115,7 +119,6 @@ const slug = route.params.slug
 const loading = ref(true)
 const error = ref(null)
 const event = ref(null)
-const imageLoaded = ref(false)
 
 // Computed properties
 const eventImageUrl = computed(() => {
