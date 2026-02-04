@@ -201,7 +201,7 @@ onMounted(async () => {
             
             <!-- Main image -->
             <img 
-              class="event-main-image w-full h-full object-cover transition-opacity duration-500"
+              class=""
               :src="eventImageUrl"
               :alt="event.title"
               @load="onImageLoad"
