@@ -1,31 +1,31 @@
 <!-- components/Events/EventList.vue -->
 <template>
     <nuxt-layout name="landing-layout">
-        <div class="min-vh-100 bg-light">
+        <div class="tw-min-h-screen tw-bg-gradient-to-br tw-from-gray-50 tw-to-white">
             <!-- Hero Section -->
-            <div class="position-relative overflow-hidden bg-primary">
-                <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-20"></div>
-                <div class="position-relative container px-4 py-24">
-                    <div class="max-w-3xl mx-auto text-center">
-                        <h1 class="display-4 display-md-3 display-lg-2 fw-bold text-white mb-4">
-                            Discover <span class="text-gradient-cyan-purple">Inspiring</span> Events
+            <div class="tw-relative tw-overflow-hidden tw-bg-gradient-to-r tw-from-purple-900 tw-via-indigo-800 tw-to-purple-900">
+                <div class="tw-absolute tw-inset-0 tw-bg-black/20"></div>
+                <div class="tw-relative tw-container tw-mx-auto tw-px-4 tw-py-24">
+                    <div class="tw-max-w-3xl tw-mx-auto tw-text-center">
+                        <h1 class="tw-text-4xl md:tw-text-5xl lg:tw-text-6xl tw-font-bold tw-text-white tw-mb-6">
+                            Discover <span class="tw-text-transparent tw-bg-clip-text tw-bg-gradient-to-r tw-from-cyan-400 tw-to-purple-400">Inspiring</span> Events
                         </h1>
-                        <p class="fs-4 text-white-50 mb-5">
+                        <p class="tw-text-xl tw-text-gray-200 tw-mb-10">
                             Join top GRC professionals at conferences, workshops, and networking sessions that shape the industry.
                         </p>
                         
                         <!-- Search Bar -->
-                        <div class="max-w-2xl mx-auto">
-                            <div class="position-relative">
-                                <div class="position-absolute top-50 start-0 translate-middle-y ps-3 d-flex align-items-center">
-                                    <i class="bi bi-search text-body-tertiary"></i>
+                        <div class="tw-max-w-2xl tw-mx-auto">
+                            <div class="tw-relative">
+                                <div class="tw-absolute tw-inset-y-0 tw-left-0 tw-pl-4 tw-flex tw-items-center tw-pointer-events-none">
+                                    <i class="bi bi-search tw-h-5 tw-w-5 tw-text-gray-400"></i>
                                 </div>
                                 <input 
                                     v-model="searchQuery"
                                     @input="handleSearch"
                                     type="text"
                                     placeholder="Search events, topics, or speakers..."
-                                    class="form-control ps-5 py-3 rounded-3 bg-white bg-opacity-10 backdrop-filter-blur border border-white border-opacity-20 text-white placeholder-white-50 focus-outline-cyan"
+                                    class="tw-w-full tw-pl-12 tw-pr-4 tw-py-4 tw-rounded-xl tw-bg-white/10 tw-backdrop-blur-sm tw-border tw-border-white/20 tw-text-white placeholder:tw-text-gray-300 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-cyan-400 focus:tw-border-transparent tw-transition-all tw-duration-200"
                                 />
                             </div>
                         </div>
@@ -33,28 +33,27 @@
                 </div>
                 
                 <!-- Decorative elements -->
-                <div class="position-absolute top-0 start-0 w-64 h-64 bg-info rounded-circle opacity-20 blur-3 animate-pulse"></div>
-                <div class="position-absolute bottom-0 end-0 w-64 h-64 bg-purple rounded-circle opacity-20 blur-3 animate-pulse"></div>
+                <div class="tw-absolute tw-top-0 tw-left-0 tw-w-64 tw-h-64 tw-bg-cyan-500 tw-rounded-full tw-mix-blend-multiply tw-filter tw-blur-3xl tw-opacity-20 tw-animate-pulse"></div>
+                <div class="tw-absolute tw-bottom-0 tw-right-0 tw-w-64 tw-h-64 tw-bg-purple-500 tw-rounded-full tw-mix-blend-multiply tw-filter tw-blur-3xl tw-opacity-20 tw-animate-pulse"></div>
             </div>
 
             <!-- Main Content -->
-            <div class="container px-4 py-5">
+            <div class="tw-container tw-mx-auto tw-px-4 tw-py-12">
                 <!-- Filter Bar -->
-                <div class="mb-5">
-                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-4 p-4 bg-white rounded-3 shadow border">
+                <div class="tw-mb-12">
+                    <div class="tw-flex tw-flex-col md:tw-flex-row md:tw-items-center tw-justify-between tw-gap-6 tw-p-6 tw-bg-white tw-rounded-2xl tw-shadow-lg tw-shadow-gray-200/50 tw-border tw-border-gray-100">
                         <div>
-                            <h2 class="h1 fw-bold text-dark mb-2">Browse Events</h2>
-                            <p class="text-secondary">Filter by type to find exactly what you're looking for</p>
+                            <h2 class="tw-text-2xl tw-font-bold tw-text-gray-800 tw-mb-2">Browse Events</h2>
+                            <p class="tw-text-gray-600">Filter by type to find exactly what you're looking for</p>
                         </div>
                         
-                        <div class="d-flex flex-wrap align-items-center gap-3">
+                        <div class="tw-flex tw-flex-wrap tw-items-center tw-gap-4">
                             <!-- Event Type Filter -->
-                            <div class="position-relative">
+                            <div class="tw-relative">
                                 <select 
                                     v-model="selectedType"
                                     @change="filterByType"
-                                    class="form-select pe-4 py-2 rounded-3 border focus-outline-cyan cursor-pointer"
-                                    style="appearance: none; min-width: 180px;"
+                                    class="tw-appearance-none tw-bg-white tw-pl-4 tw-pr-10 tw-py-3 tw-rounded-xl tw-border tw-border-gray-200 tw-text-gray-700 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-cyan-500 focus:tw-border-transparent tw-transition-all tw-duration-200 tw-cursor-pointer"
                                 >
                                     <option value="">All Event Types</option>
                                     <option value="conference">Conference</option>
@@ -63,22 +62,22 @@
                                     <option value="networking">Networking</option>
                                     <option value="meeting">Meeting</option>
                                 </select>
-                                <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
-                                    <i class="bi bi-chevron-down text-body-tertiary"></i>
+                                <div class="tw-absolute tw-inset-y-0 tw-right-0 tw-flex tw-items-center tw-pr-3 tw-pointer-events-none">
+                                    <i class="bi bi-chevron-down tw-h-5 tw-w-5 tw-text-gray-400"></i>
                                 </div>
                             </div>
                             
                             <!-- Status Filter -->
-                            <div class="d-flex align-items-center gap-2">
+                            <div class="tw-flex tw-items-center tw-space-x-2">
                                 <button 
                                     v-for="status in statusFilters"
                                     :key="status.value"
                                     @click="toggleStatusFilter(status.value)"
                                     :class="[
-                                        'btn btn-sm px-3 py-2 rounded-pill fw-medium transition-all',
+                                        'tw-px-4 tw-py-2 tw-rounded-full tw-text-sm tw-font-medium tw-transition-all tw-duration-200',
                                         activeStatusFilters.includes(status.value) 
-                                            ? 'bg-gradient-cyan-purple text-white shadow-lg' 
-                                            : 'btn-light text-secondary hover-light'
+                                            ? 'tw-bg-gradient-to-r tw-from-cyan-500 tw-to-purple-500 tw-text-white tw-shadow-lg tw-shadow-cyan-500/25' 
+                                            : 'tw-bg-gray-100 tw-text-gray-700 hover:tw-bg-gray-200'
                                     ]"
                                 >
                                     {{ status.label }}
@@ -89,42 +88,42 @@
                 </div>
 
                 <!-- Loading State -->
-                <div v-if="loading" class="d-flex flex-column align-items-center justify-content-center py-5">
-                    <div class="position-relative">
-                        <div class="spinner-border text-primary border-4 border-top-0 border-end-0 border-bottom-0" style="width: 4rem; height: 4rem;" role="status"></div>
-                        <div class="position-absolute top-50 start-50 translate-middle">
-                            <div class="bg-gradient-cyan-purple rounded-circle animate-ping" style="width: 2rem; height: 2rem;"></div>
+                <div v-if="loading" class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-py-20">
+                    <div class="tw-relative">
+                        <div class="tw-w-16 tw-h-16 tw-border-4 tw-border-cyan-200 tw-border-t-cyan-500 tw-rounded-full tw-animate-spin"></div>
+                        <div class="tw-absolute tw-inset-0 tw-flex tw-items-center tw-justify-center">
+                            <div class="tw-w-8 tw-h-8 tw-bg-gradient-to-r tw-from-cyan-400 tw-to-purple-400 tw-rounded-full tw-animate-ping"></div>
                         </div>
                     </div>
-                    <p class="mt-4 fs-5 text-secondary fw-medium">Loading inspiring events...</p>
+                    <p class="tw-mt-6 tw-text-lg tw-text-gray-600 tw-font-medium">Loading inspiring events...</p>
                 </div>
 
                 <!-- Error State -->
-                <div v-else-if="error" class="max-w-md mx-auto text-center py-5">
-                    <div class="d-inline-flex align-items-center justify-content-center w-5 h-5 rounded-circle bg-danger bg-opacity-10 mb-4">
-                        <i class="bi bi-exclamation-triangle-fill text-danger fs-2"></i>
+                <div v-else-if="error" class="tw-max-w-md tw-mx-auto tw-text-center tw-py-20">
+                    <div class="tw-inline-flex tw-items-center tw-justify-center tw-w-20 tw-h-20 tw-rounded-full tw-bg-red-100 tw-mb-6">
+                        <i class="bi bi-exclamation-triangle tw-w-10 tw-h-10 tw-text-red-500"></i>
                     </div>
-                    <h3 class="h2 fw-bold text-dark mb-3">Unable to Load Events</h3>
-                    <p class="text-secondary mb-4">{{ error }}</p>
+                    <h3 class="tw-text-2xl tw-font-bold tw-text-gray-800 tw-mb-3">Unable to Load Events</h3>
+                    <p class="tw-text-gray-600 tw-mb-8">{{ error }}</p>
                     <button 
                         @click="fetchEvents"
-                        class="btn bg-gradient-cyan-purple text-white fw-medium rounded-pill px-4 py-2 hover-lift transition-all"
+                        class="tw-px-6 tw-py-3 tw-bg-gradient-to-r tw-from-cyan-500 tw-to-purple-500 tw-text-white tw-font-medium tw-rounded-full hover:tw-shadow-lg hover:tw-shadow-cyan-500/25 tw-transition-all tw-duration-200 tw-transform hover:tw--translate-y-0.5"
                     >
                         Try Again
                     </button>
                 </div>
 
                 <!-- Empty State -->
-                <div v-else-if="filteredEvents.length === 0" class="max-w-md mx-auto text-center py-5">
-                    <div class="d-inline-flex align-items-center justify-content-center w-5 h-5 rounded-circle bg-light mb-4">
-                        <i class="bi bi-calendar text-body-secondary fs-2"></i>
+                <div v-else-if="filteredEvents.length === 0" class="tw-max-w-md tw-mx-auto tw-text-center tw-py-20">
+                    <div class="tw-inline-flex tw-items-center tw-justify-center tw-w-20 tw-h-20 tw-rounded-full tw-bg-gray-100 tw-mb-6">
+                        <i class="bi bi-calendar tw-w-10 tw-h-10 tw-text-gray-400"></i>
                     </div>
-                    <h3 class="h2 fw-bold text-dark mb-3">No Events Found</h3>
-                    <p class="text-secondary">We couldn't find any events matching your criteria.</p>
-                    <p class="text-body-tertiary mt-2">Try adjusting your filters or check back soon for new events!</p>
+                    <h3 class="tw-text-2xl tw-font-bold tw-text-gray-800 tw-mb-3">No Events Found</h3>
+                    <p class="tw-text-gray-600">We couldn't find any events matching your criteria.</p>
+                    <p class="tw-text-gray-500 tw-mt-2">Try adjusting your filters or check back soon for new events!</p>
                     <button 
                         @click="resetFilters"
-                        class="btn btn-dark text-white fw-medium rounded-pill px-4 py-2 mt-4 transition-all"
+                        class="tw-mt-8 tw-px-6 tw-py-3 tw-bg-gray-800 tw-text-white tw-font-medium tw-rounded-full hover:tw-bg-gray-900 tw-transition-all tw-duration-200"
                     >
                         Reset Filters
                     </button>
@@ -132,101 +131,89 @@
 
                 <!-- Featured Events Section -->
                 <div v-else>
-                    <section v-if="featuredEvents.length > 0" class="mb-5">
-                        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-4 gap-3">
+                    <section v-if="featuredEvents.length > 0" class="tw-mb-16">
+                        <div class="tw-flex tw-items-center tw-justify-between tw-mb-8">
                             <div>
-                                <h2 class="h1 fw-bold text-dark d-flex align-items-center gap-3 mb-0">
-                                    <span class="d-inline-flex align-items-center justify-content-center w-3 h-3 rounded-circle bg-gradient-warning">
-                                        <i class="bi bi-star-fill text-white"></i>
+                                <h2 class="tw-text-3xl tw-font-bold tw-text-gray-800 tw-flex tw-items-center tw-gap-3">
+                                    <span class="tw-inline-flex tw-items-center tw-justify-center tw-w-10 tw-h-10 tw-rounded-full tw-bg-gradient-to-r tw-from-yellow-400 tw-to-orange-500">
+                                        <i class="bi bi-star-fill tw-w-5 tw-h-5 tw-text-white"></i>
                                     </span>
                                     Featured Events
                                 </h2>
-                                <p class="text-secondary mt-2">Curated selection of must-attend industry events</p>
+                                <p class="tw-text-gray-600 tw-mt-2">Curated selection of must-attend industry events</p>
                             </div>
-                            <div class="d-none d-md-block">
-                                <div class="d-flex gap-2">
-                                    <button @click="scrollFeaturedLeft" class="btn btn-light rounded-circle p-2 hover-light">
-                                        <i class="bi bi-chevron-left text-dark"></i>
+                            <div class="tw-hidden md:tw-block">
+                                <div class="tw-flex tw-space-x-2">
+                                    <button @click="scrollFeaturedLeft" class="tw-p-3 tw-rounded-full tw-bg-gray-100 hover:tw-bg-gray-200 tw-transition-colors">
+                                        <i class="bi bi-chevron-left tw-w-5 tw-h-5 tw-text-gray-700"></i>
                                     </button>
-                                    <button @click="scrollFeaturedRight" class="btn btn-light rounded-circle p-2 hover-light">
-                                        <i class="bi bi-chevron-right text-dark"></i>
+                                    <button @click="scrollFeaturedRight" class="tw-p-3 tw-rounded-full tw-bg-gray-100 hover:tw-bg-gray-200 tw-transition-colors">
+                                        <i class="bi bi-chevron-right tw-w-5 tw-h-5 tw-text-gray-700"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
 
-                        <div ref="featuredContainer" class="d-flex overflow-auto pb-3 gap-4 scrollbar-hide scroll-smooth" style="scroll-snap-type: x mandatory;">
+                        <div ref="featuredContainer" class="tw-flex tw-overflow-x-auto tw-pb-8 tw-space-x-6 tw-scrollbar-hide tw-scroll-smooth">
                             <div 
                                 v-for="event in featuredEvents" 
                                 :key="event.id" 
-                                class="flex-shrink-0"
-                                :style="{ width: '100%', maxWidth: 'calc(100% - 1rem)' }"
-                                style="scroll-snap-align: start;"
+                                class="tw-flex-shrink-0 tw-w-full md:tw-w-[calc(50%-12px)] lg:tw-w-[calc(33.333%-16px)]"
                             >
-                                <div class="d-md-none">
-                                    <EventCard :event="event" :is-featured="true" />
-                                </div>
-                                <div class="d-none d-md-block d-lg-none">
-                                    <EventCard :event="event" :is-featured="true" />
-                                </div>
-                                <div class="d-none d-lg-block">
-                                    <EventCard :event="event" :is-featured="true" />
-                                </div>
+                                <EventCard :event="event" :is-featured="true" />
                             </div>
                         </div>
                     </section>
 
                     <!-- All Events Section -->
                     <section>
-                        <div class="mb-4">
-                            <h2 class="h2 fw-bold text-dark">All Events</h2>
-                            <p class="text-secondary mt-1">Discover {{ filteredEvents.length }} events matching your criteria</p>
+                        <div class="tw-mb-8">
+                            <h2 class="tw-text-2xl tw-font-bold tw-text-gray-800">All Events</h2>
+                            <p class="tw-text-gray-600 tw-mt-1">Discover {{ filteredEvents.length }} events matching your criteria</p>
                         </div>
 
                         <!-- Events Grid -->
-                        <div class="row g-4">
-                            <div 
+                        <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-8">
+                            <EventCard 
                                 v-for="event in paginatedEvents" 
                                 :key="event.id" 
-                                class="col-12 col-md-6 col-lg-4"
-                            >
-                                <EventCard :event="event" />
-                            </div>
+                                :event="event" 
+                            />
                         </div>
 
                         <!-- Pagination -->
-                        <div v-if="pagination.last_page > 1" class="mt-5">
-                            <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-4">
-                                <div class="text-secondary">
-                                    Showing <span class="fw-semibold text-dark">{{ showingFrom }}-{{ showingTo }}</span> of 
-                                    <span class="fw-semibold text-dark">{{ pagination.total }}</span> events
+                        <div v-if="pagination.last_page > 1" class="tw-mt-16">
+                            <div class="tw-flex tw-flex-col sm:tw-flex-row sm:tw-items-center tw-justify-between tw-gap-6">
+                                <div class="tw-text-gray-600">
+                                    Showing <span class="tw-font-semibold tw-text-gray-800">{{ showingFrom }}-{{ showingTo }}</span> of 
+                                    <span class="tw-font-semibold tw-text-gray-800">{{ pagination.total }}</span> events
                                 </div>
                                 
-                                <div class="d-flex align-items-center gap-2">
+                                <div class="tw-flex tw-items-center tw-space-x-2">
                                     <button 
                                         @click="changePage(pagination.current_page - 1)"
                                         :disabled="pagination.current_page === 1"
                                         :class="[
-                                            'btn d-flex align-items-center gap-2 px-3 py-2 rounded transition-all',
+                                            'tw-flex tw-items-center tw-gap-2 tw-px-4 tw-py-2 tw-rounded-lg tw-transition-all tw-duration-200',
                                             pagination.current_page === 1
-                                                ? 'text-body-tertiary bg-light cursor-not-allowed'
-                                                : 'btn-outline-secondary hover-light'
+                                                ? 'tw-text-gray-400 tw-cursor-not-allowed tw-bg-gray-100'
+                                                : 'tw-text-gray-700 tw-bg-white tw-border tw-border-gray-200 hover:tw-bg-gray-50 hover:tw-shadow-md'
                                         ]"
                                     >
-                                        <i class="bi bi-chevron-left"></i>
+                                        <i class="bi bi-chevron-left tw-w-4 tw-h-4"></i>
                                         Previous
                                     </button>
                                     
-                                    <div class="d-flex align-items-center gap-1">
+                                    <div class="tw-flex tw-items-center tw-space-x-1">
                                         <button 
                                             v-for="page in visiblePages" 
                                             :key="page"
                                             @click="changePage(page)"
                                             :class="[
-                                                'btn px-3 py-2 rounded fw-medium transition-all',
+                                                'tw-w-10 tw-h-10 tw-rounded-lg tw-font-medium tw-transition-all tw-duration-200',
                                                 page === pagination.current_page
-                                                    ? 'bg-gradient-cyan-purple text-white shadow'
-                                                    : 'text-dark hover-light'
+                                                    ? 'tw-bg-gradient-to-r tw-from-cyan-500 tw-to-purple-500 tw-text-white tw-shadow-lg tw-shadow-cyan-500/25'
+                                                    : 'tw-text-gray-700 hover:tw-bg-gray-100'
                                             ]"
                                         >
                                             {{ page }}
@@ -237,14 +224,14 @@
                                         @click="changePage(pagination.current_page + 1)"
                                         :disabled="pagination.current_page === pagination.last_page"
                                         :class="[
-                                            'btn d-flex align-items-center gap-2 px-3 py-2 rounded transition-all',
+                                            'tw-flex tw-items-center tw-gap-2 tw-px-4 tw-py-2 tw-rounded-lg tw-transition-all tw-duration-200',
                                             pagination.current_page === pagination.last_page
-                                                ? 'text-body-tertiary bg-light cursor-not-allowed'
-                                                : 'btn-outline-secondary hover-light'
+                                                ? 'tw-text-gray-400 tw-cursor-not-allowed tw-bg-gray-100'
+                                                : 'tw-text-gray-700 tw-bg-white tw-border tw-border-gray-200 hover:tw-bg-gray-50 hover:tw-shadow-md'
                                         ]"
                                     >
                                         Next
-                                        <i class="bi bi-chevron-right"></i>
+                                        <i class="bi bi-chevron-right tw-w-4 tw-h-4"></i>
                                     </button>
                                 </div>
                             </div>
@@ -253,29 +240,29 @@
                 </div>
 
                 <!-- Stats Section -->
-                <div v-if="!loading && !error && filteredEvents.length > 0" class="mt-5">
-                    <div class="bg-gradient-dark rounded-3 p-4 p-md-5">
-                        <div class="row g-4">
-                            <div v-for="stat in stats" :key="stat.label" class="col-6 col-md-3 text-center">
-                                <div class="display-6 fw-bold text-white mb-2">{{ stat.value }}</div>
-                                <div class="text-white-50">{{ stat.label }}</div>
+                <div v-if="!loading && !error && filteredEvents.length > 0" class="tw-mt-24">
+                    <div class="tw-bg-gradient-to-r tw-from-gray-900 tw-to-black tw-rounded-3xl tw-p-8 md:tw-p-12">
+                        <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-4 tw-gap-8">
+                            <div v-for="stat in stats" :key="stat.label" class="tw-text-center">
+                                <div class="tw-text-3xl md:tw-text-4xl tw-font-bold tw-text-white tw-mb-2">{{ stat.value }}</div>
+                                <div class="tw-text-gray-300">{{ stat.label }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Newsletter CTA -->
-                <div class="mt-5 text-center">
-                    <div class="max-w-2xl mx-auto">
-                        <h3 class="h2 fw-bold text-dark mb-3">Never Miss an Event</h3>
-                        <p class="text-secondary mb-4">Subscribe to get notified about upcoming conferences, workshops, and networking opportunities</p>
-                        <div class="d-flex flex-column flex-sm-row gap-3 max-w-md mx-auto">
+                <div class="tw-mt-24 tw-text-center">
+                    <div class="tw-max-w-2xl tw-mx-auto">
+                        <h3 class="tw-text-2xl tw-font-bold tw-text-gray-800 tw-mb-4">Never Miss an Event</h3>
+                        <p class="tw-text-gray-600 tw-mb-8">Subscribe to get notified about upcoming conferences, workshops, and networking opportunities</p>
+                        <div class="tw-flex tw-flex-col sm:tw-flex-row tw-gap-4 tw-max-w-md tw-mx-auto">
                             <input 
                                 type="email" 
                                 placeholder="Enter your email address" 
-                                class="form-control flex-grow-1 px-4 py-2 rounded-pill focus-outline-cyan"
+                                class="tw-flex-1 tw-px-6 tw-py-3 tw-rounded-full tw-border tw-border-gray-300 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-cyan-500 focus:tw-border-transparent tw-transition-all tw-duration-200"
                             />
-                            <button class="btn bg-gradient-cyan-purple text-white fw-medium rounded-pill px-4 py-2 hover-lift transition-all">
+                            <button class="tw-px-8 tw-py-3 tw-bg-gradient-to-r tw-from-cyan-500 tw-to-purple-500 tw-text-white tw-font-medium tw-rounded-full hover:tw-shadow-lg hover:tw-shadow-cyan-500/25 tw-transition-all tw-duration-200 tw-transform hover:tw--translate-y-0.5">
                                 Subscribe
                             </button>
                         </div>
@@ -514,77 +501,25 @@ watch(activeStatusFilters, () => {
 </script>
 
 <style scoped>
-/* Custom CSS for Bootstrap enhancements */
-.text-gradient-cyan-purple {
-    background: linear-gradient(to right, #0dcaf0, #6f42c1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
+/* Custom CSS utilities that might not be in Tailwind CDN */
 
-.bg-gradient-cyan-purple {
-    background: linear-gradient(to right, #0dcaf0, #6f42c1);
-}
-
-.bg-gradient-warning {
-    background: linear-gradient(to right, #ffc107, #fd7e14);
-}
-
-.bg-gradient-dark {
-    background: linear-gradient(to right, #212529, #000);
-}
-
-.bg-purple {
-    background-color: #6f42c1;
-}
-
-.backdrop-filter-blur {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
-.focus-outline-cyan:focus {
-    outline: none;
-    border-color: #0dcaf0 !important;
-    box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25) !important;
-}
-
-.blur-3 {
-    filter: blur(3rem);
-}
-
-.animate-pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.animate-ping {
-    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-
-.hover-light:hover {
-    background-color: rgba(248, 249, 250, 0.8) !important;
-}
-
-.hover-lift:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0.5rem 1rem rgba(13, 202, 240, 0.25) !important;
-}
-
-.transition-all {
-    transition: all 0.2s ease;
-}
-
-.scrollbar-hide {
+/* Hide scrollbar */
+.tw-scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
 
-.scrollbar-hide::-webkit-scrollbar {
+.tw-scrollbar-hide::-webkit-scrollbar {
     display: none;
 }
 
+/* Smooth scrolling */
+.tw-scroll-smooth {
+    scroll-behavior: smooth;
+}
+
 /* Custom animations */
-@keyframes float {
+@keyframes tw-float {
     0%, 100% {
         transform: translateY(0px);
     }
@@ -593,111 +528,71 @@ watch(activeStatusFilters, () => {
     }
 }
 
-@keyframes pulse {
-    0%, 100% {
-        opacity: 0.2;
-    }
-    50% {
-        opacity: 0.4;
-    }
+.tw-animate-float {
+    animation: tw-float 3s ease-in-out infinite;
 }
 
-@keyframes ping {
-    75%, 100% {
-        transform: scale(2);
-        opacity: 0;
-    }
+/* Ensure Bootstrap icons work properly */
+.bi {
+    display: inline-block;
+    vertical-align: -.125em;
 }
 
-/* Responsive display classes */
-.display-md-3 {
-    font-size: calc(1.3rem + 3.6vw);
+/* Container utilities for responsiveness */
+.tw-container {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+@media (min-width: 640px) {
+    .tw-container {
+        max-width: 640px;
+    }
 }
 
 @media (min-width: 768px) {
-    .display-md-3 {
-        font-size: 2.5rem;
+    .tw-container {
+        max-width: 768px;
     }
 }
 
-.display-lg-2 {
-    font-size: calc(1.3rem + 3.6vw);
-}
-
-@media (min-width: 992px) {
-    .display-lg-2 {
-        font-size: 3rem;
+@media (min-width: 1024px) {
+    .tw-container {
+        max-width: 1024px;
     }
 }
 
-/* Spacing utilities */
-.max-w-2xl {
-    max-width: 42rem;
+@media (min-width: 1280px) {
+    .tw-container {
+        max-width: 1280px;
+    }
 }
 
-.max-w-3xl {
-    max-width: 48rem;
+/* Backdrop blur utility */
+.tw-backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
-.max-w-md {
-    max-width: 28rem;
+/* Mix blend mode */
+.tw-mix-blend-multiply {
+    mix-blend-mode: multiply;
 }
 
-.w-64 {
-    width: 16rem;
+/* Filter blur */
+.tw-filter {
+    filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
-.h-64 {
-    height: 16rem;
+.tw-blur-3xl {
+    --tw-blur: blur(64px);
 }
 
-.w-5 {
-    width: 3rem;
-}
-
-.h-5 {
-    height: 3rem;
-}
-
-.w-3 {
-    width: 2.5rem;
-}
-
-.h-3 {
-    height: 2.5rem;
-}
-
-/* Border utilities */
-.border-top-0 {
-    border-top: 0 !important;
-}
-
-.border-end-0 {
-    border-right: 0 !important;
-}
-
-.border-bottom-0 {
-    border-bottom: 0 !important;
-}
-
-/* Text color utilities */
-.text-white-50 {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.placeholder-white-50::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.border-white {
-    border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-.border-opacity-20 {
-    border-opacity: 0.2;
-}
-
-.bg-opacity-10 {
-    background-opacity: 0.1;
+/* Custom placeholder color */
+.placeholder\:tw-text-gray-300::placeholder {
+    color: #d1d5db;
 }
 </style>
