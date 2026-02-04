@@ -42,15 +42,42 @@
         <!-- Hero Section -->
         <div class="relative">
           <!-- Event Image -->
-          <div class="relative h-96 md:h-[500px] overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+          <div class="relative h-96 md:h-[500px] overflow-hidden bg-gray-900">
+            <!-- Loading state for image -->
+            <div v-if="!imageLoaded && !imageError" class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
+              <div class="text-center">
+                <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-white/20 border-t-white/60 mb-3"></div>
+                <p class="text-white/70 text-sm">Loading image...</p>
+              </div>
+            </div>
+
+            <!-- Error state for image -->
+            <div v-if="imageError" class="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+              <div class="text-center">
+                <svg class="w-12 h-12 mx-auto mb-3 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <p class="text-white/70 text-sm">Image not available</p>
+              </div>
+            </div>
+
+            <!-- Actual Image -->
             <img 
-              :src="eventImageUrl" 
+              ref="imageElement"
+              :src="imageSrc" 
               :alt="event.title"
-              class="w-full h-full object-cover transition-transform duration-700"
-              :class="{ 'scale-105': imageLoaded }"
-              @load="imageLoaded = true"
+              class="w-full h-full object-cover transition-opacity duration-500"
+              :class="{
+                'opacity-0 scale-100': !imageLoaded || imageError,
+                'opacity-100 scale-105': imageLoaded && !imageError
+              }"
+              @load="onImageLoad"
+              @error="onImageError"
+              crossorigin="anonymous"
             />
+            
+            <!-- Gradient overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent z-10"></div>
             
             <!-- Back Button -->
             <div class="absolute top-4 left-4 z-20">
@@ -104,12 +131,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, nextTick, watch, onUnmounted } from 'vue'
 import { useRoute, useRouter } from '#imports'
-const imageElement = ref(null)
-const imageLoaded = ref(false)
-const imageError = ref(false)
-
 
 const route = useRoute()
 const router = useRouter()
@@ -120,6 +143,12 @@ const loading = ref(true)
 const error = ref(null)
 const event = ref(null)
 
+// Image state
+const imageElement = ref(null)
+const imageLoaded = ref(false)
+const imageError = ref(false)
+const imageSrc = ref('')
+
 // Computed properties
 const eventImageUrl = computed(() => {
   if (!event.value?.featured_image) {
@@ -127,6 +156,9 @@ const eventImageUrl = computed(() => {
   }
   
   const imgPath = event.value.featured_image
+  
+  console.log('🖼️ Image Debug:')
+  console.log('Original path:', imgPath)
   
   // Already a full URL
   if (imgPath.startsWith('http')) {
@@ -136,72 +168,11 @@ const eventImageUrl = computed(() => {
   const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
   const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
   
-  return `${baseUrl}/storage/${cleanPath}`
+  const fullUrl = `${baseUrl}/storage/${cleanPath}`
+  console.log('Computed URL:', fullUrl)
+  
+  return fullUrl
 })
-
-// Load image with CORS handling
-const loadImage = async () => {
-  try {
-    imageLoaded.value = false
-    imageError.value = false
-    
-    console.log('🔄 Loading image:', eventImageUrl.value)
-    
-    // Try to fetch the image as blob first (handles CORS better)
-    const response = await fetch(eventImageUrl.value, {
-      mode: 'cors',
-      credentials: 'omit' // Try 'include' if this doesn't work
-    })
-    
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-    }
-    
-    const blob = await response.blob()
-    const objectUrl = URL.createObjectURL(blob)
-    
-    console.log('✅ Image fetched as blob, size:', blob.size, 'bytes')
-    
-    // Set the blob URL as image source
-    imageSrc.value = objectUrl
-    imageLoaded.value = true
-    
-    // Clean up object URL when component unmounts
-    onUnmounted(() => {
-      if (imageSrc.value.startsWith('blob:')) {
-        URL.revokeObjectURL(imageSrc.value)
-      }
-    })
-    
-  } catch (error) {
-    console.error('❌ Failed to load image:', error)
-    
-    // Fallback: try direct loading
-    console.log('🔄 Trying direct image loading...')
-    imageSrc.value = eventImageUrl.value
-    
-    // Create a test image element
-    const testImg = new Image()
-    testImg.crossOrigin = 'anonymous'
-    
-    testImg.onload = () => {
-      console.log('✅ Direct loading worked')
-      imageLoaded.value = true
-    }
-    
-    testImg.onerror = (err) => {
-      console.error('❌ Direct loading also failed:', err)
-      imageError.value = true
-      imageLoaded.value = true
-      
-      // Use placeholder
-      imageSrc.value = '/images/event-placeholder.jpg'
-    }
-    
-    testImg.src = eventImageUrl.value
-  }
-}
-
 
 const formattedType = computed(() => {
   if (!event.value?.type) return 'Event'
@@ -216,46 +187,37 @@ const formattedDate = computed(() => {
     weekday: 'long', 
     year: 'numeric', 
     month: 'long', 
-    day: 'numeric' 
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
   }
   
   return startDate.toLocaleDateString('en-US', options)
 })
-onMounted(() => {
-  nextTick(() => {
-    if (imageElement.value) {
-      // Check if image is already loaded (cached)
-      if (imageElement.value.complete) {
-        onImageLoad()
-      }
-      
-      // Test if image is accessible
-      console.log('🔍 Testing image accessibility...')
-      fetch(eventImageUrl.value, { method: 'HEAD', mode: 'no-cors' })
-        .then(() => {
-          console.log('✅ Image is accessible (HEAD request succeeded)')
-        })
-        .catch(err => {
-          console.warn('⚠️ HEAD request failed (may be CORS issue):', err)
-          // Try a full fetch to see detailed error
-          fetch(eventImageUrl.value)
-            .then(res => {
-              console.log(`Image fetch status: ${res.status} ${res.statusText}`)
-              if (!res.ok) {
-                console.error('Image fetch failed with status:', res.status)
-              }
-            })
-            .catch(fetchErr => {
-              console.error('Full fetch error:', fetchErr)
-            })
-        })
-    }
-  })
-})
-// Fetch event data
-onMounted(async () => {
+
+// Image handlers
+const onImageLoad = () => {
+  console.log('✅ Image loaded successfully')
+  imageLoaded.value = true
+  imageError.value = false
+}
+
+const onImageError = (e) => {
+  console.error('❌ Image error:', e)
+  console.error('Failed URL:', eventImageUrl.value)
+  imageError.value = true
+  imageLoaded.value = true
+  
+  // Use placeholder
+  imageSrc.value = '/images/event-placeholder.jpg'
+}
+
+// Load event data
+const fetchEvent = async () => {
   try {
     loading.value = true
+    imageLoaded.value = false
+    imageError.value = false
     console.log('Fetching event with slug:', slug)
     
     // Call your API
@@ -271,6 +233,9 @@ onMounted(async () => {
       event.value = result.data
       console.log('Event data loaded:', event.value)
       
+      // Set image source
+      imageSrc.value = eventImageUrl.value
+      
       // Set page title
       useHead({
         title: `${event.value.title} | Event Details`
@@ -283,6 +248,61 @@ onMounted(async () => {
     error.value = err.message
   } finally {
     loading.value = false
+  }
+}
+
+// Test image accessibility
+const testImageAccessibility = async () => {
+  if (!event.value?.featured_image) return
+  
+  console.log('🔍 Testing image accessibility...')
+  
+  try {
+    const response = await fetch(eventImageUrl.value, { 
+      method: 'GET',
+      mode: 'cors',
+      cache: 'no-cache'
+    })
+    
+    console.log(`Image fetch status: ${response.status} ${response.statusText}`)
+    
+    if (response.ok) {
+      console.log('✅ Image is accessible')
+    } else {
+      console.warn(`⚠️ Image returned status: ${response.status}`)
+    }
+  } catch (fetchErr) {
+    console.error('❌ Image fetch error:', fetchErr)
+  }
+}
+
+// Lifecycle
+onMounted(async () => {
+  await fetchEvent()
+})
+
+// Watch for event changes
+watch(() => event.value, (newEvent) => {
+  if (newEvent) {
+    // Reset image state
+    imageLoaded.value = false
+    imageError.value = false
+    imageSrc.value = eventImageUrl.value
+    
+    // Test image
+    nextTick(() => {
+      if (imageElement.value?.complete) {
+        onImageLoad()
+      }
+      testImageAccessibility()
+    })
+  }
+}, { immediate: true })
+
+// Clean up
+onUnmounted(() => {
+  if (imageSrc.value.startsWith('blob:')) {
+    URL.revokeObjectURL(imageSrc.value)
   }
 })
 </script>
