@@ -40,11 +40,14 @@ const loadTailwind = () => {
         const script = document.createElement('script')
         script.src = 'https://cdn.tailwindcss.com'
         script.onload = () => {
-            tailwind.config = {
-                prefix: 'tw-',
-                important: '.tw-tailwind-container',
-                corePlugins: {
-                    preflight: false,
+            // Type assertion to tell TypeScript this exists
+            if (typeof (window as any).tailwind !== 'undefined') {
+                (window as any).tailwind.config = {
+                    prefix: 'tw-',
+                    important: '.tw-tailwind-container',
+                    corePlugins: {
+                        preflight: false,
+                    }
                 }
             }
             window.tailwindLoaded = true
@@ -68,6 +71,9 @@ useSeoMeta({
 declare global {
     interface Window {
         tailwindLoaded?: boolean
+        tailwind?: {
+            config: (config: any) => void
+        }
     }
 }
 </script>
