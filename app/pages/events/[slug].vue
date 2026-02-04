@@ -267,7 +267,9 @@
               <div class="bg-white rounded-3xl shadow-xl p-8">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">About This Event</h2>
                 <div class="prose prose-lg max-w-none">
-                  <p class="text-gray-600 leading-relaxed whitespace-pre-line">{{ event.description }}</p>
+                    <div className="prose prose-lg max-w-none mb-12 prose-headings:font-bold prose-strong:font-bold prose-em:italic">
+                        <div dangerouslySetInnerHTML={{ __html: event.description }} />
+                    </div>
                 </div>
               </div>
 
