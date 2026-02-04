@@ -40,8 +40,7 @@
     <!-- Main Content -->
     <div v-else-if="event">
       <!-- Hero Section with Regular Image -->
-      
-        <section class="relative bg-gradient-to-br from-blue-900/90 to-gray-900">
+      <section class="relative bg-gradient-to-br from-gray-700/95 via-gray-800 to-gray-900/95">
         <!-- Navigation Bar -->
         <nav class="relative z-10">
           <div class="container mx-auto px-4 sm:px-6 lg:px-8">
