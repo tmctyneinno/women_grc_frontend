@@ -1,5 +1,6 @@
 <!-- pages/EventDetailPage.vue -->
 <template>
+  <nuxt-layout name="landing-layout">
   <div class="min-h-screen bg-gradient-to-br from-gray-50 to-white">
     <!-- Loading State -->
     <div v-if="loading" class="flex items-center justify-center min-h-screen">
@@ -392,6 +393,7 @@
       </div>
     </div>
   </div>
+  </nuxt-layout>
 </template>
 
 <script setup>
@@ -419,7 +421,7 @@ const event = computed(() => eventStore.currentEvent);
 onMounted(async () => {
   try {
     loading.value = true;
-    const identifier = route.params.id || route.params.slug;
+    const identifier =  route.params.slug;
     await eventStore.fetchEvent(identifier);
     
     if (!event.value) {
