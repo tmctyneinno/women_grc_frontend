@@ -117,7 +117,7 @@
                   <div>
                     <h3 class="text-lg font-semibold text-white mb-2">Date & Time</h3>
                     <p class="text-white/90">{{ formattedDateTime }}</p>
-                    <p v-if="eventDuration" class="text-white/70 text-sm mt-1">Duration: {{ eventDuration }}</p>
+                    <p v-if="eventDuration" class="text-white0 text-sm mt-1">Duration: {{ eventDuration }}</p>
                   </div>
                 </div>
 
