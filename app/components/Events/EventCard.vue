@@ -41,7 +41,7 @@
       </div>
       
       <!-- Actual Image -->
-      <!-- <img 
+      <img 
         ref="eventImage"
         :src="eventImageUrl" 
         :alt="event.title"
@@ -50,10 +50,10 @@
         @load="onImageLoad"
         @error="onImageError"
         crossorigin="anonymous"
-      /> -->
+      />
       
       <!-- Gradient Overlay -->
-      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+      <!-- <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div> -->
       
       <!-- Type Badge -->
       <div class="absolute bottom-4 left-4">
