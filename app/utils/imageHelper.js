@@ -10,5 +10,5 @@ export const getImageUrl = (path) => {
   // Remove leading slash if present
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
   
-  return `${baseUrl}/storage/${cleanPath}`;
+  return `${baseUrl}/storage/${cleanPath}`; 
 };
