@@ -125,8 +125,8 @@ const eventImageUrl = computed(() => {
     return event.value.featured_image
   }
   
-  // const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-  return `http://localhost:8000/storage/events/featured/FYS6H4c5ck9ttaMdqBfocj4JYkXjVNHsmmneEoAI.jpg`
+  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+  return `${baseUrl}/storage/${event.value.featured_image}`
 })
 
 const formattedType = computed(() => {
