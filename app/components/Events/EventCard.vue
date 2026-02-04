@@ -51,15 +51,13 @@
         @error="onImageError"
         crossorigin="anonymous"
       />
-      <!-- Gradient Overlay -->
-      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
       <!-- Type Badge -->
       <div class="absolute bottom-4 left-4">
         <div :class="[
           'px-3 py-1 rounded-full text-xs font-semibold text-white backdrop-blur-sm border border-white/20',
           typeClass
         ]">
-          {{ formattedType }}
+          {{ formattedType }}c
         </div>
       </div>
       
