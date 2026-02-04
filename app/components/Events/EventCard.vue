@@ -24,7 +24,7 @@
              
                 :src="getImageUrl(event.featured_image)" 
                 :alt="event.title"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                class=" h-12 object-contain group-hover:scale-110 transition-transform duration-500"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
             
