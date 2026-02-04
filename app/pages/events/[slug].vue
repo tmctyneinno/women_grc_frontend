@@ -420,7 +420,7 @@ onMounted(async () => {
   try {
     loading.value = true;
     const identifier = route.params.id || route.params.slug;
-    
+    console.error('identifier loading event:', identifier);
     await eventStore.fetchEvent(identifier);
     
     if (!event.value) {
