@@ -414,19 +414,19 @@
 
                 <!-- Event Details -->
                 <div class="space-y-6">
-                  <div class="flex items-center justify-between py-4 border-b border-gray-100">
+                  <div class="flex items-center justify-between py-3 border-b border-gray-100">
                     <span class="text-gray-600 font-medium">Event Type</span>
                     <span class="font-semibold text-gray-800">{{ formattedType }}</span>
                   </div>
-                  <div class="flex items-center justify-between py-4 border-b border-gray-100">
+                  <div class="flex items-center justify-between py-3 border-b border-gray-100">
                     <span class="text-gray-600 font-medium">Date & Time</span>
                     <span class="font-semibold text-gray-800 text-right">{{ formattedDateTime }} </span>
                   </div>
-                  <div class="flex items-center justify-between py-4 border-b border-gray-100">
+                  <div class="flex items-center justify-between py-3 border-b border-gray-100">
                     <span class="text-gray-600 font-medium">Venue</span>
                     <span class="font-semibold text-gray-800 text-right">{{ event.venue }}</span>
                   </div>
-                  <div class="flex items-center justify-between py-4 border-b border-gray-100">
+                  <div class="flex items-center justify-between py-2 border-b border-gray-100">
                     <span class="text-gray-600 font-medium">Format</span>
                     <span class="font-semibold text-gray-800">{{ event.is_online ? 'Virtual' : 'In-Person' }}</span>
                   </div>
