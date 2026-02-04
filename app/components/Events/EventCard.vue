@@ -20,10 +20,9 @@
 
         <!-- Event Image -->
         <div class="relative h-48 overflow-hidden">
-            <p>{{ event.featured_image }}</p>
             <img 
              
-                :src="getImageUrl(event.image)" 
+                :src="getImageUrl(event.featured_image)" 
                 :alt="event.title"
                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
