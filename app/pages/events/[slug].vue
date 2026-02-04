@@ -504,11 +504,9 @@
                   </div>
                   <div>
                     <h4 class="font-bold text-gray-800 text-lg">{{ event.organizer.name }}</h4>
-                    <p v-if="event.organizer.description" class="text-gray-600 text-sm mt-1 line-clamp-2">
-                      {{ event.organizer.description }}
-                    </p>
+                    
                     <a 
-                      :href='''
+                     
                       target="_blank"
                       class="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-medium text-sm mt-3 group"
                     >
