@@ -210,7 +210,7 @@ const eventImageUrl = computed(() => {
     return imgPath;
   }
   
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+  const baseUrl = 'http://api.wgrcfp.org';
   const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath;
   
   // Use the proxy route for CORS
