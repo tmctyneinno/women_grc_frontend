@@ -1,54 +1,54 @@
 // services/EventService.js
-import { ofetch } from 'ofetch';
-
 export class EventService {
   constructor() {
-    this.baseURL = 'http://api.wgrcfp.org/api/v1';
+    // Use relative path in production, full URL in development
+    if (process.client) {
+      // Check if we're on production domain
+      const isProduction = window.location.hostname === 'wgrcfp.org';
+      this.baseURL = isProduction ? '/api' : 'http://api.wgrcfp.org/api/v1';
+    } else {
+      this.baseURL = '/api'; // For SSR
+    }
     
-    // Create a fetch instance with defaults
-    this.$fetch = ofetch.create({
-      baseURL: this.baseURL,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      retry: 0,
-      onRequest({ request, options }) {
-        console.log(`[EventService] ${options.method || 'GET'} ${request}`);
-      },
-      onResponseError({ request, response, options }) {
-        console.error(`[EventService] Error:`, {
-          url: request,
-          status: response?.status,
-          statusText: response?.statusText
-        });
-      }
-    });
+    console.log('[EventService] Base URL:', this.baseURL);
   }
 
-  setBaseURL(url) {
-    if (url) {
-      this.baseURL = url;
-      this.$fetch = ofetch.create({
-        baseURL: url,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        retry: 0
+  async fetchWithTimeout(url, options = {}, timeout = 10000) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    
+    try {
+      const response = await fetch(url, {
+        ...options,
+        signal: controller.signal
       });
-      console.log(`[EventService] Base URL updated to: ${url}`);
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      clearTimeout(timeoutId);
+      
+      if (error.name === 'AbortError') {
+        throw new Error('Request timeout. Server is not responding.');
+      }
+      
+      throw error;
     }
   }
 
   async getEvents(page = 1, perPage = 10) {
-    return this.$fetch('/events', {
-      params: { page, per_page: perPage }
-    });
+    const url = `${this.baseURL}/events?page=${page}&per_page=${perPage}`;
+    return this.fetchWithTimeout(url);
   }
 
   async getFeaturedEvents() {
-    return this.$fetch('/events/featured');
+    const url = `${this.baseURL}/events/featured`;
+    return this.fetchWithTimeout(url);
   }
 
   async getUpcomingEvents() {
@@ -57,18 +57,19 @@ export class EventService {
   }
 
   async getEvent(id) {
-    return this.$fetch(`/events/${id}`);
+    const url = `${this.baseURL}/events/${id}`;
+    return this.fetchWithTimeout(url);
   }
 
   async getEventBySlug(slug) {
-    return this.$fetch(`/events/${slug}`);
+    const url = `${this.baseURL}/events/slug/${slug}`;
+    return this.fetchWithTimeout(url);
   }
 
   async searchEvents(query, type = null) {
-    const params = { search: query };
-    if (type) params.type = type;
-    
-    return this.$fetch('/events', { params });
+    let url = `${this.baseURL}/events?search=${encodeURIComponent(query)}`;
+    if (type) url += `&type=${type}`;
+    return this.fetchWithTimeout(url);
   }
 }
 
