@@ -52,7 +52,8 @@ export class EventService {
   }
 
   async getUpcomingEvents() {
-    return this.$fetch('/events/upcoming');
+    const url = `${this.baseURL}/events/upcoming`;
+    return this.fetchWithTimeout(url);
   }
 
   async getEvent(id) {
