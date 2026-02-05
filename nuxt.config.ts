@@ -2,8 +2,12 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  ssr: true,
+  ssr: false,
   routeRules: {
+    '/api/**': { 
+      proxy: 'http://api.wgrcfp.org/api/v1/**',
+      cors: true
+    },
     '/api/images/**': {
       // proxy: 'http://localhost:8000/storage/**' 
       proxy: 'http://api.wgrcfp.org/storage/**'
