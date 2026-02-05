@@ -3,32 +3,38 @@ import axios from 'axios';
 
 class EventService {
     constructor() {
-        // Initialize with null - will be set in setup
-        this.api = null;
-    }
-
-    // Initialize the service with runtime config
-    initialize(config) {
-        this.baseURL = config.baseURL || 'http://localhost:8000/api/v1';
+        // Get config from environment or use defaults
+        this.baseURL = process.env.API_BASE_URL || 'http://localhost:8000/api/v1';
         
+        // Initialize axios instance immediately
         this.api = axios.create({
             baseURL: this.baseURL,
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                // Add any authentication headers if needed
-                // 'Authorization': `Bearer ${config.token}`
             },
-            // Add timeout to prevent hanging requests
             timeout: 10000,
-            // Add withCredentials if using cookies/sessions
-            // withCredentials: true
         });
 
-        // Add request interceptor for logging/debugging
+        this.setupInterceptors();
+    }
+
+    // Alternative constructor for Nuxt runtime config
+    static createWithConfig(config) {
+        const instance = new EventService();
+        if (config?.baseURL) {
+            instance.setBaseURL(config.baseURL);
+        }
+        return instance;
+    }
+
+    setupInterceptors() {
+        // Request interceptor
         this.api.interceptors.request.use(
             config => {
-                console.log('API Request:', config.method.toUpperCase(), config.url);
+                if (process.client) {
+                    console.log('API Request:', config.method?.toUpperCase(), config.url);
+                }
                 return config;
             },
             error => {
@@ -37,111 +43,83 @@ class EventService {
             }
         );
 
-        // Add response interceptor for better error handling
+        // Response interceptor
         this.api.interceptors.response.use(
             response => response,
             error => {
-                this.handleError(error);
-                return Promise.reject(error);
+                return Promise.reject(this.handleError(error));
             }
         );
     }
 
-    // Set base URL dynamically
     setBaseURL(url) {
-        if (this.api) {
-            this.baseURL = url;
-            this.api.defaults.baseURL = url;
-        }
+        this.baseURL = url;
+        this.api.defaults.baseURL = url;
+        console.log('EventService baseURL set to:', url);
     }
 
     async getEvents(page = 1, perPage = 10) {
-        try {
-            const response = await this.api.get('/events', {
-                params: { page, per_page: perPage }
-            });
-            return response.data;
-        } catch (error) {
-            throw error; // Re-throw after interceptors handle it
-        }
+        const response = await this.api.get('/events', {
+            params: { page, per_page: perPage }
+        });
+        return response.data;
     }
 
     async getFeaturedEvents() {
-        try {
-            const response = await this.api.get('/events/featured');
-            return response.data;
-        } catch (error) {
-            throw error;
-        }
+        const response = await this.api.get('/events/featured');
+        return response.data;
     }
 
     async getUpcomingEvents() {
-        try {
-            const response = await this.api.get('/events/upcoming');
-            return response.data;
-        } catch (error) {
-            throw error;
-        }
+        const response = await this.api.get('/events/upcoming');
+        return response.data;
     }
 
     async getEvent(id) {
-        try {
-            const response = await this.api.get(`/events/${id}`);
-            return response.data;
-        } catch (error) {
-            throw error;
-        }
+        const response = await this.api.get(`/events/${id}`);
+        return response.data;
     }
 
     async getEventBySlug(slug) {
-        try {
-            const response = await this.api.get(`/events/slug/${slug}`);
-            return response.data;
-        } catch (error) {
-            throw error;
-        }
+        const response = await this.api.get(`/events/slug/${slug}`);
+        return response.data;
     }
 
     async searchEvents(query, type = null) {
-        try {
-            const params = { search: query };
-            if (type) params.type = type;
-            
-            const response = await this.api.get('/events', { params });
-            return response.data;
-        } catch (error) {
-            throw error;
-        }
+        const params = { search: query };
+        if (type) params.type = type;
+        
+        const response = await this.api.get('/events', { params });
+        return response.data;
     }
 
     handleError(error) {
-        console.error('API Error Details:', {
+        // Don't log on server-side during SSR
+        if (process.server) {
+            return error;
+        }
+
+        console.error('API Error:', {
             message: error.message,
-            code: error.code,
-            config: error.config?.url
+            url: error.config?.url,
+            baseURL: error.config?.baseURL,
+            status: error.response?.status
         });
 
         if (error.response) {
-            // Server responded with error status
             const { status, data } = error.response;
-            const message = data.message || `Request failed with status ${status}`;
-            console.error('Server Error Response:', { status, data });
-            throw new Error(message);
+            const message = data?.message || data?.error || `Request failed with status ${status}`;
+            return new Error(message);
         } else if (error.request) {
-            // Request was made but no response received
-            console.error('No Response Error:', {
-                url: error.config?.url,
-                baseURL: error.config?.baseURL
-            });
-            throw new Error(`Cannot connect to server. Please check if the API is running at ${this.baseURL}`);
+            return new Error(`Cannot connect to server. Please check your connection and ensure the API is running.`);
+        } else if (error.code === 'ECONNABORTED') {
+            return new Error('Request timeout. Please try again.');
         } else {
-            // Something else happened
-            console.error('Request Setup Error:', error.message);
-            throw new Error(`Request error: ${error.message}`);
+            return new Error(`Request error: ${error.message}`);
         }
     }
 }
 
-// Create singleton instance
+// Create and export singleton instance
 const eventService = new EventService();
 export default eventService;
