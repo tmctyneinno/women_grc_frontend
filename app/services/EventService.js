@@ -3,6 +3,7 @@ import axios from 'axios';
 
 class EventService {
     constructor() {
+        const config = useRuntimeConfig();
         // Base URL - change this to your actual API URL
         this.baseURL = config.public.apiUrl  || 'http://localhost:8000/api/v1';
         this.api = axios.create({
