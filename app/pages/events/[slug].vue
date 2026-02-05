@@ -877,8 +877,13 @@ const fetchEvent = async () => {
     
     console.log('Fetching event with slug:', slug)
     
-    // const response = await fetch(`http://localhost:8000/api/v1/events/${slug}`)
-    const response = await fetch(`https://api.wgrcfp.org/api/v1/events/${slug}`)
+    const response = await fetch(`https://api.wgrcfp.org/api/v1/events/${slug}`, {
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    })
     
     
     if (!response.ok) {
