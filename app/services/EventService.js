@@ -4,8 +4,9 @@ export class EventService {
     // Use relative path in production, full URL in development
     if (process.client) {
       // Check if we're on production domain
-      const isProduction = window.location.hostname === 'wgrcfp.org';
-      this.baseURL = isProduction ? '/api' : 'http://api.wgrcfp.org/api/v1';
+      this.baseURL = window.location.protocol === 'https:' 
+      ? 'https://api.wgrcfp.org/api/v1'
+      : 'http://api.wgrcfp.org/api/v1';
     } else {
       this.baseURL = '/api'; // For SSR
     }
