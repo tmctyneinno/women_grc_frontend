@@ -2,9 +2,9 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  
   routeRules: {
     '/api/images/**': {
-      // proxy: 'http://localhost:8000/storage/**' 
       proxy: 'http://api.wgrcfp.org/storage/**'
     },
     '/account/**': { ssr: false },
@@ -26,21 +26,23 @@ export default defineNuxtConfig({
     }
   },
 
-
   nitro: { 
     devProxy: {
-        '/api': {
-            target: process.env.API_BASE_URL || 'http://localhost:8000/api/v1',
-            changeOrigin: true,
-            prependPath: true,
-        }
+      '/api': {
+        target: 'http://api.wgrcfp.org/api/v1',
+        changeOrigin: true,
+      },
+      '/storage': {
+        target: 'http://api.wgrcfp.org',
+        changeOrigin: true,
+      }
     },
-    preset: 'static' 
+    preset: 'static'
   },
 
   runtimeConfig: {
     public: {
-      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1',
+      apiUrl: 'http://api.wgrcfp.org/api/v1', // Use actual API URL
       siteUrl: process.env.SITE_URL || 'http://localhost:3000',
       googleSignIn: {
         clientId: process.env.GOOGLE_CLIENT_ID || '',
@@ -57,11 +59,20 @@ export default defineNuxtConfig({
     'nuxt-vue3-google-signin',
     '@nuxt/image',
   ],
+  
   axios: {
-      baseURL: process.env.API_BASE_URL || 'http://localhost:8000/api/v1',
-      credentials: false,
-      proxy: true
+    baseURL: '/api', // Use proxy path
+    credentials: false,
+    proxy: true,
+    retry: false,
+    headers: {
+      common: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }
   },
+  
   build: {
     transpile: ['@vuepic/vue-datepicker']
   },
@@ -70,7 +81,6 @@ export default defineNuxtConfig({
     buildAssetsDir: '/_assets/',
     head: {
       title: 'Women in GRCFP',
-      // titleTemplate: '%s - WIGRCFP', // This adds suffix to all titles
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -82,16 +92,8 @@ export default defineNuxtConfig({
         { property: 'og:url', content: 'https://wgrcfp.org' },
         { property: 'og:image', content: 'https://wgrcfp.org/images/WGRC-logo.png' },
 
-        // Twitter meta tags
-        // { name: 'twitter:card', content: 'summary_large_image' },
-        // { name: 'twitter:title', content: 'Women in GRCFP' },
-        // { name: 'twitter:description', content: 'Women in Governance, Risk, Compliance, Financial Crime, and Fraud Prevention is a pioneering initiative founded by Dr. Foluso Amusa, PhD, dedicated to empowering women professionals in these critical fields. Our mission is to foster leadership, inspire innovation, and create a collaborative platform for women to thrive, lead, and make a lasting impact across industries.' },
-        // { name: 'twitter:image', content: 'https://wgrcfp.org/images/WGRC-logo.png' },
-
-        // Fallback description for search engines
+        // Fallback description
         { name: 'description', content: 'Women in Governance, Risk, Compliance, Financial Crime, and Fraud Prevention is a pioneering initiative founded by Dr. Foluso Amusa, PhD, dedicated to empowering women professionals in these critical fields. Our mission is to foster leadership, inspire innovation, and create a collaborative platform for women to thrive, lead, and make a lasting impact across industries.' }
-
-
       ]
     }
   },
@@ -112,37 +114,7 @@ export default defineNuxtConfig({
 
   plugins: [
     './plugins/bootstrap.client.ts',
-    './plugins/plugins.client.ts'
+    './plugins/plugins.client.ts',
+    '~/plugins/event-service.client.ts' // Add this
   ],
-
-
 })
-
-// command-line installation ############################
-
-/*
-
-- npm install @marcoschulte/vue3-progress
-- npm install animate.css --save
-- npm i bootstrap@5.3.8
-- npm i bootstrap-icons
-- npx nuxi@latest module add pinia
-- npm install -S vue-sweetalert2
-- npm install aos --save
-- npm i js-cookie
-- npm install vue3-easy-data-table
-- npm install @vuepic/vue-datepicker
-- npm i -D @vueuse/nuxt @vueuse/core
-- npx nuxi@latest module add aos
-- npm i axios
-- npx nuxi@latest module add vue3-carousel-nuxt
-- npm i @vueform/multiselect
-- npm install maska
-- npx nuxi@latest module add nuxt-vue3-google-signin
-- npm install --save-dev @types/node
-- npm install vue-tel-input
-- npm install vee-validate --save
-- npm install @vee-validate/yup
-- npm i country-state-city
-
-*/
