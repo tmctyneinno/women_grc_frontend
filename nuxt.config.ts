@@ -4,7 +4,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   routeRules: {
     '/api/images/**': {
-      proxy: 'http://localhost:8000/storage/**'
+      // proxy: 'http://localhost:8000/storage/**' 
+      proxy: 'http://api.wgrcfp.org/storage/**'
     },
     '/account/**': { ssr: false },
 
