@@ -25,19 +25,19 @@ export default defineNuxtConfig({
       headers: { 'Cache-Control': 'public, max-age=31536000, immutable' }
     }
   },
-
-
   nitro: { 
-    devProxy: {
+      devProxy: {
         '/api': {
-            target: process.env.API_BASE_URL || 'http://localhost:8000/api/v1',
-            changeOrigin: true,
-            prependPath: true,
+          target: 'http://api.wgrcfp.org/api/v1',
+          changeOrigin: true,
+        },
+        '/storage': {
+          target: 'http://api.wgrcfp.org',
+          changeOrigin: true,
         }
+      },
+      preset: 'static'
     },
-    preset: 'static' 
-  },
-
   runtimeConfig: {
     public: {
       apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1',
