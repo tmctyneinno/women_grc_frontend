@@ -38,7 +38,7 @@ class EventService {
     async getFeaturedEvents() {
         try {
             const response = await this.api.get('/events/featured');
-            return response.data;
+            return response.data; 
         } catch (error) {
             this.handleError(error);
         }
