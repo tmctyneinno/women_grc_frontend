@@ -876,7 +876,8 @@ const fetchEvent = async () => {
     
     console.log('Fetching event with slug:', slug)
     
-    const response = await fetch(`http://localhost:8000/api/v1/events/${slug}`)
+    // const response = await fetch(`http://localhost:8000/api/v1/events/${slug}`)
+    const response = await fetch(`http://api.wgrcfp.org/api/v1/events/${slug}`)
     
     if (!response.ok) {
       if (response.status === 404) {
