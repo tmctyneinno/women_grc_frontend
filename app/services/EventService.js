@@ -7,7 +7,7 @@ class EventService {
         this.baseURL = process.env.VUE_APP_API_URL || 'http://localhost:8000/api/v1';
         this.api = axios.create({
             baseURL: this.baseURL,
-            headers: {
+            headers: { 
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }
