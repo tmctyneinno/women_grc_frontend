@@ -57,6 +57,11 @@ export default defineNuxtConfig({
     'nuxt-vue3-google-signin',
     '@nuxt/image',
   ],
+  axios: {
+      baseURL: process.env.API_BASE_URL || 'http://localhost:8000/api/v1',
+      credentials: false,
+      proxy: true
+  },
   build: {
     transpile: ['@vuepic/vue-datepicker']
   },
