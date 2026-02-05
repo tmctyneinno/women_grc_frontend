@@ -1,125 +1,75 @@
 // services/EventService.js
-import axios from 'axios';
+import { ofetch } from 'ofetch';
 
-class EventService {
-    constructor() {
-        // Get config from environment or use defaults
-        this.baseURL = process.env.API_BASE_URL || 'http://localhost:8000/api/v1';
-        
-        // Initialize axios instance immediately
-        this.api = axios.create({
-            baseURL: this.baseURL,
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            timeout: 10000,
+export class EventService {
+  constructor() {
+    this.baseURL = 'http://api.wgrcfp.org/api/v1';
+    
+    // Create a fetch instance with defaults
+    this.$fetch = ofetch.create({
+      baseURL: this.baseURL,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      retry: 0,
+      onRequest({ request, options }) {
+        console.log(`[EventService] ${options.method || 'GET'} ${request}`);
+      },
+      onResponseError({ request, response, options }) {
+        console.error(`[EventService] Error:`, {
+          url: request,
+          status: response?.status,
+          statusText: response?.statusText
         });
+      }
+    });
+  }
 
-        this.setupInterceptors();
+  setBaseURL(url) {
+    if (url) {
+      this.baseURL = url;
+      this.$fetch = ofetch.create({
+        baseURL: url,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        retry: 0
+      });
+      console.log(`[EventService] Base URL updated to: ${url}`);
     }
+  }
 
-    // Alternative constructor for Nuxt runtime config
-    static createWithConfig(config) {
-        const instance = new EventService();
-        if (config?.baseURL) {
-            instance.setBaseURL(config.baseURL);
-        }
-        return instance;
-    }
+  async getEvents(page = 1, perPage = 10) {
+    return this.$fetch('/events', {
+      params: { page, per_page: perPage }
+    });
+  }
 
-    setupInterceptors() {
-        // Request interceptor
-        this.api.interceptors.request.use(
-            config => {
-                if (process.client) {
-                    console.log('API Request:', config.method?.toUpperCase(), config.url);
-                }
-                return config;
-            },
-            error => {
-                console.error('API Request Error:', error);
-                return Promise.reject(error);
-            }
-        );
+  async getFeaturedEvents() {
+    return this.$fetch('/events/featured');
+  }
 
-        // Response interceptor
-        this.api.interceptors.response.use(
-            response => response,
-            error => {
-                return Promise.reject(this.handleError(error));
-            }
-        );
-    }
+  async getUpcomingEvents() {
+    return this.$fetch('/events/upcoming');
+  }
 
-    setBaseURL(url) {
-        this.baseURL = url;
-        this.api.defaults.baseURL = url;
-        console.log('EventService baseURL set to:', url);
-    }
+  async getEvent(id) {
+    return this.$fetch(`/events/${id}`);
+  }
 
-    async getEvents(page = 1, perPage = 10) {
-        const response = await this.api.get('/events', {
-            params: { page, per_page: perPage }
-        });
-        return response.data;
-    }
+  async getEventBySlug(slug) {
+    return this.$fetch(`/events/slug/${slug}`);
+  }
 
-    async getFeaturedEvents() {
-        const response = await this.api.get('/events/featured');
-        return response.data;
-    }
-
-    async getUpcomingEvents() {
-        const response = await this.api.get('/events/upcoming');
-        return response.data;
-    }
-
-    async getEvent(id) {
-        const response = await this.api.get(`/events/${id}`);
-        return response.data;
-    }
-
-    async getEventBySlug(slug) {
-        const response = await this.api.get(`/events/slug/${slug}`);
-        return response.data;
-    }
-
-    async searchEvents(query, type = null) {
-        const params = { search: query };
-        if (type) params.type = type;
-        
-        const response = await this.api.get('/events', { params });
-        return response.data;
-    }
-
-    handleError(error) {
-        // Don't log on server-side during SSR
-        if (process.server) {
-            return error;
-        }
-
-        console.error('API Error:', {
-            message: error.message,
-            url: error.config?.url,
-            baseURL: error.config?.baseURL,
-            status: error.response?.status
-        });
-
-        if (error.response) {
-            const { status, data } = error.response;
-            const message = data?.message || data?.error || `Request failed with status ${status}`;
-            return new Error(message);
-        } else if (error.request) {
-            return new Error(`Cannot connect to server. Please check your connection and ensure the API is running.`);
-        } else if (error.code === 'ECONNABORTED') {
-            return new Error('Request timeout. Please try again.');
-        } else {
-            return new Error(`Request error: ${error.message}`);
-        }
-    }
+  async searchEvents(query, type = null) {
+    const params = { search: query };
+    if (type) params.type = type;
+    
+    return this.$fetch('/events', { params });
+  }
 }
 
-// Create and export singleton instance
 const eventService = new EventService();
 export default eventService;

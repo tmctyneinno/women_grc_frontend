@@ -1,75 +1,15 @@
-// services/EventService.js
-import { ofetch } from 'ofetch';
+// plugins/event-service.js
+import eventService from '@/services/EventService';
 
-export class EventService {
-  constructor() {
-    this.baseURL = 'http://api.wgrcfp.org/api/v1';
+export default defineNuxtPlugin((nuxtApp) => {
+    const config = useRuntimeConfig();
     
-    // Create a fetch instance with defaults
-    this.$fetch = ofetch.create({
-      baseURL: this.baseURL,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      retry: 0,
-      onRequest({ request, options }) {
-        console.log(`[EventService] ${options.method || 'GET'} ${request}`);
-      },
-      onResponseError({ request, response, options }) {
-        console.error(`[EventService] Error:`, {
-          url: request,
-          status: response?.status,
-          statusText: response?.statusText
-        });
-      }
+    // Initialize the event service with runtime config
+    eventService.initialize({
+        baseURL: config.public.apiBaseUrl || 'http://localhost:8000/api/v1',
+        // Add other config values as needed
     });
-  }
-
-  setBaseURL(url) {
-    if (url) {
-      this.baseURL = url;
-      this.$fetch = ofetch.create({
-        baseURL: url,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        retry: 0
-      });
-      console.log(`[EventService] Base URL updated to: ${url}`);
-    }
-  }
-
-  async getEvents(page = 1, perPage = 10) {
-    return this.$fetch('/events', {
-      params: { page, per_page: perPage }
-    });
-  }
-
-  async getFeaturedEvents() {
-    return this.$fetch('/events/featured');
-  }
-
-  async getUpcomingEvents() {
-    return this.$fetch('/events/upcoming');
-  }
-
-  async getEvent(id) {
-    return this.$fetch(`/events/${id}`);
-  }
-
-  async getEventBySlug(slug) {
-    return this.$fetch(`/events/slug/${slug}`);
-  }
-
-  async searchEvents(query, type = null) {
-    const params = { search: query };
-    if (type) params.type = type;
     
-    return this.$fetch('/events', { params });
-  }
-}
-
-const eventService = new EventService();
-export default eventService;
+    // Make it available globally
+    nuxtApp.provide('eventService', eventService);
+});
