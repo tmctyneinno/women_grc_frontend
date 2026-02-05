@@ -42,7 +42,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiUrl: 'http://api.wgrcfp.org/api/v1', // Use actual API URL
+      apiUrl: 'http://api.wgrcfp.org/api/v1',
       siteUrl: process.env.SITE_URL || 'http://localhost:3000',
       googleSignIn: {
         clientId: process.env.GOOGLE_CLIENT_ID || '',
@@ -51,27 +51,14 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    '@nuxtjs/axios',
     '@pinia/nuxt',
     '@vueuse/nuxt',
     'nuxt-aos',
     'vue3-carousel-nuxt',
     'nuxt-vue3-google-signin',
     '@nuxt/image',
+    // Remove @nuxtjs/axios - use $fetch or ofetch instead for Nuxt 3
   ],
-  
-  axios: {
-    baseURL: '/api', // Use proxy path
-    credentials: false,
-    proxy: true,
-    retry: false,
-    headers: {
-      common: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }
-  },
   
   build: {
     transpile: ['@vuepic/vue-datepicker']
@@ -115,6 +102,6 @@ export default defineNuxtConfig({
   plugins: [
     './plugins/bootstrap.client.ts',
     './plugins/plugins.client.ts',
-    '~/plugins/event-service.client.ts' // Add this
+    '~/plugins/event-service.client.ts'
   ],
 })
