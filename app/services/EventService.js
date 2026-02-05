@@ -22,7 +22,7 @@ class EventService {
      */
     async getEvents(page = 1, perPage = 10) {
         try {
-            const response = await this.api.get('/api/v1/events', {
+            const response = await this.api.get('/events', {
                 params: { page, per_page: perPage }
             });
             return response.data;
@@ -37,7 +37,7 @@ class EventService {
      */
     async getFeaturedEvents() {
         try {
-            const response = await this.api.get('/api/v1/events/featured');
+            const response = await this.api.get('/events/featured');
             return response.data;
         } catch (error) {
             this.handleError(error);
@@ -50,7 +50,7 @@ class EventService {
      */
     async getUpcomingEvents() {
         try {
-            const response = await this.api.get('/api/v1/events/upcoming');
+            const response = await this.api.get('/events/upcoming');
             return response.data;
         } catch (error) {
             this.handleError(error);
@@ -64,7 +64,7 @@ class EventService {
      */
     async getEvent(id) {
         try {
-            const response = await this.api.get(`/api/v1/events/slug/${id}`);
+            const response = await this.api.get(`/events/slug/${id}`);
             return response.data;
         } catch (error) {
             this.handleError(error);
@@ -73,7 +73,7 @@ class EventService {
 
     async getEventBySlug(slug) {
         try {
-            const response = await this.api.get(`/api/v1/events/slug/${slug}`);
+            const response = await this.api.get(`/events/slug/${slug}`);
             return response.data;
         } catch (error) {
             this.handleError(error);
@@ -91,7 +91,7 @@ class EventService {
             const params = { search: query };
             if (type) params.type = type;
             
-            const response = await this.api.get('/api/v1/events', { params });
+            const response = await this.api.get('/events', { params });
             return response.data;
         } catch (error) {
             this.handleError(error);
