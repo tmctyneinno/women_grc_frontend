@@ -26,18 +26,18 @@ export default defineNuxtConfig({
     }
   },
   nitro: { 
-      devProxy: {
-        '/api': {
-          target: 'http://api.wgrcfp.org/api/v1',
-          changeOrigin: true,
-        },
-        '/storage': {
-          target: 'http://api.wgrcfp.org',
-          changeOrigin: true,
-        }
+    devProxy: {
+      '/api': {
+        target: 'http://api.wgrcfp.org/api/v1',
+        changeOrigin: true,
       },
-      preset: 'static'
+      '/storage': {
+        target: 'http://api.wgrcfp.org',
+        changeOrigin: true,
+      }
     },
+    preset: 'static'
+  },
   runtimeConfig: {
     public: {
       apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1',
