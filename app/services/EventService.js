@@ -4,7 +4,7 @@ import axios from 'axios';
 class EventService {
     constructor() {
         // Base URL - change this to your actual API URL
-        this.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
+        this.baseURL = config.public.apiUrl  || 'http://localhost:8000/api/v1';
         this.api = axios.create({
             baseURL: this.baseURL,
             headers: { 
