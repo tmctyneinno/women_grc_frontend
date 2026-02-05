@@ -27,6 +27,7 @@ export default defineNuxtConfig({
     }
   },
   nitro: { 
+    preset: 'node-server',
     devProxy: {
       '/api': {
         target: 'http://api.wgrcfp.org/api/v1',
@@ -37,9 +38,10 @@ export default defineNuxtConfig({
         changeOrigin: true,
       }
     },
-    preset: 'static'
+    // preset: 'static'
   },
   runtimeConfig: {
+    apiBaseUrl: process.env.API_BASE_URL || 'http://api.wgrcfp.org/api/v1',
     public: {
       apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1',
       siteUrl: process.env.SITE_URL || 'http://localhost:3000',
