@@ -3,9 +3,8 @@ import axios from 'axios';
 
 class EventService {
     constructor() {
-        // FIX: Use Nuxt runtime config instead of process.env
-        // We'll make this configurable
-        this.baseURL = 'http://localhost:8000/api/v1'; // Default for now
+        // Base URL - change this to your actual API URL
+        this.baseURL = process.env.VUE_APP_API_URL || 'http://localhost:8000/api/v1';
         this.api = axios.create({
             baseURL: this.baseURL,
             headers: {
@@ -15,12 +14,12 @@ class EventService {
         });
     }
 
-    // Set base URL dynamically (call this after getting config)
-    setBaseURL(url) {
-        this.baseURL = url;
-        this.api.defaults.baseURL = url;
-    }
-
+    /**
+     * Get all published events with pagination
+     * @param {number} page - Page number
+     * @param {number} perPage - Items per page
+     * @returns {Promise}
+     */
     async getEvents(page = 1, perPage = 10) {
         try {
             const response = await this.api.get('/events', {
@@ -32,6 +31,10 @@ class EventService {
         }
     }
 
+    /**
+     * Get featured events
+     * @returns {Promise}
+     */
     async getFeaturedEvents() {
         try {
             const response = await this.api.get('/events/featured');
@@ -41,6 +44,10 @@ class EventService {
         }
     }
 
+    /**
+     * Get upcoming events
+     * @returns {Promise}
+     */
     async getUpcomingEvents() {
         try {
             const response = await this.api.get('/events/upcoming');
@@ -50,6 +57,11 @@ class EventService {
         }
     }
 
+    /**
+     * Get single event by ID
+     * @param {number|string} id - Event ID
+     * @returns {Promise}
+     */
     async getEvent(id) {
         try {
             const response = await this.api.get(`/events/slug/${id}`);
@@ -68,6 +80,12 @@ class EventService {
         }
     }
 
+    /**
+     * Search events
+     * @param {string} query - Search term
+     * @param {string} type - Event type filter
+     * @returns {Promise}
+     */
     async searchEvents(query, type = null) {
         try {
             const params = { search: query };
@@ -80,14 +98,21 @@ class EventService {
         }
     }
 
+    /**
+     * Handle API errors
+     * @param {Error} error - Axios error
+     */
     handleError(error) {
         if (error.response) {
+            // Server responded with error status
             const { status, data } = error.response;
             const message = data.message || `Request failed with status ${status}`;
             throw new Error(message);
         } else if (error.request) {
+            // Request made but no response
             throw new Error('No response received from server. Please check your connection.');
         } else {
+            // Something else happened
             throw new Error(error.message);
         }
     }
