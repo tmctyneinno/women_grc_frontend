@@ -71,6 +71,8 @@ export class EventService {
     if (type) url += `&type=${type}`;
     return this.fetchWithTimeout(url);
   }
+
+  
 }
 
 const eventService = new EventService();
