@@ -27,18 +27,30 @@ export default defineNuxtConfig({
   },
 
 
-  nitro: { preset: 'static' },
+  nitro: { 
+    devProxy: {
+        '/api': {
+            target: process.env.API_BASE_URL || 'http://localhost:8000/api/v1',
+            changeOrigin: true,
+            prependPath: true,
+        }
+    },
+    preset: 'static' 
+  },
 
   runtimeConfig: {
     public: {
       apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1',
+      siteUrl: process.env.SITE_URL || 'http://localhost:3000',
       googleSignIn: {
         clientId: process.env.GOOGLE_CLIENT_ID || '',
       }
     }
   },
 
-  modules: ['@pinia/nuxt',
+  modules: [
+    '@nuxtjs/axios',
+    '@pinia/nuxt',
     '@vueuse/nuxt',
     'nuxt-aos',
     'vue3-carousel-nuxt',
