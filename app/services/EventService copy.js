@@ -13,13 +13,6 @@ class EventService {
             }
         });
     }
-
-    /**
-     * Get all published events with pagination
-     * @param {number} page - Page number
-     * @param {number} perPage - Items per page
-     * @returns {Promise}
-     */
     async getEvents(page = 1, perPage = 10) {
         try {
             const response = await this.api.get('/events', {
