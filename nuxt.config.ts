@@ -31,6 +31,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
+      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1',
       googleSignIn: {
         clientId: process.env.GOOGLE_CLIENT_ID || '',
       }
