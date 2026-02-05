@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   ssr: false,
   routeRules: {
     '/api/**': { 
-      proxy: 'http://api.wgrcfp.org/api/v1/**',
+      proxy: 'https://api.wgrcfp.org/api/v1/**',
       cors: true
     },
     '/api/images/**': {
@@ -33,21 +33,21 @@ export default defineNuxtConfig({
   nitro: { 
     devProxy: {
       '/api': {
-        target: 'http://api.wgrcfp.org/api/v1',
+        target: 'https://api.wgrcfp.org/api/v1',
         changeOrigin: true,
       },
       '/storage': {
-        target: 'http://api.wgrcfp.org',
+        target: 'https://api.wgrcfp.org',
         changeOrigin: true,
       }
     },
     preset: 'static'
   },
   runtimeConfig: {
-    apiBaseUrl: process.env.API_BASE_URL || 'http://api.wgrcfp.org/api/v1',
+    apiBaseUrl: process.env.API_BASE_URL || 'https://api.wgrcfp.org/api/v1',
     public: {
-      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1',
-      siteUrl: process.env.SITE_URL || 'http://localhost:3000',
+      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'https://localhost:8000/api/v1',
+      siteUrl: process.env.SITE_URL || 'https://localhost:3000',
       googleSignIn: {
         clientId: process.env.GOOGLE_CLIENT_ID || '',
       }
