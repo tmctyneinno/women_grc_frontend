@@ -880,6 +880,7 @@ const fetchEvent = async () => {
     // const response = await fetch(`http://localhost:8000/api/v1/events/${slug}`)
     const response = await fetch(`https://api.wgrcfp.org/api/v1/events/${slug}`)
     
+    
     if (!response.ok) {
       if (response.status === 404) {
         throw new Error('Event not found')
