@@ -62,7 +62,7 @@ export class EventService {
   }
 
   async getEventBySlug(slug) {
-    const url = `${this.baseURL}/events/slug/${slug}`;
+    const url = `${this.baseURL}/events/${slug}`;
     return this.fetchWithTimeout(url);
   }
 
