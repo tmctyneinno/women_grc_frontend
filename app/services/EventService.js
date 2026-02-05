@@ -60,7 +60,7 @@ export class EventService {
   }
 
   async getEventBySlug(slug) {
-    return this.$fetch(`/events/slug/${slug}`);
+    return this.$fetch(`/events/${slug}`);
   }
 
   async searchEvents(query, type = null) {
