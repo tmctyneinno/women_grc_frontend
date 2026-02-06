@@ -305,7 +305,7 @@
                         <p v-if="speaker.title" class="text-cyan-600 font-medium mb-2">{{ speaker.title }}</p>
                         <!-- Brief preview (limited characters) -->
                         <p v-if="speaker.brief" class="text-gray-500 text-sm line-clamp-2 mb-3">
-                          {{ truncateBrief(speaker.brief, 100) }}
+                          {{ speaker.brief.length > 100 ? speaker.brief.substring(0, 100) + '...' : speaker.brief}}
                         </p>
                         
                         <!-- View More/Learn More Button -->
@@ -688,16 +688,7 @@ const handleSpeakerImageError = (event) => {
     parent.replaceChild(fallback, img)
   }
 }
- // ADD THIS METHOD
-  truncateBrief(brief, maxLength = 100) {
-    if (!brief || typeof brief !== 'string') return '';
-    
-    // Remove HTML tags if present
-    const plainText = brief.replace(/<[^>]*>/g, '');
-    
-    if (plainText.length <= maxLength) return plainText;
-    return plainText.substring(0, maxLength).trim() + '...';
-  },
+ 
     
 
 // Computed properties
