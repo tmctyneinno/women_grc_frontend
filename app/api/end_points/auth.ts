@@ -6,7 +6,7 @@ export default {
         return $instance.post(`register`, JSON.stringify(data))
     },
 
-
+ 
     login(data: any) {
         return $instance.post(`login`, JSON.stringify(data))
     },
