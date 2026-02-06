@@ -692,6 +692,53 @@ const hasPreviousSpeaker = computed(() => {
 })
 // =======================================
 
+const openSpeakerModal = (speaker) => {
+  console.log('Opening modal for speaker:', speaker.name)
+  selectedSpeaker.value = speaker
+  currentSpeakerIndex.value = event.value.speakers.findIndex(s => s.id === speaker.id)
+  document.body.style.overflow = 'hidden' // Prevent background scrolling
+}
+
+const closeSpeakerModal = () => {
+  console.log('Closing speaker modal')
+  selectedSpeaker.value = null
+  currentSpeakerIndex.value = -1
+  document.body.style.overflow = '' // Restore scrolling
+}
+
+const navigateSpeaker = (direction) => {
+  if (!event.value?.speakers) return
+  
+  const newIndex = currentSpeakerIndex.value + direction
+  if (newIndex >= 0 && newIndex < event.value.speakers.length) {
+    selectedSpeaker.value = event.value.speakers[newIndex]
+    currentSpeakerIndex.value = newIndex
+    
+    // Scroll to top of modal content
+    setTimeout(() => {
+      const modalContent = document.querySelector('.overflow-y-auto')
+      if (modalContent) {
+        modalContent.scrollTop = 0
+      }
+    }, 10)
+  }
+}
+
+const formatBio = (bio) => {
+  if (!bio) return []
+  
+  // Split bio into paragraphs
+  const paragraphs = bio.split('\n')
+    .map(p => p.trim())
+    .filter(p => p.length > 0)
+  
+  // If no paragraphs found, return the whole bio as one paragraph
+  if (paragraphs.length === 0) {
+    return [bio]
+  }
+  
+  return paragraphs
+}
 
 // Add this method to handle speaker image errors
 const handleSpeakerImageError = (event) => {
