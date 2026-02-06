@@ -310,13 +310,13 @@
                 </div>
               </div>
 
-<!-- Debug: Show if no speakers -->
-<div v-else class="bg-white rounded-3xl shadow-xl p-8">
-  <h2 class="text-2xl font-bold text-gray-800 mb-4">Featured Speakers</h2>
-  <p class="text-gray-500">No speakers have been added to this event yet.</p>
-  <p class="text-sm text-gray-400 mt-2">Speakers array: {{ event.speakers ? 'exists' : 'null' }}</p>
-  <p class="text-sm text-gray-400">Speakers count: {{ event.speakers ? event.speakers.length : 0 }}</p>
-</div>
+              <!-- Debug: Show if no speakers -->
+              <div v-else class="bg-white rounded-3xl shadow-xl p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Featured Speakers</h2>
+                <p class="text-gray-500">No speakers have been added to this event yet.</p>
+                <p class="text-sm text-gray-400 mt-2">Speakers array: {{ event.speakers ? 'exists' : 'null' }}</p>
+                <p class="text-sm text-gray-400">Speakers count: {{ event.speakers ? event.speakers.length : 0 }}</p>
+              </div>
 
               <!-- Agenda Section -->
               <div v-if="event.agenda && event.agenda.length > 0" class="bg-white rounded-3xl shadow-xl p-8">
