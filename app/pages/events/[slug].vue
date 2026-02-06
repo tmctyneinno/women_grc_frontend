@@ -931,25 +931,39 @@ const fetchEventOnline = async () => {
 const fetchEvent = async () => {
   try {
     loading.value = true
-    imageLoaded.value = false 
-    imageError.value = false
     
-    console.log('Fetching event with slug:', slug)
+    console.log('Testing API connection...')
     
-    // Use local API for development
-    const apiUrl = `http://localhost:8000/api/v1/events/${slug}`
-    console.log('API URL:', apiUrl)
+    // Test the API first
+    const testUrl = 'http://127.0.0.1:8000/api/test'
+    console.log('Testing:', testUrl)
     
-    // Simple fetch without complex headers
-    const response = await fetch(apiUrl)
+    try {
+      const testResponse = await fetch(testUrl)
+      const testData = await testResponse.json()
+      console.log('✅ API Test Success:', testData)
+    } catch (testErr) {
+      console.error('❌ API Test Failed:', testErr)
+      throw new Error(`Cannot connect to API: ${testErr.message}`)
+    }
+    
+    // Now fetch the actual event
+    const apiUrl = `http://127.0.0.1:8000/api/v1/events/${slug}`
+    console.log('Fetching event from:', apiUrl)
+    
+    const response = await fetch(apiUrl, {
+      headers: {
+        'Accept': 'application/json',
+      }
+    })
     
     console.log('Response status:', response.status)
     
     if (!response.ok) {
       if (response.status === 404) {
-        throw new Error('Event not found')
+        throw new Error(`Event not found with slug: ${slug}`)
       }
-      throw new Error(`Failed to fetch event: ${response.status}`)
+      throw new Error(`HTTP error! status: ${response.status}`)
     }
     
     const result = await response.json()
@@ -957,22 +971,36 @@ const fetchEvent = async () => {
     
     if (result.success && result.data) {
       event.value = result.data
-      console.log('Event loaded successfully:', event.value)
+      console.log('✅ Event loaded successfully!')
+      console.log('Event data:', event.value)
     } else {
-      throw new Error(result.message || 'Event not found')
+      throw new Error(result.message || 'Event not found in response')
     }
     
   } catch (err) {
-    console.error('Error fetching event:', err)
+    console.error('❌ Fetch Error Details:', err)
     
-    // Update error message for local development
-    if (err.message.includes('CORS') || err.message.includes('Failed to fetch')) {
-      error.value = 'Unable to connect to the API server. Please make sure: 1) The Laravel server is running (php artisan serve) 2) The server is running on http://localhost:8000 3) CORS is properly configured.'
-    } else if (err.message.includes('404')) {
-      error.value = 'Event not found. This event may have been removed or the URL is incorrect.'
-    } else {
-      error.value = err.message || 'An error occurred while loading the event'
-    }
+    // Provide specific troubleshooting steps
+    error.value = `
+      ❌ Unable to load event.
+      
+      Error: ${err.message}
+      
+      Troubleshooting steps:
+      
+      1. ✅ Laravel server is running on http://127.0.0.1:8000
+      
+      2. Test the API directly:
+         Open: http://127.0.0.1:8000/api/test
+      
+      3. Check if events exist:
+         Open: http://127.0.0.1:8000/api/v1/events
+      
+      4. Check browser console (F12) for CORS errors
+      
+      5. Try this event slug: ${slug}
+    `
+    
   } finally {
     loading.value = false
   }
