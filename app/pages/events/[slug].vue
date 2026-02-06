@@ -275,6 +275,7 @@
               </div>
 
               <!-- Speakers Section -->
+<!-- Speakers Section -->
 <div v-if="event.speakers && event.speakers.length > 0" class="bg-white rounded-3xl shadow-xl p-8">
   <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">Featured Speakers</h2>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -288,10 +289,11 @@
           <div class="relative">
             <div class="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg">
               <img 
-                v-if="speaker.avatar" 
-                :src="speaker.avatar" 
+                v-if="speaker.avatar || speaker.image_url" 
+                :src="speaker.avatar || speaker.image_url" 
                 :alt="speaker.name"
                 class="w-full h-full object-cover"
+                @error="handleSpeakerImageError"
               />
               <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-2xl">
                 {{ speaker.name.charAt(0) }}
@@ -305,11 +307,12 @@
           </div>
         </div>
         <div class="flex-1">
-          <!-- REMOVED THE AVATAR TEXT DISPLAY LINE HERE -->
           <h3 class="text-xl font-bold text-gray-800 mb-1">{{ speaker.name }}</h3>
           <p v-if="speaker.title" class="text-cyan-600 font-medium mb-2">{{ speaker.title }}</p>
-          <p v-if="speaker.company" class="text-gray-600 text-sm mb-3">{{ speaker.company }}</p>
-          <p v-if="speaker.bio" class="text-gray-500 text-sm line-clamp-2">{{ speaker.bio }}</p>
+          <!-- Use brief (not bio) -->
+          <p v-if="speaker.brief" class="text-gray-500 text-sm line-clamp-2">{{ speaker.brief }}</p>
+          <!-- Fallback if no brief -->
+          <p v-else class="text-gray-400 text-sm italic">No description available</p>
         </div>
       </div>
     </div>
