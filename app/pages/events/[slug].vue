@@ -275,48 +275,46 @@
               </div>
 
               <!-- Speakers Section -->
-              <div v-if="event.speakers && event.speakers.length > 0" class="bg-white rounded-3xl shadow-xl p-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">Featured Speakers</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div 
-                    v-for="speaker in event.speakers" 
-                    :key="speaker.id"
-                    class="group p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-white hover:from-cyan-50 hover:to-purple-50 transition-all duration-300 border border-gray-100 hover:border-cyan-200 hover:shadow-lg"
-                  >
-                    <div class="flex items-start gap-4">
-                      <div class="flex-shrink-0">
-                       
-                        <div class="relative">
-                          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg">
-                            <img 
-                              v-if="speaker.avatar" 
-                              :src="speaker.avatar" 
-                              :alt="speaker.name"
-                              class="w-full h-full object-cover"
-                            />
-                            <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-2xl">
-                              {{ speaker.name.charAt(0) }}
-                            </div>
-                          </div>
-                          <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="flex-1">
-                       <p class="text-xl font-bold text-gray-800 mb-1">{{speaker.avatar}}</p>
-
-                        <h3 class="text-xl font-bold text-gray-800 mb-1">{{ speaker.name }}</h3>
-                        <p v-if="speaker.title" class="text-cyan-600 font-medium mb-2">{{ speaker.title }}</p>
-                        <p v-if="speaker.company" class="text-gray-600 text-sm mb-3">{{ speaker.company }}</p>
-                        <p v-if="speaker.bio" class="text-gray-500 text-sm line-clamp-2">{{ speaker.bio }}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+<div v-if="event.speakers && event.speakers.length > 0" class="bg-white rounded-3xl shadow-xl p-8">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">Featured Speakers</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div 
+      v-for="speaker in event.speakers" 
+      :key="speaker.id"
+      class="group p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-white hover:from-cyan-50 hover:to-purple-50 transition-all duration-300 border border-gray-100 hover:border-cyan-200 hover:shadow-lg"
+    >
+      <div class="flex items-start gap-4">
+        <div class="flex-shrink-0">
+          <div class="relative">
+            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg">
+              <img 
+                v-if="speaker.avatar" 
+                :src="speaker.avatar" 
+                :alt="speaker.name"
+                class="w-full h-full object-cover"
+              />
+              <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-2xl">
+                {{ speaker.name.charAt(0) }}
               </div>
+            </div>
+            <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="flex-1">
+          <!-- REMOVED THE AVATAR TEXT DISPLAY LINE HERE -->
+          <h3 class="text-xl font-bold text-gray-800 mb-1">{{ speaker.name }}</h3>
+          <p v-if="speaker.title" class="text-cyan-600 font-medium mb-2">{{ speaker.title }}</p>
+          <p v-if="speaker.company" class="text-gray-600 text-sm mb-3">{{ speaker.company }}</p>
+          <p v-if="speaker.bio" class="text-gray-500 text-sm line-clamp-2">{{ speaker.bio }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
               <!-- Agenda Section -->
               <div v-if="event.agenda && event.agenda.length > 0" class="bg-white rounded-3xl shadow-xl p-8">
