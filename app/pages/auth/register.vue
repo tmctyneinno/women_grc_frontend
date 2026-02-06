@@ -173,6 +173,7 @@
                                 :loading="isSubmitting"
                                 type="submit"
                                 class-name="btn btn-primary w-100 py-2"
+                                style="background-color: #293567; border-color: #293567;"
                             >
                                 <span v-if="!isSubmitting">Create Account</span>
                                 <span v-else>
