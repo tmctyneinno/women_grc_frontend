@@ -156,7 +156,7 @@
                                 >
                                 <label class="form-check-label small" for="terms">
                                     I agree to the 
-                                    <a href="/terms" class="text-decoration-none" style="color: #181818;">Terms of Service</a> and 
+                                    <a href="/terms" class="text-decoration-none" style="color: #6e354e;">Terms of Service</a> and 
                                     <a href="/privacy" class="text-decoration-none" style="color: #6e354e;">Privacy Policy</a>
                                     <span class="text-danger">*</span>
                                 </label>
@@ -187,7 +187,7 @@
                         <div class="col-12 text-center mt-4 pt-3 border-top">
                             <p class="mb-0">
                                 Already have an account?
-                                <nuxt-link to="/auth/login" class="text-primary fw-semibold text-decoration-none ms-1">
+                                <nuxt-link to="/auth/login" style="color: #6e354e;"  class=" fw-semibold text-decoration-none ms-1">
                                     Sign In
                                 </nuxt-link>
                             </p>
