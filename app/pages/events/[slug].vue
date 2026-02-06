@@ -887,22 +887,50 @@ const formattedTimeRange = computed(() => {
 
 
 const formattedDateTime = computed(() => {
-  if (!event.value?.start_date) return ''
+  if (!event.value?.start_date) return '';
   
   try {
-    const startDate = new Date(event.value.start_date)
-    const endDate = event.value.end_date ? new Date(event.value.end_date) : null
+    const startDate = new Date(event.value.start_date);
+    const endDate = event.value.end_date ? new Date(event.value.end_date) : null;
     
-    const timeOptions = { 
-      hour: 'numeric', 
-      minute: '2-digit',
-      hour12: true 
+    // Format: "Tuesday, March 17, 2026"
+    const startFormatted = startDate.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    
+    if (!endDate) {
+      return startFormatted;
     }
-    return `${startDate.toLocaleDateString()}`
+    
+    // Check if same day
+    if (startDate.toDateString() === endDate.toDateString()) {
+      const timeOptions = {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      };
+      const startTime = startDate.toLocaleTimeString('en-US', timeOptions);
+      const endTime = endDate.toLocaleTimeString('en-US', timeOptions);
+      return `${startFormatted} • ${startTime}`;
+    }
+    
+    // Different days - show date range
+    const endFormatted = endDate.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    
+    return `${startFormatted} to ${endFormatted}`;
+    
   } catch {
-    return 'Date information not available'
+    return 'Date information not available';
   }
-})
+});
 
 const eventDuration = computed(() => {
   if (!event.value?.start_date || !event.value?.end_date) return ''
