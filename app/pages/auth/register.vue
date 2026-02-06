@@ -16,12 +16,12 @@
                             </div>
 
 
-                            <div :disabled="!isReady" @click="() => loginWithGoogle()"
+                            <!-- <div :disabled="!isReady" @click="() => loginWithGoogle()"
                                 class="card google-card rounded-0 p-2 my-3">
                                 <div class="text-center theme-color">
                                     <NuxtImg src="/images/auth/google-icon.png" width="20" /> &nbsp;signin with Google
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="text-between-lines">
                                 or with
