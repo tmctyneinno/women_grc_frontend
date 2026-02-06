@@ -74,14 +74,14 @@
                                 LinkedIn Profile <span class="text-danger">*</span>
                                 <small class="text-muted ms-1">(e.g., https://linkedin.com/in/username)</small>
                             </label>
-                            <!-- <CustomInputText 
+                            <CustomInputText 
                                 id="linked_in"
                                 type="url"
                                 placeholder="https://linkedin.com/in/username"
                                 v-model="linked_in"
                                 v-bind="linked_inAttr"
                                 :class="{ 'is-invalid': errors?.linked_in }"
-                            /> -->
+                            />
                             <div v-if="errors?.linked_in" class="invalid-feedback d-block small">
                                 <i class="bi bi-exclamation-circle me-1"></i>
                                 {{ errors.linked_in }}
