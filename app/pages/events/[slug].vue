@@ -845,59 +845,50 @@ const formattedMonth = computed(() => {
   }
 })
 
-const formattedTimeRangedd = computed(() => {
-  if (!event.value?.start_date) return '';
+
+const formattedTimeRange = computed(() => {
+  if (!event.value?.start_date) return 'Time not specified';
   
   try {
-    // Extract time from start_date (which is a datetime string)
     const startDate = new Date(event.value.start_date);
     const startTime = formatTime(formatTimeFromDate(startDate));
     
-    let endTime = null;
-    
-    // Check if end_date exists and extract time
+    // Option 1: Use end_date if available
     if (event.value?.end_date) {
       const endDate = new Date(event.value.end_date);
-      endTime = formatTime(formatTimeFromDate(endDate));
+      const endTime = formatTime(formatTimeFromDate(endDate));
+      return `${startTime} - ${endTime}`;
     }
     
-    // Return time range if end_time exists
-    return endTime ? `${startTime} - ${endTime}` : startTime;
+    // Option 2: Use duration_hours if available
+    if (event.value?.duration_hours) {
+      const endTime = calculateEndTime(startDate, event.value.duration_hours);
+      return `${startTime} - ${endTime}`;
+    }
+    
+    // Option 3: Just show start time
+    return startTime;
+    
   } catch (error) {
     console.error('Error formatting time range:', error);
     return 'Time not specified';
   }
 });
 
-const formattedTimeRange = (timeString) => {
-  if (!timeString) return '';
-  
-  try {
-    // Handle different time formats
-    let time = timeString;
-    
-    // If it's already in AM/PM format, return as is
-    if (timeString.toLowerCase().includes('am') || timeString.toLowerCase().includes('pm')) {
-      return timeString;
-    }
-    
-    // Parse 24-hour format
-    const parts = timeString.split(':');
-    if (parts.length >= 2) {
-      let hours = parseInt(parts[0], 10);
-      const minutes = parseInt(parts[1], 10);
-      
-      const period = hours >= 12 ? 'PM' : 'AM';
-      hours = hours % 12 || 12; // Convert 0 to 12 for 12 AM
-      
-      return `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
-    }
-    
-    return timeString;
-  } catch {
-    return timeString;
-  }
-}
+// Helper to calculate end time from duration
+const calculateEndTime = (startDate, durationHours) => {
+  const endDate = new Date(startDate.getTime() + (durationHours * 60 * 60 * 1000));
+  return formatTime(formatTimeFromDate(endDate));
+};
+
+// Helper to get time from datetime
+const formatTimeFromDate = (date) => {
+  return date.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  }).replace(/^24:/, '00:'); // Handle midnight
+};
 
 
 
