@@ -268,8 +268,8 @@
               <div class="bg-white rounded-3xl shadow-xl p-8">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">About This Event</h2>
                 <div class="prose prose-lg max-w-none">
-  <div class="text-gray-600 leading-relaxed" v-html="formattedDescription"></div>
-</div>
+                  <div class="text-gray-600 leading-relaxed" v-html="formattedDescription"></div>
+                </div>
               </div>
 
               <!-- Speakers Section with Modal -->
@@ -684,6 +684,33 @@ const hasNextSpeaker = computed(() => {
          currentSpeakerIndex.value < event.value.speakers.length - 1
 })
 
+const formattedDescription = computed(() => {
+  if (!event.value?.description) return ''
+  
+  // Clean and ensure proper formatting
+  let description = event.value.description
+  
+  // Ensure paragraphs have proper spacing
+  description = description
+    .replace(/<p>/g, '<p class="mb-4">')
+    .replace(/<ul>/g, '<ul class="list-disc pl-5 mb-4">')
+    .replace(/<ol>/g, '<ol class="list-decimal pl-5 mb-4">')
+    .replace(/<li>/g, '<li class="mb-2">')
+  
+  // Add styling to strong/bold elements
+  description = description
+    .replace(/<strong>/g, '<strong class="font-bold text-gray-800">')
+    .replace(/<b>/g, '<b class="font-bold text-gray-800">')
+  
+  // Add styling to headings
+  description = description
+    .replace(/<h1>/g, '<h1 class="text-3xl font-bold mb-4 text-gray-800">')
+    .replace(/<h2>/g, '<h2 class="text-2xl font-bold mb-4 text-gray-800">')
+    .replace(/<h3>/g, '<h3 class="text-xl font-bold mb-3 text-gray-800">')
+  
+  return description
+})
+
 const hasPreviousSpeaker = computed(() => {
   return event.value?.speakers && 
          currentSpeakerIndex.value > 0
@@ -806,12 +833,7 @@ const formattedDay = computed(() => {
   }
 })
 
-const plainDescription = computed(() => {
-  if (!event.value?.description) return ''
-  
-  // Remove HTML tags
-  return event.value.description.replace(/<[^>]*>/g, '')
-})
+
 
 const formattedMonth = computed(() => {
   if (!event.value?.start_date) return '---'
