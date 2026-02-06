@@ -934,75 +934,67 @@ const fetchEventOnline = async () => {
 const fetchEvent = async () => {
   try {
     loading.value = true
+    imageLoaded.value = false
+    imageError.value = false
     
-    // Try to fetch from API
+    console.log('Fetching event with slug:', slug)
+    
+    // Use your actual API endpoint
     const apiUrl = `http://127.0.0.1:8000/api/v1/events/${slug}`
-    console.log('Fetching from:', apiUrl)
+    console.log('API URL:', apiUrl)
     
-    const response = await fetch(apiUrl)
-    
-    if (response.ok) {
-      const result = await response.json()
-      if (result.success && result.data) {
-        event.value = result.data
-        console.log('✅ Event loaded from API')
-        return
+    const response = await fetch(apiUrl, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
       }
+    })
+    
+    console.log('Response status:', response.status)
+    console.log('Response headers:', [...response.headers.entries()])
+    
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error(`Event not found with slug: ${slug}`)
+      }
+      throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`)
     }
     
-    // Fallback: Use mock data if API fails
-    console.log('⚠️ API failed, using mock data')
-    event.value = {
-      id: 1,
-      title: 'Sample Conference 2024',
-      slug: slug,
-      description: 'This is a sample conference description for testing purposes.',
-      short_description: 'Join us for an amazing conference experience!',
-      type: 'conference',
-      venue: 'Virtual / Online Platform',
-      meeting_link: 'https://zoom.us/j/123456789',
-      start_date: '2024-12-15',
-      end_date: '2024-12-15',
-      start_time: '09:00',
-      end_time: '17:00',
-      price: 0,
-      capacity: 100,
-      registered_count: 25,
-      featured_image: null,
-      is_online: true,
-      is_featured: true,
-      status: 'published',
-      speakers: [
-        {
-          id: 1,
-          name: 'Dr. Sarah Johnson',
-          title: 'CEO & Founder',
-          brief: 'Industry expert with 15+ years of experience',
-          avatar: null,
-          image_url: null,
-          order: 1
-        },
-        {
-          id: 2,
-          name: 'Michael Chen',
-          title: 'Senior Developer',
-          brief: 'Specialized in modern web technologies',
-          avatar: null,
-          image_url: null,
-          order: 2
-        }
-      ]
-    }
+    const result = await response.json()
+    console.log('✅ Full API Response:', JSON.stringify(result, null, 2))
     
-    console.log('✅ Using mock event data:', event.value)
+    if (result.success && result.data) {
+      event.value = result.data
+      
+      // Debug speakers data
+      console.log('📢 Event speakers data:', {
+        hasSpeakers: !!event.value.speakers,
+        speakersCount: event.value.speakers?.length || 0,
+        firstSpeaker: event.value.speakers?.[0],
+        allSpeakers: event.value.speakers
+      })
+      
+      // Check speaker image URLs
+      if (event.value.speakers && event.value.speakers.length > 0) {
+        event.value.speakers.forEach((speaker, index) => {
+          console.log(`👤 Speaker ${index + 1}:`, {
+            name: speaker.name,
+            hasAvatar: !!speaker.avatar,
+            hasImageUrl: !!speaker.image_url,
+            avatar: speaker.avatar,
+            image_url: speaker.image_url,
+            allKeys: Object.keys(speaker)
+          })
+        })
+      }
+      
+    } else {
+      throw new Error(result.message || 'Event not found in response')
+    }
     
   } catch (err) {
-    console.error('❌ Error:', err)
-    error.value = `Failed to load event: ${err.message}. Using mock data for demonstration.`
-    
-    // Still load mock data even on error
-    event.value = { /* same mock data as above */ }
-    
+    console.error('❌ Error fetching event:', err)
+    error.value = `Error: ${err.message}`
   } finally {
     loading.value = false
   }
