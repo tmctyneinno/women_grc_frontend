@@ -859,7 +859,7 @@ const shareOnLinkedIn = () => {
 
 // Fetch event data
 // In your fetchEvent() function in the Vue component
-const fetchEvent = async () => {
+const fetchEventOnline = async () => {
   try {
     loading.value = true
     imageLoaded.value = false 
@@ -868,10 +868,9 @@ const fetchEvent = async () => {
     console.log('Fetching event with slug:', slug)
     
     // Add mode: 'cors' and handle credentials properly
-    // const response = await fetch(`https://api.wgrcfp.org/api/v1/events/${slug}`, {
-    const response = await fetch(`http://127.0.0.1:8000/api/v1/events/${slug}`, {
-      // mode: 'cors',
-      // credentials: 'omit', // Change to 'omit' instead of 'same-origin'
+    const response = await fetch(`https://api.wgrcfp.org/api/v1/events/${slug}`, {
+      mode: 'cors',
+      credentials: 'omit', // Change to 'omit' instead of 'same-origin'
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -919,6 +918,56 @@ const fetchEvent = async () => {
     // Provide more helpful error messages
     if (err.message.includes('CORS') || err.message.includes('Failed to fetch')) {
       error.value = 'CORS Error: Unable to connect to the server. The API server needs CORS headers for www.wgrcfp.org.'
+    } else if (err.message.includes('404')) {
+      error.value = 'Event not found. This event may have been removed or the URL is incorrect.'
+    } else {
+      error.value = err.message || 'An error occurred while loading the event'
+    }
+  } finally {
+    loading.value = false
+  }
+}
+
+const fetchEvent = async () => {
+  try {
+    loading.value = true
+    imageLoaded.value = false 
+    imageError.value = false
+    
+    console.log('Fetching event with slug:', slug)
+    
+    // Use local API for development
+    const apiUrl = `http://localhost:8000/api/v1/events/${slug}`
+    console.log('API URL:', apiUrl)
+    
+    // Simple fetch without complex headers
+    const response = await fetch(apiUrl)
+    
+    console.log('Response status:', response.status)
+    
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error('Event not found')
+      }
+      throw new Error(`Failed to fetch event: ${response.status}`)
+    }
+    
+    const result = await response.json()
+    console.log('API Response:', result)
+    
+    if (result.success && result.data) {
+      event.value = result.data
+      console.log('Event loaded successfully:', event.value)
+    } else {
+      throw new Error(result.message || 'Event not found')
+    }
+    
+  } catch (err) {
+    console.error('Error fetching event:', err)
+    
+    // Update error message for local development
+    if (err.message.includes('CORS') || err.message.includes('Failed to fetch')) {
+      error.value = 'Unable to connect to the API server. Please make sure: 1) The Laravel server is running (php artisan serve) 2) The server is running on http://localhost:8000 3) CORS is properly configured.'
     } else if (err.message.includes('404')) {
       error.value = 'Event not found. This event may have been removed or the URL is incorrect.'
     } else {
