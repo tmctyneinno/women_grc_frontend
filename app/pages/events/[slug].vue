@@ -274,7 +274,7 @@
                 </div>
               </div>
 
-              <!-- Speakers Section -->
+              <!-- Speakers Section with Modal -->
               <div v-if="event.speakers && event.speakers.length > 0" class="bg-white rounded-3xl shadow-xl p-8">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">Featured Speakers</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -282,8 +282,9 @@
                     v-for="speaker in event.speakers" 
                     :key="speaker.id"
                     class="group p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-white hover:from-cyan-50 hover:to-purple-50 transition-all duration-300 border border-gray-100 hover:border-cyan-200 hover:shadow-lg"
+                    @click="openSpeakerModal(speaker)"
                   >
-                    <div class="flex items-start gap-4">
+                    <div class="flex items-start gap-4 cursor-pointer">
                       <div class="flex-shrink-0">
                         <div class="relative">
                           <div class="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg">
@@ -302,8 +303,124 @@
                       <div class="flex-1">
                         <h3 class="text-xl font-bold text-gray-800 mb-1">{{ speaker.name }}</h3>
                         <p v-if="speaker.title" class="text-cyan-600 font-medium mb-2">{{ speaker.title }}</p>
-                        <!-- FIXED: Changed bio to brief -->
-                        <p v-if="speaker.brief" class="text-gray-500 text-sm line-clamp-2">{{ speaker.brief }}</p>
+                        <!-- Brief preview (limited characters) -->
+                        <p v-if="speaker.brief" class="text-gray-500 text-sm line-clamp-2 mb-3">
+                          {{ truncateBrief(speaker.brief, 100) }}
+                        </p>
+                        
+                        <!-- View More/Learn More Button -->
+                        <button 
+                          @click.stop="openSpeakerModal(speaker)"
+                          class="inline-flex items-center text-sm font-medium text-cyan-600 hover:text-cyan-700 transition-colors group"
+                        >
+                          <span>View full bio</span>
+                          <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Speaker Modal -->
+              <div v-if="selectedSpeaker" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                <!-- Overlay -->
+                <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click="closeSpeakerModal"></div>
+
+                <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+                  <div class="relative bg-white rounded-3xl shadow-2xl overflow-hidden transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+                    <!-- Close button -->
+                    <button 
+                      @click="closeSpeakerModal"
+                      class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+
+                    <!-- Speaker Content -->
+                    <div class="bg-gradient-to-br from-cyan-50 to-purple-50 p-8">
+                      <div class="text-center">
+                        <!-- Speaker Avatar -->
+                        <div class="relative inline-block">
+                          <div class="w-32 h-32 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-8 ring-white shadow-2xl mx-auto mb-6">
+                            <img 
+                              v-if="selectedSpeaker.avatar || selectedSpeaker.image_url" 
+                              :src="selectedSpeaker.avatar || selectedSpeaker.image_url" 
+                              :alt="selectedSpeaker.name"
+                              class="w-full h-full object-cover"
+                            />
+                            <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-4xl">
+                              {{ selectedSpeaker.name.charAt(0) }}
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- Speaker Info -->
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ selectedSpeaker.name }}</h3>
+                        <p v-if="selectedSpeaker.title" class="text-cyan-600 font-semibold text-lg mb-6">{{ selectedSpeaker.title }}</p>
+                      </div>
+                    </div>
+
+                    <!-- Speaker Bio -->
+                    <div class="p-8">
+                      <div class="prose prose-lg max-w-none">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-4">About</h4>
+                        <div class="text-gray-600 leading-relaxed">
+                          <!-- Use v-html if brief contains HTML, otherwise use text -->
+                          <template v-if="selectedSpeaker.brief">
+                            <p v-for="(paragraph, index) in formatBio(selectedSpeaker.brief)" :key="index" class="mb-4">
+                              {{ paragraph }}
+                            </p>
+                          </template>
+                          <p v-else class="text-gray-400 italic">No bio information available.</p>
+                        </div>
+                        
+                        <!-- Additional Info (if available) -->
+                        <div v-if="selectedSpeaker.expertise || selectedSpeaker.company" class="mt-8 pt-6 border-t border-gray-100">
+                          <div class="grid grid-cols-2 gap-4">
+                            <div v-if="selectedSpeaker.company" class="bg-gray-50 rounded-xl p-4">
+                              <p class="text-sm text-gray-500 mb-1">Organization</p>
+                              <p class="font-medium text-gray-800">{{ selectedSpeaker.company }}</p>
+                            </div>
+                            <div v-if="selectedSpeaker.expertise" class="bg-gray-50 rounded-xl p-4">
+                              <p class="text-sm text-gray-500 mb-1">Expertise</p>
+                              <p class="font-medium text-gray-800">{{ selectedSpeaker.expertise }}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!-- Navigation between speakers -->
+                      <div v-if="event.speakers.length > 1" class="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
+                        <button 
+                          v-if="hasPreviousSpeaker"
+                          @click="navigateSpeaker(-1)"
+                          class="flex items-center text-sm font-medium text-cyan-600 hover:text-cyan-700 transition-colors group"
+                        >
+                          <svg class="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                          </svg>
+                          Previous speaker
+                        </button>
+                        
+                        <div class="text-sm text-gray-500">
+                          {{ currentSpeakerIndex + 1 }} of {{ event.speakers.length }}
+                        </div>
+                        
+                        <button 
+                          v-if="hasNextSpeaker"
+                          @click="navigateSpeaker(1)"
+                          class="flex items-center text-sm font-medium text-cyan-600 hover:text-cyan-700 transition-colors group"
+                        >
+                          Next speaker
+                          <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          </svg>
+                        </button>
                       </div>
                     </div>
                   </div>
