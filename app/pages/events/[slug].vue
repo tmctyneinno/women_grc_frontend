@@ -858,7 +858,7 @@ const formattedTimeRange = computed(() => {
     if (event.value?.end_time) {
       return `${event.value.start_time} - ${event.value.end_time}`;
     }
-    return event.value?.start_time || '';
+    return event.value?.start_time || 'no';
   }
 });
 
