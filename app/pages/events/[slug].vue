@@ -293,11 +293,9 @@
                               :alt="speaker.name"
                               class="w-full h-full object-cover"
                             />
-                          </div>
-                          <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                            </svg>
+                            <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-2xl">
+                              {{ speaker.name.charAt(0) }}
+                            </div>
                           </div>
                         </div>
                       </div>
