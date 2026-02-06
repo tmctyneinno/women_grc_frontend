@@ -211,6 +211,7 @@
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/yup';
 import * as yup from 'yup';
+import api from '~/api';
 
 definePageMeta({
     middleware: 'auth-route-middleware',
@@ -351,62 +352,10 @@ const validateAndSignUp = handleSubmit(async (values) => {
 });
 
 // Google Sign Up
-const handleGoogleSignUp = async () => {
-    try {
-        // Trigger Google OAuth flow
-        const { loginWithGoogle } = useGoogleAuth();
-        await loginWithGoogle();
-    } catch (error) {
-        console.error('Google sign up error:', error);
-        alertToast('Failed to sign up with Google. Please try again.', 'error');
-    }
-};
+
 
 // Google Auth setup
-const { 
-    isReady,
-    login: googleLogin
-} = useGoogleAuth({
-    onSuccess: async (response) => {
-        try {
-            // Get user info from Google
-            const userInfo = await fetchGoogleUserInfo(response.access_token);
-            
-            // Register user via API
-            const registrationData = {
-                name: userInfo.name,
-                email: userInfo.email,
-                linkedin_profile: '', // LinkedIn is optional for Google sign up
-                is_google_account: true,
-                password: 'dummy-password-for-google-auth'
-            };
 
-            const apiResponse = await api.register(registrationData);
-            
-            if (apiResponse.data.success) {
-                // Handle successful registration
-                localStorage.setItem('WIGRFCTempReg', JSON.stringify(registrationData));
-                
-                navigateTo({
-                    path: '/auth/reg-success',
-                    query: { 
-                        e: userInfo.email,
-                        tm: new Date().getTime(),
-                        google: 'true'
-                    }
-                });
-            }
-            
-        } catch (error) {
-            console.error('Google registration error:', error);
-            alertToast('Failed to complete Google registration.', 'error');
-        }
-    },
-    onError: (error) => {
-        console.error('Google auth error:', error);
-        alertToast('Google authentication failed. Please try again.', 'error');
-    }
-});
 
 // Helper function to fetch Google user info
 const fetchGoogleUserInfo = async (accessToken: string) => {
