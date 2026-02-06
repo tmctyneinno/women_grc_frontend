@@ -688,6 +688,17 @@ const handleSpeakerImageError = (event) => {
     parent.replaceChild(fallback, img)
   }
 }
+ // ADD THIS METHOD
+  truncateBrief(brief, maxLength = 100) {
+    if (!brief || typeof brief !== 'string') return '';
+    
+    // Remove HTML tags if present
+    const plainText = brief.replace(/<[^>]*>/g, '');
+    
+    if (plainText.length <= maxLength) return plainText;
+    return plainText.substring(0, maxLength).trim() + '...';
+  },
+    
 
 // Computed properties
 const eventImageUrl = computed(() => {
