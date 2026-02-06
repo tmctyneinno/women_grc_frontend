@@ -9,7 +9,6 @@
                             <div class="text-center mb-3">
                                 <NuxtImg 
                                     src="/images/WGRC-logo.png" 
-                                    width="60" 
                                     height="60"
                                     alt="Company Logo"
                                     class="img-fluid"
@@ -23,14 +22,32 @@
                             </p>
                         </div>
 
-                       
+                        <!-- Google Sign Up Option -->
+                        <!-- <div class="col-12 mb-3">
+                            <button 
+                                type="button"
+                                :disabled="!isReady || isSubmitting"
+                                @click="handleGoogleSignUp"
+                                class="btn btn-outline-secondary w-100 py-2 d-flex align-items-center justify-content-center"
+                            >
+                                <NuxtImg 
+                                    src="/images/auth/google-icon.png" 
+                                    width="18" 
+                                    height="18"
+                                    alt="Google"
+                                    class="me-2"
+                                />
+                                <span>Sign up with Google</span>
+                            </button>
+                        </div>
+
                         <div class="col-12 position-relative my-3">
                             <hr class="my-0">
                             <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">
                                 Or register with email
                             </span>
-                        </div>
-
+                        </div> -->
+                        <br/>
                         <!-- Full Name Field -->
                         <div class="col-12">
                             <label for="full_name" class="form-label fw-semibold">
