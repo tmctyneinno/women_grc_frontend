@@ -1,8 +1,6 @@
 import axios from 'axios';
 // @ts-ignore
 import Cookies from 'js-cookie';
-import axios from 'axios';
-import Cookies from 'js-cookie';
 
 const hostURL = import.meta.env.VITE_API_URL || 'https://your-api-domain.com';
 const apiURL = `${hostURL}/api/`;
@@ -137,31 +135,3 @@ $instanceSilent.interceptors.response.use(
     (error) => Promise.reject(error)
 );
 
-// API methods
-export default {
-    register(data) {
-        return $instance.post('auth/register', data);
-    },
-
-    login(data) {
-        return $instance.post('auth/login', data);
-    },
-
-    logout() {
-        return $instance.post('auth/logout');
-    },
-
-    profile() {
-        return $instance.get('auth/profile');
-    },
-
-    verifyEmail(data) {
-        return $instance.post('auth/email/verify', data);
-    },
-
-    resendVerificationEmail() {
-        return $instance.post('auth/email/resend');
-    }
-};
-
-export { $instance, $instanceSilent, $instanceForm };
