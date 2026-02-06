@@ -275,48 +275,39 @@
               </div>
 
               <!-- Speakers Section -->
-<!-- Speakers Section -->
 <div v-if="event.speakers && event.speakers.length > 0" class="bg-white rounded-3xl shadow-xl p-8">
-  <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">Featured Speakers</h2>
+  <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">
+    Featured Speakers ({{ event.speakers.length }})
+  </h2>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div 
       v-for="speaker in event.speakers" 
       :key="speaker.id"
-      class="group p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-white hover:from-cyan-50 hover:to-purple-50 transition-all duration-300 border border-gray-100 hover:border-cyan-200 hover:shadow-lg"
+      class="p-6 rounded-2xl bg-gray-50 border border-gray-200"
     >
       <div class="flex items-start gap-4">
         <div class="flex-shrink-0">
-          <div class="relative">
-            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg">
-              <img 
-                v-if="speaker.avatar || speaker.image_url" 
-                :src="speaker.avatar || speaker.image_url" 
-                :alt="speaker.name"
-                class="w-full h-full object-cover"
-                @error="handleSpeakerImageError"
-              />
-              <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-2xl">
-                {{ speaker.name.charAt(0) }}
-              </div>
-            </div>
-            <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-              </svg>
-            </div>
+          <div class="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center text-white text-xl font-bold">
+            {{ speaker.name.charAt(0) }}
           </div>
         </div>
         <div class="flex-1">
-          <h3 class="text-xl font-bold text-gray-800 mb-1">{{ speaker.name }}</h3>
-          <p v-if="speaker.title" class="text-cyan-600 font-medium mb-2">{{ speaker.title }}</p>
-          <!-- Use brief (not bio) -->
-          <p v-if="speaker.brief" class="text-gray-500 text-sm line-clamp-2">{{ speaker.brief }}</p>
-          <!-- Fallback if no brief -->
-          <p v-else class="text-gray-400 text-sm italic">No description available</p>
+          <h3 class="text-lg font-bold text-gray-800">{{ speaker.name }}</h3>
+          <p v-if="speaker.title" class="text-blue-600 font-medium">{{ speaker.title }}</p>
+          <p v-if="speaker.brief" class="text-gray-600 text-sm mt-2">{{ speaker.brief }}</p>
+          <p v-else class="text-gray-400 text-sm italic mt-2">No description</p>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Debug: Show if no speakers -->
+<div v-else class="bg-white rounded-3xl shadow-xl p-8">
+  <h2 class="text-2xl font-bold text-gray-800 mb-4">Featured Speakers</h2>
+  <p class="text-gray-500">No speakers have been added to this event yet.</p>
+  <p class="text-sm text-gray-400 mt-2">Speakers array: {{ event.speakers ? 'exists' : 'null' }}</p>
+  <p class="text-sm text-gray-400">Speakers count: {{ event.speakers ? event.speakers.length : 0 }}</p>
 </div>
 
               <!-- Agenda Section -->
