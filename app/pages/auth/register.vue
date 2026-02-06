@@ -6,7 +6,7 @@
                     <form @submit.prevent="validateAndSignUp" class="row g-3">
                         <div class="col-12">
                             <div class="text-center">
-                                <NuxtImg src="/images/WGRC-logo.png" width="40" alt="" />
+                                <NuxtImg src="/images/WGRC-logo.png" width="50" alt="" />
                             </div>
                             <div class="text-center fw-600 fw-bold fs-4">
                                 Join us!
