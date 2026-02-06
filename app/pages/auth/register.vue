@@ -23,9 +23,10 @@
                                 </div>
                             </div> -->
 
-                            <div class="text-between-lines">
+                            <!-- <div class="text-between-lines">
                                 or with
-                            </div>
+                            </div> -->
+                            <br/>
                         </div>
 
                         <div class="col-12">
