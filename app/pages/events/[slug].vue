@@ -851,9 +851,16 @@ const formattedTimeRange = computed(() => {
   
   try {
     const startDate = new Date(event.value.start_date);
-    const endDate = event.value?.end_date ? new Date(event.value.end_date) : null;
     
-    // Format times
+    // Override the time portion
+    startDate.setHours(12, 0, 0, 0); // Set to 12:00 PM
+    
+    let endDate = null;
+    if (event.value?.end_date) {
+      endDate = new Date(event.value.end_date);
+      endDate.setHours(13, 30, 0, 0); // Set to 1:30 PM
+    }
+    
     const formatTime = (date) => {
       return date.toLocaleTimeString('en-US', {
         hour: 'numeric',
@@ -871,8 +878,8 @@ const formattedTimeRange = computed(() => {
     
     return startTime;
     
-  } catch {
-    return '';
+  } catch (error) {
+    return '12:00 PM - 1:30 PM';
   }
 });
 
