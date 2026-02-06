@@ -845,7 +845,7 @@ const formattedMonth = computed(() => {
   }
 })
 
-const formattedTimeRange = computed(() => {
+const formattedTimeRangedd = computed(() => {
   if (!event.value?.start_date) return '';
   
   try {
@@ -868,6 +868,36 @@ const formattedTimeRange = computed(() => {
     return 'Time not specified';
   }
 });
+
+const formattedTimeRange = (timeString) => {
+  if (!timeString) return '';
+  
+  try {
+    // Handle different time formats
+    let time = timeString;
+    
+    // If it's already in AM/PM format, return as is
+    if (timeString.toLowerCase().includes('am') || timeString.toLowerCase().includes('pm')) {
+      return timeString;
+    }
+    
+    // Parse 24-hour format
+    const parts = timeString.split(':');
+    if (parts.length >= 2) {
+      let hours = parseInt(parts[0], 10);
+      const minutes = parseInt(parts[1], 10);
+      
+      const period = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12; // Convert 0 to 12 for 12 AM
+      
+      return `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
+    }
+    
+    return timeString;
+  } catch {
+    return timeString;
+  }
+}
 
 
 
