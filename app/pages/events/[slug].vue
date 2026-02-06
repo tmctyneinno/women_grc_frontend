@@ -117,7 +117,7 @@
                   <div>
                     <h3 class="text-lg font-semibold text-white mb-2">Date & Time</h3>
                     <p class="text-white">{{ formattedDateTime }}</p> 
-                    <p v-if="eventDuration" class="text-black text-sm mt-1">Duration: {{ formattedTimeRange }}</p>
+                    <p v-if="eventDuration" class="text-white text-sm mt-1">Duration: {{ formattedTimeRange }}</p>
                   </div>
                 </div>
 
@@ -285,6 +285,7 @@
                   >
                     <div class="flex items-start gap-4">
                       <div class="flex-shrink-0">
+                        <p>P
                         <div class="relative">
                           <div class="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg">
                             <img 
