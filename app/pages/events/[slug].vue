@@ -285,7 +285,7 @@
                   >
                     <div class="flex items-start gap-4">
                       <div class="flex-shrink-0">
-                        <p>P
+                       
                         <div class="relative">
                           <div class="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg">
                             <img 
@@ -305,6 +305,7 @@
                           </div>
                         </div>
                       </div>
+                       <p>{{speaker.avatar}}</p>
                       <div class="flex-1">
                         <h3 class="text-xl font-bold text-gray-800 mb-1">{{ speaker.name }}</h3>
                         <p v-if="speaker.title" class="text-cyan-600 font-medium mb-2">{{ speaker.title }}</p>
