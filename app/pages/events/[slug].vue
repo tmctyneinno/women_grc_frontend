@@ -305,7 +305,7 @@
                         <p v-if="speaker.title" class="text-cyan-600 font-medium mb-2">{{ speaker.title }}</p>
                         <!-- Brief preview (limited characters) -->
                         <p v-if="speaker.brief" class="text-gray-500 text-sm line-clamp-2 mb-3">
-                          <!-- {{ truncateBrief(speaker.brief, 100) }} -->
+                          {{ truncateBrief(speaker.brief, 100) }}
                         </p>
                         
                         <!-- View More/Learn More Button -->
