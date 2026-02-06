@@ -568,7 +568,7 @@ const eventImageUrl = computed(() => {
     return imgPath
   }
   
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'
+  const baseUrl = 'http://127.0.0.1:8000'
   // const baseUrl = 'https://api.wgrcfp.org'
   const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
   
