@@ -568,7 +568,7 @@ const eventImageUrl = computed(() => {
     return imgPath
   }
   
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://api.wgrcfp.org'
+  const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'
   // const baseUrl = 'https://api.wgrcfp.org'
   const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
   
@@ -868,7 +868,8 @@ const fetchEvent = async () => {
     console.log('Fetching event with slug:', slug)
     
     // Add mode: 'cors' and handle credentials properly
-    const response = await fetch(`https://api.wgrcfp.org/api/v1/events/${slug}`, {
+    // const response = await fetch(`https://api.wgrcfp.org/api/v1/events/${slug}`, {
+    const response = await fetch(`http://127.0.0.1:8000//api/v1/events/${slug}`, {
       mode: 'cors',
       credentials: 'omit', // Change to 'omit' instead of 'same-origin'
       headers: {
