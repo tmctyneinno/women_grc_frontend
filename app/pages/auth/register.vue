@@ -156,8 +156,8 @@
                                 >
                                 <label class="form-check-label small" for="terms">
                                     I agree to the 
-                                    <a href="/terms" class="text-decoration-none">Terms of Service</a> and 
-                                    <a href="/privacy" class="text-decoration-none">Privacy Policy</a>
+                                    <a href="/terms" class="text-decoration-none" style="color: #293567;">Terms of Service</a> and 
+                                    <a href="/privacy" class="text-decoration-none" style="color: #293567;">Privacy Policy</a>
                                     <span class="text-danger">*</span>
                                 </label>
                                 <div v-if="errors?.terms" class="invalid-feedback d-block small">
