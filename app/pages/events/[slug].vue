@@ -810,8 +810,8 @@ const eventImageUrl = computed(() => {
     return imgPath
   }
   
-  const baseUrl = 'http://127.0.0.1:8000'
-  // const baseUrl = 'https://api.wgrcfp.org'
+  // const baseUrl = 'http://127.0.0.1:8000'
+  const baseUrl = 'https://api.wgrcfp.org'
   const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
   
   // Use the proxy route for CORS

@@ -2,7 +2,8 @@ import axios from 'axios';
 // @ts-ignore
 import Cookies from 'js-cookie';
 
-const hostURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+// const hostURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const hostURL =  'api.wgrcfp.org';
 const apiURL = `${hostURL}/api/v1/`;
 
 // Create axios instances with better configuration
