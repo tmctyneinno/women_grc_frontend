@@ -871,7 +871,7 @@ const fetchEvent = async () => {
     // const response = await fetch(`https://api.wgrcfp.org/api/v1/events/${slug}`, {
     const response = await fetch(`http://127.0.0.1:8000/api/v1/events/${slug}`, {
       // mode: 'cors',
-      credentials: 'omit', // Change to 'omit' instead of 'same-origin'
+      // credentials: 'omit', // Change to 'omit' instead of 'same-origin'
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
