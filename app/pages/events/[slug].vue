@@ -846,20 +846,26 @@ const formattedMonth = computed(() => {
 })
 
 const formattedTimeRange = computed(() => {
-  if (!event.value?.start_time) return '';
+  if (!event.value?.start_date) return '';
   
   try {
-    const startTime = formatTime(event.value.start_time);
-    const endTime = event.value?.end_time ? formatTime(event.value.end_time) : null;
+    // Extract time from start_date (which is a datetime string)
+    const startDate = new Date(event.value.start_date);
+    const startTime = formatTime(formatTimeFromDate(startDate));
+    
+    let endTime = null;
+    
+    // Check if end_date exists and extract time
+    if (event.value?.end_date) {
+      const endDate = new Date(event.value.end_date);
+      endTime = formatTime(formatTimeFromDate(endDate));
+    }
     
     // Return time range if end_time exists
     return endTime ? `${startTime} - ${endTime}` : startTime;
-  } catch {
-    // Fallback to raw times
-    if (event.value?.end_time) {
-      return `${event.value.start_time} - ${event.value.end_time}`;
-    }
-    return event.value?.start_time || 'no';
+  } catch (error) {
+    console.error('Error formatting time range:', error);
+    return 'Time not specified';
   }
 });
 
