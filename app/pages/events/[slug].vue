@@ -847,48 +847,35 @@ const formattedMonth = computed(() => {
 
 
 const formattedTimeRange = computed(() => {
-  if (!event.value?.start_date) return 'Time not specified';
+  if (!event.value?.start_date) return '';
   
   try {
     const startDate = new Date(event.value.start_date);
-    const startTime = formatTime(formatTimeFromDate(startDate));
+    const endDate = event.value?.end_date ? new Date(event.value.end_date) : null;
     
-    // Option 1: Use end_date if available
-    if (event.value?.end_date) {
-      const endDate = new Date(event.value.end_date);
-      const endTime = formatTime(formatTimeFromDate(endDate));
+    // Format times
+    const formatTime = (date) => {
+      return date.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
+    };
+    
+    const startTime = formatTime(startDate);
+    
+    if (endDate) {
+      const endTime = formatTime(endDate);
       return `${startTime} - ${endTime}`;
     }
     
-    // Option 2: Use duration_hours if available
-    if (event.value?.duration_hours) {
-      const endTime = calculateEndTime(startDate, event.value.duration_hours);
-      return `${startTime} - ${endTime}`;
-    }
-    
-    // Option 3: Just show start time
     return startTime;
     
-  } catch (error) {
-    console.error('Error formatting time range:', error);
-    return 'Time not specified';
+  } catch {
+    return '';
   }
 });
 
-// Helper to calculate end time from duration
-const calculateEndTime = (startDate, durationHours) => {
-  const endDate = new Date(startDate.getTime() + (durationHours * 60 * 60 * 1000));
-  return formatTime(formatTimeFromDate(endDate));
-};
-
-// Helper to get time from datetime
-const formatTimeFromDate = (date) => {
-  return date.toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
-  }).replace(/^24:/, '00:'); // Handle midnight
-};
 
 
 
