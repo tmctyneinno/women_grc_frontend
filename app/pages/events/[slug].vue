@@ -306,8 +306,8 @@
           </div>
         </div>
         <div class="flex-1">
-          <h3 class="text-xl font-bold text-gray-800 mb-1">{{ speaker.avatar }}</h3>
-          <p v-if="speaker.title" class="text-cyan-600 font-medium mb-2">{{ speaker.avatar }}</p>
+          <h3 class="text-xl font-bold text-gray-800 mb-1">{{ speaker.name }}</h3>
+          <p v-if="speaker.title" class="text-cyan-600 font-medium mb-2">{{ speaker.title }}</p>
           <!-- FIXED: Changed bio to brief -->
           <p v-if="speaker.brief" class="text-gray-500 text-sm line-clamp-2">{{ speaker.brief }}</p>
         </div>
