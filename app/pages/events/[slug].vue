@@ -364,7 +364,7 @@
                     </div>
 
                     <!-- Speaker Bio -->
-                    <div class="p-8">
+                    <div class="p-4">
                       <div class="prose prose-lg max-w-none">
                         <h4 class="text-lg font-semibold text-gray-800 mb-4">About</h4>
                         <div class="text-gray-600 leading-relaxed">
