@@ -93,7 +93,7 @@
                             </label>
                             <CustomInputText 
                                 id="linked_in"
-                                type="url"
+                                type="text"
                                 placeholder="https://linkedin.com/in/username"
                                 v-model="linked_in"
                                 v-bind="linked_inAttr"
