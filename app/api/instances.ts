@@ -120,7 +120,7 @@ const createAxiosInstance = (contentType = 'application/json') => {
 };
 
 // Create different instances for different content types
-const $instance = createAxiosInstance('application/json');
+export const $instance = createAxiosInstance('application/json');
 const $instanceForm = createAxiosInstance('multipart/form-data');
 const $instanceSilent = createAxiosInstance('application/json');
 
