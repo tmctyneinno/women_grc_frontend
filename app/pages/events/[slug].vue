@@ -344,7 +344,7 @@
                       <div class="text-center">
                         <!-- Speaker Avatar -->
                         <div class="relative inline-block">
-                          <div class="w-32 h-32 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-8 ring-white shadow-2xl mx-auto mb-6">
+                          <div class="w-32 h-32 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-8 ring-white shadow-2xl mx-auto mb-2">
                             <img 
                               v-if="selectedSpeaker.avatar || selectedSpeaker.image_url" 
                               :src="selectedSpeaker.avatar || selectedSpeaker.image_url" 
@@ -359,7 +359,7 @@
                         
                         <!-- Speaker Info -->
                         <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ selectedSpeaker.name }}</h3>
-                        <p v-if="selectedSpeaker.title" class="text-cyan-600 font-semibold text-lg mb-6">{{ selectedSpeaker.title }}</p>
+                        <p v-if="selectedSpeaker.title" class="text-cyan-600 font-semibold text-lg mb-3">{{ selectedSpeaker.title }}</p>
                       </div>
                     </div>
 
