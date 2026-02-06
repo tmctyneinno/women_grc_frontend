@@ -934,67 +934,63 @@ const fetchEventOnline = async () => {
 const fetchEvent = async () => {
   try {
     loading.value = true
-    imageLoaded.value = false
-    imageError.value = false
     
-    console.log('Fetching event with slug:', slug)
-    
-    // Use your actual API endpoint
     const apiUrl = `http://127.0.0.1:8000/api/v1/events/${slug}`
-    console.log('API URL:', apiUrl)
+    console.log('Fetching from:', apiUrl)
     
-    const response = await fetch(apiUrl, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    })
+    const response = await fetch(apiUrl)
     
     console.log('Response status:', response.status)
-    console.log('Response headers:', [...response.headers.entries()])
     
     if (!response.ok) {
-      if (response.status === 404) {
-        throw new Error(`Event not found with slug: ${slug}`)
+      // Try to get error details from response
+      let errorMessage = `HTTP error! status: ${response.status}`
+      
+      try {
+        const errorData = await response.json()
+        console.log('Error response:', errorData)
+        
+        if (errorData.message) {
+          errorMessage = errorData.message
+        }
+        if (errorData.error) {
+          errorMessage += ` - ${errorData.error}`
+        }
+      } catch (parseError) {
+        console.log('Could not parse error response:', parseError)
       }
-      throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`)
+      
+      throw new Error(errorMessage)
     }
     
     const result = await response.json()
-    console.log('✅ Full API Response:', JSON.stringify(result, null, 2))
+    console.log('✅ API Result:', result)
     
     if (result.success && result.data) {
       event.value = result.data
-      
-      // Debug speakers data
-      console.log('📢 Event speakers data:', {
-        hasSpeakers: !!event.value.speakers,
-        speakersCount: event.value.speakers?.length || 0,
-        firstSpeaker: event.value.speakers?.[0],
-        allSpeakers: event.value.speakers
-      })
-      
-      // Check speaker image URLs
-      if (event.value.speakers && event.value.speakers.length > 0) {
-        event.value.speakers.forEach((speaker, index) => {
-          console.log(`👤 Speaker ${index + 1}:`, {
-            name: speaker.name,
-            hasAvatar: !!speaker.avatar,
-            hasImageUrl: !!speaker.image_url,
-            avatar: speaker.avatar,
-            image_url: speaker.image_url,
-            allKeys: Object.keys(speaker)
-          })
-        })
-      }
-      
+      console.log('Event loaded successfully!')
     } else {
-      throw new Error(result.message || 'Event not found in response')
+      throw new Error(result.message || 'Event not found')
     }
     
   } catch (err) {
-    console.error('❌ Error fetching event:', err)
-    error.value = `Error: ${err.message}`
+    console.error('❌ Fetch Error:', err)
+    
+    // Show detailed error
+    error.value = `
+      Server Error (500)
+      
+      ${err.message}
+      
+      This is a backend error. Please check:
+      
+      1. Laravel logs: storage/logs/laravel.log
+      2. Database connection
+      3. Event with slug "${slug}" exists
+      
+      Try accessing directly: http://127.0.0.1:8000/api/v1/events/${slug}
+    `
+    
   } finally {
     loading.value = false
   }
