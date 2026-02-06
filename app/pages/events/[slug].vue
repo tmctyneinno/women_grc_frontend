@@ -724,6 +724,22 @@ const navigateSpeaker = (direction) => {
   }
 }
 
+// Close modal on Escape key
+onMounted(() => {
+  const handleEscape = (e) => {
+    if (e.key === 'Escape' && selectedSpeaker.value) {
+      closeSpeakerModal()
+    }
+  }
+  
+  window.addEventListener('keydown', handleEscape)
+  
+  // Cleanup
+  return () => {
+    window.removeEventListener('keydown', handleEscape)
+  }
+})
+
 const formatBio = (bio) => {
   if (!bio) return []
   
