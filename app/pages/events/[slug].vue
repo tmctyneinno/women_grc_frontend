@@ -935,7 +935,7 @@ const fetchEvent = async () => {
   try {
     loading.value = true
     
-    const apiUrl = `http://127.0.0.1:8000/api/v1/events/${slug}`
+    const apiUrl = `http://localhost:8000/api/v1/events/${slug}`
     console.log('Fetching from:', apiUrl)
     
     const response = await fetch(apiUrl)
