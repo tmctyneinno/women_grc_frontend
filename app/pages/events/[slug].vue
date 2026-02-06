@@ -259,7 +259,7 @@
       </section>
 
       <!-- Content Section -->
-      <section class="py-12 bg-gray-50">
+      <section class="py-10 bg-gray-50">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Left Column - Main Content -->
