@@ -559,6 +559,20 @@ const imageLoaded = ref(false)
 const imageError = ref(false)
 const relatedEvents = ref([])
 
+// Add this method to handle speaker image errors
+const handleSpeakerImageError = (event) => {
+  console.warn('Speaker image failed to load:', event.target.src)
+  const img = event.target
+  const parent = img.parentElement
+  
+  if (parent) {
+    const fallback = document.createElement('div')
+    fallback.className = 'w-full h-full flex items-center justify-center text-white font-bold text-2xl'
+    fallback.textContent = img.alt.charAt(0).toUpperCase()
+    parent.replaceChild(fallback, img)
+  }
+}
+
 // Computed properties
 const eventImageUrl = computed(() => {
   if (!event.value?.featured_image) {
@@ -944,19 +958,12 @@ const fetchEvent = async () => {
     console.log('Response status:', response.status)
     
     if (!response.ok) {
-      // Try to get error details from response
       let errorMessage = `HTTP error! status: ${response.status}`
       
       try {
         const errorData = await response.json()
         console.log('Error response:', errorData)
-        
-        if (errorData.message) {
-          errorMessage = errorData.message
-        }
-        if (errorData.error) {
-          errorMessage += ` - ${errorData.error}`
-        }
+        if (errorData.message) errorMessage = errorData.message
       } catch (parseError) {
         console.log('Could not parse error response:', parseError)
       }
@@ -970,28 +977,22 @@ const fetchEvent = async () => {
     if (result.success && result.data) {
       event.value = result.data
       console.log('Event loaded successfully!')
+      
+      // Debug speakers data
+      console.log('📢 Speakers debug:', {
+        hasSpeakers: !!event.value.speakers,
+        speakersCount: event.value.speakers?.length || 0,
+        firstSpeaker: event.value.speakers?.[0],
+        allSpeakers: event.value.speakers
+      })
+      
     } else {
       throw new Error(result.message || 'Event not found')
     }
     
   } catch (err) {
     console.error('❌ Fetch Error:', err)
-    
-    // Show detailed error
-    error.value = `
-      Server Error (500)
-      
-      ${err.message}
-      
-      This is a backend error. Please check:
-      
-      1. Laravel logs: storage/logs/laravel.log
-      2. Database connection
-      3. Event with slug "${slug}" exists
-      
-      Try accessing directly: http://127.0.0.1:8000/api/v1/events/${slug}
-    `
-    
+    error.value = `Error: ${err.message}`
   } finally {
     loading.value = false
   }
