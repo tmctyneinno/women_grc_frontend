@@ -11,7 +11,7 @@
               Discover Inspiring Events
             </h1>
             <p class="text-xl text-gray-200 mb-10">
-              Join top GRC professionals at conferences, workshops, and networking sessions that shape the industry.
+              Join top WGRCFP professionals at conferences, workshops, and networking sessions that shape the industry.
             </p>
             
             <!-- Search Bar -->

@@ -2,14 +2,16 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  ssr: false,
+  image: {
+    domains: ['wgrcfp.org']
+  },
   routeRules: {
     '/api/**': { 
       proxy: 'https://api.wgrcfp.org/api/v1/**',
       cors: true
     },
     '/api/images/**': {
-      // proxy: 'http://localhost:8000/storage/**' 
+      // proxy: 'http://localhost:8000/storage/**' ,
       proxy: 'http://api.wgrcfp.org/storage/**'
     },
     '/account/**': { ssr: false },
@@ -33,18 +35,18 @@ export default defineNuxtConfig({
   nitro: { 
     devProxy: {
       '/api': {
-        target: 'https://api.wgrcfp.org/api/v1',
+        target: 'https://wgrcfp.org',
         changeOrigin: true,
       },
       '/storage': {
-        target: 'https://api.wgrcfp.org',
+        target: 'https://wgrcfp.org',
         changeOrigin: true,
-      }
+      },
     },
     preset: 'static'
   },
   runtimeConfig: {
-    apiBaseUrl: process.env.API_BASE_URL || 'https://api.wgrcfp.org/api/v1',
+    apiBaseUrl: process.env.API_BASE_URL || 'https://wgrcfp.org',
     public: {
       apiUrl: process.env.NUXT_PUBLIC_API_URL || 'https://localhost:8000/api/v1',
       siteUrl: process.env.SITE_URL || 'https://localhost:3000',

@@ -7,6 +7,9 @@ export class EventService {
       this.baseURL = window.location.protocol === 'https:' 
       ? 'https://api.wgrcfp.org/api/v1'
       : 'http://api.wgrcfp.org/api/v1';
+      // this.baseURL = window.location.protocol === 'https:' 
+      // ? 'http://127.0.0.1:8000/api/v1'
+      // : 'http://127.0.0.1:8000/api/v1';
     } else {
       this.baseURL = '/api'; // For SSR
     }

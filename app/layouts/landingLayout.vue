@@ -8,9 +8,9 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-
+ 
 const route = useRoute()
-
+ 
 const title = computed(() => {
     const path = route.path.replace(/^\/+|\/+$/g, '')
 

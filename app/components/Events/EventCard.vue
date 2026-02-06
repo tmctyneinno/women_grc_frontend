@@ -262,11 +262,54 @@ const typeClass = computed(() => {
 });
 
 const formattedDay = computed(() => {
+    console.log('🔍 DEBUG start_date:', {
+        value: props.event.start_date,
+        type: typeof props.event.start_date,
+        containsSpace: props.event.start_date?.includes(' '),
+        containsT: props.event.start_date?.includes('T'),
+        containsZ: props.event.start_date?.includes('Z'),
+        length: props.event.start_date?.length
+    });
+    
     if (!props.event.start_date) return '--';
+    
     try {
-        const date = new Date(props.event.start_date);
-        return date.getDate().toString().padStart(2, '0');
-    } catch {
+        const dateStr = props.event.start_date.toString();
+        console.log('🔍 Parsing:', dateStr);
+        
+        // Handle different date formats
+        
+        // Format 1: "YYYY-MM-DD HH:MM:SS" (MySQL datetime)
+        if (dateStr.includes(' ')) {
+            const [datePart] = dateStr.split(' ');
+            const [, , day] = datePart.split('-');
+            const dayNum = parseInt(day);
+            console.log('🔍 Format 1 result:', { datePart, day, dayNum });
+            return isNaN(dayNum) ? '--' : dayNum.toString().padStart(2, '0');
+        }
+        
+        // Format 2: ISO string "YYYY-MM-DDTHH:MM:SSZ"
+        if (dateStr.includes('T')) {
+            const datePart = dateStr.split('T')[0];
+            const [, , day] = datePart.split('-');
+            const dayNum = parseInt(day);
+            console.log('🔍 Format 2 result:', { datePart, day, dayNum });
+            return isNaN(dayNum) ? '--' : dayNum.toString().padStart(2, '0');
+        }
+        
+        // Format 3: Just date "YYYY-MM-DD"
+        if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+            const [, , day] = dateStr.split('-');
+            const dayNum = parseInt(day);
+            console.log('🔍 Format 3 result:', { day, dayNum });
+            return isNaN(dayNum) ? '--' : dayNum.toString().padStart(2, '0');
+        }
+        
+        console.log('🔍 Unknown format');
+        return '--';
+        
+    } catch (error) {
+        console.error('❌ Date parsing error:', error);
         return '--';
     }
 });
@@ -283,18 +326,32 @@ const formattedMonth = computed(() => {
 
 const formattedTime = computed(() => {
     if (!props.event.start_time) return '';
+    
     try {
-        const timeString = props.event.start_time;
+        // Format time helper function
+        const formatTime = (timeString) => {
+            if (!timeString) return '';
+            
+            const timeWithoutSeconds = timeString.split(':').slice(0, 2).join(':');
+            const [hours, minutes] = timeWithoutSeconds.split(':').map(Number);
+            const period = hours >= 12 ? 'PM' : 'AM';
+            const formattedHours = hours % 12 || 12;
+            
+            return `${formattedHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+        };
         
-        const timeWithoutSeconds = timeString.split(':').slice(0, 2).join(':');
+        const startTime = formatTime(props.event.start_time);
+        const endTime = props.event.end_time ? formatTime(props.event.end_time) : null;
         
-        const [hours, minutes] = timeWithoutSeconds.split(':').map(Number);
-        const period = hours >= 12 ? 'PM' : 'AM';
-        const formattedHours = hours % 12 || 12; 
+        // Return time range if end_time exists
+        return endTime ? `${startTime} - ${endTime}` : startTime;
         
-        return `${formattedHours}:${minutes.toString().padStart(2, '0')} ${period}`;
     } catch {
-        return props.event.start_time || ''; 
+        // Fallback to raw times
+        if (props.event.end_time) {
+            return `${props.event.start_time} - ${props.event.end_time}`;
+        }
+        return props.event.start_time || '';
     }
 });
 

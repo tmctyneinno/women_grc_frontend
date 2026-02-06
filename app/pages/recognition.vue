@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-
+ 
         <section class="py-5 container">
 
             <div class="row g-3 mt-3">
@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import pageContents from '~/stores/pageContents/recognition.json'
 
-</script>
+</script> 
 
 <style scoped>
 .hero-header {

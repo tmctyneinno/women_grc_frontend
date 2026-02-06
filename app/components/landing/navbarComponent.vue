@@ -10,7 +10,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-
+ 
                     <li v-for="({ title, routePath, hasDropDown, dropdownItems, relatedRoutes }, i) in templateStore.navBarMenus"
                         :key="i" class="nav-item ">
                         <div v-if="hasDropDown" class="dropdown">

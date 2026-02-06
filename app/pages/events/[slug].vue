@@ -116,8 +116,8 @@
                   </div>
                   <div>
                     <h3 class="text-lg font-semibold text-white mb-2">Date & Time</h3>
-                    <p class="text-white">{{ formattedDateTime }}</p>
-                    <p v-if="eventDuration" class="text-white text-sm mt-1">Duration: {{ formattedTime }}</p>
+                    <p class="text-white">{{ formattedDateTime }}</p> 
+                    <p v-if="eventDuration" class="text-white text-sm mt-1">Duration: {{ formattedTimeRange }}</p>
                   </div>
                 </div>
 
@@ -419,8 +419,12 @@
                     <span class="font-semibold text-gray-800">{{ formattedType }}</span>
                   </div>
                   <div class="flex items-center justify-between py-2 border-b border-gray-100">
-                    <span class="text-gray-600 font-medium">Date & Time</span>
+                    <span class="text-gray-600 font-medium">Date </span>
                     <span class="font-semibold text-gray-800 text-right">{{ formattedDateTime }} </span>
+                  </div>
+                  <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                    <span class="text-gray-600 font-medium">Time</span>
+                    <span class="font-semibold text-gray-800 text-right">{{ formattedTimeRange }} </span>
                   </div>
                   <div class="flex items-center justify-between py-2 border-b border-gray-100">
                     <span class="text-gray-600 font-medium">Venue</span>
@@ -513,39 +517,6 @@
               </div>
           
 
-              <!-- Organizer Info -->
-              <!-- <div v-if="event.organizer" class="bg-white rounded-3xl shadow-xl p-8"> -->
-              <div class="bg-white rounded-3xl shadow-xl p-8">
-                <h3 class="text-xl font-bold text-gray-800 mb-6">Organized By</h3>
-                <div class="flex items-center gap-4">
-                  <div class="flex-shrink-0">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg">
-                      <NuxtImg 
-                        src="/images/the_morgans_logo.png"
-                        class="w-full h-full object-contain"
-                      />
-                      <div class="w-full h-full flex items-center justify-center text-white font-bold text-xl">
-                        The Morgans
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 class="font-bold text-gray-800 text-lg">The Morgans</h4>
-                    
-                    <a 
-                      :href="'https://morgansconsortium.com'"
-                      target="_blank"
-                      class="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-medium text-sm mt-3 group"
-                    >
-                      Visit Website
-                      <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
 
             </div>
           </div>
@@ -636,23 +607,25 @@ const formattedMonth = computed(() => {
     return '---'
   }
 })
-
-const formattedTime = computed(() => {
-    if (!event.value?.start_time) return '';
-    try {
-        const timeString = event.value?.start_time;
-        
-        const timeWithoutSeconds = timeString.split(':').slice(0, 2).join(':');
-        
-        const [hours, minutes] = timeWithoutSeconds.split(':').map(Number);
-        const period = hours >= 12 ? 'PM' : 'AM';
-        const formattedHours = hours % 12 || 12; 
-        
-        return `${formattedHours}:${minutes.toString().padStart(2, '0')} ${period}`;
-    } catch {
-        return event.value?.start_time || ''; 
+const formattedTimeRange = computed(() => {
+  if (!event.value?.start_time) return '';
+  
+  try {
+    const startTime = formatTime(event.value.start_time);
+    const endTime = event.value?.end_time ? formatTime(event.value.end_time) : null;
+    
+    // Return time range if end_time exists
+    return endTime ? `${startTime} - ${endTime}` : startTime;
+  } catch {
+    // Fallback to raw times
+    if (event.value?.end_time) {
+      return `${event.value.start_time} - ${event.value.end_time}`;
     }
+    return event.value?.start_time || '';
+  }
 });
+
+
 
 const formattedDateTime = computed(() => {
   if (!event.value?.start_date) return ''
@@ -740,16 +713,32 @@ const registerButtonText = computed(() => {
 
 // Helper methods
 const formatTime = (timeString) => {
-  if (!timeString) return ''
+  if (!timeString) return '';
+  
   try {
-    const date = new Date(`2000-01-01T${timeString}`)
-    return date.toLocaleTimeString('en-US', { 
-      hour: 'numeric', 
-      minute: '2-digit',
-      hour12: true 
-    })
+    // Handle different time formats
+    let time = timeString;
+    
+    // If it's already in AM/PM format, return as is
+    if (timeString.toLowerCase().includes('am') || timeString.toLowerCase().includes('pm')) {
+      return timeString;
+    }
+    
+    // Parse 24-hour format
+    const parts = timeString.split(':');
+    if (parts.length >= 2) {
+      let hours = parseInt(parts[0], 10);
+      const minutes = parseInt(parts[1], 10);
+      
+      const period = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12; // Convert 0 to 12 for 12 AM
+      
+      return `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
+    }
+    
+    return timeString;
   } catch {
-    return timeString
+    return timeString;
   }
 }
 
@@ -869,28 +858,39 @@ const shareOnLinkedIn = () => {
 }
 
 // Fetch event data
+// In your fetchEvent() function in the Vue component
 const fetchEvent = async () => {
   try {
     loading.value = true
-    imageLoaded.value = false
+    imageLoaded.value = false 
     imageError.value = false
     
     console.log('Fetching event with slug:', slug)
     
+    // Add mode: 'cors' and handle credentials properly
     const response = await fetch(`https://api.wgrcfp.org/api/v1/events/${slug}`, {
       mode: 'cors',
+      credentials: 'omit', // Change to 'omit' instead of 'same-origin'
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       }
     })
     
+    console.log('Response status:', response.status)
+    console.log('Response headers:', [...response.headers.entries()])
     
     if (!response.ok) {
       if (response.status === 404) {
         throw new Error('Event not found')
       }
-      throw new Error(`Failed to fetch event: ${response.status}`)
+      
+      // Check if it's a CORS error
+      if (response.status === 0) {
+        throw new Error('CORS Error: Unable to access API. Please check server CORS configuration.')
+      }
+      
+      throw new Error(`Failed to fetch event: ${response.status} ${response.statusText}`)
     }
     
     const result = await response.json()
@@ -914,7 +914,15 @@ const fetchEvent = async () => {
     }
   } catch (err) {
     console.error('Error fetching event:', err)
-    error.value = err.message || 'An error occurred while loading the event'
+    
+    // Provide more helpful error messages
+    if (err.message.includes('CORS') || err.message.includes('Failed to fetch')) {
+      error.value = 'CORS Error: Unable to connect to the server. The API server needs CORS headers for www.wgrcfp.org.'
+    } else if (err.message.includes('404')) {
+      error.value = 'Event not found. This event may have been removed or the URL is incorrect.'
+    } else {
+      error.value = err.message || 'An error occurred while loading the event'
+    }
   } finally {
     loading.value = false
   }

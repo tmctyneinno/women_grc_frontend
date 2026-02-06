@@ -126,9 +126,9 @@
 
 
 const addressDetails = [
-    { title: "Address", info: "85 Great Portland Street First Floor London W1W, 7LT, United Kingdom.", footer: "support@WGRCP.com" },
-    { title: "Email", info: "Questions or queries? Get in touch!", footer: "support@WGRCP.com" },
-    { title: "Phone", info: "Mon-Fri from 8am to 5pm.", footer: "+234 806 2435 267" },
+    { title: "Address", info: "85 Great Portland Street First Floor London W1W, 7LT, United Kingdom.", footer: "enquiries@wgrcfp.org" },
+    { title: "Email", info: "Questions or queries? Get in touch!", footer: "enquiries@wgrcfp.org" },
+    { title: "Phone", info: "Mon-Fri from 8am to 5pm.", footer: "+44 2078560149" },
 ]
 
 
