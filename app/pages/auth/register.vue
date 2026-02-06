@@ -23,25 +23,7 @@
                             </p>
                         </div>
 
-                        <!-- Google Sign Up Option -->
-                        <div class="col-12 mb-3">
-                            <button 
-                                type="button"
-                                :disabled="!isReady || isSubmitting"
-                                @click="handleGoogleSignUp"
-                                class="btn btn-outline-secondary w-100 py-2 d-flex align-items-center justify-content-center"
-                            >
-                                <NuxtImg 
-                                    src="/images/auth/google-icon.png" 
-                                    width="18" 
-                                    height="18"
-                                    alt="Google"
-                                    class="me-2"
-                                />
-                                <span>Sign up with Google</span>
-                            </button>
-                        </div>
-
+                       
                         <div class="col-12 position-relative my-3">
                             <hr class="my-0">
                             <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">
@@ -92,14 +74,14 @@
                                 LinkedIn Profile <span class="text-danger">*</span>
                                 <small class="text-muted ms-1">(e.g., https://linkedin.com/in/username)</small>
                             </label>
-                            <CustomInputText 
+                            <!-- <CustomInputText 
                                 id="linked_in"
                                 type="url"
                                 placeholder="https://linkedin.com/in/username"
                                 v-model="linked_in"
                                 v-bind="linked_inAttr"
                                 :class="{ 'is-invalid': errors?.linked_in }"
-                            />
+                            /> -->
                             <div v-if="errors?.linked_in" class="invalid-feedback d-block small">
                                 <i class="bi bi-exclamation-circle me-1"></i>
                                 {{ errors.linked_in }}
