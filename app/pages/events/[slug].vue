@@ -675,6 +675,24 @@ const imageLoaded = ref(false)
 const imageError = ref(false)
 const relatedEvents = ref([])
 
+// ==== ADD THESE FOR SPEAKER MODAL ====
+const selectedSpeaker = ref(null)
+const currentSpeakerIndex = ref(-1)
+// ====================================
+
+// ==== ADD THESE COMPUTED PROPERTIES ====
+const hasNextSpeaker = computed(() => {
+  return event.value?.speakers && 
+         currentSpeakerIndex.value < event.value.speakers.length - 1
+})
+
+const hasPreviousSpeaker = computed(() => {
+  return event.value?.speakers && 
+         currentSpeakerIndex.value > 0
+})
+// =======================================
+
+
 // Add this method to handle speaker image errors
 const handleSpeakerImageError = (event) => {
   console.warn('Speaker image failed to load:', event.target.src)
