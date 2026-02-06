@@ -844,6 +844,7 @@ const formattedMonth = computed(() => {
     return '---'
   }
 })
+
 const formattedTimeRange = computed(() => {
   if (!event.value?.start_time) return '';
   
