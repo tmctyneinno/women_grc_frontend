@@ -925,7 +925,7 @@ const formattedDateTime = computed(() => {
       day: 'numeric'
     });
     
-    return `${startFormatted} to ${endFormatted}`;
+    return `${startFormatted} `;
     
   } catch {
     return 'Date information not available';
