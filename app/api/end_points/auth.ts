@@ -1,32 +1,32 @@
 import { $instance, $instanceForm } from '../instances'
 
-export default {
+// export default {
 
-    register(data: any) {
-        return $instance.post(`register`, JSON.stringify(data))
-    },
+//     register(data: any) {
+//         return $instance.post(`register`, JSON.stringify(data))
+//     },
 
  
-    login(data: any) {
-        return $instance.post(`login`, JSON.stringify(data))
-    },
+//     login(data: any) {
+//         return $instance.post(`login`, JSON.stringify(data))
+//     },
 
 
-    logout() {
-        return $instance.get(`logout`)
-    },
+//     logout() {
+//         return $instance.get(`logout`)
+//     },
 
-    profile() {
-        return $instance.get(`profile`)
-    },
-}
+//     profile() {
+//         return $instance.get(`profile`)
+//     },
+// }
 // API methods
 export default {
-    register(data) {
+    register(data: any) {
         return $instance.post('auth/register', data);
     },
 
-    login(data) {
+    login(data: any) {
         return $instance.post('auth/login', data);
     },
 
@@ -38,7 +38,7 @@ export default {
         return $instance.get('auth/profile');
     },
 
-    verifyEmail(data) {
+    verifyEmail(data: any) {
         return $instance.post('auth/email/verify', data);
     },
 
@@ -46,5 +46,3 @@ export default {
         return $instance.post('auth/email/resend');
     }
 };
-
-export { $instance, $instanceSilent, $instanceForm };
