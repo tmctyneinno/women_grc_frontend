@@ -937,7 +937,7 @@ const fetchEvent = async () => {
     console.log('Fetching event with slug:', slug)
     
     // Use local API for development
-    const apiUrl = `http://localhost:8000/api/v1/events/${slug}`
+    const apiUrl = `http://127.0.0.1:8000/api/v1/events/${slug}`
     console.log('API URL:', apiUrl)
     
     // Simple fetch without complex headers
