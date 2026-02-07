@@ -224,10 +224,6 @@
                             <i class="bi bi-arrow-left me-2"></i>
                             Back to Registration
                         </nuxt-link>
-                        <nuxt-link to="/terms" class="btn btn-outline-info ms-2">
-                            <i class="bi bi-file-text me-2"></i>
-                            View Terms of Service
-                        </nuxt-link>
                         <nuxt-link to="/" class="btn btn-outline-secondary ms-2">
                             <i class="bi bi-house me-2"></i>
                             Back to Home
