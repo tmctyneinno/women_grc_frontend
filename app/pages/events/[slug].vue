@@ -304,7 +304,7 @@
                 <div class="relative overflow-hidden">
                   <div 
                     ref="speakersContainer"
-                    class="flex gap-6 transition-transform duration-300 ease-in-out"
+                    class="flex gap-4 transition-transform duration-300 ease-in-out"
                     :style="{ transform: `translateX(-${carouselCurrentIndex * (100 / speakersPerView)}%)` }"
                   >
                     <div 
