@@ -5,17 +5,19 @@
                 <div class="card-body py-5 px-4 px-md-5">
                     <form @submit.prevent="validateAndSignUp" class="row g-3">
                         <!-- Header Section -->
-                        <div class="col-12 mb-4">
-                            <div class="text-center mb-3">
-                                <NuxtImg 
-                                    src="/images/WGRC-logo.png" 
-                                    height="60"
-                                    alt="Company Logo"
-                                    class="img-fluid"
-                                />
+                        <div class="col-12 mb-4 mx-auto">
+                            <div class="row justify-content-center">
+                                <div class="text-center mb-3">
+                                    <NuxtImg 
+                                        src="/images/WGRC-logo.png" 
+                                        height="60"
+                                        alt="Company Logo"
+                                        class="img-fluid"
+                                    />
+                                </div>
                             </div>
                             <h1 class="h3 text-center fw-bold text-dark mb-2">
-                                Create Your Account
+                                Create Your Accountcc
                             </h1>
                             <p class="text-center text-muted mb-4">
                                 Join our community and unlock exclusive features.
