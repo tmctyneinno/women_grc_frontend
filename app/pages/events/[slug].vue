@@ -273,87 +273,98 @@
               </div>
 
               <!-- Speakers Section with Modal -->
-             <!-- Speakers Section with Horizontal Carousel -->
+             <!-- Compact Speakers List -->
 <div v-if="event.speakers && event.speakers.length > 0" class="bg-white rounded-3xl shadow-xl p-8">
-  <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
-    <h2 class="text-2xl font-bold text-gray-800">Featured Speakers</h2>
-    <div class="flex items-center gap-4">
-      <span class="text-sm text-gray-500">{{ currentSpeakerIndex + 1 }}/{{ event.speakers.length }}</span>
-      <div class="flex gap-2">
-        <button 
-          @click="scrollSpeakers(-1)"
-          :disabled="currentSpeakerIndex === 0"
-          class="p-2 rounded-lg bg-gray-50 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        <button 
-          @click="scrollSpeakers(1)"
-          :disabled="currentSpeakerIndex >= event.speakers.length - 2"
-          class="p-2 rounded-lg bg-gray-50 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
+  <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">Featured Speakers</h2>
   
-  <div class="relative overflow-hidden">
+  <!-- Compact Avatar Grid -->
+  <div class="flex flex-wrap gap-4 mb-6">
     <div 
-      ref="speakersContainer"
-      class="flex gap-6 transition-transform duration-300 ease-in-out"
-      :style="{ transform: `translateX(-${currentSpeakerIndex * (100 / speakersPerView)}%)` }"
+      v-for="speaker in event.speakers.slice(0, 8)" 
+      :key="speaker.id"
+      class="relative group cursor-pointer"
+      @click="openSpeakerModal(speaker)"
+      :title="speaker.name"
     >
-      <div 
-        v-for="speaker in event.speakers" 
-        :key="speaker.id"
-        class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 p-4"
-      >
-        <div 
-          class="group p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-white hover:from-cyan-50 hover:to-purple-50 transition-all duration-300 border border-gray-100 hover:border-cyan-200 hover:shadow-lg cursor-pointer"
-          @click="openSpeakerModal(speaker)"
-        >
-          <div class="text-center">
-            <div class="relative inline-block mb-4">
-              <div class="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg mx-auto">
-                <img 
-                  v-if="speaker.avatar || speaker.image_url" 
-                  :src="speaker.avatar || speaker.image_url" 
-                  :alt="speaker.name"
-                  class="w-full h-full object-cover"
-                />
-                <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-2xl">
-                  {{ speaker.name.charAt(0) }}
-                </div>
-              </div>
-            </div>
-            <h3 class="text-lg font-bold text-gray-800 mb-2">{{ speaker.name }}</h3>
-            <p v-if="speaker.title" class="text-cyan-600 font-medium text-sm mb-3">{{ speaker.title }}</p>
-            <button 
-              @click.stop="openSpeakerModal(speaker)"
-              class="inline-flex items-center text-sm font-medium text-cyan-600 hover:text-cyan-700 transition-colors"
-            >
-              View bio
-            </button>
+      <div class="relative">
+        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg transition-transform group-hover:scale-110">
+          <img 
+            v-if="speaker.avatar || speaker.image_url" 
+            :src="speaker.avatar || speaker.image_url" 
+            :alt="speaker.name"
+            class="w-full h-full object-cover"
+          />
+          <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-xl">
+            {{ speaker.name.charAt(0) }}
           </div>
         </div>
       </div>
+      <!-- Tooltip on hover -->
+      <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+        {{ speaker.name }}
+        <div class="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+      </div>
+    </div>
+    
+    <!-- Show more count -->
+    <div 
+      v-if="event.speakers.length > 8"
+      class="relative group"
+      @click="toggleShowAllSpeakers"
+    >
+      <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center border-4 border-white shadow-lg cursor-pointer hover:bg-gray-200 transition-colors">
+        <span class="text-gray-700 font-bold text-sm">+{{ event.speakers.length - 8 }}</span>
+      </div>
     </div>
   </div>
   
-  <!-- Dots Indicator -->
-  <div v-if="event.speakers.length > speakersPerView" class="flex justify-center gap-2 mt-6">
+  <!-- Expanded List (when toggled) -->
+  <div v-if="showAllSpeakers" class="space-y-4 mt-6 pt-6 border-t border-gray-100">
+    <div 
+      v-for="speaker in event.speakers" 
+      :key="speaker.id"
+      class="flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer"
+      @click="openSpeakerModal(speaker)"
+    >
+      <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden flex-shrink-0">
+        <img 
+          v-if="speaker.avatar || speaker.image_url" 
+          :src="speaker.avatar || speaker.image_url" 
+          :alt="speaker.name"
+          class="w-full h-full object-cover"
+        />
+        <div v-else class="w-full h-full flex items-center justify-center text-white font-bold">
+          {{ speaker.name.charAt(0) }}
+        </div>
+      </div>
+      <div class="flex-1 min-w-0">
+        <h3 class="font-semibold text-gray-800 truncate">{{ speaker.name }}</h3>
+        <p v-if="speaker.title" class="text-sm text-gray-600 truncate">{{ speaker.title }}</p>
+      </div>
+      <button 
+        @click.stop="openSpeakerModal(speaker)"
+        class="text-cyan-600 hover:text-cyan-700 text-sm font-medium"
+      >
+        View bio →
+      </button>
+    </div>
+  </div>
+  
+  <!-- Toggle Button -->
+  <div v-if="event.speakers.length > 8" class="text-center mt-6">
     <button 
-      v-for="index in Math.ceil(event.speakers.length / speakersPerView)"
-      :key="index"
-      @click="goToSpeakerPage(index - 1)"
-      class="w-2 h-2 rounded-full transition-all duration-300"
-      :class="[Math.floor(currentSpeakerIndex / speakersPerView) === index - 1 ? 'bg-cyan-500 w-4' : 'bg-gray-300']"
-    ></button>
+      @click="toggleShowAllSpeakers"
+      class="text-cyan-600 hover:text-cyan-700 font-medium text-sm inline-flex items-center gap-2"
+    >
+      <span>{{ showAllSpeakers ? 'Show Less' : 'View All Speakers' }}</span>
+      <svg 
+        class="w-4 h-4 transition-transform duration-300" 
+        :class="{ 'rotate-180': showAllSpeakers }"
+        fill="none" stroke="currentColor" viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
   </div>
 </div>
 
