@@ -301,8 +301,8 @@
                       <div class="flex-1">
                         <h3 class="text-xl font-bold text-gray-800 mb-1">{{ speaker.name }}</h3>
                         <p v-if="speaker.title" class="text-cyan-600 font-medium mb-2">{{ speaker.title }}</p>
-                        <!-- Brief preview (limited characters) - render as formatted text -->
-                        <p v-if="speaker.brief" class="text-gray-500 text-sm line-clamp-2 mb-3" v-html="formattedSpeakerPreview(speaker)"></p>
+                        <!-- Brief preview (limited characters) -->
+                        <p v-if="speaker.brief" class="text-gray-500 text-sm line-clamp-2 mb-3">{{ formattedSpeakerPreview(speaker) }}</p>
                         
                         <!-- View More/Learn More Button -->
                         <button 
@@ -724,34 +724,32 @@ const hasPreviousSpeaker = computed(() => {
 })
 // =======================================
 
-// Escape HTML to avoid XSS and allow basic formatting (line breaks)
-const escapeHtml = (unsafe) => {
-  if (!unsafe) return ''
-  return unsafe.replace(/[&<>"'`]/g, (s) => {
-    return ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;',
-      '`': '&#96;'
-    })[s]
-  })
-}
-
-// Return a safe, truncated HTML preview of a speaker brief
+// Strip HTML tags and return plain text preview
 const formattedSpeakerPreview = (speaker) => {
   if (!speaker || !speaker.brief) return ''
 
-  const raw = String(speaker.brief).trim()
-  // Normalize newlines
-  const normalized = raw.replace(/\r\n/g, '\n').trim()
-  // Use plain text for truncation (preserve words)
-  const plain = normalized.replace(/\n+/g, ' ')
-  const truncated = plain.length > 100 ? plain.substring(0, 100) + '...' : plain
-
-  // Escape to prevent XSS, then restore simple line breaks
-  return escapeHtml(truncated).replace(/\n/g, '<br/>')
+  let text = String(speaker.brief).trim()
+  
+  // Remove HTML tags
+  text = text.replace(/<[^>]*>/g, '')
+  
+  // Decode HTML entities
+  text = text
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+  
+  // Normalize whitespace and newlines
+  text = text.replace(/\r\n/g, ' ').replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim()
+  
+  // Truncate to 100 characters
+  if (text.length > 100) {
+    text = text.substring(0, 100) + '...'
+  }
+  
+  return text
 }
 
 
