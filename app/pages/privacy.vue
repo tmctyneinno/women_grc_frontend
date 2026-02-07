@@ -198,7 +198,7 @@
                             <h2 class="h4 fw-bold text-dark mb-3">12. Contact Us</h2>
                             <p>If you have any questions about this Privacy Policy, please contact us:</p>
                             <ul class="list-unstyled">
-                                <li><i class="bi bi-envelope me-2"></i> Email: privacy@women-grc.org</li>
+                                <li><i class="bi bi-envelope me-2"></i> Email: enquiries@wgrcfp.org</li>
                                 <li><i class="bi bi-geo-alt me-2"></i> Address: [Your Company Address]</li>
                                 <li><i class="bi bi-telephone me-2"></i> Phone: [Your Phone Number]</li>
                                 <li><i class="bi bi-clock me-2"></i> Response Time: Within 48 business hours</li>
@@ -220,7 +220,7 @@
 
                     <!-- Back Button -->
                     <div class="text-center mt-5">
-                        <nuxt-link to="/auth/register" class="btn btn-primary">
+                        <nuxt-link to="/auth/register" class="btn btn-primary" style="background-color: #293567; border-color: #293567;">
                             <i class="bi bi-arrow-left me-2"></i>
                             Back to Registration
                         </nuxt-link>
