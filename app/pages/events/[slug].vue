@@ -305,6 +305,9 @@
                         <p v-if="speaker.brief" class="text-gray-500 text-sm line-clamp-2 mb-3">
                           {{ speaker.brief.length > 100 ? speaker.brief.substring(0, 100) + '...' : speaker.brief}}
                         </p>
+                        <div class="prose prose-lg max-w-none">
+                          <div class="text-gray-600 leading-relaxed" v-html="speakerrief"></div>
+                        </div>
                         
                         <!-- View More/Learn More Button -->
                         <button 
