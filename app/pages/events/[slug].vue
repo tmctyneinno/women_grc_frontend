@@ -1146,7 +1146,7 @@ const shareOnLinkedIn = () => {
 
 // Fetch event data
 // In your fetchEvent() function in the Vue component
-const fetchEventO = async () => {
+const fetchEventOnline = async () => {
   try {
     loading.value = true
     imageLoaded.value = false 
@@ -1215,7 +1215,7 @@ const fetchEventO = async () => {
   }
 }
 
-const fetchEventLocal = async () => {
+const fetchEvent = async () => {
   try {
     loading.value = true
     
