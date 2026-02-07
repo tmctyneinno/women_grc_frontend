@@ -3,10 +3,10 @@
 
         <div class="container">
             <div class="min-vh-100 d-flex justify-content-center align-items-center">
-                <div class="col-lg-8 col-12">
+                <div class="col-lg-8 col-12  mx-auto">
                     <div class="text-center">
                         <NuxtImg src="/images/auth/congrats.png" width="100" alt="" />
-                    </div>
+                    </div> 
                     <div class="fw-bold text-center fs-2">
                         Registration Confirmed!
                     </div>
