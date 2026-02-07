@@ -1146,7 +1146,7 @@ const shareOnLinkedIn = () => {
 
 // Fetch event data
 // In your fetchEvent() function in the Vue component
-const fetchEvent = async () => {
+const fetchEventO = async () => {
   try {
     loading.value = true
     imageLoaded.value = false 
