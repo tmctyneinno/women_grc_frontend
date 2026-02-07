@@ -649,19 +649,15 @@ const imageLoaded = ref(false)
 const imageError = ref(false)
 const relatedEvents = ref([])
 
-// For Solution 1
-const showAllSpeakers = ref(false)
-const initialVisibleCount = ref(2) // Show 2 by default on mobile
-const visibleSpeakers = computed(() => {
-  if (showAllSpeakers.value) {
-    return event.value?.speakers || []
+// For Solution 2
+const speakersContainer = ref(null)
+const currentSpeakerIndex = ref(0)
+const speakersPerView = computed(() => {
+  if (typeof window !== 'undefined') {
+    return window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1
   }
-  return event.value?.speakers?.slice(0, initialVisibleCount.value) || []
+  return 2
 })
-
-const toggleShowAllSpeakers = () => {
-  showAllSpeakers.value = !showAllSpeakers.value
-}
 // ==== ADD THESE FOR SPEAKER MODAL ====
 const selectedSpeaker = ref(null)
 const currentSpeakerIndex = ref(-1)
