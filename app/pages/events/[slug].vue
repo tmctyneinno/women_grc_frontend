@@ -607,10 +607,10 @@
               </div>
           
               <!-- Online Event Details -->
-              <div v-if="event.meeting_link" class="bg-white rounded-3xl shadow-xl p-8">
+              <div v-if="event.meeting_link" class="bg-white rounded-3xl shadow-xl p-4">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">Online Event Details</h2>
                 <div class="bg-gradient-to-r from-cyan-50 to-purple-50 rounded-2xl p-2">
-                  <div class="flex items-start gap-6">
+                  <div class="flex items-start gap-4">
                     
                     <div class="flex-1">
                       <h3 class="text-xl font-bold text-gray-800 mb-2">Virtual Event</h3>
