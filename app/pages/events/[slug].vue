@@ -302,12 +302,9 @@
                         <h3 class="text-xl font-bold text-gray-800 mb-1">{{ speaker.name }}</h3>
                         <p v-if="speaker.title" class="text-cyan-600 font-medium mb-2">{{ speaker.title }}</p>
                         <!-- Brief preview (limited characters) -->
-                        <!-- <p v-if="speaker.brief" class="text-gray-500 text-sm line-clamp-2 mb-3">
+                        <p v-if="speaker.brief" class="text-gray-500 text-sm line-clamp-2 mb-3">
                           {{ speaker.brief.length > 100 ? speaker.brief.substring(0, 100) + '...' : speaker.brief}}
-                        </p> -->
-                        <div class="prose prose-lg max-w-none">
-                          <div class="text-gray-600 leading-relaxed" v-html="speakerBrief"></div>
-                        </div>
+                        </p>
                         
                         <!-- View More/Learn More Button -->
                         <button 
@@ -703,7 +700,7 @@ const formattedDescription = computed(() => {
 
 
 const speakerBrief = computed(() => {
-  if (!speaker.brief) return ''
+  if (!selectedSpeaker.value?.brief) return ''
   
   // Clean and ensure proper formatting
   let brief = selectedSpeaker.value.brief
