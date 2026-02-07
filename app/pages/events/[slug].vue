@@ -611,13 +611,7 @@
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">Online Event Details</h2>
                 <div class="bg-gradient-to-r from-cyan-50 to-purple-50 rounded-2xl p-6">
                   <div class="flex items-start gap-6">
-                    <div class="flex-shrink-0">
-                      <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center">
-                        <svg class="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-                        </svg>
-                      </div>
-                    </div>
+                    
                     <div class="flex-1">
                       <h3 class="text-xl font-bold text-gray-800 mb-2">Virtual Event</h3>
                       <p class="text-gray-600 mb-4">This event will be hosted online. Join from anywhere!</p>
