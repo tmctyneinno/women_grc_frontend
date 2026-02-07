@@ -200,10 +200,10 @@
                             <ul class="list-unstyled">
                                 <li><i class="bi bi-envelope me-2"></i> Email: enquiries@wgrcfp.org</li>
                                 <li><i class="bi bi-geo-alt me-2"></i> Address: [Your Company Address]</li>
-                                <li><i class="bi bi-telephone me-2"></i> Phone: [Your Phone Number]</li>
+                                <li><i class="bi bi-telephone me-2"></i> Phone: +44 2078560149</li>
                                 <li><i class="bi bi-clock me-2"></i> Response Time: Within 48 business hours</li>
                             </ul>
-                            <p>For data protection inquiries, please contact our Data Protection Officer at: <strong>dpo@women-grc.org</strong></p>
+                            <p>For data protection inquiries, please contact our Data Protection Officer at: <strong>enquiries@wgrcfp.org</strong></p>
                         </section>
 
                         <!-- Compliance Notice -->
