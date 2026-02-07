@@ -649,6 +649,53 @@ const imageLoaded = ref(false)
 const imageError = ref(false)
 const relatedEvents = ref([])
 
+<script setup>
+// For Solution 1
+const showAllSpeakers = ref(false)
+const initialVisibleCount = ref(2) // Show 2 by default on mobile
+const visibleSpeakers = computed(() => {
+  if (showAllSpeakers.value) {
+    return event.value?.speakers || []
+  }
+  return event.value?.speakers?.slice(0, initialVisibleCount.value) || []
+})
+
+const toggleShowAllSpeakers = () => {
+  showAllSpeakers.value = !showAllSpeakers.value
+}
+
+// For Solution 2
+const speakersContainer = ref(null)
+const currentSpeakerIndex = ref(0)
+const speakersPerView = computed(() => {
+  if (typeof window !== 'undefined') {
+    return window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1
+  }
+  return 2
+})
+
+const scrollSpeakers = (direction) => {
+  const newIndex = currentSpeakerIndex.value + direction
+  if (newIndex >= 0 && newIndex <= (event.value?.speakers?.length || 0) - speakersPerView.value) {
+    currentSpeakerIndex.value = newIndex
+  }
+}
+
+const goToSpeakerPage = (pageIndex) => {
+  currentSpeakerIndex.value = pageIndex * speakersPerView.value
+}
+
+// Handle responsive adjustments
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    const updateSpeakersPerView = () => {
+      // Recalculate for responsive design
+    }
+    window.addEventListener('resize', updateSpeakersPerView)
+  }
+})
+</script>
+
 // ==== ADD THESE FOR SPEAKER MODAL ====
 const selectedSpeaker = ref(null)
 const currentSpeakerIndex = ref(-1)
