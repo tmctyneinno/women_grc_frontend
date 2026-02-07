@@ -306,7 +306,7 @@
                           {{ speaker.brief.length > 100 ? speaker.brief.substring(0, 100) + '...' : speaker.brief}}
                         </p>
                         <div class="prose prose-lg max-w-none">
-                          <div class="text-gray-600 leading-relaxed" v-html="speakerrief"></div>
+                          <div class="text-gray-600 leading-relaxed" v-html="speakerBrief"></div>
                         </div>
                         
                         <!-- View More/Learn More Button -->
@@ -699,6 +699,28 @@ const formattedDescription = computed(() => {
     .replace(/<h3>/g, '<h3 class="text-xl font-bold mb-3 text-gray-800">')
   
   return description
+})
+
+
+speakerBrief.value = computed(() => {
+  if (!selectedSpeaker.value?.brief) return ''
+  
+  // Clean and ensure proper formatting
+  let brief = selectedSpeaker.value.brief
+  
+  // Ensure paragraphs have proper spacing
+  brief = brief
+    .replace(/<p>/g, '<p class="mb-4">')
+    .replace(/<ul>/g, '<ul class="list-disc pl-5 mb-4">')
+    .replace(/<ol>/g, '<ol class="list-decimal pl-5 mb-4">')
+    .replace(/<li>/g, '<li class="mb-2">')
+  
+  // Add styling to strong/bold elements
+  brief = brief
+    .replace(/<strong>/g, '<strong class="font-bold text-gray-800">')
+    .replace(/<b>/g, '<b class="font-bold text-gray-800">')
+  
+  return brief
 })
 
 const hasPreviousSpeaker = computed(() => {
