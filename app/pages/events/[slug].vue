@@ -272,90 +272,126 @@
                 </div>
               </div>
 
-              <!-- Speakers Section with Modal -->
-<!-- Speakers Section with Horizontal Carousel -->
-<div v-if="event.speakers && event.speakers.length > 0" class="bg-white rounded-3xl shadow-xl p-8">
-  <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
-    <h2 class="text-2xl font-bold text-gray-800">Featured Speakers</h2>
-    <div class="flex items-center gap-4">
-      <span class="text-sm text-gray-500">{{ currentSpeakerIndex + 1 }}/{{ event.speakers.length }}</span>
-      <div class="flex gap-2">
-        <button 
-          @click="scrollSpeakers(-1)"
-          :disabled="currentSpeakerIndex === 0"
-          class="p-2 rounded-lg bg-gray-50 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        <button 
-          @click="scrollSpeakers(1)"
-          :disabled="currentSpeakerIndex >= event.speakers.length - 2"
-          class="p-2 rounded-lg bg-gray-50 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
-  
-  <div class="relative overflow-hidden">
-    <div 
-      ref="speakersContainer"
-      class="flex gap-6 transition-transform duration-300 ease-in-out"
-      :style="{ transform: `translateX(-${currentSpeakerIndex * (100 / speakersPerView)}%)` }"
-    >
-      <div 
-        v-for="speaker in event.speakers" 
-        :key="speaker.id"
-        class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 p-2"
-      >
-        <div 
-          class="group p-1 rounded-2xl bg-gradient-to-br from-gray-50 to-white hover:from-cyan-50 hover:to-purple-50 transition-all duration-300 border border-gray-100 hover:border-cyan-200 hover:shadow-lg cursor-pointer"
-          @click="openSpeakerModal(speaker)"
-        >
-          <div class="text-center">
-            <div class="relative inline-block mb-4">
-              <div class="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg mx-auto">
-                <img 
-                  v-if="speaker.avatar || speaker.image_url" 
-                  :src="speaker.avatar || speaker.image_url" 
-                  :alt="speaker.name"
-                  class="w-full h-full object-cover"
-                />
-                <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-3xl">
-                  {{ speaker.name.charAt(0) }}
+              <!-- Speakers Section with Horizontal Carousel -->
+              <div v-if="event.speakers && event.speakers.length > 0" class="bg-white rounded-3xl shadow-xl p-8">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
+                  <h2 class="text-2xl font-bold text-gray-800">Featured Speakers</h2>
+                  <div class="flex items-center gap-4">
+                    <span class="text-sm text-gray-500">{{ carouselCurrentIndex + 1 }}/{{ event.speakers.length }}</span>
+                    <div class="flex gap-2">
+                      <button 
+                        @click="scrollSpeakers(-1)"
+                        :disabled="carouselCurrentIndex === 0"
+                        class="p-2 rounded-lg bg-gray-50 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+                      <button 
+                        @click="scrollSpeakers(1)"
+                        :disabled="carouselCurrentIndex >= event.speakers.length - speakersPerView"
+                        class="p-2 rounded-lg bg-gray-50 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="relative overflow-hidden">
+                  <div 
+                    ref="speakersContainer"
+                    class="flex gap-6 transition-transform duration-300 ease-in-out"
+                    :style="{ transform: `translateX(-${carouselCurrentIndex * (100 / speakersPerView)}%)` }"
+                  >
+                    <div 
+                      v-for="speaker in event.speakers" 
+                      :key="speaker.id"
+                      class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 p-4"
+                    >
+                      <div 
+                        class="group p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-white hover:from-cyan-50 hover:to-purple-50 transition-all duration-300 border border-gray-100 hover:border-cyan-200 hover:shadow-lg cursor-pointer"
+                        @click="openSpeakerModal(speaker)"
+                      >
+                        <div class="text-center">
+                          <div class="relative inline-block mb-4">
+                            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg mx-auto">
+                              <img 
+                                v-if="speaker.avatar || speaker.image_url" 
+                                :src="speaker.avatar || speaker.image_url" 
+                                :alt="speaker.name"
+                                class="w-full h-full object-cover"
+                                @error="handleSpeakerImageError"
+                              />
+                              <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-3xl">
+                                {{ speaker.name.charAt(0) }}
+                              </div>
+                            </div>
+                          </div>
+                          <h3 class="text-lg font-bold text-gray-800 mb-2">{{ speaker.name }}</h3>
+                          <p v-if="speaker.title" class="text-cyan-600 font-medium text-sm mb-3">{{ speaker.title }}</p>
+                          <p v-if="speaker.company" class="text-gray-500 text-xs mb-3">{{ speaker.company }}</p>
+                          <button 
+                            @click.stop="openSpeakerModal(speaker)"
+                            class="inline-flex items-center text-sm font-medium text-cyan-600 hover:text-cyan-700 transition-colors group"
+                          >
+                            <span>View bio</span>
+                            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Dots Indicator -->
+                <div v-if="event.speakers.length > speakersPerView" class="flex justify-center gap-2 mt-6">
+                  <button 
+                    v-for="index in Math.ceil(event.speakers.length / speakersPerView)"
+                    :key="index"
+                    @click="goToSpeakerPage(index - 1)"
+                    class="w-2 h-2 rounded-full transition-all duration-300"
+                    :class="[Math.floor(carouselCurrentIndex / speakersPerView) === index - 1 ? 'bg-cyan-500 w-4' : 'bg-gray-300']"
+                  ></button>
+                </div>
+                
+                <!-- Auto-play controls -->
+                <div v-if="event.speakers.length > speakersPerView" class="flex items-center justify-center gap-4 mt-4">
+                  <button 
+                    @click="toggleAutoPlay"
+                    class="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-2"
+                  >
+                    <svg 
+                      class="w-4 h-4" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path 
+                        v-if="!autoPlayEnabled" 
+                        stroke-linecap="round" 
+                        stroke-linejoin="round" 
+                        stroke-width="2" 
+                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                      />
+                      <path 
+                        v-else
+                        stroke-linecap="round" 
+                        stroke-linejoin="round" 
+                        stroke-width="2" 
+                        d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    {{ autoPlayEnabled ? 'Pause auto-slide' : 'Auto-slide' }}
+                  </button>
+                  <span class="text-xs text-gray-400">• Slides every 5 seconds</span>
                 </div>
               </div>
-            </div>
-            <h5 class="text-lg font-bold text-gray-800 mb-2">{{ speaker.name }}</h5>
-            <p v-if="speaker.title" class="text-cyan-600 font-medium text-sm mb-3">{{ speaker.title }}</p>
-            <button 
-              @click.stop="openSpeakerModal(speaker)"
-              class="inline-flex items-center text-sm font-medium text-cyan-600 hover:text-cyan-700 transition-colors"
-            >
-              View bio
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Dots Indicator -->
-  <div v-if="event.speakers.length > speakersPerView" class="flex justify-center gap-2 mt-6">
-    <button 
-      v-for="index in Math.ceil(event.speakers.length / speakersPerView)"
-      :key="index"
-      @click="goToSpeakerPage(index - 1)"
-      class="w-2 h-2 rounded-full transition-all duration-300"
-      :class="[Math.floor(currentSpeakerIndex / speakersPerView) === index - 1 ? 'bg-cyan-500 w-4' : 'bg-gray-300']"
-    ></button>
-  </div>
-</div>
 
               <!-- Speaker Modal -->
               <div v-if="selectedSpeaker" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -385,6 +421,7 @@
                               :src="selectedSpeaker.avatar || selectedSpeaker.image_url" 
                               :alt="selectedSpeaker.name"
                               class="w-full h-full object-cover"
+                              @error="handleSpeakerImageError"
                             />
                             <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-4xl">
                               {{ selectedSpeaker.name.charAt(0) }}
@@ -395,6 +432,7 @@
                         <!-- Speaker Info -->
                         <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ selectedSpeaker.name }}</h3>
                         <p v-if="selectedSpeaker.title" class="text-cyan-600 font-semibold text-lg mb-3">{{ selectedSpeaker.title }}</p>
+                        <p v-if="selectedSpeaker.company" class="text-gray-600 text-sm">{{ selectedSpeaker.company }}</p>
                       </div>
                     </div>
 
@@ -403,7 +441,6 @@
                       <div class="prose prose-lg max-w-none">
                         <h4 class="text-lg font-semibold text-gray-800 mb-4">About</h4>
                         <div class="text-gray-600 leading-relaxed">
-                          <!-- Use v-html if brief contains HTML, otherwise use text -->
                           <template v-if="selectedSpeaker.brief">
                             <p v-for="(paragraph, index) in formatBio(selectedSpeaker.brief)" :key="index" class="mb-4">
                               {{ paragraph }}
@@ -441,7 +478,7 @@
                         </button>
                         
                         <div class="text-sm text-gray-500">
-                          {{ currentSpeakerIndex + 1 }} of {{ event.speakers.length }}
+                          {{ modalCurrentIndex + 1 }} of {{ event.speakers.length }}
                         </div>
                         
                         <button 
@@ -622,12 +659,9 @@
                         Join Meeting
                       </a>
                     </div>
-
-
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -650,7 +684,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, onUnmounted } from 'vue'
 import { useRoute, useRouter } from '#imports'
 
 const route = useRoute()
@@ -665,47 +699,49 @@ const imageLoaded = ref(false)
 const imageError = ref(false)
 const relatedEvents = ref([])
 
-// For Solution 2
+// For Speaker Modal
+const selectedSpeaker = ref(null)
+const modalCurrentIndex = ref(-1) // For modal navigation
+
+// For Carousel (Renamed to avoid conflict)
 const speakersContainer = ref(null)
-const currentSpeakerIndex = ref(0)
+const carouselCurrentIndex = ref(0)
+const autoPlayEnabled = ref(true)
+let autoPlayInterval = null
+
+// Responsive speakers per view
 const speakersPerView = computed(() => {
   if (typeof window !== 'undefined') {
-    return window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1
+    if (window.innerWidth >= 1024) return 3
+    if (window.innerWidth >= 768) return 2
+    return 1
   }
   return 2
 })
 
-// ==== ADD THESE FOR SPEAKER MODAL ====
-const selectedSpeaker = ref(null)
-// const currentSpeakerIndex = ref(-1)
-// ====================================
-
-// ==== ADD THESE COMPUTED PROPERTIES ====
+// Computed properties
 const hasNextSpeaker = computed(() => {
   return event.value?.speakers && 
-         currentSpeakerIndex.value < event.value.speakers.length - 1
+         modalCurrentIndex.value < event.value.speakers.length - 1
+})
+
+const hasPreviousSpeaker = computed(() => {
+  return event.value?.speakers && 
+         modalCurrentIndex.value > 0
 })
 
 const formattedDescription = computed(() => {
   if (!event.value?.description) return ''
   
-  // Clean and ensure proper formatting
   let description = event.value.description
   
-  // Ensure paragraphs have proper spacing
   description = description
     .replace(/<p>/g, '<p class="mb-4">')
     .replace(/<ul>/g, '<ul class="list-disc pl-5 mb-4">')
     .replace(/<ol>/g, '<ol class="list-decimal pl-5 mb-4">')
     .replace(/<li>/g, '<li class="mb-2">')
-  
-  // Add styling to strong/bold elements
-  description = description
     .replace(/<strong>/g, '<strong class="font-bold text-gray-800">')
     .replace(/<b>/g, '<b class="font-bold text-gray-800">')
-  
-  // Add styling to headings
-  description = description
     .replace(/<h1>/g, '<h1 class="text-3xl font-bold mb-4 text-gray-800">')
     .replace(/<h2>/g, '<h2 class="text-2xl font-bold mb-4 text-gray-800">')
     .replace(/<h3>/g, '<h3 class="text-xl font-bold mb-3 text-gray-800">')
@@ -713,44 +749,14 @@ const formattedDescription = computed(() => {
   return description
 })
 
-
-const speakerBrief = computed(() => {
-  if (!selectedSpeaker.value?.brief) return ''
-  
-  // Clean and ensure proper formatting
-  let brief = selectedSpeaker.value.brief
-  
-  // Ensure paragraphs have proper spacing
-  brief = brief
-    .replace(/<p>/g, '<p class="mb-4">')
-    .replace(/<ul>/g, '<ul class="list-disc pl-5 mb-4">')
-    .replace(/<ol>/g, '<ol class="list-decimal pl-5 mb-4">')
-    .replace(/<li>/g, '<li class="mb-2">')
-  
-  // Add styling to strong/bold elements
-  brief = brief
-    .replace(/<strong>/g, '<strong class="font-bold text-gray-800">')
-    .replace(/<b>/g, '<b class="font-bold text-gray-800">')
-  
-  return brief
-})
-
-const hasPreviousSpeaker = computed(() => {
-  return event.value?.speakers && 
-         currentSpeakerIndex.value > 0
-})
-// =======================================
-
 // Strip HTML tags and return plain text preview
 const formattedSpeakerPreview = (speaker) => {
   if (!speaker || !speaker.brief) return ''
 
   let text = String(speaker.brief).trim()
   
-  // Remove HTML tags
   text = text.replace(/<[^>]*>/g, '')
   
-  // Decode HTML entities
   text = text
     .replace(/&quot;/g, '"')
     .replace(/&apos;/g, "'")
@@ -758,10 +764,8 @@ const formattedSpeakerPreview = (speaker) => {
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
   
-  // Normalize whitespace and newlines
   text = text.replace(/\r\n/g, ' ').replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim()
   
-  // Truncate to 100 characters
   if (text.length > 100) {
     text = text.substring(0, 100) + '...'
   }
@@ -769,30 +773,89 @@ const formattedSpeakerPreview = (speaker) => {
   return text
 }
 
+// CAROUSEL FUNCTIONS
+const scrollSpeakers = (direction) => {
+  const newIndex = carouselCurrentIndex.value + direction
+  
+  // Calculate max index based on current view
+  const maxIndex = Math.max(0, (event.value?.speakers?.length || 0) - speakersPerView.value)
+  
+  if (newIndex >= 0 && newIndex <= maxIndex) {
+    carouselCurrentIndex.value = newIndex
+  }
+}
 
+const goToSpeakerPage = (pageIndex) => {
+  carouselCurrentIndex.value = pageIndex * speakersPerView.value
+}
+
+// Auto-play functionality
+const startAutoPlay = () => {
+  if (autoPlayInterval) clearInterval(autoPlayInterval)
+  
+  autoPlayInterval = setInterval(() => {
+    if (!event.value?.speakers || event.value.speakers.length <= speakersPerView.value) return
+    
+    const maxIndex = Math.max(0, event.value.speakers.length - speakersPerView.value)
+    
+    if (carouselCurrentIndex.value >= maxIndex) {
+      carouselCurrentIndex.value = 0 // Loop back to start
+    } else {
+      carouselCurrentIndex.value = Math.min(carouselCurrentIndex.value + 1, maxIndex)
+    }
+  }, 5000) // Slide every 5 seconds
+}
+
+const stopAutoPlay = () => {
+  if (autoPlayInterval) {
+    clearInterval(autoPlayInterval)
+    autoPlayInterval = null
+  }
+}
+
+const toggleAutoPlay = () => {
+  autoPlayEnabled.value = !autoPlayEnabled.value
+  
+  if (autoPlayEnabled.value) {
+    startAutoPlay()
+  } else {
+    stopAutoPlay()
+  }
+}
+
+// SPEAKER MODAL FUNCTIONS
 const openSpeakerModal = (speaker) => {
   console.log('Opening modal for speaker:', speaker.name)
   selectedSpeaker.value = speaker
-  currentSpeakerIndex.value = event.value.speakers.findIndex(s => s.id === speaker.id)
-  document.body.style.overflow = 'hidden' // Prevent background scrolling
+  modalCurrentIndex.value = event.value.speakers.findIndex(s => s.id === speaker.id)
+  document.body.style.overflow = 'hidden'
+  
+  // Pause auto-play when modal opens
+  if (autoPlayEnabled.value) {
+    stopAutoPlay()
+  }
 }
 
 const closeSpeakerModal = () => {
   console.log('Closing speaker modal')
   selectedSpeaker.value = null
-  currentSpeakerIndex.value = -1
-  document.body.style.overflow = '' // Restore scrolling
+  modalCurrentIndex.value = -1
+  document.body.style.overflow = ''
+  
+  // Resume auto-play if it was enabled
+  if (autoPlayEnabled.value) {
+    startAutoPlay()
+  }
 }
 
 const navigateSpeaker = (direction) => {
   if (!event.value?.speakers) return
   
-  const newIndex = currentSpeakerIndex.value + direction
+  const newIndex = modalCurrentIndex.value + direction
   if (newIndex >= 0 && newIndex < event.value.speakers.length) {
     selectedSpeaker.value = event.value.speakers[newIndex]
-    currentSpeakerIndex.value = newIndex
+    modalCurrentIndex.value = newIndex
     
-    // Scroll to top of modal content
     setTimeout(() => {
       const modalContent = document.querySelector('.overflow-y-auto')
       if (modalContent) {
@@ -802,29 +865,11 @@ const navigateSpeaker = (direction) => {
   }
 }
 
-// Close modal on Escape key
-onMounted(() => {
-  const handleEscape = (e) => {
-    if (e.key === 'Escape' && selectedSpeaker.value) {
-      closeSpeakerModal()
-    }
-  }
-  
-  window.addEventListener('keydown', handleEscape)
-  
-  // Cleanup
-  return () => {
-    window.removeEventListener('keydown', handleEscape)
-  }
-})
-
 const formatBio = (bio) => {
   if (!bio) return []
   
-  // Remove HTML tags first
   let text = String(bio).replace(/<[^>]*>/g, '')
   
-  // Decode HTML entities
   text = text
     .replace(/&quot;/g, '"')
     .replace(/&apos;/g, "'")
@@ -832,12 +877,10 @@ const formatBio = (bio) => {
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
   
-  // Split bio into paragraphs
   const paragraphs = text.split('\n')
     .map(p => p.trim())
     .filter(p => p.length > 0)
   
-  // If no paragraphs found, return the whole text as one paragraph
   if (paragraphs.length === 0) {
     return [text]
   }
@@ -845,7 +888,7 @@ const formatBio = (bio) => {
   return paragraphs
 }
 
-// Add this method to handle speaker image errors
+// Handle speaker image errors
 const handleSpeakerImageError = (event) => {
   console.warn('Speaker image failed to load:', event.target.src)
   const img = event.target
@@ -858,10 +901,54 @@ const handleSpeakerImageError = (event) => {
     parent.replaceChild(fallback, img)
   }
 }
- 
-    
 
-// Computed properties
+// Update carousel on resize
+const updateOnResize = () => {
+  // Reset index if it goes beyond new max
+  if (event.value?.speakers) {
+    const maxIndex = Math.max(0, event.value.speakers.length - speakersPerView.value)
+    if (carouselCurrentIndex.value > maxIndex) {
+      carouselCurrentIndex.value = maxIndex
+    }
+  }
+}
+
+// Mount and cleanup
+onMounted(() => {
+  // Start auto-play if enabled
+  if (autoPlayEnabled.value) {
+    startAutoPlay()
+  }
+  
+  // Handle Escape key
+  const handleEscape = (e) => {
+    if (e.key === 'Escape' && selectedSpeaker.value) {
+      closeSpeakerModal()
+    }
+  }
+  
+  window.addEventListener('keydown', handleEscape)
+  window.addEventListener('resize', updateOnResize)
+  
+  // Fetch event data
+  fetchEvent()
+})
+
+onUnmounted(() => {
+  stopAutoPlay()
+  window.removeEventListener('resize', updateOnResize)
+})
+
+// Watch for slug changes
+watch(() => route.params.slug, async (newSlug) => {
+  if (newSlug) {
+    await fetchEvent()
+  }
+})
+
+// ... [REST OF YOUR EXISTING SCRIPT CODE - KEEP ALL YOUR EXISTING COMPUTED PROPERTIES AND METHODS BELOW] ...
+
+// Computed properties (your existing ones)
 const eventImageUrl = computed(() => {
   if (!event.value?.featured_image) {
     return '/images/event-placeholder.jpg'
@@ -869,16 +956,13 @@ const eventImageUrl = computed(() => {
   
   const imgPath = event.value.featured_image
   
-  // Already a full URL
   if (imgPath.startsWith('https')) {
     return imgPath
   }
   
-  // const baseUrl = 'http://127.0.0.1:8000'
   const baseUrl = 'https://api.wgrcfp.org'
   const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
   
-  // Use the proxy route for CORS
   return `${baseUrl}/images/proxy/${cleanPath}`
 })
 
@@ -897,8 +981,6 @@ const formattedDay = computed(() => {
   }
 })
 
-
-
 const formattedMonth = computed(() => {
   if (!event.value?.start_date) return '---'
   try {
@@ -909,20 +991,17 @@ const formattedMonth = computed(() => {
   }
 })
 
-
 const formattedTimeRange = computed(() => {
   if (!event.value?.start_date) return '';
   
   try {
     const startDate = new Date(event.value.start_date);
-    
-    // Override the time portion
-    startDate.setHours(12, 0, 0, 0); // Set to 12:00 PM
+    startDate.setHours(12, 0, 0, 0);
     
     let endDate = null;
     if (event.value?.end_date) {
       endDate = new Date(event.value.end_date);
-      endDate.setHours(13, 30, 0, 0); // Set to 1:30 PM
+      endDate.setHours(13, 30, 0, 0);
     }
     
     const formatTime = (date) => {
@@ -947,9 +1026,6 @@ const formattedTimeRange = computed(() => {
   }
 });
 
-
-
-
 const formattedDateTime = computed(() => {
   if (!event.value?.start_date) return '';
   
@@ -957,7 +1033,6 @@ const formattedDateTime = computed(() => {
     const startDate = new Date(event.value.start_date);
     const endDate = event.value.end_date ? new Date(event.value.end_date) : null;
     
-    // Format: "Tuesday, March 17, 2026"
     const startFormatted = startDate.toLocaleDateString('en-US', {
       weekday: 'long',
       year: 'numeric',
@@ -969,7 +1044,6 @@ const formattedDateTime = computed(() => {
       return startFormatted;
     }
     
-    // Check if same day
     if (startDate.toDateString() === endDate.toDateString()) {
       const timeOptions = {
         hour: 'numeric',
@@ -977,17 +1051,8 @@ const formattedDateTime = computed(() => {
         hour12: true
       };
       const startTime = startDate.toLocaleTimeString('en-US', timeOptions);
-      const endTime = endDate.toLocaleTimeString('en-US', timeOptions);
       return `${startFormatted} • ${startTime}`;
     }
-    
-    // Different days - show date range
-    const endFormatted = endDate.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
     
     return `${startFormatted} `;
     
@@ -1067,22 +1132,17 @@ const formatTime = (timeString) => {
   if (!timeString) return '';
   
   try {
-    // Handle different time formats
-    let time = timeString;
-    
-    // If it's already in AM/PM format, return as is
     if (timeString.toLowerCase().includes('am') || timeString.toLowerCase().includes('pm')) {
       return timeString;
     }
     
-    // Parse 24-hour format
     const parts = timeString.split(':');
     if (parts.length >= 2) {
       let hours = parseInt(parts[0], 10);
       const minutes = parseInt(parts[1], 10);
       
       const period = hours >= 12 ? 'PM' : 'AM';
-      hours = hours % 12 || 12; // Convert 0 to 12 for 12 AM
+      hours = hours % 12 || 12;
       
       return `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
     }
@@ -1112,7 +1172,6 @@ const registerForEvent = () => {
     return
   }
   
-  // Check registration deadline
   if (event.value?.registration_deadline) {
     const deadline = new Date(event.value.registration_deadline)
     const now = new Date()
@@ -1129,14 +1188,11 @@ const registerForEvent = () => {
   }
 }
 
-const addToMeetingLink= () => {
+const addToMeetingLink = () => {
   if (!event.value) return
   
   try {
-   
-    
-    const googleCalendarUrl = `${ event.value.meeting_link}`
-    
+    const googleCalendarUrl = `${event.value.meeting_link}`
     window.open(googleCalendarUrl, '_blank')
   } catch (error) {
     console.error('Error creating calendar event:', error)
@@ -1209,7 +1265,6 @@ const shareOnLinkedIn = () => {
 }
 
 // Fetch event data
-// In your fetchEvent() function in the Vue component
 const fetchEventOnline = async () => {
   try {
     loading.value = true
@@ -1218,10 +1273,9 @@ const fetchEventOnline = async () => {
     
     console.log('Fetching event with slug:', slug)
     
-    // Add mode: 'cors' and handle credentials properly
     const response = await fetch(`https://api.wgrcfp.org/api/v1/events/${slug}`, {
       mode: 'cors',
-      credentials: 'omit', // Change to 'omit' instead of 'same-origin'
+      credentials: 'omit',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -1236,7 +1290,6 @@ const fetchEventOnline = async () => {
         throw new Error('Event not found')
       }
       
-      // Check if it's a CORS error
       if (response.status === 0) {
         throw new Error('CORS Error: Unable to access API. Please check server CORS configuration.')
       }
@@ -1250,7 +1303,6 @@ const fetchEventOnline = async () => {
       event.value = result.data
       console.log('Event data loaded:', event.value)
       
-      // Set SEO meta
       useSeoMeta({
         title: `${event.value.title} | Event Details`,
         description: event.value.short_description || event.value.description?.substring(0, 160) || 'Event details',
@@ -1266,7 +1318,6 @@ const fetchEventOnline = async () => {
   } catch (err) {
     console.error('Error fetching event:', err)
     
-    // Provide more helpful error messages
     if (err.message.includes('CORS') || err.message.includes('Failed to fetch')) {
       error.value = 'CORS Error: Unable to connect to the server. The API server needs CORS headers for www.wgrcfp.org.'
     } else if (err.message.includes('404')) {
@@ -1311,7 +1362,6 @@ const fetchEvent = async () => {
       event.value = result.data
       console.log('Event loaded successfully!')
       
-      // Debug speakers data
       console.log('📢 Speakers debug:', {
         hasSpeakers: !!event.value.speakers,
         speakersCount: event.value.speakers?.length || 0,
@@ -1333,13 +1383,6 @@ const fetchEvent = async () => {
 
 onMounted(async () => {
   await fetchEvent()
-})
-
-// Watch for slug changes
-watch(() => route.params.slug, async (newSlug) => {
-  if (newSlug) {
-    await fetchEvent()
-  }
 })
 </script>
 
