@@ -311,7 +311,7 @@
       <div 
         v-for="speaker in event.speakers" 
         :key="speaker.id"
-        class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 p-4"
+        class="flex-shrink-0 w-full md:w-1/2 lg:w-1/2 p-4"
       >
         <div 
           class="group p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-white hover:from-cyan-50 hover:to-purple-50 transition-all duration-300 border border-gray-100 hover:border-cyan-200 hover:shadow-lg cursor-pointer"
