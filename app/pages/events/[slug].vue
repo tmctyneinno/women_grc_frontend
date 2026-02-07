@@ -498,26 +498,7 @@
               </div>
 
 
-              <!-- Location Details -->
-              <div v-if="!event.is_online && event.venue" class="bg-white rounded-3xl shadow-xl p-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">Location Details</h2>
-                <div class="flex items-start gap-6">
-                  <div class="flex-shrink-0">
-                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-50 to-purple-50 flex items-center justify-center">
-                      <svg class="w-8 h-8 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-                      </svg>
-                    </div>
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">{{ event.venue }}</h3>
-                    <p v-if="event.address" class="text-gray-600 mb-2">{{ event.address }}</p>
-                    <p v-if="event.city || event.country" class="text-gray-600">
-                      {{ [event.city, event.state, event.country].filter(Boolean).join(', ') }}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              
 
               
             </div>
@@ -662,6 +643,28 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Location Details -->
+              <div v-if="!event.is_online && event.venue" class="bg-white rounded-3xl shadow-xl p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">Location Details</h2>
+                <div class="flex items-start gap-6">
+                  <div class="flex-shrink-0">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-50 to-purple-50 flex items-center justify-center">
+                      <svg class="w-8 h-8 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">{{ event.venue }}</h3>
+                    <p v-if="event.address" class="text-gray-600 mb-2">{{ event.address }}</p>
+                    <p v-if="event.city || event.country" class="text-gray-600">
+                      {{ [event.city, event.state, event.country].filter(Boolean).join(', ') }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
             </div>
           </div>
         </div>
