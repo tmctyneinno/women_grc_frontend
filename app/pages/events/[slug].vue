@@ -273,52 +273,73 @@
               </div>
 
               <!-- Speakers Section with Modal -->
-              <div v-if="event.speakers && event.speakers.length > 0" class="bg-white rounded-3xl shadow-xl p-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">Featured Speakers</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div 
-                    v-for="speaker in event.speakers" 
-                    :key="speaker.id"
-                    class="group p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-white hover:from-cyan-50 hover:to-purple-50 transition-all duration-300 border border-gray-100 hover:border-cyan-200 hover:shadow-lg"
-                    @click="openSpeakerModal(speaker)"
-                  >
-                    <div class="flex items-start gap-4 cursor-pointer">
-                      <div class="flex-shrink-0">
-                        <div class="relative">
-                          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg">
-                            <img 
-                              v-if="speaker.avatar || speaker.image_url" 
-                              :src="speaker.avatar || speaker.image_url" 
-                              :alt="speaker.name"
-                              class="w-full h-full object-cover"
-                            />
-                            <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-2xl">
-                              {{ speaker.name.charAt(0) }}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="flex-1">
-                        <h3 class="text-xl font-bold text-gray-800 mb-1">{{ speaker.name }}</h3>
-                        <p v-if="speaker.title" class="text-cyan-600 font-medium mb-2">{{ speaker.title }}</p>
-                        <!-- Brief preview (limited characters) -->
-                        <p v-if="speaker.brief" class="text-gray-500 text-sm line-clamp-2 mb-3">{{ formattedSpeakerPreview(speaker) }}</p>
-                        
-                        <!-- View More/Learn More Button -->
-                        <button 
-                          @click.stop="openSpeakerModal(speaker)"
-                          class="inline-flex items-center text-sm font-medium text-cyan-600 hover:text-cyan-700 transition-colors group"
-                        >
-                          <span>View full bio</span>
-                          <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+             <!-- Speakers Section with Collapsible Grid -->
+<div v-if="event.speakers && event.speakers.length > 0" class="bg-white rounded-3xl shadow-xl p-8">
+  <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
+    <h2 class="text-2xl font-bold text-gray-800">Featured Speakers</h2>
+    <span class="text-sm text-gray-500">{{ event.speakers.length }} speakers</span>
+  </div>
+  
+  <!-- Always show first 2-3 speakers -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div 
+      v-for="speaker in visibleSpeakers" 
+      :key="speaker.id"
+      class="group p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-white hover:from-cyan-50 hover:to-purple-50 transition-all duration-300 border border-gray-100 hover:border-cyan-200 hover:shadow-lg"
+      @click="openSpeakerModal(speaker)"
+    >
+      <div class="flex items-start gap-4 cursor-pointer">
+        <div class="flex-shrink-0">
+          <div class="relative">
+            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg">
+              <img 
+                v-if="speaker.avatar || speaker.image_url" 
+                :src="speaker.avatar || speaker.image_url" 
+                :alt="speaker.name"
+                class="w-full h-full object-cover"
+                @error="handleSpeakerImageError"
+              />
+              <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-xl">
+                {{ speaker.name.charAt(0) }}
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex-1 min-w-0">
+          <h3 class="text-lg font-bold text-gray-800 mb-1 truncate">{{ speaker.name }}</h3>
+          <p v-if="speaker.title" class="text-cyan-600 font-medium text-sm mb-2 truncate">{{ speaker.title }}</p>
+          <p v-if="speaker.company" class="text-gray-500 text-xs mb-1 truncate">{{ speaker.company }}</p>
+          <button 
+            @click.stop="openSpeakerModal(speaker)"
+            class="mt-2 inline-flex items-center text-sm font-medium text-cyan-600 hover:text-cyan-700 transition-colors group"
+          >
+            <span>View bio</span>
+            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Show More/Less Toggle -->
+  <div v-if="event.speakers.length > initialVisibleCount" class="text-center">
+    <button 
+      @click="toggleShowAllSpeakers"
+      class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium transition-all duration-300 hover:shadow-md"
+    >
+      <span>{{ showAllSpeakers ? 'Show Less' : `Show All ${event.speakers.length} Speakers` }}</span>
+      <svg 
+        class="w-5 h-5 transition-transform duration-300" 
+        :class="{ 'rotate-180': showAllSpeakers }"
+        fill="none" stroke="currentColor" viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+  </div>
+</div>
 
               <!-- Speaker Modal -->
               <div v-if="selectedSpeaker" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
