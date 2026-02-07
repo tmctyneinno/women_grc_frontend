@@ -1330,7 +1330,7 @@ const fetchEventOnline = async () => {
   }
 }
 
-const fetchEvent = async () => {
+const fetchEventLocal = async () => {
   try {
     loading.value = true
     
