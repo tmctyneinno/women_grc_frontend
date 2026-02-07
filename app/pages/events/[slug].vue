@@ -423,36 +423,6 @@
                 </div>
               </div>
 
-              <!-- Agenda Section -->
-              <div v-if="event.agenda && event.agenda.length > 0" class="bg-white rounded-3xl shadow-xl p-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">Event Agenda</h2>
-                <div class="space-y-4">
-                  <div 
-                    v-for="(item, index) in event.agenda" 
-                    :key="index"
-                    class="group p-6 rounded-2xl bg-gradient-to-r from-gray-50 to-white hover:from-cyan-50 hover:to-purple-50 transition-all duration-300 border border-gray-100 hover:border-cyan-200"
-                  >
-                    <div class="flex gap-6">
-                      <div class="flex-shrink-0">
-                        <div class="text-center">
-                          <div class="text-2xl font-bold text-cyan-600">{{ formatTime(item.start_time) }}</div>
-                          <div class="text-sm text-gray-500 mt-1">to {{ formatTime(item.end_time) }}</div>
-                        </div>
-                      </div>
-                      <div class="flex-1">
-                        <h4 class="text-lg font-bold text-gray-800 mb-2">{{ item.title }}</h4>
-                        <p v-if="item.description" class="text-gray-600 mb-3">{{ item.description }}</p>
-                        <div v-if="item.speaker" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full">
-                          <svg class="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                          </svg>
-                          <span class="text-sm font-medium text-gray-700">{{ item.speaker }}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               <!-- Location Details -->
               <div v-if="!event.is_online && event.venue" class="bg-white rounded-3xl shadow-xl p-8">
