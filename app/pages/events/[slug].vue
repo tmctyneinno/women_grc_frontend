@@ -301,10 +301,8 @@
                       <div class="flex-1">
                         <h3 class="text-xl font-bold text-gray-800 mb-1">{{ speaker.name }}</h3>
                         <p v-if="speaker.title" class="text-cyan-600 font-medium mb-2">{{ speaker.title }}</p>
-                        <!-- Brief preview (limited characters) -->
-                        <p v-if="speaker.brief" class="text-gray-500 text-sm line-clamp-2 mb-3">
-                          {{ speaker.brief.length > 100 ? speaker.brief.substring(0, 100) + '...' : speaker.brief}}
-                        </p>
+                        <!-- Brief preview (limited characters) - render as formatted text -->
+                        <p v-if="speaker.brief" class="text-gray-500 text-sm line-clamp-2 mb-3" v-html="formattedSpeakerPreview(speaker)"></p>
                         
                         <!-- View More/Learn More Button -->
                         <button 
