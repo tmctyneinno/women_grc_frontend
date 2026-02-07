@@ -273,7 +273,6 @@
               </div>
 
               <!-- Speakers Section with Modal -->
-             <!-- Speakers Section with Collapsible Grid -->
 <!-- Speakers Section with Horizontal Carousel -->
 <div v-if="event.speakers && event.speakers.length > 0" class="bg-white rounded-3xl shadow-xl p-8">
   <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
