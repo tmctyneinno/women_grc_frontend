@@ -24,7 +24,7 @@
                         <section class="mb-5">
                             <h2 class="h4 fw-bold text-dark mb-3">1. Introduction</h2>
                             <p>
-                                Welcome to Women in Governance, Risk, Compliance & Financial crime Prevention (WGRC). These Terms of Service 
+                                Welcome to Women in Governance, Risk, Compliance & Financial crime Prevention (WGRCFP). These Terms of Service 
                                 ("Terms") govern your use of our website, services, and applications (collectively, 
                                 the "Service"). By accessing or using our Service, you agree to be bound by these 
                                 Terms. If you disagree with any part of the terms, you may not access the Service.
@@ -150,7 +150,7 @@
 
                     <!-- Back Button -->
                     <div class="text-center mt-5">
-                        <nuxt-link to="/auth/register" class="btn btn-primary">
+                        <nuxt-link to="/auth/register" class="btn btn-primary" style="background-color: #293567; border-color: #293567;">
                             <i class="bi bi-arrow-left me-2"></i>
                             Back to Registration
                         </nuxt-link>

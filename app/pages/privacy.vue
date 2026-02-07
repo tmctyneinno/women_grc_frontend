@@ -24,7 +24,7 @@
                         <section class="mb-5">
                             <h2 class="h4 fw-bold text-dark mb-3">1. Introduction</h2>
                             <p>
-                                Women in Governance, Risk, and Compliance ("WGRC", "we", "us", or "our") is 
+                                Women in Governance, Risk, Compliance & Financial crime Prevention ("WGRCF", "we", "us", or "our") is 
                                 committed to protecting your privacy. This Privacy Policy explains how we collect, 
                                 use, disclose, and safeguard your information when you use our Service.
                             </p>
