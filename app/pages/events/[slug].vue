@@ -703,7 +703,7 @@ const formattedDescription = computed(() => {
 
 
 const speakerBrief = computed(() => {
-  if (!selectedSpeaker.value?.brief) return ''
+  if (!speaker.brief) return ''
   
   // Clean and ensure proper formatting
   let brief = selectedSpeaker.value.brief
