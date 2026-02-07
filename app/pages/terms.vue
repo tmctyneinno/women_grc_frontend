@@ -24,7 +24,7 @@
                         <section class="mb-5">
                             <h2 class="h4 fw-bold text-dark mb-3">1. Introduction</h2>
                             <p>
-                                Welcome to Women in Governance, Risk, and Compliance (WGRC). These Terms of Service 
+                                Welcome to Women in Governance, Risk, Compliance & Financial crime Prevention (WGRC). These Terms of Service 
                                 ("Terms") govern your use of our website, services, and applications (collectively, 
                                 the "Service"). By accessing or using our Service, you agree to be bound by these 
                                 Terms. If you disagree with any part of the terms, you may not access the Service.
@@ -66,7 +66,7 @@
                         <section class="mb-5">
                             <h2 class="h4 fw-bold text-dark mb-3">4. Content Ownership</h2>
                             <p><strong>Our Content:</strong> The Service and its original content, features, and 
-                                functionality are owned by WGRC and are protected by international copyright, 
+                                functionality are owned by WGRCFP and are protected by international copyright, 
                                 trademark, patent, trade secret, and other intellectual property laws.</p>
                             <p><strong>Your Content:</strong> You retain ownership of any content you submit, post, 
                                 or display on or through the Service. By submitting content, you grant us a 
@@ -85,7 +85,7 @@
                         <!-- Limitation of Liability -->
                         <section class="mb-5">
                             <h2 class="h4 fw-bold text-dark mb-3">6. Limitation of Liability</h2>
-                            <p>In no event shall WGRC, nor its directors, employees, partners, agents, suppliers, 
+                            <p>In no event shall WGRCFP, nor its directors, employees, partners, agents, suppliers, 
                                 or affiliates, be liable for any indirect, incidental, special, consequential, or 
                                 punitive damages, including without limitation, loss of profits, data, use, 
                                 goodwill, or other intangible losses, resulting from:</p>
