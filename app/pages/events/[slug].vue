@@ -1265,7 +1265,7 @@ const shareOnLinkedIn = () => {
 }
 
 // Fetch event data
-const fetchEventOnline = async () => {
+const fetchEvent = async () => {
   try {
     loading.value = true
     imageLoaded.value = false 
