@@ -804,14 +804,25 @@ onMounted(() => {
 const formatBio = (bio) => {
   if (!bio) return []
   
+  // Remove HTML tags first
+  let text = String(bio).replace(/<[^>]*>/g, '')
+  
+  // Decode HTML entities
+  text = text
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+  
   // Split bio into paragraphs
-  const paragraphs = bio.split('\n')
+  const paragraphs = text.split('\n')
     .map(p => p.trim())
     .filter(p => p.length > 0)
   
-  // If no paragraphs found, return the whole bio as one paragraph
+  // If no paragraphs found, return the whole text as one paragraph
   if (paragraphs.length === 0) {
-    return [bio]
+    return [text]
   }
   
   return paragraphs
