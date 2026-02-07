@@ -15,14 +15,10 @@
                             </div>
                         </li>
 
-                        <li class="list-group-item ">
-                            21 Gillabbey Terrace, Gillabbey Street, Cork,
-                            T12 KPN4, Republic of Ireland
-                        </li>
 
                         <li class="list-group-item ">
                             <strong>Contact:</strong>
-                            <div> +353877123968, +442078560149 </div>
+                            <div> +442078560149 </div>
                             <div>enquiries@wgrcfp.org</div>
                         </li>
                     </ul>
