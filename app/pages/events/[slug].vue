@@ -649,7 +649,7 @@ const imageLoaded = ref(false)
 const imageError = ref(false)
 const relatedEvents = ref([])
 
-<script setup>
+
 // For Solution 1
 const showAllSpeakers = ref(false)
 const initialVisibleCount = ref(2) // Show 2 by default on mobile
@@ -694,7 +694,7 @@ onMounted(() => {
     window.addEventListener('resize', updateSpeakersPerView)
   }
 })
-</script>
+
 
 // ==== ADD THESE FOR SPEAKER MODAL ====
 const selectedSpeaker = ref(null)
