@@ -6,7 +6,7 @@
                     <form @submit.prevent="validateAndSignUp" class="row g-3">
                         <!-- Header Section -->
                         <div class="col-12 mb-4 mx-auto">
-                            <div class="row justify-content-center">
+                            <div class="d-flex justify-content-center mb-4">
                                 <div class="text-center mb-3">
                                     <NuxtImg 
                                         src="/images/WGRC-logo.png" 
@@ -17,7 +17,7 @@
                                 </div>
                             </div>
                             <h1 class="h3 text-center fw-bold text-dark mb-2">
-                                Create Your Accountcc
+                                Create Your Accountc
                             </h1>
                             <p class="text-center text-muted mb-4">
                                 Join our community and unlock exclusive features.
@@ -186,14 +186,14 @@
                         </div>
 
                         <!-- Login Link -->
-                        <div class="col-12 text-center mt-4 pt-3 border-top">
+                        <!-- <div class="col-12 text-center mt-4 pt-3 border-top">
                             <p class="mb-0">
                                 Already have an account?
                                 <nuxt-link to="/auth/login" style="color: #6e354e;"  class=" fw-semibold text-decoration-none ms-1">
                                     Sign In
                                 </nuxt-link>
                             </p>
-                        </div>
+                        </div> -->
                     </form>
                     
                     <!-- Back to Home -->
