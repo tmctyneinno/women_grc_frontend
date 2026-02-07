@@ -273,92 +273,65 @@
               </div>
 
               <!-- Speakers Section with Modal -->
-             <!-- Compact Speakers List -->
+             <!-- Speakers Section with Collapsible Grid -->
 <div v-if="event.speakers && event.speakers.length > 0" class="bg-white rounded-3xl shadow-xl p-8">
-  <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100">Featured Speakers</h2>
+  <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
+    <h2 class="text-2xl font-bold text-gray-800">Featured Speakers</h2>
+    <span class="text-sm text-gray-500">{{ event.speakers.length }} speakers</span>
+  </div>
   
-  <!-- Compact Avatar Grid -->
-  <div class="flex flex-wrap gap-4 mb-6">
+  <!-- Always show first 2-3 speakers -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <div 
-      v-for="speaker in event.speakers.slice(0, 8)" 
+      v-for="speaker in visibleSpeakers" 
       :key="speaker.id"
-      class="relative group cursor-pointer"
+      class="group p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-white hover:from-cyan-50 hover:to-purple-50 transition-all duration-300 border border-gray-100 hover:border-cyan-200 hover:shadow-lg"
       @click="openSpeakerModal(speaker)"
-      :title="speaker.name"
     >
-      <div class="relative">
-        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg transition-transform group-hover:scale-110">
-          <img 
-            v-if="speaker.avatar || speaker.image_url" 
-            :src="speaker.avatar || speaker.image_url" 
-            :alt="speaker.name"
-            class="w-full h-full object-cover"
-          />
-          <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-xl">
-            {{ speaker.name.charAt(0) }}
+      <div class="flex items-start gap-4 cursor-pointer">
+        <div class="flex-shrink-0">
+          <div class="relative">
+            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden ring-4 ring-white shadow-lg">
+              <img 
+                v-if="speaker.avatar || speaker.image_url" 
+                :src="speaker.avatar || speaker.image_url" 
+                :alt="speaker.name"
+                class="w-full h-full object-cover"
+                @error="handleSpeakerImageError"
+              />
+              <div v-else class="w-full h-full flex items-center justify-center text-white font-bold text-xl">
+                {{ speaker.name.charAt(0) }}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- Tooltip on hover -->
-      <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
-        {{ speaker.name }}
-        <div class="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
-      </div>
-    </div>
-    
-    <!-- Show more count -->
-    <div 
-      v-if="event.speakers.length > 8"
-      class="relative group"
-      @click="toggleShowAllSpeakers"
-    >
-      <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center border-4 border-white shadow-lg cursor-pointer hover:bg-gray-200 transition-colors">
-        <span class="text-gray-700 font-bold text-sm">+{{ event.speakers.length - 8 }}</span>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Expanded List (when toggled) -->
-  <div v-if="showAllSpeakers" class="space-y-4 mt-6 pt-6 border-t border-gray-100">
-    <div 
-      v-for="speaker in event.speakers" 
-      :key="speaker.id"
-      class="flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer"
-      @click="openSpeakerModal(speaker)"
-    >
-      <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 overflow-hidden flex-shrink-0">
-        <img 
-          v-if="speaker.avatar || speaker.image_url" 
-          :src="speaker.avatar || speaker.image_url" 
-          :alt="speaker.name"
-          class="w-full h-full object-cover"
-        />
-        <div v-else class="w-full h-full flex items-center justify-center text-white font-bold">
-          {{ speaker.name.charAt(0) }}
+        <div class="flex-1 min-w-0">
+          <h3 class="text-lg font-bold text-gray-800 mb-1 truncate">{{ speaker.name }}</h3>
+          <p v-if="speaker.title" class="text-cyan-600 font-medium text-sm mb-2 truncate">{{ speaker.title }}</p>
+          <p v-if="speaker.company" class="text-gray-500 text-xs mb-1 truncate">{{ speaker.company }}</p>
+          <button 
+            @click.stop="openSpeakerModal(speaker)"
+            class="mt-2 inline-flex items-center text-sm font-medium text-cyan-600 hover:text-cyan-700 transition-colors group"
+          >
+            <span>View bio</span>
+            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </button>
         </div>
       </div>
-      <div class="flex-1 min-w-0">
-        <h3 class="font-semibold text-gray-800 truncate">{{ speaker.name }}</h3>
-        <p v-if="speaker.title" class="text-sm text-gray-600 truncate">{{ speaker.title }}</p>
-      </div>
-      <button 
-        @click.stop="openSpeakerModal(speaker)"
-        class="text-cyan-600 hover:text-cyan-700 text-sm font-medium"
-      >
-        View bio →
-      </button>
     </div>
   </div>
   
-  <!-- Toggle Button -->
-  <div v-if="event.speakers.length > 8" class="text-center mt-6">
+  <!-- Show More/Less Toggle -->
+  <div v-if="event.speakers.length > initialVisibleCount" class="text-center">
     <button 
       @click="toggleShowAllSpeakers"
-      class="text-cyan-600 hover:text-cyan-700 font-medium text-sm inline-flex items-center gap-2"
+      class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium transition-all duration-300 hover:shadow-md"
     >
-      <span>{{ showAllSpeakers ? 'Show Less' : 'View All Speakers' }}</span>
+      <span>{{ showAllSpeakers ? 'Show Less' : `Show All ${event.speakers.length} Speakers` }}</span>
       <svg 
-        class="w-4 h-4 transition-transform duration-300" 
+        class="w-5 h-5 transition-transform duration-300" 
         :class="{ 'rotate-180': showAllSpeakers }"
         fill="none" stroke="currentColor" viewBox="0 0 24 24"
       >
