@@ -24,7 +24,7 @@
                         <section class="mb-5">
                             <h2 class="h4 fw-bold text-dark mb-3">1. Introduction</h2>
                             <p>
-                                Women in Governance, Risk, Compliance & Financial crime Prevention ("WGRCF", "we", "us", or "our") is 
+                                Women in Governance, Risk, Compliance & Financial crime Prevention ("WGRCF") is 
                                 committed to protecting your privacy. This Privacy Policy explains how we collect, 
                                 use, disclose, and safeguard your information when you use our Service.
                             </p>
@@ -199,7 +199,7 @@
                             <p>If you have any questions about this Privacy Policy, please contact us:</p>
                             <ul class="list-unstyled">
                                 <li><i class="bi bi-envelope me-2"></i> Email: enquiries@wgrcfp.org</li>
-                                <li><i class="bi bi-geo-alt me-2"></i> Address: [Your Company Address]</li>
+                                <li><i class="bi bi-geo-alt me-2"></i> Address: 85 Great Portland Street First Floor London W1W, 7LT, United Kingdom.</li>
                                 <li><i class="bi bi-telephone me-2"></i> Phone: +44 2078560149</li>
                                 <li><i class="bi bi-clock me-2"></i> Response Time: Within 48 business hours</li>
                             </ul>
