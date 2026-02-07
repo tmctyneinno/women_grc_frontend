@@ -399,7 +399,7 @@
                 <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click="closeSpeakerModal"></div>
 
                 <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
-                  <div class="relative bg-white rounded-3xl shadow-2xl overflow-hidden transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+                  <div class="relative bg-white rounded-3xl shadow-2xl overflow-hidden transform transition-all sm:my-8 sm:max-w-2xl sm:w-full">
                     <!-- Close button -->
                     <button 
                       @click="closeSpeakerModal"
@@ -664,7 +664,7 @@
                   </div>
                 </div>
               </div>
-              
+
             </div>
           </div>
         </div>
