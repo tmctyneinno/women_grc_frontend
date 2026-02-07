@@ -658,6 +658,7 @@ const speakersPerView = computed(() => {
   }
   return 2
 })
+
 // ==== ADD THESE FOR SPEAKER MODAL ====
 const selectedSpeaker = ref(null)
 const currentSpeakerIndex = ref(-1)
