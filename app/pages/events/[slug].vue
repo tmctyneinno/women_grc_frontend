@@ -724,6 +724,37 @@ const hasPreviousSpeaker = computed(() => {
 })
 // =======================================
 
+// Escape HTML to avoid XSS and allow basic formatting (line breaks)
+const escapeHtml = (unsafe) => {
+  if (!unsafe) return ''
+  return unsafe.replace(/[&<>"'`]/g, (s) => {
+    return ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+      '`': '&#96;'
+    })[s]
+  })
+}
+
+// Return a safe, truncated HTML preview of a speaker brief
+const formattedSpeakerPreview = (speaker) => {
+  if (!speaker || !speaker.brief) return ''
+
+  const raw = String(speaker.brief).trim()
+  // Normalize newlines
+  const normalized = raw.replace(/\r\n/g, '\n').trim()
+  // Use plain text for truncation (preserve words)
+  const plain = normalized.replace(/\n+/g, ' ')
+  const truncated = plain.length > 100 ? plain.substring(0, 100) + '...' : plain
+
+  // Escape to prevent XSS, then restore simple line breaks
+  return escapeHtml(truncated).replace(/\n/g, '<br/>')
+}
+
+
 const openSpeakerModal = (speaker) => {
   console.log('Opening modal for speaker:', speaker.name)
   selectedSpeaker.value = speaker
