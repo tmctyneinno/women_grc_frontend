@@ -9,7 +9,7 @@
         </svg>
         Featured
       </div>
-    </div>
+    </div> 
 
     <!-- Status Badge -->
     <div class="absolute top-4 right-4 z-10">
@@ -106,7 +106,7 @@
         {{ event.short_description || truncateDescription(event.description) }}
       </p>
 
-      <!-- Price & Capacity -->
+      <!-- Price & Capacity 
       <div class="flex items-center justify-between mb-6">
         <div class="text-xl font-bold text-gray-800">
           {{ event.formatted_price || 'Free' }}
@@ -118,7 +118,7 @@
           </svg>
           <span>{{ event.registered_count || 0 }}/{{ event.capacity }}</span>
         </div>
-      </div>
+      </div>-->
 
       <!-- Progress Bar -->
       <div v-if="event.capacity && event.registered_count > 0" class="mb-6">
@@ -127,10 +127,6 @@
             :style="{ width: `${Math.min(100, ((event.registered_count || 0) / event.capacity) * 100)}%` }"
             class="h-full bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full transition-all duration-500"
           ></div>
-        </div>
-        <div class="flex justify-between text-xs text-gray-500 mt-1">
-          <span>Booked</span>
-          <span class="font-semibold">{{ bookingPercentage }}%</span>
         </div>
       </div>
 
@@ -173,7 +169,7 @@
     </div>
   </div>
 </template>
-
+ 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
