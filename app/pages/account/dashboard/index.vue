@@ -6,7 +6,7 @@
             <div class="card border-0">
                 <div class="card-body">
 
-                    <div class="fw-semibold">Welcome, Sarah!</div>
+                    <div class="fw-semibold">Welcome, {{ userName }}!</div>
                     <div class="mb-3">
                         Let’s get you started on your growth journey. Here, you can join events, connect with
                         mentors, learn, and grow in Governance, Risk, and Compliance.
@@ -154,20 +154,65 @@
 </template>
 
 <script setup lang="ts">
+import api from '~/api'
 
 definePageMeta({
     middleware: 'account-route-middleware'
 })
 
 const route = useRoute()
+const templateStore = useTemplateStore()
+const authStore = useAuthStore()
+
+const userName = ref<string>('User')
+const userProfile = ref<any>(null)
+const isLoading = ref<boolean>(false)
+
+// Fetch user profile
+const fetchUserProfile = async () => {
+    try {
+        isLoading.value = true
+        const response = await api.profile()
+        // Extract user data from response structure: response.data.data.user
+        const userData = response.data?.data?.user
+        if (userData) {
+            userProfile.value = userData
+            userName.value = userData.first_name || 'User'
+        }
+
+        // Redirect to main dashboard if user is verified
+            if (userData.status === 'pending') {
+                navigateTo({ path: '/account/dashboard/guest', replace: true })
+            }
+    } catch (error: any) {
+        console.error('Failed to fetch user profile:', error)
+        userName.value = 'User'
+    } finally {
+        isLoading.value = false
+    }
+}
 
 onMounted(() => {
-    if (route.query?.guest == '1')
-        navigateTo({ path: '/account/dashboard-guest', replace: true })
+    // Handle OAuth token from query params
+    if (route.query?.token) {
+        authStore.loginViaToken(route.query.token as string, true)
+    }
+
+    // Fetch user profile data
+    fetchUserProfile()
 })
 
-const templateStore = useTemplateStore()
+watch(userProfile, (newProfile) => {
+    // Redirect based on user status
+    if (newProfile?.user?.status === 'pending') {
+        navigateTo({ path: '/account/dashboard/guest', replace: true })
+    }
+}, { immediate: true })
 
+const waitingEvents = ref<{ img: string, type: string, title: string, text: string }[]>([
+    { img: '/images/account/dashboard/women_in_leadership.png', type: 'Upcoming Event', title: 'Women in Leadership', text: 'Join industry leaders for insights on advancing your career in governance, risk, and compliance.', },
+    { img: '/images/account/dashboard/grc_fundamentals.png', type: 'Featured Course', title: 'GRC Fundamentals', text: 'Master the essential concepts of governance risk management, and compliance in this detailed course', },
+])
 
 const getStartedTimelines = ref<{ title: string, action: string, percent?: string, ischecked?: Boolean }[]>([
     { title: 'Complete your profile', action: 'Complete profile', percent: '40% complete', ischecked: false },
@@ -177,3 +222,19 @@ const getStartedTimelines = ref<{ title: string, action: string, percent?: strin
     { title: 'Connect with a mentor', action: 'Find Mentors', ischecked: true },
 ])
 </script>
+
+<style scoped>
+.lock-icon {
+    position: absolute;
+    right: 0;
+    margin: 10px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 11px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+</style>

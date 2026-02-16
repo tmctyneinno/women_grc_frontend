@@ -6,7 +6,8 @@
             <div class="card border-0">
                 <div class="card-body">
 
-                    <div class="fw-semibold">Welcome, Sarah!</div>
+                    <!--<div class="fw-semibold">Welcome, Sarah!</div>-->
+                    <div class="fw-semibold">Welcome, {{ userName }}!</div>
                     <div class="mb-3">
                         Your registration was successful.
                     </div>
@@ -82,6 +83,7 @@
 </template>
 
 <script setup lang="ts">
+import api from '~/api'
 
 definePageMeta({
     middleware: 'account-route-middleware'
@@ -89,8 +91,36 @@ definePageMeta({
 
 const authStore = useAuthStore()
 
+const userName = ref<string>('Guest')
+const userProfile = ref<any>(null)
+const isLoading = ref<boolean>(false)
+
+// Fetch user profile
+const fetchUserProfile = async () => {
+    try {
+        isLoading.value = true
+        const response = await api.profile()
+        const userData = response.data?.data?.user
+        if (userData) {
+            userProfile.value = userData
+            userName.value = userData.first_name || 'Guest'
+            
+            // Redirect to main dashboard if user is verified
+            if (userData.status === 'verified') {
+                navigateTo({ path: '/account/dashboard', replace: true })
+            }
+        }
+    } catch (error: any) {
+        console.error('Failed to fetch user profile:', error)
+        userName.value = 'Guest'
+    } finally {
+        isLoading.value = false
+    }
+}
+
 onMounted(() => {
-    authStore.isGuest = true
+    authStore.setGuest(true)
+    fetchUserProfile()
 })
 
 onBeforeRouteLeave(() => {

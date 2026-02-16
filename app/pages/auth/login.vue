@@ -1,177 +1,148 @@
 <template>
-    <nuxt-layout name="login-and-register">
-        <div class="col-lg-9 col-12">
-            <div class="card border-0 animate__animated animate__slideInDown">
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <div class="text-center">
-                                <NuxtImg src="/images/WGRC-logo.png" width="40" alt="" />
-                            </div>
-                            <div class="text-center fw-600 fw-bold fs-4">
-                                Welcome back!
-                            </div>
-                            <div class="text-center text-muted small">
-                                Please provide your details to log into your account.
-                            </div>
+  <nuxt-layout name="login-and-register">
+    <div class="col-lg-9 col-12">
+      <div class="card border-0 animate__animated animate__slideInDown">
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-12">
+              <div class="text-center">
+                <NuxtImg src="/images/WGRC-logo.png" width="40" alt="WGRC Logo" />
+              </div>
+              <div class="text-center fw-600 fw-bold fs-4">Welcome back!</div>
+              <div class="text-center text-muted small">
+                Please provide your details to log into your account.
+              </div>
 
-
-                            <div :disabled="!isReady" @click="() => loginWithGoogle()"
-                                class="card google-card rounded-0 p-2 my-3">
-                                <div class="text-center theme-color">
-                                    <NuxtImg src="/images/auth/google-icon.png" width="20" /> &nbsp;continue with Google
-                                </div>
-                            </div>
-
-                            <div class="text-between-lines">
-                                or with
-                            </div>
-                        </div>
-
-
-
-                        <div class="col-12">
-                            <div class="form-label fw-bold">
-                                Email
-                                <sup><i class="bi bi-asterisk xxsmall text-danger"></i></sup>
-                            </div>
-                            <CustomInputText type="email" placeholder="enter your email" />
-                        </div>
-
-
-
-                        <div class="col-12">
-                            <div class="form-label fw-bold">
-                                Password
-                                <sup><i class="bi bi-asterisk xxsmall text-danger"></i></sup>
-                            </div>
-                            <CustomInputPassword placeholder="enter password" />
-                        </div>
-
-                        <div class="col-12 mt-4">
-                            <button @click="login" class="btn btn-theme w-100 hover-tiltX">
-                                <span class="float-start">
-                                    Login
-                                </span>
-                                <i class="bi bi-arrow-right float-end"></i>
-                            </button>
-                        </div>
-
-                        <div class="col-12 text-center">
-                            Don't have an account?
-                            <nuxt-link class="text-theme" to="/auth/register">Register</nuxt-link>
-                        </div>
-
-                    </div>
-                    <div class="mt-3">
-                        <nuxt-link to="/">Back to Home</nuxt-link>
-                    </div>
+              <!-- Google login -->
+              <div @click="loginWithGoogle" class="card google-card rounded-0 p-2 my-3">
+                <div class="text-center theme-color">
+                  <NuxtImg src="/images/auth/google-icon.png" width="20" /> &nbsp;continue with Google
                 </div>
+              </div>
 
+              <div class="text-between-lines">or with</div>
             </div>
-        </div>
 
-    </nuxt-layout>
+            <!-- Email -->
+            <div class="col-12">
+              <div class="form-label fw-bold">
+                Email
+                <sup><i class="bi bi-asterisk xxsmall text-danger"></i></sup>
+              </div>
+              <CustomInputText v-model="email" type="email" placeholder="enter your email" />
+            </div>
+
+            <!-- Password -->
+            <div class="col-12">
+              <div class="form-label fw-bold">
+                Password
+                <sup><i class="bi bi-asterisk xxsmall text-danger"></i></sup>
+              </div>
+              <CustomInputPassword v-model="password" placeholder="enter password" />
+            </div>
+
+            <!-- Login Button -->
+            <div class="col-12 mt-4">
+              <button @click="login" class="btn btn-theme w-100 hover-tiltX">
+                <span class="float-center">Login</span>
+                <i class="bi bi-arrow-right float-end"></i>
+              </button>
+            </div>
+
+            <!-- Register Link -->
+            <div class="col-12 text-center">
+              Don't have an account?
+              <nuxt-link class="text-theme" to="/auth/register">Register</nuxt-link>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <nuxt-link to="/" class="text-theme text-decoration-none">Back to Home</nuxt-link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nuxt-layout>
 </template>
 
-
 <script setup lang="ts">
-
 definePageMeta({
-    middleware: 'auth-route-middleware'
+  middleware: 'auth-route-middleware'
 })
 
-import {
-    useTokenClient,
-    type AuthCodeFlowSuccessResponse,
-    type AuthCodeFlowErrorResponse,
-} from "vue3-google-signin";
-
+// Pinia auth store
 const authStore = useAuthStore()
 
-async function login() {
+// Nuxt runtime config
+const config = useRuntimeConfig()
+const backendUrl = config.public.apiUrl
 
-    // 
+// Reactive form state
+import { ref } from 'vue'
+const email = ref('')
+const password = ref('')
 
-
-
-    authStore.login('lgonToken')
-    navigateTo({
-        path: '/account/dashboard/guest',
-        // query: { guest: 1 },
-        replace: true
-    })
+// Toast/notification event
+function notify(type: string, message: string) {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('notification', {
+      detail: { type, message }
+    }))
+  }
 }
 
-
-
-
-
-
-
-// // google sign in ################################
-const handleOnSuccess = async (response: AuthCodeFlowSuccessResponse) => {
-    const accessToken = response.access_token
-    try {
-        const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        });
-        const googleProfile = await response.json();
-        signinUsingGoogle(googleProfile)
-    } catch (error) {
-        console.error("Error fetching user profile:", error);
-        // useFxn.toast('Sorry, Cannot initiate login now, check your internet', 'error')
+// Regular login function (email/password)
+async function login() {
+  try {
+    // Validate input
+    if (!email.value || !password.value) {
+      notify('error', 'Please enter both email and password')
+      return
     }
-};
 
-const handleOnError = (errorResponse: AuthCodeFlowErrorResponse) => {
-    // useFxn.toast('Sorry, Cannot initiate login now,' + errorResponse, 'error')
-    console.log("Error: ", errorResponse);
-};
+    // Call login action from store
+    const response = await authStore.loginWithCredentials({
+      email: email.value,
+      password: password.value
+    })
 
-const { isReady, login: loginWithGoogle } = useTokenClient({
-    onSuccess: handleOnSuccess,
-    onError: handleOnError,
-    // other options
-});
-
-
-
-async function signinUsingGoogle(googleProfile: any) {
-    // form.isLoading = true
-    try {
-        // const { data } = await api.userLoginWithGoogle(googleProfile)
-
-        // if (data.status === 200) {
-        //     // profile.login(data.body.token, 'user')
-        // }
-    } catch (error: any) {
-        console.log(error);
-        if (error.response.status === 401) {
-            // useFxn.toast(error?.response?.data?.message ?? 'Error occoured', 'error')
-        }
-        else {
-            // useFxn.toast('Sorry, error occured, check your internet', 'error')
-        }
+    // If login successful, redirect based on user status
+    if (response?.success) {
+      notify('success', 'Login successful!')
+      
+      // Get user status from response
+      const userStatus = response?.data?.user?.status
+      
+      // Redirect based on verification status
+      if (userStatus === 'pending') {
+        navigateTo({ path: '/account/dashboard/guest', replace: true })
+      } else if (userStatus === 'verified') {
+        navigateTo({ path: '/account/dashboard', replace: true })
+      } else {
+        // Fallback to dashboard if status is unknown
+        navigateTo({ path: '/account/dashboard', replace: true })
+      }
     }
-    finally {
-        // form.isLoading = false
-    }
+  } catch (error: any) {
+    console.error('Login failed:', error)
+    const errorMessage = error?.response?.data?.message || 'Login failed. Please try again.'
+    notify('error', errorMessage)
+  }
+}
+
+// Google login: redirect to backend OAuth
+function loginWithGoogle() {
+  window.location.href = `${backendUrl}/auth/google/redirect`
 }
 </script>
 
-
-
 <style scoped>
 .google-card {
-    cursor: pointer;
-    background-color: #eeeeee49;
+  cursor: pointer;
+  background-color: #eeeeee49;
+  transition: background-color 0.2s;
 }
-
 .google-card:hover {
-
-    background-color: #eeeeee71;
+  background-color: #eeeeee71;
 }
 </style>

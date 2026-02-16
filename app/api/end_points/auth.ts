@@ -15,7 +15,11 @@ export default {
     },
 
     profile() {
-        return $instance.get('auth/profile');
+        return $instance.get('user/profile');
+    },
+
+    updateProfile(data: any) {
+        return $instance.put('user/profile', data);
     },
 
     verifyEmail(data: any) {

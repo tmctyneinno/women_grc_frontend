@@ -2,8 +2,8 @@ import axios from 'axios';
 // @ts-ignore
 import Cookies from 'js-cookie';
 
-// const hostURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-const hostURL =  'https://api.wgrcfp.org'; 
+const hostURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+// const hostURL =  'https://api.wgrcfp.org'; 
 const apiURL = `${hostURL}/api/v1/`;
 
 // Create axios instances with better configuration
@@ -23,6 +23,7 @@ const createAxiosInstance = (contentType = 'application/json') => {
         (config) => {
             // Get token from cookie
             const token = Cookies.get('auth_token');
+
             
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`;
