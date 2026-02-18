@@ -1,4 +1,5 @@
-import { $instance } from '../instances'
+import {$instanceForm, $instance } from '../instances'
+
 
 // API methods
 export default {
@@ -18,8 +19,8 @@ export default {
         return $instance.get('user/profile');
     },
 
-    updateProfile(data: any) {
-        return $instance.put('user/profile', data);
+    updateProfile(formData: FormData) {
+        return $instanceForm.post('user/profile', formData);
     },
 
     verifyEmail(data: any) {

@@ -123,7 +123,7 @@ const createAxiosInstance = (contentType = 'application/json') => {
 
 // Create different instances for different content types
 export const $instance = createAxiosInstance('application/json');
-const $instanceForm = createAxiosInstance('multipart/form-data');
+export const $instanceForm = createAxiosInstance('multipart/form-data');
 const $instanceSilent = createAxiosInstance('application/json');
 
 // Configure silent instance to not trigger loading indicators

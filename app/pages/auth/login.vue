@@ -77,6 +77,10 @@ const authStore = useAuthStore()
 const config = useRuntimeConfig()
 const backendUrl = config.public.apiUrl
 
+//alertToast
+const { alertToast }: any = sweetAlerts
+
+
 // Reactive form state
 import { ref } from 'vue'
 const email = ref('')
@@ -91,44 +95,55 @@ function notify(type: string, message: string) {
   }
 }
 
-// Regular login function (email/password)
+/// Regular login function (email/password)
 async function login() {
   try {
-    // Validate input
     if (!email.value || !password.value) {
-      notify('error', 'Please enter both email and password')
+      alertToast('Please enter both email and password', 'error')
       return
     }
 
-    // Call login action from store
     const response = await authStore.loginWithCredentials({
       email: email.value,
       password: password.value
     })
 
-    // If login successful, redirect based on user status
-    if (response?.success) {
-      notify('success', 'Login successful!')
-      
-      // Get user status from response
-      const userStatus = response?.data?.user?.status
-      
-      // Redirect based on verification status
-      if (userStatus === 'pending') {
-        navigateTo({ path: '/account/dashboard/guest', replace: true })
-      } else if (userStatus === 'verified') {
-        navigateTo({ path: '/account/dashboard', replace: true })
-      } else {
-        // Fallback to dashboard if status is unknown
-        navigateTo({ path: '/account/dashboard', replace: true })
-      }
+    // 🔴 Backend returned success = false
+    if (!response?.success) {
+      alertToast(response?.message || 'Login failed', 'error')
+      return
     }
+
+    // 🟢 Success
+    notify('success', response.message || 'Login successful!')
+    alertToast(response.message || 'Login successful!', 'success')
+
+    const userStatus = response?.data?.user?.status
+
+    if (userStatus === 'pending') {
+      navigateTo({ path: '/account/dashboard/guest', replace: true })
+    } else {
+      navigateTo({ path: '/account/dashboard', replace: true })
+    }
+
   } catch (error: any) {
     console.error('Login failed:', error)
-    const errorMessage = error?.response?.data?.message || 'Login failed. Please try again.'
-    notify('error', errorMessage)
+
+    // ✅ Works whether store throws backend payload OR Axios error
+    const backendMessage =
+      error?.message ||
+      error?.response?.data?.message ||
+      error?.errors?.email?.[0] ||
+      error?.response?.data?.errors?.email?.[0] ||
+      error?.errors?.password?.[0] ||
+      error?.response?.data?.errors?.password?.[0] ||
+      'Login failed. Please try again.'
+
+    notify('error', backendMessage)
+    alertToast(backendMessage, 'error')
   }
 }
+
 
 // Google login: redirect to backend OAuth
 function loginWithGoogle() {

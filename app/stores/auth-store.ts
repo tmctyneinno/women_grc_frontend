@@ -55,31 +55,47 @@ export const useAuthStore = defineStore('authStore', () => {
     }
   }
 
-  // --- Login with credentials ---
-  const loginWithCredentials = async (credentials: { email: string, password: string }) => {
-    try {
-      const response = await api.login(credentials)
-      
-      // Extract token from response
-      const authToken = response.data?.data?.token
-      if (!authToken) {
-        throw new Error('No token received from server')
-      }
-      
-      // Set token in cookie
-      token.value = authToken
-      
-      // Set user data from response
-      if (response.data?.data?.user) {
-        person.value = response.data.data.user
-      }
-      
-      return response.data
-    } catch (error: any) {
-      console.error('Login failed:', error)
-      throw error
+ // --- Login with credentials ---
+const loginWithCredentials = async (credentials: { email: string; password: string }) => {
+  try {
+    const response = await api.login(credentials)
+
+    const payload = response.data
+
+    if (!payload?.success) {
+      return payload // Let UI handle success:false
+    }
+
+    const authToken = payload?.data?.token
+    if (!authToken) {
+      throw new Error('No token received from server')
+    }
+
+    token.value = authToken
+
+    if (payload?.data?.user) {
+      person.value = payload.data.user
+    } else {
+      await getProfile()
+    }
+
+    return payload
+
+  } catch (error: any) {
+    console.error('Login failed:', error)
+
+    if (error?.response?.data) {
+      throw error.response.data
+    }
+
+    throw {
+      success: false,
+      message: 'Login failed. Please try again.',
+      errors: []
     }
   }
+}
+
 
   // --- Login via token (for OAuth redirects) ---
   const loginViaToken = async (authToken: string, fetchProfile = true) => {

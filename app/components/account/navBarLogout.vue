@@ -2,20 +2,40 @@
     <div class="dropdown cursor-pointer">
         <div class="dropdown-toggle d-flex justify-content-center align-items-center gap-2" type=" button"
             id="triggerId" data-bs-toggle="dropdown">
-            <NuxtImg src="/images/advisory/elena.png" width="30" alt="" />
+            <!--<NuxtImg src="/images/advisory/elena.png" width="30" alt="" />-->
+            <img
+              :src="userProfile || '/images/advisory/elena.png'"
+              width="30"
+              height="30"
+              class="rounded-circle"
+              alt="Profile Picture"
+            />
+
+
             <div class="xsmall">
                 <div class="fw-semibold lh-1">{{ userName }}
                     <i class="bi bi-chevron-down"></i>
                 </div>
-                <div class="text-muted">Senior GRC Analyst</div>
+                <div class="text-muted">{{userJobTitle}}</div>
             </div>
         </div>
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="triggerId">
-            <span @click="confirmDelete" class="dropdown-item cursor-pointer text-danger hover-tiltX">
-                <i class="bi bi-power"></i> Logout
-            </span>
+        <!-- Profile Link -->
+        <span 
+            @click="goToProfile" 
+            class="dropdown-item cursor-pointer hover-tiltX"
+        >
+            <i class="bi bi-person"></i> Profile
+        </span>
 
-        </div>
+        <!-- Logout Link -->
+        <span 
+            @click="confirmDelete" 
+            class="dropdown-item cursor-pointer text-danger hover-tiltX"
+        >
+            <i class="bi bi-power"></i> Logout
+        </span>
+    </div>
     </div>
 
 </template>
@@ -30,6 +50,7 @@ const authStore = useAuthStore()
 
 const userName = ref<string>('User')
 const userProfile = ref<any>(null)
+const userJobTitle = ref<string>('')
 const isLoading = ref<boolean>(false)
 
 function confirmDelete() {
@@ -45,6 +66,11 @@ function confirmDelete() {
   })
 }
 
+const goToProfile = () => {
+    // If using Nuxt 3, use navigateTo()
+    navigateTo('/account/user')
+}
+
 // Fetch user profile
 const fetchUserProfile = async () => {
   try {
@@ -58,9 +84,10 @@ const fetchUserProfile = async () => {
       response.data?.data?.user
 
     if (userData) {
-      userProfile.value = userData
+      userProfile.value = userData.profile_picture
       userName.value =
         `${userData.first_name || ''} ${userData.last_name || ''}`.trim() || 'Guest'
+      userJobTitle.value= userData.job_title
     } else {
       userName.value = 'Guest'
     }
