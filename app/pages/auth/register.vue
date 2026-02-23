@@ -17,7 +17,7 @@
                                 </div>
                             </div>
                             <h1 class="h3 text-center fw-bold text-dark mb-2">
-                                Create Your Accountc
+                                Create Your Account
                             </h1>
                             <p class="text-center text-muted mb-4">
                                 Join our community and unlock exclusive features.
