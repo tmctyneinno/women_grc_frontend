@@ -40,6 +40,11 @@
                     </li>
                 </ul>
                 <div class="d-flex">
+                    <NuxtLink to="/auth/login" class="btn btn-theme nav-link  p-1 px-3 mx-2">
+                        Log in
+                    </NuxtLink>
+                </div>
+                <div class="d-flex">
                     <NuxtLink to="/auth/register" class="btn btn-theme nav-link  p-1 px-3">
                         Register
                     </NuxtLink>

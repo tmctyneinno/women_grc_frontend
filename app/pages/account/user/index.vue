@@ -26,7 +26,7 @@
                                 <div class="col-md-4 text-center mb-3 mb-md-0">
                                     <div class="profile-picture-wrapper mb-3">
                                         <img 
-                                            :src=" (user?.profile_picture || '/images/advisory/elena.png')" 
+                                            :src=" (user?.profile_picture || '/images/advisory/avatar.png')" 
                                             :alt="user?.first_name"
                                             class="rounded-circle"
                                             style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #f0f0f0;"
@@ -34,6 +34,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-8">
+                                    <h5>{{user?.first_name}} {{user?.last_name}}</h5>
+                                    <p>{{user?.email}}</p>
                                     <label for="profile_picture" class="form-label fw-semibold">Profile Picture</label>
                                     <input 
                                         type="file" 
@@ -46,6 +48,7 @@
                                     <small class="text-muted d-block mt-2">
                                         Accepted formats: JPG, PNG, WebP (Max 2MB)
                                     </small>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -55,30 +58,30 @@
                             <h5 class="fw-semibold mb-3 text-secondary">Personal Information</h5>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <!--<label for="first_name" class="form-label fw-semibold">First Name</label>
+                                    <label for="first_name" class="form-label fw-semibold">First Name</label>
                                     <input 
                                         type="text" 
                                         id="first_name" 
                                         class="form-control"
-                                        :value="user?.first_name"
-                                        disabled
+                                        v-model="formData.first_name"
+                                        placeholder="e.g., First Name"
+                                        :disabled="isLoading"
                                     />
-                                    <small class="text-muted">Cannot be changed</small>-->
-                                    <h3>Adedolapo Adeshina</h3>
-                                    <p>dorrlarrpo1@gmail.com</p>
+                                    <!--<h3>Adedolapo Adeshina</h3>
+                                    <p>dorrlarrpo1@gmail.com</p>-->
                                 </div>
-                                <!--<div class="col-md-6 mb-3">
+                                <div class="col-md-6 mb-3">
                                     <label for="last_name" class="form-label fw-semibold">Last Name</label>
                                     <input 
                                         type="text" 
                                         id="last_name" 
                                         class="form-control"
-                                        :value="user?.last_name"
-                                        disabled
+                                        v-model="formData.last_name"
+                                        placeholder="e.g., Last Name"
+                                        :disabled="isLoading"
                                     />
-                                    <small class="text-muted">Cannot be changed</small>
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <!--<div class="col-md-6 mb-3">
                                     <label for="email" class="form-label fw-semibold">Email</label>
                                     <input 
                                         type="email" 
@@ -143,37 +146,26 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="timezone" class="form-label fw-semibold">Timezone</label>
-                                    <select 
-                                        id="timezone" 
-                                        class="form-select"
-                                        v-model="formData.timezone"
-                                        :disabled="isLoading"
+                                 <select 
+                                    id="timezone" 
+                                    class="form-select"
+                                    v-model="formData.timezone_id"
+                                    :disabled="isLoading"
                                     >
-                                        <option value="">Select a timezone</option>
-                                        <optgroup label="Africa">
-                                            <option value="Africa/Lagos">Lagos (GMT+1)</option>
-                                            <option value="Africa/Johannesburg">Johannesburg (SAST)</option>
-                                            <option value="Africa/Cairo">Cairo (EET)</option>
-                                        </optgroup>
-                                        <optgroup label="Europe">
-                                            <option value="Europe/London">London (GMT/BST)</option>
-                                            <option value="Europe/Paris">Paris (CET/CEST)</option>
-                                            <option value="Europe/Berlin">Berlin (CET/CEST)</option>
-                                        </optgroup>
-                                        <optgroup label="America">
-                                            <option value="America/New_York">New York (EST/EDT)</option>
-                                            <option value="America/Los_Angeles">Los Angeles (PST/PDT)</option>
-                                            <option value="America/Chicago">Chicago (CST/CDT)</option>
-                                        </optgroup>
-                                        <optgroup label="Asia">
-                                            <option value="Asia/Dubai">Dubai (GST)</option>
-                                            <option value="Asia/Singapore">Singapore (SGT)</option>
-                                            <option value="Asia/Tokyo">Tokyo (JST)</option>
-                                        </optgroup>
-                                        <optgroup label="Oceania">
-                                            <option value="Australia/Sydney">Sydney (AEDT/AEST)</option>
-                                        </optgroup>
-                                    </select>
+                                    <option value="">Select a timezone</option>
+
+                                    <option 
+                                        v-for="tz in timezones" 
+                                        :key="tz.id" 
+                                        :value="tz.id"
+                                    >
+                                        {{ tz.timezone }} (GMT {{ tz.gmt_offset >= 0 ? '+' : '' }}{{ tz.gmt_offset }})
+                                    </option>
+                                 </select>
+
+                                 <small v-if="selectedTimezone" class="text-muted">
+                                Current timezone: {{ selectedTimezone.timezone }}
+                                </small>
                                 </div>
                             </div>
                         </div>
@@ -224,13 +216,25 @@ const profilePicturePreview = ref<string | null>(null)
 
 
 const formData = reactive({
+  first_name:'',
+  last_name:'',
   phone_number: '',
   job_title: '',
   company: '',
-  timezone: '',
+  timezone_id: null as number | null,
   linkedin_profile: '',
   profile_picture: null as File | null
 })
+
+const timezones = ref<Array<{
+  id: number
+  country_code: string
+  timezone: string
+  gmt_offset: number
+  dst_offset: number
+  raw_offset: number
+}>>([])
+
 
 // ✅ FETCH PROFILE FROM BACKEND
 const fetchProfile = async () => {
@@ -243,10 +247,12 @@ const fetchProfile = async () => {
       user.value = userData
 
       // ✅ Populate form fields from backend
+      formData.first_name = userData.first_name || ''
+      formData.last_name = userData.last_name || ''
       formData.phone_number = userData.phone_number || ''
       formData.job_title = userData.job_title || ''
       formData.company = userData.company || ''
-      formData.timezone = userData.timezone || ''
+      formData.timezone_id = userData.timezone_id || ''
       formData.linkedin_profile = userData.linkedin_profile || ''
 
       if (userData.status=="verified"){
@@ -260,9 +266,19 @@ const fetchProfile = async () => {
   }
 }
 
+const fetchTimezones = async () => {
+  try {
+    const response = await api.timezone()
+    timezones.value = response.data?.data || []
+  } catch (err) {
+    console.error('Failed to load timezones', err)
+  }
+}
+
 onMounted(() => {
     authStore.setGuest(true)
     fetchProfile()
+    fetchTimezones()
 })
 
 // ✅ Profile Picture
@@ -292,10 +308,12 @@ const handleSubmit = async () => {
 
   try {
     const submitData = new FormData()
+    submitData.append('first_name', formData.first_name)
+    submitData.append('last_name', formData.last_name)
     submitData.append('phone_number', formData.phone_number)
     submitData.append('job_title', formData.job_title)
     submitData.append('company', formData.company)
-    submitData.append('timezone', formData.timezone)
+    submitData.append('timezone_id', formData.timezone_id)
     submitData.append('linkedin_profile', formData.linkedin_profile)
 
     if (formData.profile_picture) {
@@ -309,6 +327,8 @@ const handleSubmit = async () => {
 
       // ✅ Refresh form with backend response
       const updatedUser = response.data.data.user
+      formData.first_name = updatedUser.first_name || ''
+      formData.last_name = updatedUser.last_name || ''
       formData.phone_number = updatedUser.phone_number || ''
       formData.job_title = updatedUser.job_title || ''
       formData.company = updatedUser.company || ''
@@ -336,14 +356,20 @@ const handleSubmit = async () => {
 const resetForm = () => {
   if (!user.value) return
 
+  formData.first_name = user.value.first_name || ''
+  formData.last_name = user.value.last_name || ''
   formData.phone_number = user.value.phone_number || ''
   formData.job_title = user.value.job_title || ''
   formData.company = user.value.company || ''
-  formData.timezone = user.value.timezone || ''
+  formData.timezone_id = user.value.timezone_id || ''
   formData.linkedin_profile = user.value.linkedin_profile || ''
   formData.profile_picture = null
   profilePicturePreview.value = null
 }
+
+const selectedTimezone = computed(() => {
+  return timezones.value.find(tz => tz.id === formData.timezone_id)
+})
 </script>
 
 

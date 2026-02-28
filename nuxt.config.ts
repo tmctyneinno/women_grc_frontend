@@ -50,9 +50,7 @@ export default defineNuxtConfig({
     public: {
       apiUrl: process.env.NUXT_PUBLIC_API_URL || 'https://localhost:8000/api/v1',
       siteUrl: process.env.SITE_URL || 'https://localhost:3000',
-      googleSignIn: {
-        clientId: process.env.GOOGLE_CLIENT_ID || '',
-      }
+      recaptchaSiteKey: process.env.NUXT_PUBLIC_RECAPTCHA_SITE_KEY || '',
     }
   },
 
@@ -61,7 +59,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-aos',
     'vue3-carousel-nuxt',
-    'nuxt-vue3-google-signin',
+    // 'nuxt-vue3-google-signin',
     '@nuxt/image',
   ],
   build: {
@@ -140,7 +138,7 @@ export default defineNuxtConfig({
 - npx nuxi@latest module add vue3-carousel-nuxt
 - npm i @vueform/multiselect
 - npm install maska
-- npx nuxi@latest module add nuxt-vue3-google-signin
+// - npx nuxi@latest module add nuxt-vue3-google-signin
 - npm install --save-dev @types/node
 - npm install vue-tel-input
 - npm install vee-validate --save

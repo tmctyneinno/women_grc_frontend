@@ -147,7 +147,7 @@ async function login() {
 
 // Google login: redirect to backend OAuth
 function loginWithGoogle() {
-  window.location.href = `${backendUrl}/auth/google/redirect`
+  window.location.href = `${backendUrl}/api/v1/auth/google/redirect`
 }
 </script>
 

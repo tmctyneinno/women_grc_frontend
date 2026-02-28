@@ -2,9 +2,9 @@
     <div class="dropdown cursor-pointer">
         <div class="dropdown-toggle d-flex justify-content-center align-items-center gap-2" type=" button"
             id="triggerId" data-bs-toggle="dropdown">
-            <!--<NuxtImg src="/images/advisory/elena.png" width="30" alt="" />-->
+            <!--<NuxtImg src="/images/advisory/avatar.png" width="30" alt="" />-->
             <img
-              :src="userProfile || '/images/advisory/elena.png'"
+              :src="userProfile || '/images/advisory/avatar.png'"
               width="30"
               height="30"
               class="rounded-circle"

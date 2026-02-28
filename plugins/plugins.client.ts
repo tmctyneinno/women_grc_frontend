@@ -5,6 +5,7 @@ import VueSweetalert2 from 'vue-sweetalert2'
 import EasyDataTable from 'vue3-easy-data-table';
 import { Vue3ProgressPlugin } from '@marcoschulte/vue3-progress';
 import VueTelInput from 'vue-tel-input';
+import VueRecaptcha from 'vue3-recaptcha2';
 
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component('VueSelect', VueSelect)
@@ -13,5 +14,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component('EasyDataTable', EasyDataTable);
     nuxtApp.vueApp.use(Vue3ProgressPlugin);
     nuxtApp.vueApp.use(VueTelInput, { mode: 'auto' });
+    nuxtApp.vueApp.component('VueRecaptcha', VueRecaptcha)
 
 })

@@ -24,10 +24,51 @@
                     </div>
                 </div>
             </div>
+            <!-- ✅ CAPTCHA -->
+            <div class="d-flex justify-content-center mt-4">
+                <form @submit.prevent="submitForm">
+
+                <div class="d-flex justify-content-center my-3">
+                    <ClientOnly>
+                    <VueRecaptcha
+                        :sitekey="siteKey"
+                        @verify="onVerify"
+                        @expired="onExpired"
+                    />
+                    </ClientOnly>
+                </div>
+
+                <button class="btn btn-theme">Submit</button>
+                </form>
+            </div>
         </div>
     </div>
 </template>
 
+
+<script setup lang="ts">
+const config = useRuntimeConfig()
+const siteKey = config.public.recaptchaSiteKey
+
+const captchaToken = ref<string | null>(null)
+
+const onVerify = (token: string) => {
+  captchaToken.value = token
+}
+
+const onExpired = () => {
+  captchaToken.value = null
+}
+
+const submitForm = async () => {
+  if (!captchaToken.value) {
+    alert('Please verify you are not a robot')
+    return
+  }
+
+  // submit to backend
+}
+</script>
 
 <style scoped>
 .bg-gradient {
