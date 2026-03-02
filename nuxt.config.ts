@@ -48,8 +48,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     apiBaseUrl: process.env.API_BASE_URL || 'https://wgrcfp.org',
     public: {
-      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'https://localhost:8000/api/v1',
-      siteUrl: process.env.SITE_URL || 'https://localhost:3000',
+      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'https://api.wgrcfp.org/api/v1',
+      siteUrl: process.env.SITE_URL || 'https://wgrcfp.org',
       recaptchaSiteKey: process.env.NUXT_PUBLIC_RECAPTCHA_SITE_KEY || '',
     }
   },
