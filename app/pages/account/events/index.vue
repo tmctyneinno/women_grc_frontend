@@ -76,6 +76,56 @@
                 </div>
             </div>
 
+            <div class="card border-0 mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="fw-bold mb-0">My Booked Events</h6>
+                        <span class="small text-muted">{{ myBookings.length }} total</span>
+                    </div>
+
+                    <div v-if="myBookings.length === 0" class="small text-muted">
+                        You have not booked any event yet.
+                    </div>
+
+                    <div v-else class="row g-3">
+                        <div class="col-lg-6">
+                            <div class="booked-group h-100">
+                                <div class="booked-title text-success mb-2">
+                                    <i class="bi bi-calendar-check me-1"></i> Upcoming / Ongoing
+                                </div>
+                                <div v-if="upcomingBookedEvents.length === 0" class="small text-muted">No upcoming booking.</div>
+                                <div v-else class="d-grid gap-2">
+                                    <div v-for="booking in upcomingBookedEvents" :key="booking.booking_id" class="booked-item">
+                                        <div class="fw-medium">{{ booking.event.title }}</div>
+                                        <div class="small text-muted">{{ formatDate(booking.event.start_date) }} • {{ booking.event.venue }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="booked-group h-100">
+                                <div class="booked-title text-secondary mb-2">
+                                    <i class="bi bi-check2-circle me-1"></i> Completed
+                                </div>
+                                <div v-if="completedBookedEvents.length === 0" class="small text-muted">No completed booking.</div>
+                                <div v-else class="d-grid gap-2">
+                                    <div v-for="booking in completedBookedEvents" :key="booking.booking_id" class="booked-item">
+                                        <div class="fw-medium">{{ booking.event.title }}</div>
+                                        <div class="small text-muted">{{ formatDate(booking.event.end_date || booking.event.start_date) }} • {{ booking.event.venue }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="fw-bold mb-0">All Events</h6>
+                        <span class="small text-muted">{{ filteredEvents.length }} total</span>
+            </div>
+
             <div v-if="loading" class="text-center py-5">
                 <div class="spinner-border text-theme" role="status">
                     <span class="visually-hidden">Loading...</span>
@@ -207,6 +257,7 @@
 import Swal from 'sweetalert2'
 import api from '~/api'
 import { useCartStore } from '~/stores/cart-store'
+import { useAccountCache } from '~/composables/useAccountCache'
 
 definePageMeta({
     middleware: 'account-route-middleware'
@@ -217,7 +268,9 @@ const currentPage = ref(1)
 const loading = ref(false)
 const itemsPerPage = 6
 const events = ref<any[]>([])
+const myBookings = ref<any[]>([])
 const cartStore = useCartStore()
+const { getCached, setCached, clearCached } = useAccountCache()
 
 const filteredEvents = computed(() => {
     if (!searchQuery.value) return events.value
@@ -236,6 +289,8 @@ const upcomingCount = computed(() => events.value.filter(e => e.is_upcoming).len
 const ongoingCount = computed(() => events.value.filter(e => e.is_ongoing).length)
 const completedCount = computed(() => events.value.filter(e => e.is_past).length)
 const totalPages = computed(() => Math.max(1, Math.ceil(filteredEvents.value.length / itemsPerPage)))
+const upcomingBookedEvents = computed(() => myBookings.value.filter((booking) => !booking?.event?.is_past))
+const completedBookedEvents = computed(() => myBookings.value.filter((booking) => Boolean(booking?.event?.is_past)))
 const paginatedEvents = computed(() => {
     const start = (currentPage.value - 1) * itemsPerPage
     return filteredEvents.value.slice(start, start + itemsPerPage)
@@ -272,10 +327,14 @@ const escapeHtml = (content: string) => {
 }
 
 const resolveImage = (path: string | null) => {
-    if (!path) return '/images/event-placeholder.jpg'
-    if (path.startsWith('http')) return path
+    if (!path) return '/images/event-placeholder.svg'
+    if (path.startsWith('http://')) return path.replace('http://', 'https://')
+    if (path.startsWith('https://')) return path
+    if (path.startsWith('/storage/')) return `${apiHost}${path}`
+
     const cleanPath = path.startsWith('/') ? path.slice(1) : path
-    return `${apiHost}/storage/${cleanPath}`
+    const normalizedPath = cleanPath.startsWith('storage/') ? cleanPath.slice('storage/'.length) : cleanPath
+    return `${apiHost}/storage/${normalizedPath}`
 }
 
 const randomExternalEventImage = () => {
@@ -368,8 +427,8 @@ const goToNextPage = () => {
 }
 
 const addEventToCart = async (event: any) => {
-    const cartId = `event-${event.id}`
-    const exists = cartStore.items.some((item) => String(item.id) === cartId)
+    const eventId = Number(event.id)
+    const exists = cartStore.items.some((item) => item.source === 'event' && Number(item.id) === eventId)
     if (exists) {
         await Swal.fire({
             icon: 'info',
@@ -380,27 +439,39 @@ const addEventToCart = async (event: any) => {
         return
     }
 
-    cartStore.items.push({
-        id: cartId,
-        image: event.featured_image || '/images/event-placeholder.jpg',
-        level: 'Event',
-        category: event.type || 'Event',
-        title: event.title || 'Untitled Event',
-        text: event.short_description || 'No description available.',
-        stars: 5,
-        rating: 5,
-        total_rating: 1,
-        duration: `${event.duration_hours || 0} hours`,
-        no_of_lectures: 1,
-        price: toNumber(event.price)
-    })
+    try {
+        await cartStore.addToCart({
+            id: eventId,
+            image: event.featured_image || '/images/event-placeholder.svg',
+            level: 'Event',
+            category: event.type || 'Event',
+            title: event.title || 'Untitled Event',
+            text: event.short_description || 'No description available.',
+            stars: 5,
+            rating: 5,
+            total_rating: 1,
+            duration: `${event.duration_hours || 0} hours`,
+            no_of_lectures: 1,
+            price: toNumber(event.price),
+            source: 'event',
+        })
 
-    await Swal.fire({
-        icon: 'success',
-        title: 'Added to cart',
-        text: `${event.title} was added to your cart.`,
-        confirmButtonColor: '#293567'
-    })
+        await Swal.fire({
+            icon: 'success',
+            title: 'Added to cart',
+            text: `${event.title} was added to your cart.`,
+            confirmButtonColor: '#293567'
+        })
+    } catch (error: any) {
+        const status = Number(error?.response?.status || 0)
+        const message = error?.response?.data?.message || 'Unable to add this event to cart.'
+        await Swal.fire({
+            icon: status === 409 ? 'info' : 'warning',
+            title: status === 409 ? 'Already in cart' : 'Add to cart failed',
+            text: message,
+            confirmButtonColor: '#293567'
+        })
+    }
 }
 
 const showEventDetails = async (event: any) => {
@@ -454,7 +525,10 @@ const showEventDetails = async (event: any) => {
             confirmButtonColor: '#293567'
         })
 
-        await fetchEvents() // refresh counts
+        clearCached('account-events')
+        clearCached('account-event-bookings')
+        await fetchEvents(true) // refresh counts
+        await fetchMyBookings(true)
 
     } catch (err: any) {
         await Swal.fire({
@@ -466,12 +540,20 @@ const showEventDetails = async (event: any) => {
     }
 }
 
-const fetchEvents = async () => {
+const fetchEvents = async (force = false) => {
     loading.value = true
     try {
+        if (!force) {
+            const cached = getCached<any[]>('account-events')
+            if (cached) {
+                events.value = cached
+                return
+            }
+        }
         const response = await api.events()
         const payload = response?.data?.data?.data || []
         events.value = payload.map((event: any) => normalizeEvent(event))
+        setCached('account-events', events.value, 180000)
     } catch (error: any) {
         events.value = []
         await Swal.fire({
@@ -485,8 +567,33 @@ const fetchEvents = async () => {
     }
 }
 
+const fetchMyBookings = async (force = false) => {
+    try {
+        if (!force) {
+            const cached = getCached<any[]>('account-event-bookings')
+            if (cached) {
+                myBookings.value = cached
+                return
+            }
+        }
+        const response = await api.myEventBookings()
+        const payload = response?.data?.data || []
+        myBookings.value = payload.map((booking: any) => ({
+            booking_id: booking.booking_id,
+            status: booking.status,
+            booked_at: booking.booked_at,
+            event: normalizeEvent(booking.event || {}),
+        }))
+        setCached('account-event-bookings', myBookings.value, 180000)
+    } catch (error) {
+        myBookings.value = []
+    }
+}
+
 onMounted(() => {
+    cartStore.fetchCart()
     fetchEvents()
+    fetchMyBookings()
 })
 </script>
 
@@ -526,5 +633,22 @@ onMounted(() => {
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 100%;
+}
+
+.booked-group {
+    border: 1px solid #e6ebf8;
+    border-radius: 12px;
+    padding: 12px;
+    background: #fff;
+}
+
+.booked-title {
+    font-weight: 600;
+}
+
+.booked-item {
+    border: 1px solid #edf1fb;
+    border-radius: 10px;
+    padding: 10px;
 }
 </style>

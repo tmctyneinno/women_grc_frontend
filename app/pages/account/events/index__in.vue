@@ -146,7 +146,7 @@
                             viewMode === 'list' ? 'md:w-72 h-48 md:h-auto' : 'h-48'
                         ]">
                             <img 
-                                :src="event.featured_image || '/images/event-placeholder.jpg'" 
+                                :src="event.featured_image || '/images/event-placeholder.svg'" 
                                 :alt="event.title"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             />

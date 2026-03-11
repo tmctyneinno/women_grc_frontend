@@ -35,6 +35,10 @@ export default {
         return $instance.post(`/events/${eventId}/book`)
     },
 
+    membership(){
+        return $instance.get('memberships');
+    },
+
 
     verifyEmail(data: any) {
         return $instance.post('auth/email/verify', data);

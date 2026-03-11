@@ -29,7 +29,7 @@
                                 £{{ item.price}}
                             </div>
                             <RatingStar v-for="i in item.stars" /> {{ item.rating }} ({{ item.total_rating }})
-                            <div class="float-lg-end">
+                            <div class="float-lg-end" v-if="item.source == 'course'">
                                 {{ item.duration }} | {{ item.no_of_lectures }} Lectures
                             </div>
                         </div>

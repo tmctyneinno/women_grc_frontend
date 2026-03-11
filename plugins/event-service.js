@@ -6,7 +6,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     
     // Initialize the event service with runtime config
     eventService.initialize({
-        baseURL: config.public.apiBaseUrl || 'http://localhost:8000/api/v1',
+        baseURL: config.public.apiUrl || config.public.apiBaseUrl || 'https://api.wgrcfp.org/api/v1',
         // Add other config values as needed
     });
     

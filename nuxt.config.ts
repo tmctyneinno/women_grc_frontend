@@ -11,8 +11,7 @@ export default defineNuxtConfig({
       cors: true
     },
     '/api/images/**': {
-      // proxy: 'http://localhost:8000/storage/**' ,
-      proxy: 'http://api.wgrcfp.org/storage/**'
+      proxy: 'https://api.wgrcfp.org/storage/**'
     },
     '/account/**': { ssr: false },
 
@@ -46,11 +45,11 @@ export default defineNuxtConfig({
     preset: 'static'
   },
   runtimeConfig: {
-    apiBaseUrl: process.env.API_BASE_URL || 'https://wgrcfp.org',
+    apiBaseUrl: process.env.API_BASE_URL || 'https://api.wgrcfp.org',
     public: {
       apiUrl: process.env.NUXT_PUBLIC_API_URL || 'https://api.wgrcfp.org/api/v1',
       siteUrl: process.env.SITE_URL || 'https://wgrcfp.org',
-      recaptchaSiteKey: process.env.NUXT_PUBLIC_RECAPTCHA_SITE_KEY || '',
+      recaptchaSiteKey: process.env.NUXT_PUBLIC_RECAPTCHA_SITE_KEY || '6LfN93wsAAAAAK5Z5X5VpEbtNyjJw9hn5GVpKEFp',
     }
   },
 

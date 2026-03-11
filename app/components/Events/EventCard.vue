@@ -43,13 +43,12 @@
       <!-- Actual Image -->
       <img 
         ref="eventImage"
-        :src="eventImageUrl" 
+        :src="eventImageSrc" 
         :alt="event.title"
         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         :class="{'opacity-0': !imageLoaded || imageError, 'opacity-100': imageLoaded && !imageError}"
         @load="onImageLoad"
         @error="onImageError"
-        crossorigin="anonymous"
       />
       <!-- Type Badge -->
       <div class="absolute bottom-4 left-4">
@@ -120,7 +119,7 @@
         </div>
       </div>-->
 
-      <!-- Progress Bar -->
+      <!-- Progress Bar
       <div v-if="event.capacity && event.registered_count > 0" class="mb-6">
         <div class="h-1.5 bg-gray-200 rounded-full overflow-hidden">
           <div 
@@ -128,7 +127,7 @@
             class="h-full bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full transition-all duration-500"
           ></div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Action Buttons -->
       <div class="flex gap-3">
@@ -171,7 +170,7 @@
 </template>
  
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 const props = defineProps({
@@ -192,26 +191,45 @@ const router = useRouter();
 const eventImage = ref(null);
 const imageLoaded = ref(false);
 const imageError = ref(false);
+const FALLBACK_IMAGE = '/images/event-placeholder.svg';
 
 // Image URL computed property - FIXED VERSION
+const apiHost = (import.meta.env.VITE_API_URL || 'https://api.wgrcfp.org').replace(/\/$/, '');
+
 const eventImageUrl = computed(() => {
   if (!props.event?.featured_image) {
-    return '/images/event-placeholder.jpg';
+    return FALLBACK_IMAGE;
   }
   
   const imgPath = props.event.featured_image;
   
-  // Already a full URL
-  if (imgPath.startsWith('http')) {
+  if (imgPath.startsWith('http://')) {
+    return imgPath.replace('http://', 'https://');
+  }
+
+  if (imgPath.startsWith('https://')) {
     return imgPath;
   }
-  
-  const baseUrl = 'http://api.wgrcfp.org';
+
+  if (imgPath.startsWith('/storage/')) {
+    return `${apiHost}${imgPath}`;
+  }
+
   const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath;
-  
-  // Use the proxy route for CORS
-  return `${baseUrl}/images/proxy/${cleanPath}`;
+  return `${apiHost}/storage/${cleanPath}`;
 });
+
+// Bind <img> src to a reactive value so we can swap to a fallback once.
+const eventImageSrc = ref(FALLBACK_IMAGE);
+watch(
+    eventImageUrl,
+    (next) => {
+        eventImageSrc.value = next || FALLBACK_IMAGE;
+        imageLoaded.value = false;
+        imageError.value = false;
+    },
+    { immediate: true }
+);
 
 // Image handlers - UPDATED TO USE eventImageUrl
 const onImageLoad = () => {
@@ -221,14 +239,19 @@ const onImageLoad = () => {
 };
 
 const onImageError = (error) => {
-    console.error('❌ Image failed to load:', eventImageUrl.value, error);
+    console.error('? Image failed to load:', eventImageSrc.value, error);
+
+    // If the primary image failed, try the fallback once.
+    if (eventImageSrc.value !== FALLBACK_IMAGE) {
+        eventImageSrc.value = FALLBACK_IMAGE;
+        imageLoaded.value = false;
+        imageError.value = false;
+        return;
+    }
+
+    // Fallback also failed.
     imageLoaded.value = true;
     imageError.value = true;
-    
-    // Try to load placeholder if original failed
-    if (eventImage.value && eventImageUrl.value !== '/images/event-placeholder.jpg') {
-        eventImage.value.src = '/images/event-placeholder.jpg';
-    }
 };
 
 // Text helper
