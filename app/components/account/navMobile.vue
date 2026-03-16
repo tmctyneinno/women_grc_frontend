@@ -10,15 +10,17 @@
                 <AccountNavBarCart />
             </div>
             <ul class="list-group list-group-flush mt-2" :class="{ 'hide-but-keep-space': isGuest }">
-                <li v-for="({ title, routePath, hasDropDown, dropdownItems }, i) in templateStore.accountMenus" :key="i"
+                <li v-for="({ title, routePath, hasDropDown, dropdownItems, relatedRoutes }, i) in templateStore.accountMenus" :key="i"
                     class="list-group-item border-0 dismiss-on-click">
-                    <nuxt-link :to="routePath">{{ title }}</nuxt-link>
+                    <nuxt-link :to="routePath" :class="{ active: isRouteActive(routePath, relatedRoutes) }">
+                        {{ title }}
+                    </nuxt-link>
                     <!-- <div v-if="hasDropDown" style="border-left: 1px solid var(--bs-border-color)"> -->
                     <div v-if="hasDropDown">
                         <ul class="list-group list-group-flush">
                             <li v-for="dropdownItem in dropdownItems" class="list-group-item border-0">
                                 <i class="bi bi-dash"></i>
-                                <nuxt-link :to="dropdownItem.routePath">
+                                <nuxt-link :to="dropdownItem.routePath" :class="{ active: isRouteActive(dropdownItem.routePath) }">
                                     {{ dropdownItem.title }}
                                 </nuxt-link>
                             </li>
@@ -48,6 +50,7 @@ import { onBeforeRouteLeave } from 'vue-router';
 
 const templateStore = useTemplateStore()
 const btnX = ref<any>(null)
+const route = useRoute()
 
 onBeforeRouteLeave(() => {
     btnX.value?.click()
@@ -63,6 +66,13 @@ onMounted(() => {
 
 const authStore = useAuthStore()
 const { isGuest } = storeToRefs(authStore)
+
+const isRouteActive = (routePath: string, relatedRoutes: string[] = []) => {
+    if (!routePath) return false
+    return route.path === routePath
+        || route.path.startsWith(routePath + '/')
+        || relatedRoutes.includes(route.path)
+}
 
 </script>
 
@@ -81,5 +91,10 @@ const { isGuest } = storeToRefs(authStore)
 .list-group-item a {
     text-decoration: none;
     color: var(--vt-c-black-soft);
+}
+
+.list-group-item a.active {
+    font-weight: 700;
+    color: var(--theme-color);
 }
 </style>

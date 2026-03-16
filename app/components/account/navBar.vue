@@ -39,7 +39,11 @@
                     </li>
                 </ul>
                 <div class="mx-auto" :class="{ 'hide-but-keep-space': isGuest }">
-                    <CustomInputSearch placeholder="Search courses, topics,platform..." />
+                    <CustomInputSearch
+                        v-model="globalSearch"
+                        placeholder="Search courses, forums, events..."
+                        @submit="submitSearch"
+                    />
                 </div>
                 <div class="mx-auto" :class="{ 'hide-but-keep-space': isGuest }">
                     <AccountNavBarNotification />
@@ -68,6 +72,7 @@ const route = useRoute()
 
 const authStore = useAuthStore()
 const { isGuest } = storeToRefs(authStore)
+const globalSearch = ref('')
 
 
 
@@ -88,6 +93,12 @@ onMounted(() => {
             headerDropped.value = false;
     })
 })
+
+const submitSearch = async () => {
+    const query = globalSearch.value.trim()
+    if (!query) return
+    await navigateTo(`/account/search?q=${encodeURIComponent(query)}`)
+}
 
 </script>
 

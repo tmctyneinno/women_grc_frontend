@@ -51,18 +51,32 @@
                                     <li v-for="(line, index) in getStartedTimelines" :key="index"
                                         class="list-group-item border- ps-0 py-3 d-lg-flex gap-2">
                                         <div class="fw-medium col-lg-8">
-                                            <span class=" cursor-pointer" @click="line.ischecked = !line.ischecked">
+                                            <span class="cursor-pointer" @click="line.ischecked = !line.ischecked">
                                                 <i v-if="!line.ischecked" class="bi bi-square text-theme me-2"></i>
                                                 <i v-else class="bi  bi-check-square-fill text-theme me-2"></i>
                                             </span>
-                                            {{ line.title }}
+                                            <span class="cursor-pointer hover-tiltX" @click="goTimeline(line)">
+                                                {{ line.title }}
+                                            </span>
                                             <span v-if="line.percent" class="xsmall text-muted">
                                                 ({{ line.percent }})
                                             </span>
                                         </div>
 
                                         <div class="col">
-                                            <div class="float-end small hover-tiltX cursor-pointer text-theme">
+                                            <NuxtLink
+                                                v-if="line.route"
+                                                :to="line.route"
+                                                class="float-end small hover-tiltX cursor-pointer text-theme text-decoration-none"
+                                            >
+                                                {{ line.action }}
+                                                <i class="bi bi-arrow-right"></i>
+                                            </NuxtLink>
+                                            <div
+                                                v-else
+                                                class="float-end small hover-tiltX cursor-pointer text-theme"
+                                                @click="goTimeline(line)"
+                                            >
                                                 {{ line.action }}
                                                 <i class="bi bi-arrow-right"></i>
                                             </div>
@@ -82,54 +96,28 @@
 
                     <div v-else-if="showMembershipPrompt" class="card h-100 border-0">
                         <div class="card-header bg-transparent border-0 fw-medium">
-                            Join Our Community by Subscribing to Our Membership Plan!
+                            Unlock the Member Circle
                         </div>
                         <div class="card-body">
-                            <div v-if="isMembershipsLoading" class="text-center py-4">
-                                Loading memberships...
-                            </div>
-
-                            <div v-else class="membership-shell p-3 p-md-4">
-                                <div class="small text-muted mb-3">Pick a membership type, then select a tier.</div>
-                                <div class="row g-3">
-                                    <div v-for="category in membershipCategories" :key="category.id" class="col-12 col-md-6">
-                                        <div class="membership-pop h-100">
-                                            <div class="membership-pop-index">{{ category.id }}</div>
-                                            <div class="fw-semibold">{{ category.title }}</div>
-                                            <div class="small text-muted mt-1">{{ category.summary }}</div>
-                                            <button class="btn btn-sm membership-ghost-btn mt-3" @click="openCategory(category)">
-                                                View Tiers
-                                            </button>
-                                        </div>
+                            <div class="membership-cta p-4">
+                                <div class="d-flex flex-column flex-md-row align-items-start gap-3">
+                                    <div class="cta-icon">
+                                        <i class="bi bi-people-fill mx-2"></i>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div v-if="activeCategory" class="membership-modal-backdrop" @click.self="closeCategory">
-                                <div class="membership-modal">
-                                    <div class="d-flex justify-content-between align-items-start mb-2">
-                                        <div>
-                                            <div class="small text-uppercase text-muted">Membership {{ activeCategory.id }}</div>
-                                            <div class="fw-semibold fs-5">{{ activeCategory.title }}</div>
-                                            <div class="small text-muted">{{ activeCategory.summary }}</div>
-                                        </div>
-                                        <button class="btn btn-sm btn-light border" @click="closeCategory">
-                                            <i class="bi bi-x-lg"></i>
-                                        </button>
+                                    <div class="flex-grow-1">
+                                    <div class="fw-semibold fs-5 mb-2">Step into the room where decisions and opportunities happen</div>
+                                    <div class="text-muted">
+                                        Membership gives you direct access to verified professionals, private forums, and leadership openings.
+                                        Join the WGRCFP member circle and be part of the network shaping the future of GRC and financial crime prevention.
                                     </div>
-
-                                    <div class="membership-tier-list">
-                                        <div v-for="tier in activeCategory.tiers" :key="tier.tier" class="tier-card">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="fw-semibold">{{ tier.tier }}</div>
-                                                <span class="badge rounded-pill text-bg-light border">&pound;{{ tier.fee }}/yr</span>
-                                            </div>
-                                            <div class="small text-muted mt-1">{{ tier.targetAudience }}</div>
-                                            <div class="small mt-2">{{ tier.benefits }}</div>
-                                            <button class="btn btn-sm btn-theme mt-3" @click="addMembershipToCart(activeCategory, tier)">
-                                                <i class="bi bi-cart-plus"></i> Add to Cart
-                                            </button>
-                                        </div>
+                                    <div class="d-flex flex-wrap gap-2 mt-3">
+                                        <NuxtLink to="/account/members" class="btn btn-theme btn-sm">
+                                            See Membership Options
+                                        </NuxtLink>
+                                        <NuxtLink to="/membership" class="btn btn-outline-theme btn-sm">
+                                            Explore Benefits
+                                        </NuxtLink>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -217,8 +205,7 @@
 
 <script setup lang="ts">
 import api from '~/api'
-import Swal from 'sweetalert2'
-import { useCartStore } from '~/stores/cart-store'
+import { useAccountCache } from '~/composables/useAccountCache'
 
 definePageMeta({
     middleware: 'account-route-middleware'
@@ -227,7 +214,7 @@ definePageMeta({
 const route = useRoute()
 const templateStore = useTemplateStore()
 const authStore = useAuthStore()
-const cartStore = useCartStore()
+const { getCached, setCached } = useAccountCache()
 
 const userName = ref<string>('User')
 const userProfile = ref<any>(null)
@@ -235,32 +222,22 @@ const isLoading = ref<boolean>(false)
 const membershipStatusLoading = ref(false)
 const hasActiveMembership = ref<boolean | null>(null)
 
-type MembershipTier = {
-    id: number
-    tier: string
-    fee: number
-    targetAudience: string
-    benefits: string
-}
-
-type MembershipCategory = {
-    id: number
-    title: string
-    summary: string
-    tiers: MembershipTier[]
-}
-
-const membershipCategories = ref<MembershipCategory[]>([])
-const isMembershipsLoading = ref(false)
-const activeCategory = ref<MembershipCategory | null>(null)
 const showMembershipPrompt = computed(() => hasActiveMembership.value === false)
 
-const fetchMembershipStatus = async () => {
+const fetchMembershipStatus = async (force = false) => {
     try {
         membershipStatusLoading.value = true
+        if (!force) {
+            const cached = getCached<boolean>('account-membership-status')
+            if (cached !== null) {
+                hasActiveMembership.value = cached
+                return
+            }
+        }
         const response = await api.myMembershipStatus()
         const data = response?.data?.data || {}
         hasActiveMembership.value = Boolean(data?.is_active)
+        setCached('account-membership-status', hasActiveMembership.value, 180000)
     } catch (error) {
         hasActiveMembership.value = false
     } finally {
@@ -268,98 +245,29 @@ const fetchMembershipStatus = async () => {
     }
 }
 
-const fetchMemberships = async () => {
-    try {
-        isMembershipsLoading.value = true
-        const response = await api.membership()
-        if (response.data.success) {
-            membershipCategories.value = response.data.data.map((m: any) => ({
-                id: m.id,
-                title: m.name,
-                summary: m.description,
-                tiers: m.tiers.map((t: any) => ({
-                    id: t.id,
-                    tier: t.name,
-                    fee: Number(t.annual_fee),
-                    targetAudience: t.target_audience,
-                    benefits: Array.isArray(t.benefits) ? t.benefits.join(', ') : t.benefits
-                }))
-            }))
-        }
-    } catch (error) {
-        console.error('Failed to fetch memberships:', error)
-    } finally {
-        isMembershipsLoading.value = false
-    }
-}
-
-const openCategory = (category: MembershipCategory) => {
-    activeCategory.value = category
-}
-
-const closeCategory = () => {
-    activeCategory.value = null
-}
-
-const addMembershipToCart = async (category: MembershipCategory, tier: MembershipTier) => {
-    const cartId = tier.id
-    const exists = cartStore.items.some(item => item.source === 'membership' && Number(item.id) === cartId)
-
-    if (exists) {
-        await Swal.fire({
-            icon: 'info',
-            title: 'Already in cart',
-            text: `${tier.tier} (${category.title}) is already in your cart.`,
-            confirmButtonColor: '#293567'
-        })
-        return
-    }
-
-    try {
-        await cartStore.addToCart({
-            id: cartId,
-            image: '/images/WGRC-logo.png',
-            level: tier.tier,
-            category: category.title,
-            title: `${category.title} - ${tier.tier}`,
-            text: tier.targetAudience,
-            duration: '1 year membership',
-            no_of_lectures: 0,
-            price: tier.fee,
-            source: 'membership',
-            stars: 5,
-            rating: 5,
-            total_rating: 100,
-        })
-
-        await Swal.fire({
-            icon: 'success',
-            title: 'Added to cart',
-            text: `${tier.tier} was added to your cart.`,
-            confirmButtonColor: '#293567'
-        })
-    } catch (error: any) {
-        const status = Number(error?.response?.status || 0)
-        const message = error?.response?.data?.message || 'Unable to add membership to cart.'
-        await Swal.fire({
-            icon: status === 409 ? 'info' : 'warning',
-            title: status === 409 ? 'Already in cart' : 'Add to cart failed',
-            text: message,
-            confirmButtonColor: '#293567'
-        })
-    }
-}
 
 // Fetch user profile
-const fetchUserProfile = async () => {
+const fetchUserProfile = async (force = false) => {
     try {
         isLoading.value = true
+        if (!force) {
+            const cached = getCached<any>('account-profile')
+            if (cached) {
+                userProfile.value = cached
+                userName.value = cached.first_name || 'User'
+                if (cached.status === 'pending') {
+                    navigateTo({ path: '/account/dashboard/guest', replace: true })
+                }
+                return
+            }
+        }
         const response = await api.profile()
         // Extract user data from response structure: response.data.data.user
         const userData = response.data?.data?.user
         if (userData) {
             userProfile.value = userData
             userName.value = userData.first_name || 'User'
+            setCached('account-profile', userData, 180000)
         }
 
         // Redirect to main dashboard if user is verified
@@ -383,11 +291,7 @@ onMounted(() => {
     // Fetch user profile data
     fetchUserProfile()
 
-    fetchMembershipStatus().then(() => {
-        if (hasActiveMembership.value === false) {
-            fetchMemberships()
-        }
-    })
+    fetchMembershipStatus()
 })
 
 watch(userProfile, (newProfile) => {
@@ -402,13 +306,18 @@ const waitingEvents = ref<{ img: string, type: string, title: string, text: stri
     { img: '/images/account/dashboard/grc_fundamentals.png', type: 'Featured Course', title: 'GRC Fundamentals', text: 'Master the essential concepts of governance risk management, and compliance in this detailed course', },
 ])
 
-const getStartedTimelines = ref<{ title: string, action: string, percent?: string, ischecked?: Boolean }[]>([
-    { title: 'Complete your profile', action: 'Complete profile', percent: '40% complete', ischecked: false },
-    { title: 'Join your first event', action: 'Join an event', ischecked: true },
-    { title: 'Enroll in a learning module', action: 'Continue Learning', ischecked: true },
-    { title: 'Introduce yourself in the forum', action: 'Visit Comunity', ischecked: false },
-    { title: 'Connect with a mentor', action: 'Find Mentors', ischecked: true },
+const getStartedTimelines = ref<{ title: string, action: string, percent?: string, ischecked?: Boolean, route?: string }[]>([
+    { title: 'Complete your profile', action: 'Complete profile', percent: '40% complete', ischecked: false, route: '/account/user' },
+    { title: 'Join your first event', action: 'Join an event', ischecked: true, route: '/account/events' },
+    { title: 'Enroll in a learning module', action: 'Continue Learning', ischecked: true, route: '/account/learning-center' },
+    { title: 'Introduce yourself in the forum', action: 'Visit Community', ischecked: false, route: '/account/forum' },
+    { title: 'Connect with a mentor', action: 'Find Mentors', ischecked: true, route: '/account/members' },
 ])
+
+const goTimeline = async (line: { route?: string }) => {
+    if (!line.route) return
+    await navigateTo(line.route)
+}
 </script>
 
 <style scoped>
@@ -446,6 +355,26 @@ const getStartedTimelines = ref<{ title: string, action: string, percent?: strin
 .membership-pop:hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 28px rgba(53, 83, 164, 0.12);
+}
+
+.membership-cta {
+    border-radius: 16px;
+    border: 1px solid #dfe8ff;
+    background:
+        radial-gradient(circle at top right, #f4f7ff 0%, transparent 45%),
+        linear-gradient(140deg, #ffffff 0%, #f6f9ff 100%);
+}
+
+.cta-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #293567 0%, #b03436 100%);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
 }
 
 .membership-pop-index {

@@ -4,8 +4,8 @@ import {$instanceForm, $instance } from '../instances'
 // API methods
 export default {
 
-    events() {
-        return $instance.get('events');
+    events(params: Record<string, any> = {}) {
+        return $instance.get('events', { params });
     },
 
     myEventBookings() {

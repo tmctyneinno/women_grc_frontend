@@ -5,6 +5,7 @@ import membership from "./end_points/membership";
 import user from "./end_points/user";
 import learning from "./end_points/learning";
 import forum from "./end_points/forum";
+import podcasts from "./end_points/podcasts";
 
 
 export default {
@@ -15,4 +16,5 @@ export default {
     ...membership,
     ...learning,
     ...forum,
+    ...podcasts,
 }

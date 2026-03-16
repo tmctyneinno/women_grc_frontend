@@ -55,9 +55,9 @@
                     <div v-if="loading" class="text-center py-4">
                         <div class="spinner-border text-theme"></div>
                     </div>
-                    <div v-else-if="filteredJoined.length === 0" class="small text-muted py-3">You have not joined any forum yet.</div>
+                    <div v-else-if="joinedForums.length === 0" class="small text-muted py-3">You have not joined any forum yet.</div>
                     <div v-else class="row g-3 mt-1">
-                        <div v-for="forum in filteredJoined" :key="forum.id" class="col-md-6 col-xl-4">
+                        <div v-for="forum in joinedForums" :key="forum.id" class="col-md-6 col-xl-4">
                             <div class="forum-card h-100">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <span class="badge bg-theme-subtle text-theme">{{ forum.category || 'General' }}</span>
@@ -215,13 +215,7 @@ const createForm = reactive({
     region: '',
 })
 
-const filteredJoined = computed(() => {
-    if (!searchText.value.trim()) return joinedForums.value
-    const q = searchText.value.toLowerCase()
-    return joinedForums.value.filter((forum) =>
-        `${forum.title} ${forum.category || ''}`.toLowerCase().includes(q)
-    )
-})
+let forumSearchTimer: number | null = null
 
 const pendingInvites = computed(() => invitations.value.filter((invite) => invite.status === 'pending'))
 const regionOptions = computed(() => {
@@ -235,9 +229,10 @@ const regionOptions = computed(() => {
 const loadForums = async () => {
     loading.value = true
     try {
+        const query = searchText.value.trim()
         const [mineRes, allRes] = await Promise.all([
-            api.forumList({ mine: 1 }),
-            api.forumList(),
+            api.forumList(query ? { mine: 1, q: query } : { mine: 1 }),
+            api.forumList(query ? { q: query } : {}),
         ])
 
         const mine = mineRes?.data?.data?.data || []
@@ -259,6 +254,13 @@ const loadForums = async () => {
         loading.value = false
     }
 }
+
+watch(searchText, () => {
+    if (forumSearchTimer) window.clearTimeout(forumSearchTimer)
+    forumSearchTimer = window.setTimeout(() => {
+        loadForums()
+    }, 400)
+})
 
 const loadInvitations = async () => {
     try {

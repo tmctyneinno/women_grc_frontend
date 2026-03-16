@@ -89,8 +89,20 @@
                                                     <div class="small text-muted">{{ formatDate(post.created_at) }}</div>
                                                 </div>
                                                 <div class="d-flex gap-1">
-                                                    <button class="btn btn-light border btn-sm" @click="react(post.id, 'like')">Like</button>
-                                                    <button class="btn btn-light border btn-sm" @click="react(post.id, 'dislike')">Dislike</button>
+                                                    <button
+                                                        class="btn btn-sm border"
+                                                        :class="getUserReaction(post) === 'like' ? 'btn-theme text-white' : 'btn-light'"
+                                                        @click="react(post.id, 'like')"
+                                                    >
+                                                        Like ({{ post.likes_count || 0 }})
+                                                    </button>
+                                                    <button
+                                                        class="btn btn-sm border"
+                                                        :class="getUserReaction(post) === 'dislike' ? 'btn-danger text-white' : 'btn-light'"
+                                                        @click="react(post.id, 'dislike')"
+                                                    >
+                                                        Dislike ({{ post.dislikes_count || 0 }})
+                                                    </button>
                                                     <button class="btn btn-light border btn-sm" @click="reportPost(post.id)">Report</button>
                                                 </div>
                                             </div>
@@ -98,9 +110,23 @@
                                                 Quoted: {{ post.quote?.content }}
                                             </div>
                                             <div class="mt-2">{{ post.content }}</div>
-                                            <a v-if="post.attachment_path" :href="post.attachment_path" target="_blank" class="small text-theme d-inline-block mt-2">
-                                                <i class="bi bi-paperclip me-1"></i>Attachment
-                                            </a>
+                                            <div v-if="post.attachment_path" class="mt-2">
+                                                <img
+                                                    v-if="isImageAttachment(post.attachment_path)"
+                                                    :src="resolveAttachmentUrl(post.attachment_path)"
+                                                    alt="attachment"
+                                                    class="img-fluid rounded border"
+                                                    style="max-height: 240px; object-fit: cover;"
+                                                />
+                                                <a
+                                                    v-else
+                                                    :href="resolveAttachmentUrl(post.attachment_path)"
+                                                    target="_blank"
+                                                    class="small text-theme d-inline-block"
+                                                >
+                                                    <i class="bi bi-paperclip me-1"></i>Attachment
+                                                </a>
+                                            </div>
 
                                             <div v-if="(post.replies || []).length" class="reply-list mt-2">
                                                 <div v-for="reply in post.replies" :key="reply.id" class="reply-card small">
@@ -124,6 +150,7 @@
 <script setup lang="ts">
 import Swal from 'sweetalert2'
 import api from '~/api'
+import { useAccountCache } from '~/composables/useAccountCache'
 
 definePageMeta({
     middleware: 'account-route-middleware',
@@ -140,6 +167,7 @@ const threads = ref<any[]>([])
 const activeThread = ref<any>(null)
 const posts = ref<any[]>([])
 const attachmentRef = ref<HTMLInputElement | null>(null)
+const { getCached, setCached, clearCached } = useAccountCache()
 
 const newThread = reactive({
     title: '',
@@ -155,14 +183,54 @@ const isCreator = computed(() => Number(forum.value?.created_by || forum.value?.
 
 const formatDate = (date: string) => new Date(date).toLocaleString()
 
+const runtimeConfig = useRuntimeConfig()
+const apiHost = (
+    import.meta.env.VITE_API_URL ||
+    runtimeConfig.public.apiUrl ||
+    runtimeConfig.public.apiBaseUrl ||
+    'http://127.0.0.1:8000'
+).replace(/\/$/, '')
+
+const resolveAttachmentUrl = (path: string) => {
+    if (!path) return ''
+    if (path.startsWith('http://')) return path.replace('http://', 'https://')
+    if (path.startsWith('https://')) return path
+    if (path.startsWith('/storage/')) return `${apiHost}${path}`
+    const cleanPath = path.startsWith('/') ? path.slice(1) : path
+    const normalizedPath = cleanPath.startsWith('storage/') ? cleanPath.slice('storage/'.length) : cleanPath
+    return `${apiHost}/storage/${normalizedPath}`
+}
+
+const isImageAttachment = (path: string) => {
+    return /\.(png|jpg|jpeg|gif|webp)$/i.test(path || '')
+}
+
+const getUserReaction = (post: any) => {
+    const userId = Number(authStore.userData?.id || 0)
+    if (!userId || !Array.isArray(post?.reactions)) return ''
+    const reaction = post.reactions.find((item: any) => Number(item.user_id) === userId)
+    return reaction?.reaction || ''
+}
+
 const loadForum = async () => {
     if (!forumId.value) return
     loading.value = true
     try {
+        const cachedForum = getCached<any>(`forum-${forumId.value}`)
+        if (cachedForum) {
+            forum.value = cachedForum
+            threads.value = forum.value?.threads || []
+            activeThread.value = threads.value[0] || null
+            if (activeThread.value) {
+                await loadPosts(activeThread.value.id)
+            }
+            return
+        }
         const res = await api.forumDetails(forumId.value)
         forum.value = res?.data?.data || null
         threads.value = forum.value?.threads || []
         activeThread.value = threads.value[0] || null
+        setCached(`forum-${forumId.value}`, forum.value, 120000)
         if (activeThread.value) {
             await loadPosts(activeThread.value.id)
         }
@@ -180,8 +248,14 @@ const loadForum = async () => {
 
 const loadThreads = async () => {
     if (!forumId.value) return
-    const res = await api.forumThreads(forumId.value)
-    threads.value = res?.data?.data?.data || []
+    const cached = getCached<any[]>(`forum-${forumId.value}-threads`)
+    if (cached) {
+        threads.value = cached
+    } else {
+        const res = await api.forumThreads(forumId.value)
+        threads.value = res?.data?.data?.data || []
+        setCached(`forum-${forumId.value}-threads`, threads.value, 120000)
+    }
     if (!activeThread.value && threads.value.length) {
         activeThread.value = threads.value[0]
     }
@@ -189,8 +263,15 @@ const loadThreads = async () => {
 
 const loadPosts = async (threadId: number) => {
     if (!forumId.value || !threadId) return
+    const cacheKey = `forum-${forumId.value}-thread-${threadId}-posts`
+    const cached = getCached<any[]>(cacheKey)
+    if (cached) {
+        posts.value = cached
+        return
+    }
     const res = await api.forumPosts(forumId.value, threadId)
     posts.value = res?.data?.data?.data || []
+    setCached(cacheKey, posts.value, 120000)
 }
 
 const selectThread = async (thread: any) => {
@@ -206,6 +287,8 @@ const createThread = async () => {
             title: newThread.title,
             content: newThread.content || undefined,
         })
+        clearCached(`forum-${forumId.value}`)
+        clearCached(`forum-${forumId.value}-threads`)
         newThread.title = ''
         newThread.content = ''
         await loadThreads()
@@ -241,6 +324,9 @@ const postMessage = async () => {
         }
 
         newPost.content = ''
+        if (activeThread.value) {
+            clearCached(`forum-${forumId.value}-thread-${activeThread.value.id}-posts`)
+        }
         await loadPosts(activeThread.value.id)
         await loadThreads()
     } catch (error: any) {
@@ -258,6 +344,9 @@ const postMessage = async () => {
 const react = async (postId: number, reaction: 'like' | 'dislike') => {
     try {
         await api.forumReactPost(postId, reaction)
+        if (activeThread.value) {
+            clearCached(`forum-${forumId.value}-thread-${activeThread.value.id}-posts`)
+        }
         if (activeThread.value) await loadPosts(activeThread.value.id)
     } catch (error: any) {
         await Swal.fire({

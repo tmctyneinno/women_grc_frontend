@@ -4,8 +4,8 @@
             <div class="card border-0">
                 <div class="card-body text-center">
                     Need help? Contact
-                    <a href="mailto:support@womeningrc.org?subject=Support Request">
-                        support@womeningrc.org
+                    <a href="mailto:enquiries@wgrcfp.org?subject=Support Request">
+                        enquiries@wgrcfp.org
                     </a>
                 </div>
             </div>

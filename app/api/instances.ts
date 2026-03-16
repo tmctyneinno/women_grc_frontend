@@ -2,9 +2,9 @@ import axios from 'axios';
 // @ts-ignore
 import Cookies from 'js-cookie';
 
-const hostURL = import.meta.env.VITE_API_URL || 'https://api.wgrcfp.org';
+// const hostURL = 'http://127.0.0.1:8000';
 
-// const hostURL = import.meta.env.VITE_API_URL || 'https://api.wgrcfp.org';
+const hostURL = import.meta.env.VITE_API_URL || 'https://api.wgrcfp.org';
 
 // const hostURL =  'https://api.wgrcfp.org'; 
 const apiURL = `${hostURL}/api/v1/`;

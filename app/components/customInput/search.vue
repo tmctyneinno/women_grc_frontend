@@ -2,7 +2,7 @@
     <div class="search-field " :class="{ 'form-floating': floatLabel }">
         <span class=" bi bi-search icon"> </span>
         <input type="text" class="form-control w-100 search-box" :id :class="className" :value="modelValue"
-            @input="emitValue" :placeholder :aria-label="placeholder" />
+            @input="emitValue" @keydown.enter="emitSubmit" :placeholder :aria-label="placeholder" />
     </div>
 </template>
 
@@ -20,11 +20,15 @@ defineProps({
     floatLabel: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'submit'])
 
 function emitValue(event: Event) {
     const target = event.target as HTMLInputElement;
     emit('update:modelValue', target.value);
+}
+
+function emitSubmit() {
+    emit('submit');
 }
 
 

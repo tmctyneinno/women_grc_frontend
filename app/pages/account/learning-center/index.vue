@@ -14,7 +14,7 @@
                         <NuxtLink to="/account/learning-center" class="btn btn-theme btn-sm">
                             Course Catalog
                         </NuxtLink>
-                        <button class="btn btn-light btn-sm border" @click="loadDashboardData">
+                        <button class="btn btn-light btn-sm border" @click="loadDashboardData(true)">
                             <i class="bi bi-arrow-clockwise me-1"></i> Refresh
                         </button>
                     </div>
@@ -177,7 +177,10 @@
             <div class="card border-0 mt-3">
                 <div class="card-body">
                     <div class="fw-semibold mb-3">Certificates & Achievements</div>
-                    <div v-if="achievements.length === 0" class="small text-muted">
+                    <div v-if="certificateError" class="alert alert-warning mb-3">
+                        {{ certificateError }}
+                    </div>
+                    <div v-if="!certificateError && achievements.length === 0" class="small text-muted">
                         No certificates yet. Complete a certificate-enabled course to see it here.
                     </div>
                     <div v-else class="row g-2">
@@ -210,6 +213,7 @@
 import Swal from 'sweetalert2'
 import api from '~/api'
 import { useCartStore } from '~/stores/cart-store'
+import { useAccountCache } from '~/composables/useAccountCache'
 
 definePageMeta({
     middleware: 'account-route-middleware',
@@ -239,23 +243,19 @@ const discoverCourses = ref<CourseRow[]>([])
 const myCourses = ref<any[]>([])
 const leaderboard = ref<any[]>([])
 const achievements = ref<any[]>([])
+const certificateError = ref('')
 const isLoadingCourses = ref(false)
 const searchText = ref('')
 const activeCatalogTab = ref<'my' | 'discover'>('my')
 const cartStore = useCartStore()
+const { getCached, setCached, clearCached } = useAccountCache()
+let courseSearchTimer: number | null = null
 
 const unwrapPayload = (res: any) => res?.data?.data
 const getCollection = (payload: any) => Array.isArray(payload) ? payload : (payload?.data || [])
 
 const filteredCourses = computed(() => {
-    const source = activeCatalogTab.value === 'my' ? myCatalogCourses.value : discoverCourses.value
-    if (!searchText.value.trim()) return source
-    const q = searchText.value.toLowerCase()
-
-    return source.filter((course) => {
-        const tags = Array.isArray(course.tags) ? course.tags.join(' ') : ''
-        return `${course.title} ${course.category || ''} ${tags}`.toLowerCase().includes(q)
-    })
+    return activeCatalogTab.value === 'my' ? myCatalogCourses.value : discoverCourses.value
 })
 
 const enrolledCourseIds = computed(() => {
@@ -287,10 +287,24 @@ const formatDateTime = (value: string | null | undefined) => {
     return new Date(value).toLocaleString()
 }
 
-const loadMyCourses = async () => {
+const loadMyCourses = async (force = false, query = '') => {
     isLoadingCourses.value = true
     try {
-        const res = await api.learningMyCourses()
+        const cacheKey = `account-learning-my:${query || 'all'}`
+        if (!force) {
+            const cached = getCached<{
+                myCourses: any[]
+                myCatalogCourses: CourseRow[]
+                courses: CourseRow[]
+            }>(cacheKey)
+            if (cached) {
+                myCourses.value = cached.myCourses
+                myCatalogCourses.value = cached.myCatalogCourses
+                courses.value = cached.courses
+                return
+            }
+        }
+        const res = await api.learningMyCourses(query ? { q: query } : {})
         const payload = unwrapPayload(res)
         myCourses.value = getCollection(payload)
         myCatalogCourses.value = myCourses.value
@@ -302,6 +316,11 @@ const loadMyCourses = async () => {
             }))
             .filter((course: any) => Number(course.id) > 0)
         courses.value = myCatalogCourses.value
+        setCached(cacheKey, {
+            myCourses: myCourses.value,
+            myCatalogCourses: myCatalogCourses.value,
+            courses: courses.value
+        }, 180000)
     } catch (error) {
         myCourses.value = []
         myCatalogCourses.value = []
@@ -319,40 +338,61 @@ const loadMyCourses = async () => {
     }
 }
 
-const loadDiscoverCourses = async () => {
+const loadDiscoverCourses = async (force = false, query = '') => {
     try {
-        const res = await api.learningCourses()
+        const cacheKey = `account-learning-discover:${query || 'all'}`
+        if (!force) {
+            const cached = getCached<CourseRow[]>(cacheKey)
+            if (cached) {
+                discoverCourses.value = cached
+                return
+            }
+        }
+        const res = await api.learningCourses(query ? { q: query } : {})
         const payload = unwrapPayload(res)
         discoverCourses.value = getCollection(payload)
+        setCached(cacheKey, discoverCourses.value, 300000)
     } catch (error) {
         discoverCourses.value = []
     }
 }
 
-const loadLeaderboard = async () => {
+const loadLeaderboard = async (force = false) => {
     try {
+        if (!force) {
+            const cached = getCached<any[]>('account-learning-leaderboard')
+            if (cached) {
+                leaderboard.value = cached
+                return
+            }
+        }
         const res = await api.learningLeaderboard()
         const payload = unwrapPayload(res)
         leaderboard.value = getCollection(payload)
+        setCached('account-learning-leaderboard', leaderboard.value, 300000)
     } catch (error) {
         leaderboard.value = []
     }
 }
 
-const loadAchievements = async () => {
+const loadAchievements = async (force = false) => {
     try {
+        certificateError.value = ''
+        if (!force) {
+            const cached = getCached<any[]>('account-learning-achievements')
+            if (cached) {
+                achievements.value = cached
+                return
+            }
+        }
         const res = await api.learningAchievements()
         achievements.value = getCollection(unwrapPayload(res))
+        setCached('account-learning-achievements', achievements.value, 300000)
     } catch (error) {
         achievements.value = []
         console.error('learningAchievements failed:', error)
         const message = (error as any)?.response?.data?.message || 'Unable to load certificates right now.'
-        await Swal.fire({
-            icon: 'warning',
-            title: 'Certificates unavailable',
-            text: message,
-            confirmButtonColor: '#293567',
-        })
+        certificateError.value = message
     }
 }
 
@@ -444,12 +484,13 @@ const downloadCertificate = async (cert: any) => {
     }
 }
 
-const loadDashboardData = async () => {
+const loadDashboardData = async (force = false) => {
+    const query = searchText.value.trim()
     await Promise.all([
-        loadMyCourses(),
-        loadDiscoverCourses(),
-        loadLeaderboard(),
-        loadAchievements(),
+        loadMyCourses(force, query),
+        loadDiscoverCourses(force, query),
+        loadLeaderboard(force),
+        loadAchievements(force),
     ])
 }
 
@@ -489,7 +530,10 @@ const quickEnroll = async (course: CourseRow) => {
 
     try {
         await api.learningEnroll(course.id)
-        await loadMyCourses()
+        const query = searchText.value.trim()
+        clearCached(`account-learning-my:${query || 'all'}`)
+        clearCached('account-learning-my:all')
+        await loadMyCourses(true, query)
         await Swal.fire({
             icon: 'success',
             title: 'Enrolled successfully',
@@ -521,6 +565,27 @@ const quickEnroll = async (course: CourseRow) => {
 }
 
 onMounted(loadDashboardData)
+
+watch(searchText, () => {
+    if (courseSearchTimer) window.clearTimeout(courseSearchTimer)
+    courseSearchTimer = window.setTimeout(() => {
+        const query = searchText.value.trim()
+        if (activeCatalogTab.value === 'my') {
+            loadMyCourses(false, query)
+        } else {
+            loadDiscoverCourses(false, query)
+        }
+    }, 400)
+})
+
+watch(activeCatalogTab, (value) => {
+    const query = searchText.value.trim()
+    if (value === 'my') {
+        loadMyCourses(false, query)
+    } else {
+        loadDiscoverCourses(false, query)
+    }
+})
 </script>
 
 <style scoped>

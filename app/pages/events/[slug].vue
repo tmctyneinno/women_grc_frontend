@@ -260,6 +260,63 @@
       <!-- Content Section -->
       <section class="py-10 bg-gray-50">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+          <!-- WGRCFP Programme Section -->
+          <div v-if="isWgrcfpProgram" class="bg-white rounded-3xl shadow-xl p-8 mb-8" style="border: 1px solid rgba(176, 52, 54, 0.2);">
+            <div class="flex flex-col lg:flex-row gap-6 justify-between items-start">
+              <div>
+                <div class="text-xs uppercase tracking-wider font-semibold mb-2" style="color:#b03436;">
+                  Official Programme
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">
+                  Updated WGRCFP Official Launch & Inaugural Summit Programme
+                </h2>
+                <p class="text-gray-600">
+                  Theme: Shaping the Future of Governance, Risk, Compliance and Financial Crime Prevention: Women Leading the Change
+                </p>
+              </div>
+              <div class="rounded-2xl p-4 w-full lg:w-auto" style="background: linear-gradient(90deg, rgba(176, 52, 54, 0.10), rgba(41, 53, 103, 0.10)); border: 1px solid rgba(176, 52, 54, 0.2);">
+                <div class="text-sm text-gray-500">Date</div>
+                <div class="text-lg font-semibold text-gray-800">17 March 2026</div>
+                <div class="text-sm text-gray-500 mt-2">Time</div>
+                <div class="text-lg font-semibold text-gray-800">12:00 noon - 13:30 (90 minutes)</div>
+                <div class="text-sm text-gray-500 mt-2">Format</div>
+                <div class="text-lg font-semibold text-gray-800">Virtual (MS Teams / LinkedIn Live)</div>
+              </div>
+            </div>
+
+            <div class="mt-8 space-y-6">
+              <div v-for="(item, index) in wgrcfpProgram" :key="index" class="rounded-2xl p-5" style="border: 1px solid rgba(176, 52, 54, 0.15); background: linear-gradient(135deg, #ffffff 0%, rgba(176, 52, 54, 0.05) 100%);">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-3">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full text-white font-bold flex items-center justify-center shadow-md" style="background:#2B3360;">
+                      {{ item.order }}
+                    </div>
+                    <div>
+                      <div class="text-sm font-semibold" style="color:#b03436;">{{ item.time }}</div>
+                      <div class="text-lg font-semibold text-gray-800">{{ item.title }}</div>
+                    </div>
+                  </div>
+                  <div class="text-sm font-semibold md:text-right" style="color:#293567;">{{ item.segment }}</div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div class="md:col-span-1">
+                    <div class="text-xs uppercase tracking-wider font-semibold mb-2" style="color:#b03436;">Speakers</div>
+                    <ul class="text-gray-700 space-y-1">
+                      <li v-for="(speaker, idx) in item.speakers" :key="idx">{{ speaker }}</li>
+                    </ul>
+                  </div>
+                  <div class="md:col-span-2">
+                    <div class="text-xs uppercase tracking-wider font-semibold mb-2" style="color:#b03436;">Focus</div>
+                    <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                      <li v-for="(focus, idx) in item.focus" :key="idx">{{ focus }}</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Left Column - Main Content -->
             <div class="lg:col-span-2 space-y-8">
@@ -693,6 +750,7 @@ import { useRoute, useRouter } from '#imports'
 const route = useRoute()
 const router = useRouter()
 const slug = route.params.slug
+const isWgrcfpProgram = computed(() => String(slug || '').toLowerCase() === 'wgrcfp')
 
 // State
 const loading = ref(true)
@@ -751,6 +809,113 @@ const formattedDescription = computed(() => {
   
   return description
 })
+
+const wgrcfpProgram = [
+  {
+    order: '01',
+    time: '12:00 - 12:05',
+    title: 'Welcome and Opening Remarks',
+    segment: 'Opening',
+    speakers: [
+      'Loretta Joseph - Chair, WGRCFP, Mcdonell-Nadeau, Principal Consultant, Senior Policy Advisor'
+    ],
+    focus: [
+      'Why GRC and financial crime prevention matter now',
+      'Why WGRCFP exists',
+      'Inclusive vision: women leading, allies supporting'
+    ]
+  },
+  {
+    order: '02',
+    time: '12:05 - 12:10',
+    title: 'WGRCFP Overview and Strategic Focus',
+    segment: 'Overview',
+    speakers: [
+      'Dr. Adenike Odukomaiya - Head of Internal Audit, Stanbic IBTC, Advisory Board Member, WGRCFP'
+    ],
+    focus: [
+      'Why WGRCFP was created',
+      'Professional development, networking, research',
+      'Membership benefits for individuals and organisations'
+    ]
+  },
+  {
+    order: '03',
+    time: '12:10 - 12:30',
+    title: 'Keynote Address: The State of GRC and Financial Crime Prevention',
+    segment: 'Keynote',
+    speakers: [
+      'Elena Pykhova - CEO / Founder, THE OP Risk Company, Vice Chair, WGRCFP'
+    ],
+    focus: [
+      'Keynote address'
+    ]
+  },
+  {
+    order: '04',
+    time: '12:30 - 12:50',
+    title: "Keynote Address: Leadership As Integration",
+    segment: 'Keynote',
+    speakers: [
+      "Natalie Turner - Inventor, CEO The 6'I', Women Who Lead, Advisory Board Executive"
+    ],
+    focus: [
+      'Keynote address'
+    ]
+  },
+  {
+    order: '05',
+    time: '12:50 - 13:20',
+    title: 'Panel Discussion: Women Leading the Change in GRC and Financial Crime Prevention',
+    segment: 'Panel',
+    speakers: [
+      'Moderator: Writam Chakraborty',
+      'Natalie Schoon - Principal Consultant, Formabb',
+      'Sinead Halhed-Moran Walsh - Founder, Financial Innovate HER, INED',
+      'Marilles Aires - Senior Legal Counsel, Advisory Board Executive',
+      'Yelena Ladyguaina - Ex-Chief Risk Officer, Advisory Boards Executive/NED',
+      'Beauty Mtonga - Group Head Risk Capital, ABSA Group',
+      'Loretta Joseph - Mcdonell-Nadeau, Principal Consultant, Senior Policy Advisor, Board Chair',
+      'Femi Jaiyeola - Chief Risk Officer, Access Bank Plc'
+    ],
+    focus: [
+      'Leading in complex regulatory environments',
+      'Building and retaining strong risk and compliance teams',
+      'Technology and data in modern GRC & FinCrime Prevention',
+      'Career pathways and leadership lessons',
+      'The role of allies in advancing inclusion'
+    ]
+  },
+  {
+    order: '06',
+    time: '13:20 - 13:25',
+    title: 'Audience Q&A',
+    segment: 'Engagement',
+    speakers: [
+      'Live questions from attendees',
+      'Pre-submitted questions',
+      'Moderator links keynote and panel insights'
+    ],
+    focus: [
+      'Interactive Q&A and discussion'
+    ]
+  },
+  {
+    order: '07',
+    time: '13:25 - 13:30',
+    title: 'Closing Remarks and Community Invitation',
+    segment: 'Closing',
+    speakers: [
+      'Pamela Ubah - Head of Financial Crime Compliance, Ecobank Plc, NED, WGRCFP'
+    ],
+    focus: [
+      'Invitation to join WGRCFP',
+      'Membership options and benefits',
+      'Ways to get involved: events, research, speaking, collaboration',
+      'Upcoming activities'
+    ]
+  }
+]
 
 // Strip HTML tags and return plain text preview
 const formattedSpeakerPreview = (speaker) => {

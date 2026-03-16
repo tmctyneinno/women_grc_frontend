@@ -4,16 +4,41 @@
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
                 <div>
                     <h5 class="fw-bold mb-1">Events Dashboard</h5>
-                    <p class="text-muted small mb-0">Manage and explore all registered events</p>
+                    <p class="text-muted small mb-0">
+                        {{ viewMode === 'events' ? 'Manage and explore all registered events' : 'Stream event highlights and expert conversations' }}
+                    </p>
                 </div>
 
-                <div class="position-relative" style="max-width: 300px;">
-                    <input v-model="searchQuery" type="text" placeholder="Search events..." class="form-control form-control-sm pe-5" />
-                    <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Events toggle">
+                        <button
+                            class="btn"
+                            :class="viewMode === 'events' ? 'btn-theme' : 'btn-outline-theme'"
+                            @click="viewMode = 'events'"
+                        >
+                            <i class="bi bi-calendar-event me-1"></i> Events
+                        </button>
+                        <button
+                            class="btn"
+                            :class="viewMode === 'podcasts' ? 'btn-theme' : 'btn-outline-theme'"
+                            @click="viewMode = 'podcasts'"
+                        >
+                            <i class="bi bi-mic-fill me-1"></i> Podcasts
+                        </button>
+                    </div>
+
+                    <div class="position-relative" style="max-width: 300px;" v-if="viewMode === 'events'">
+                        <input v-model="searchQuery" type="text" placeholder="Search events..." class="form-control form-control-sm pe-5" />
+                        <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
+                    </div>
+                    <div class="position-relative" style="max-width: 300px;" v-else>
+                        <input v-model="podcastSearchQuery" type="text" placeholder="Search podcasts..." class="form-control form-control-sm pe-5" />
+                        <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
+                    </div>
                 </div>
             </div>
 
-            <div class="row g-3 mb-4">
+            <div v-if="viewMode === 'events'" class="row g-3 mb-4">
                 <div class="col-6 col-md-3">
                     <div class="card border-0 h-100">
                         <div class="card-body">
@@ -76,7 +101,7 @@
                 </div>
             </div>
 
-            <div class="card border-0 mb-4">
+            <div v-if="viewMode === 'events'" class="card border-0 mb-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h6 class="fw-bold mb-0">My Booked Events</h6>
@@ -121,18 +146,175 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center mb-3">
+            <div v-else class="card border-0 mb-4 podcast-section">
+                <div class="card-body">
+                    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start gap-3 mb-3">
+                        <div>
+                            <div class="text-uppercase small text-muted">Events Audio</div>
+                            <h6 class="fw-bold mb-1">Podcast Lounge</h6>
+                            <p class="text-muted small mb-0">Stream event highlights and expert conversations. No downloads.</p>
+                        </div>
+                        <div class="podcast-chip">
+                            {{ podcastEpisodes.length }} episodes
+                        </div>
+                    </div>
+
+                    <div class="podcast-grid">
+                        <div class="podcast-list">
+                            <div class="podcast-filters">
+                                <button
+                                    v-for="chip in podcastFilters"
+                                    :key="chip"
+                                    class="podcast-filter"
+                                    :class="{ 'podcast-filter-active': activePodcastFilter === chip }"
+                                    @click="activePodcastFilter = chip"
+                                >
+                                    {{ chip }}
+                                </button>
+                            </div>
+
+                            <div v-if="podcastLoading" class="text-center text-muted py-4">
+                                <div class="spinner-border spinner-border-sm text-theme" role="status"></div>
+                                <div class="small mt-2">Loading podcasts...</div>
+                            </div>
+
+                            <div v-else-if="filteredPodcastEpisodes.length === 0" class="text-center text-muted py-4">
+                                <i class="bi bi-mic text-muted fs-4"></i>
+                                <div class="small mt-2">No podcasts available yet.</div>
+                            </div>
+
+                            <div v-else class="podcast-episode-list">
+                                <button
+                                    v-for="episode in filteredPodcastEpisodes"
+                                    :key="episode.id"
+                                    class="podcast-episode"
+                                    :class="{
+                                        'podcast-episode-active': activePodcast?.id === episode.id,
+                                        'podcast-episode-disabled': !episode.audio_url
+                                    }"
+                                    @click="selectPodcast(episode)"
+                                >
+                                    <div class="podcast-cover">
+                                        <img :src="episode.cover_url" alt="cover" />
+                                    </div>
+                                    <div class="podcast-body">
+                                        <div class="fw-semibold">{{ episode.title }}</div>
+                                        <div class="small text-muted">{{ episode.host }} · {{ episode.duration }}</div>
+                                        <div class="small text-muted mt-1">{{ episode.summary }}</div>
+                                        <div v-if="episode.last_position_seconds" class="small text-theme mt-1">
+                                            Resume at {{ formatSeconds(episode.last_position_seconds) }}
+                                        </div>
+                                        <div v-if="episode.contributors?.length" class="podcast-contributors mt-2">
+                                            <div class="avatar-stack">
+                                                <img
+                                                    v-for="(contributor, idx) in episode.contributors.slice(0, 3)"
+                                                    :key="contributor.id"
+                                                    :src="contributor.photo_url || '/images/avatar-placeholder.jpg'"
+                                                    :alt="contributor.name"
+                                                    :style="{
+                                                        marginLeft: idx > 0 ? '-8px' : '0',
+                                                        width: '24px',
+                                                        height: '24px',
+                                                        objectFit: 'cover',
+                                                        borderRadius: '50%',
+                                                        border: '2px solid #fff',
+                                                        zIndex: 10 - idx
+                                                    }"
+                                                />
+                                            </div>
+                                            <span class="small text-muted ms-2">
+                                                {{ episode.contributors.map((c) => c.name).slice(0, 2).join(', ') }}
+                                            </span>
+                                        </div>
+                                        <div class="podcast-tags mt-2">
+                                            <span class="podcast-tag">{{ episode.tag }}</span>
+                                            <span v-if="!episode.audio_url" class="podcast-tag muted">Coming soon</span>
+                                        </div>
+                                    </div>
+                                    <div class="podcast-icon">
+                                        <i v-if="activePodcast?.id === episode.id" class="bi bi-pause-circle-fill"></i>
+                                        <i v-else class="bi bi-play-circle"></i>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="podcast-player">
+                            <div class="podcast-player-card">
+                                <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                                    <div>
+                                        <div class="fw-semibold">{{ activePodcast?.title || 'Select an episode' }}</div>
+                                        <div class="small text-muted">{{ activePodcast?.host || 'WGRCFCP Audio' }}</div>
+                                    </div>
+                                    <span class="podcast-badge">{{ activePodcast?.tag || 'Podcast' }}</span>
+                                </div>
+
+                                <div class="small text-muted mb-3">
+                                    {{ activePodcast?.summary || 'Choose an episode from the list to start listening.' }}
+                                </div>
+
+                                <div v-if="activePodcast?.contributors?.length" class="podcast-hosts mb-3">
+                                    <div class="small text-muted mb-2">Contributors</div>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <div v-for="contributor in activePodcast.contributors" :key="contributor.id" class="podcast-host">
+                                            <img :src="contributor.photo_url || '/images/avatar-placeholder.jpg'" :alt="contributor.name" />
+                                            <div>
+                                                <div class="small fw-semibold">{{ contributor.name }}</div>
+                                                <div class="small text-muted">{{ contributor.role }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="podcast-meta">
+                                    <div>
+                                        <div class="podcast-meta-label">Duration</div>
+                                        <div class="podcast-meta-value">{{ activePodcast?.duration || '--:--' }}</div>
+                                    </div>
+                                    <div>
+                                        <div class="podcast-meta-label">Format</div>
+                                        <div class="podcast-meta-value">Streaming only</div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <audio
+                                        v-if="podcastAudioSrc"
+                                        ref="podcastAudioRef"
+                                        class="w-100"
+                                        controls
+                                        preload="metadata"
+                                        controlslist="nodownload noplaybackrate"
+                                        :disablePictureInPicture="true"
+                                        :src="podcastAudioSrc"
+                                        @contextmenu.prevent
+                                    ></audio>
+                                    <div v-else class="podcast-empty">
+                                        <i class="bi bi-music-note-beamed"></i>
+                                        <div>No audio selected.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="small text-muted text-center mt-2">
+                                Audio loads only when you play an episode to keep the app fast.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="viewMode === 'events'" class="d-flex justify-content-between align-items-center mb-3">
                         <h6 class="fw-bold mb-0">All Events</h6>
                         <span class="small text-muted">{{ filteredEvents.length }} total</span>
             </div>
 
-            <div v-if="loading" class="text-center py-5">
+            <div v-if="viewMode === 'events' && loading" class="text-center py-5">
                 <div class="spinner-border text-theme" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
 
-            <div v-else-if="filteredEvents.length === 0" class="text-center py-5">
+            <div v-else-if="viewMode === 'events' && filteredEvents.length === 0" class="text-center py-5">
                 <div class="mb-3">
                     <i class="bi bi-calendar-x fs-1 text-muted"></i>
                 </div>
@@ -140,7 +322,7 @@
                 <p class="text-muted small">Try adjusting your search or check back later</p>
             </div>
 
-            <div v-else class="row g-4">
+            <div v-else-if="viewMode === 'events'" class="row g-4">
                 <div v-for="event in paginatedEvents" :key="event.id" class="col-12 col-lg-6">
                     <div class="card border-0 h-100 shadow-sm hover-card">
                         <div class="row g-0">
@@ -186,7 +368,7 @@
                                     <div class="small fw-semibold mb-3">
                                         {{ event.formatted_price }} &bull;
                                         <span v-if="event.capacity > 0">
-                                            {{ event.available_slots }} of {{ event.capacity }} slots available
+                                            {{ getBookedCount(event) }} of {{ event.capacity }} slots filled
                                         </span>
                                     </div>
 
@@ -220,7 +402,7 @@
 
                                         <button
                                             class="btn btn-theme btn-sm w-100"
-                                            :disabled="event.available_slots === 0"
+                                            :disabled="getAvailableSlots(event) === 0"
                                             @click="showEventDetails(event)"
                                         >
                                             <i class="bi bi-eye me-1"></i>
@@ -234,7 +416,7 @@
                 </div>
             </div>
 
-            <div v-if="filteredEvents.length > 0" class="d-flex justify-content-center mt-4">
+            <div v-if="viewMode === 'events' && filteredEvents.length > 0" class="d-flex justify-content-center mt-4">
                 <nav>
                     <ul class="pagination pagination-sm mb-0">
                         <li class="page-item" :class="{ disabled: currentPage === 1 }">
@@ -271,19 +453,22 @@ const events = ref<any[]>([])
 const myBookings = ref<any[]>([])
 const cartStore = useCartStore()
 const { getCached, setCached, clearCached } = useAccountCache()
+const bookingCounts = ref<Record<number, number>>({})
+const viewMode = ref<'events' | 'podcasts'>('events')
+const podcastSearchQuery = ref('')
+const podcastAudioRef = ref<HTMLAudioElement | null>(null)
+const podcastEpisodes = ref<PodcastEpisode[]>([])
+const podcastFilters = ['All', 'Leadership', 'Operations', 'Compliance', 'Security']
+const activePodcastFilter = ref('All')
+const activePodcast = ref<any>(null)
+const podcastLoading = ref(false)
+const podcastsLoaded = ref(false)
+const podcastProgress = ref<Record<number, any>>({})
+let podcastProgressTimer: number | null = null
+let eventSearchTimer: number | null = null
+let podcastSearchTimer: number | null = null
 
-const filteredEvents = computed(() => {
-    if (!searchQuery.value) return events.value
-
-    const query = searchQuery.value.toLowerCase()
-    return events.value.filter((event) =>
-        event.title.toLowerCase().includes(query) ||
-        event.description.toLowerCase().includes(query) ||
-        event.venue.toLowerCase().includes(query) ||
-        event.type.toLowerCase().includes(query) ||
-        event.speakers?.some((s: any) => s.name.toLowerCase().includes(query))
-    )
-})
+const filteredEvents = computed(() => events.value)
 
 const upcomingCount = computed(() => events.value.filter(e => e.is_upcoming).length)
 const ongoingCount = computed(() => events.value.filter(e => e.is_ongoing).length)
@@ -296,8 +481,17 @@ const paginatedEvents = computed(() => {
     return filteredEvents.value.slice(start, start + itemsPerPage)
 })
 
+const filteredPodcastEpisodes = computed(() => podcastEpisodes.value)
+
+const podcastAudioSrc = computed(() => activePodcast.value?.audio_url || '')
+
 watch(searchQuery, () => {
     currentPage.value = 1
+    if (viewMode.value !== 'events') return
+    if (eventSearchTimer) window.clearTimeout(eventSearchTimer)
+    eventSearchTimer = window.setTimeout(() => {
+        fetchEvents(false, searchQuery.value.trim())
+    }, 400)
 })
 
 watch(filteredEvents, () => {
@@ -306,7 +500,28 @@ watch(filteredEvents, () => {
     }
 })
 
-const apiHost = (import.meta.env.VITE_API_URL || 'https://api.wgrcfp.org').replace(/\/$/, '')
+const runtimeConfig = useRuntimeConfig()
+const apiHost = (
+    import.meta.env.VITE_API_URL ||
+    runtimeConfig.public.apiUrl ||
+    runtimeConfig.public.apiBaseUrl ||
+    'http://127.0.0.1:8000'
+).replace(/\/$/, '')
+
+type PodcastEpisode = {
+    id: number
+    title: string
+    host: string
+    duration?: string
+    tag?: string
+    summary?: string
+    cover_url?: string
+    audio_url?: string
+    last_position_seconds?: number
+    progress_seconds?: number
+    duration_seconds?: number
+    contributors?: { id: number; name: string; role?: string; photo_url?: string }[]
+}
 
 const toNumber = (value: string | number | null | undefined) => {
     const parsed = Number(value ?? 0)
@@ -335,6 +550,47 @@ const resolveImage = (path: string | null) => {
     const cleanPath = path.startsWith('/') ? path.slice(1) : path
     const normalizedPath = cleanPath.startsWith('storage/') ? cleanPath.slice('storage/'.length) : cleanPath
     return `${apiHost}/storage/${normalizedPath}`
+}
+
+const resolvePodcastImage = (path: string | null) => {
+    if (!path) return '/images/event-placeholder.svg'
+    if (path.startsWith('http://')) return path.replace('http://', 'https://')
+    if (path.startsWith('https://')) return path
+    if (path.startsWith('/storage/')) return `${apiHost}${path}`
+
+    const cleanPath = path.startsWith('/') ? path.slice(1) : path
+    const normalizedPath = cleanPath.startsWith('storage/') ? cleanPath.slice('storage/'.length) : cleanPath
+    return `${apiHost}/storage/${normalizedPath}`
+}
+
+const formatSeconds = (value: number) => {
+    const total = Math.max(0, Math.floor(value || 0))
+    const minutes = Math.floor(total / 60)
+    const seconds = total % 60
+    return `${minutes}:${String(seconds).padStart(2, '0')}`
+}
+
+const normalizePodcast = (podcast: any): PodcastEpisode => {
+    const contributors = Array.isArray(podcast?.contributors) ? podcast.contributors : []
+    const host = contributors.length ? contributors.map((c: any) => c.name).join(', ') : 'WGRCFCP Audio'
+    const rawCover = podcast?.cover_path || podcast?.cover_url || null
+    const rawAudio = podcast?.audio_path || podcast?.audio_url || null
+    return {
+        id: Number(podcast?.id || 0),
+        title: podcast?.title || 'Untitled Podcast',
+        host,
+        duration: podcast?.duration || '--:--',
+        tag: podcast?.tag || 'Podcast',
+        summary: podcast?.summary || 'No summary provided yet.',
+        cover_url: resolvePodcastImage(rawCover),
+        audio_url: resolvePodcastImage(rawAudio),
+        contributors: contributors.map((contributor: any, idx: number) => ({
+            id: Number(contributor?.id || idx),
+            name: contributor?.name || 'Contributor',
+            role: contributor?.role || '',
+            photo_url: resolvePodcastImage(contributor?.photo_path || contributor?.photo_url || null),
+        })),
+    }
 }
 
 const randomExternalEventImage = () => {
@@ -392,6 +648,41 @@ const normalizeEvent = (event: any) => {
     }
 }
 
+const getBookedCount = (event: any) => {
+    if (Number.isFinite(Number(event?.registered_count))) {
+        return Number(event.registered_count)
+    }
+    return Math.max(Number(event?.capacity || 0) - Number(event?.available_slots || 0), 0)
+}
+
+const getAvailableSlots = (event: any) => {
+    const capacity = Number(event?.capacity || 0)
+    if (capacity <= 0) return 0
+    if (Number.isFinite(Number(event?.registered_count))) {
+        return Math.max(capacity - Number(event.registered_count), 0)
+    }
+    return Math.max(Number(event?.available_slots || 0), 0)
+}
+
+const applyBookingCounts = () => {
+    if (!events.value.length) return
+    if (!Object.keys(bookingCounts.value).length) return
+
+    events.value = events.value.map((event) => {
+        const count = bookingCounts.value[Number(event.id)]
+        if (Number.isFinite(count)) {
+            const capacity = Number(event.capacity || 0)
+            const available = capacity > 0 ? Math.max(capacity - count, 0) : 0
+            return {
+                ...event,
+                registered_count: count,
+                available_slots: available,
+            }
+        }
+        return event
+    })
+}
+
 const formatDate = (dateStr: string) => {
     if (!dateStr) return 'TBD'
     const date = new Date(dateStr)
@@ -424,6 +715,18 @@ const goToPreviousPage = () => {
 
 const goToNextPage = () => {
     if (currentPage.value < totalPages.value) currentPage.value += 1
+}
+
+const selectPodcast = (episode: PodcastEpisode) => {
+    if (!episode.audio_url) return
+    activePodcast.value = episode
+    nextTick(() => {
+        if (podcastAudioRef.value) {
+            podcastAudioRef.value.pause()
+            podcastAudioRef.value.load()
+            podcastAudioRef.value.play().catch(() => undefined)
+        }
+    })
 }
 
 const addEventToCart = async (event: any) => {
@@ -540,20 +843,22 @@ const showEventDetails = async (event: any) => {
     }
 }
 
-const fetchEvents = async (force = false) => {
+const fetchEvents = async (force = false, query = '') => {
     loading.value = true
     try {
+        const cacheKey = `account-events:${query || 'all'}`
         if (!force) {
-            const cached = getCached<any[]>('account-events')
+            const cached = getCached<any[]>(cacheKey)
             if (cached) {
                 events.value = cached
                 return
             }
         }
-        const response = await api.events()
+        const response = await api.events(query ? { q: query } : {})
         const payload = response?.data?.data?.data || []
         events.value = payload.map((event: any) => normalizeEvent(event))
-        setCached('account-events', events.value, 180000)
+        applyBookingCounts()
+        setCached(cacheKey, events.value, 180000)
     } catch (error: any) {
         events.value = []
         await Swal.fire({
@@ -584,16 +889,190 @@ const fetchMyBookings = async (force = false) => {
             booked_at: booking.booked_at,
             event: normalizeEvent(booking.event || {}),
         }))
+        bookingCounts.value = payload.reduce((acc: Record<number, number>, booking: any) => {
+            const eventId = Number(booking?.event?.id || 0)
+            const count = Number(booking?.event?.registered_count ?? NaN)
+            if (eventId > 0 && Number.isFinite(count)) {
+                acc[eventId] = count
+            }
+            return acc
+        }, {})
+        applyBookingCounts()
         setCached('account-event-bookings', myBookings.value, 180000)
     } catch (error) {
         myBookings.value = []
     }
 }
 
+const fetchPodcasts = async (force = false, query = '', tag = '') => {
+    if (podcastsLoaded.value && !force && !query && !tag) return
+    if (podcastLoading.value) return
+    podcastLoading.value = true
+    try {
+        const cacheKey = `account-podcasts:${query || 'all'}:${tag || 'all'}`
+        if (!force) {
+            const cached = getCached<any[]>(cacheKey)
+            if (cached) {
+                podcastEpisodes.value = cached.map((podcast: any) => normalizePodcast(podcast))
+                activePodcast.value = podcastEpisodes.value.find((ep) => ep.audio_url) || podcastEpisodes.value[0] || null
+                await fetchPodcastProgress(false)
+                applyPodcastProgress()
+                podcastsLoaded.value = true
+                return
+            }
+        }
+
+        const params: Record<string, any> = {}
+        if (query) params.search = query
+        if (tag) params.tag = tag
+        const response = await api.podcasts(params)
+        const payload = response?.data?.data?.data || []
+        podcastEpisodes.value = payload.map((podcast: any) => normalizePodcast(podcast))
+        activePodcast.value = podcastEpisodes.value.find((ep) => ep.audio_url) || podcastEpisodes.value[0] || null
+        setCached(cacheKey, payload, 180000)
+        await fetchPodcastProgress(true)
+        applyPodcastProgress()
+        podcastsLoaded.value = true
+    } catch (error) {
+        podcastEpisodes.value = []
+    } finally {
+        podcastLoading.value = false
+    }
+}
+
+const fetchPodcastProgress = async (force = false) => {
+    if (!force) {
+        const cached = getCached<any>('account-podcast-progress')
+        if (cached) {
+            podcastProgress.value = cached
+            return
+        }
+    }
+
+    try {
+        const response = await api.podcastProgress()
+        const list = response?.data?.data || []
+        const map = list.reduce((acc: Record<number, any>, item: any) => {
+            acc[Number(item.podcast_id)] = item
+            return acc
+        }, {})
+        podcastProgress.value = map
+        setCached('account-podcast-progress', map, 180000)
+    } catch (error) {
+        podcastProgress.value = {}
+    }
+}
+
+const applyPodcastProgress = () => {
+    if (!podcastEpisodes.value.length) return
+    podcastEpisodes.value = podcastEpisodes.value.map((episode) => {
+        const progress = podcastProgress.value[episode.id]
+        if (!progress) return episode
+        return {
+            ...episode,
+            last_position_seconds: progress.last_position_seconds || 0,
+            progress_seconds: progress.progress_seconds || 0,
+            duration_seconds: progress.duration_seconds || 0,
+        }
+    })
+}
+
+const seekToProgress = () => {
+    if (!podcastAudioRef.value || !activePodcast.value) return
+    const progress = podcastProgress.value[Number(activePodcast.value.id)]
+    const position = Number(progress?.last_position_seconds || 0)
+    if (position > 2 && podcastAudioRef.value.duration) {
+        podcastAudioRef.value.currentTime = Math.min(position, podcastAudioRef.value.duration - 1)
+    }
+}
+
+const savePodcastProgress = async (isCompleted = false) => {
+    if (!activePodcast.value || !podcastAudioRef.value) return
+    const duration = Number(podcastAudioRef.value.duration || 0)
+    const current = Number(podcastAudioRef.value.currentTime || 0)
+    if (!Number.isFinite(current)) return
+
+    try {
+        const payload = {
+            last_position_seconds: Math.floor(current),
+            duration_seconds: duration ? Math.floor(duration) : undefined,
+            progress_seconds: Math.floor(current),
+            completed: isCompleted,
+        }
+        await api.podcastUpdateProgress(activePodcast.value.id, payload)
+        podcastProgress.value[Number(activePodcast.value.id)] = {
+            podcast_id: Number(activePodcast.value.id),
+            ...payload,
+        }
+        setCached('account-podcast-progress', podcastProgress.value, 180000)
+    } catch (error) {
+        // ignore save errors
+    }
+}
+
+const bindPodcastAudioEvents = () => {
+    if (!podcastAudioRef.value) return
+    podcastAudioRef.value.removeEventListener('loadedmetadata', onPodcastLoadedMetadata)
+    podcastAudioRef.value.removeEventListener('pause', onPodcastPause)
+    podcastAudioRef.value.removeEventListener('ended', onPodcastEnded)
+    podcastAudioRef.value.addEventListener('loadedmetadata', onPodcastLoadedMetadata)
+    podcastAudioRef.value.addEventListener('pause', onPodcastPause)
+    podcastAudioRef.value.addEventListener('ended', onPodcastEnded)
+}
+
+const clearPodcastTimer = () => {
+    if (podcastProgressTimer) {
+        window.clearInterval(podcastProgressTimer)
+        podcastProgressTimer = null
+    }
+}
+
+const onPodcastLoadedMetadata = () => seekToProgress()
+const onPodcastPause = () => savePodcastProgress(false)
+const onPodcastEnded = () => savePodcastProgress(true)
+
 onMounted(() => {
     cartStore.fetchCart()
     fetchEvents()
     fetchMyBookings()
+})
+
+watch(viewMode, (value) => {
+    if (value === 'podcasts' && !podcastsLoaded.value) {
+        fetchPodcasts(false, podcastSearchQuery.value.trim(), activePodcastFilter.value === 'All' ? '' : activePodcastFilter.value)
+    }
+    if (value === 'events') {
+        fetchEvents(false, searchQuery.value.trim())
+    }
+})
+
+watch([podcastSearchQuery, activePodcastFilter], () => {
+    if (viewMode.value !== 'podcasts') return
+    if (podcastSearchTimer) window.clearTimeout(podcastSearchTimer)
+    podcastSearchTimer = window.setTimeout(() => {
+        const tag = activePodcastFilter.value === 'All' ? '' : activePodcastFilter.value
+        fetchPodcasts(false, podcastSearchQuery.value.trim(), tag)
+    }, 400)
+})
+
+watch(activePodcast, () => {
+    clearPodcastTimer()
+    if (viewMode.value !== 'podcasts') return
+    nextTick(() => {
+        bindPodcastAudioEvents()
+        podcastProgressTimer = window.setInterval(() => {
+            savePodcastProgress(false)
+        }, 15000)
+    })
+})
+
+onBeforeUnmount(() => {
+    clearPodcastTimer()
+    if (podcastAudioRef.value) {
+        podcastAudioRef.value.removeEventListener('loadedmetadata', onPodcastLoadedMetadata)
+        podcastAudioRef.value.removeEventListener('pause', onPodcastPause)
+        podcastAudioRef.value.removeEventListener('ended', onPodcastEnded)
+    }
 })
 </script>
 
@@ -650,5 +1129,225 @@ onMounted(() => {
     border: 1px solid #edf1fb;
     border-radius: 10px;
     padding: 10px;
+}
+
+.podcast-section {
+    background: linear-gradient(135deg, rgba(41, 53, 103, 0.08), rgba(176, 52, 54, 0.05));
+    border: 1px solid #e9ecfb;
+}
+
+.podcast-chip {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #f1f3ff;
+    font-size: 12px;
+    color: #2c3767;
+}
+
+.podcast-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+    gap: 20px;
+}
+
+.podcast-list {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #e5e7f5;
+    padding: 14px;
+}
+
+.podcast-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.podcast-filter {
+    border: 1px solid #dbe0ff;
+    background: #fff;
+    color: #2c3767;
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.podcast-filter-active {
+    background: #2c3767;
+    color: #fff;
+    border-color: #2c3767;
+}
+
+.podcast-episode-list {
+    display: grid;
+    gap: 12px;
+}
+
+.podcast-episode {
+    border: 1px solid #e8ecff;
+    background: #fbfcff;
+    border-radius: 14px;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: 52px 1fr 30px;
+    gap: 12px;
+    align-items: center;
+    text-align: left;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.podcast-episode:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(31, 43, 90, 0.08);
+}
+
+.podcast-episode-active {
+    border-color: #cfd6ff;
+    background: #f0f3ff;
+}
+
+.podcast-episode-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.podcast-cover {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: #f0f3ff;
+}
+
+.podcast-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.podcast-tags {
+    display: flex;
+    gap: 6px;
+}
+
+.podcast-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #eef1ff;
+    color: #2c3767;
+}
+
+.podcast-tag.muted {
+    background: #f4f4f4;
+    color: #8a92ad;
+}
+
+.podcast-icon {
+    font-size: 20px;
+    color: #2c3767;
+}
+
+.podcast-contributors {
+    display: flex;
+    align-items: center;
+}
+
+.podcast-hosts {
+    border-top: 1px solid #eef1ff;
+    padding-top: 10px;
+}
+
+.podcast-host {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    background: #f8f9ff;
+    border-radius: 999px;
+    padding: 4px 8px 4px 4px;
+}
+
+.podcast-host img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+}
+
+.podcast-player {
+    position: sticky;
+    top: 110px;
+    align-self: start;
+    display: grid;
+    gap: 10px;
+}
+
+.podcast-player-card {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #e5e7f5;
+    padding: 16px;
+    box-shadow: 0 12px 24px rgba(31, 43, 90, 0.06);
+}
+
+.podcast-badge {
+    background: #fff0f0;
+    color: #b03436;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.podcast-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.podcast-meta-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8089aa;
+}
+
+.podcast-meta-value {
+    font-weight: 700;
+    color: #1f2b5a;
+}
+
+.podcast-empty {
+    display: grid;
+    place-items: center;
+    border: 1px dashed #dbe0ff;
+    border-radius: 12px;
+    padding: 20px;
+    color: #7c86a7;
+    gap: 6px;
+}
+
+@media (max-width: 992px) {
+    .podcast-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .podcast-player {
+        position: static;
+    }
+}
+
+@media (max-width: 600px) {
+    .podcast-episode {
+        grid-template-columns: 48px 1fr;
+    }
+
+    .podcast-icon {
+        display: none;
+    }
 }
 </style>
