@@ -271,6 +271,66 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card border-0 mt-4">
+                <div class="card-body">
+                    <div class="fw-semibold text-uppercase text-muted small">Membership Eligibility</div>
+                    <h4 class="fw-bold mb-2">WGRCFP General Eligibility Criteria</h4>
+                    <p class="text-muted mb-4">Applicant must meet at least one of these criteria.</p>
+
+                    <div class="row g-3">
+                        <div class="col-md-6 col-xl-4">
+                            <div class="criteria-card">
+                                <div class="criteria-title">Professional Experience</div>
+                                <div class="criteria-text">
+                                    Currently employed or previously worked in roles related to: Governance, Risk Management,
+                                    Internal Audit, or Regulatory Affairs; Compliance, Ethics, Legal Advisory, ESG or Sustainability
+                                    Governance; Financial Crime Prevention, AML, Sanctions, Fraud, or Cybersecurity; Data Privacy,
+                                    Digital Risk, FinTech Regulation, or Policy and Oversight.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div class="criteria-card">
+                                <div class="criteria-title">Academic/Student Affiliation</div>
+                                <div class="criteria-text">
+                                    Enrolled in or recently graduated from a degree, certification, or training program in GRC, Law,
+                                    Finance, Criminology, Cybersecurity, ESG, Business Management, or a closely aligned field.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div class="criteria-card">
+                                <div class="criteria-title">Entrepreneurial or Advisory Roles</div>
+                                <div class="criteria-text">
+                                    Founder or senior leader of a business, consultancy, NGO, or initiative operating in the risk,
+                                    compliance, legal, financial, ESG, or anti-fraud sectors.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div class="criteria-card">
+                                <div class="criteria-title">Advocacy and Research</div>
+                                <div class="criteria-text">
+                                    Active contributor in academia, policy, journalism, or advocacy working on risk, ethical
+                                    leadership, regulatory frameworks, or financial transparency.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div class="criteria-card">
+                                <div class="criteria-title">Types of Membership</div>
+                                <div class="criteria-text">
+                                    Professional women with 2+ years experience in any GRC or Financial Crime Prevention field.
+                                    Student or emerging women currently in or recently completed formal training in related disciplines.
+                                    Executive or leader: Senior professionals, board members, and founders across relevant industries.
+                                    Ally or supporter: Male allies or professionals who support gender equity and ethical governance.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </NuxtLayout>
 </template>
@@ -842,6 +902,26 @@ onMounted(async () => {
     background: #fff;
     padding: 18px;
     box-shadow: 0 20px 40px rgba(17, 29, 59, 0.22);
+}
+
+.criteria-card {
+    border-radius: 14px;
+    border: 1px solid #e3e9fb;
+    background: #fff;
+    padding: 16px;
+    height: 100%;
+}
+
+.criteria-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #293567;
+}
+
+.criteria-text {
+    color: #5b647b;
+    font-size: 14px;
+    line-height: 1.6;
 }
 
 .line-clamp-3 {

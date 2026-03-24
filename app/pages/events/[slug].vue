@@ -268,11 +268,28 @@
                   Official Programme
                 </div>
                 <h2 class="text-2xl font-bold text-gray-800 mb-2">
-                  Updated WGRCFP Official Launch & Inaugural Summit Programme
+                  WGRCFP Official Launch & Inaugural Summit Programme
                 </h2>
                 <p class="text-gray-600">
                   Theme: Shaping the Future of Governance, Risk, Compliance and Financial Crime Prevention: Women Leading the Change
                 </p>
+                <div class="mt-4">
+                  <div class="text-xs uppercase tracking-wider font-semibold mb-1" style="color:#b03436;">
+                    Host & Convener
+                  </div>
+                  <p class="text-gray-700 font-semibold">
+                     Women in Governance, Risk, Compliance & Financial crime Prevention-WGRCFP
+                  </p>
+                </div>
+
+                <div class="mt-4">
+                  <div class="text-xs uppercase tracking-wider font-semibold mb-1" style="color:#b03436;">
+                    President
+                  </div>
+                  <p class="text-gray-700 font-semibold">
+                    Dr. Foluso Amusa
+                  </p>
+                </div>
               </div>
               <div class="rounded-2xl p-4 w-full lg:w-auto" style="background: linear-gradient(90deg, rgba(176, 52, 54, 0.10), rgba(41, 53, 103, 0.10)); border: 1px solid rgba(176, 52, 54, 0.2);">
                 <div class="text-sm text-gray-500">Date</div>
@@ -303,7 +320,13 @@
                   <div class="md:col-span-1">
                     <div class="text-xs uppercase tracking-wider font-semibold mb-2" style="color:#b03436;">Speakers</div>
                     <ul class="text-gray-700 space-y-1">
-                      <li v-for="(speaker, idx) in item.speakers" :key="idx">{{ speaker }}</li>
+                      <li v-for="(speaker, idx) in item.speakers" :key="idx">
+                        <span>{{ speakerName(speaker) }}</span>
+                        <template v-if="speakerRole(speaker)">
+                          <span> - </span>
+                          <span class="font-semibold text-gray-800">{{ speakerRole(speaker) }}</span>
+                        </template>
+                      </li>
                     </ul>
                   </div>
                   <div class="md:col-span-2">
@@ -916,6 +939,20 @@ const wgrcfpProgram = [
     ]
   }
 ]
+
+const speakerName = (speaker) => {
+  if (!speaker) return ''
+  const parts = String(speaker).split(' - ')
+  return parts[0] || ''
+}
+
+const speakerRole = (speaker) => {
+  if (!speaker) return ''
+  const parts = String(speaker).split(' - ')
+  if (parts.length <= 1) return ''
+  parts.shift()
+  return parts.join(' - ')
+}
 
 // Strip HTML tags and return plain text preview
 const formattedSpeakerPreview = (speaker) => {

@@ -268,8 +268,8 @@
                 Application Requirement
             </div>
 
-            <div class="row mt-3">
-                <div v-for="(appReq, index) in pageContents.applicationRequirement" :key="index" class="col">
+            <div class="row mt-3 g-3">
+                <div v-for="(appReq, index) in pageContents.applicationRequirement" :key="index" class="col-md-4">
                     <div class="card border-0 ">
                         <div class="card-body">
                             <div class="d-flex justify-content-center">
@@ -443,6 +443,10 @@ const membershipCategories = {
     height: 40px;
     border-radius: 50%;
     color: #fff;
+}
+
+.h-10 {
+    height: auto !important;
 }
 
 .accordion-button {

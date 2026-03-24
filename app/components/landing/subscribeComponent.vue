@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            <!-- ✅ CAPTCHA -->
+            <!-- ✅ CAPTCHA 
             <div class="d-flex justify-content-center mt-4">
                 <form @submit.prevent="submitForm">
 
@@ -40,7 +40,7 @@
 
                 <button class="btn btn-theme">Submit</button>
                 </form>
-            </div>
+            </div>-->
         </div>
     </div>
 </template>

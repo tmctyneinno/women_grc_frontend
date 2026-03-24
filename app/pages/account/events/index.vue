@@ -244,7 +244,7 @@
                                 <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
                                     <div>
                                         <div class="fw-semibold">{{ activePodcast?.title || 'Select an episode' }}</div>
-                                        <div class="small text-muted">{{ activePodcast?.host || 'WGRCFCP Audio' }}</div>
+                                        <div class="small text-muted">{{ activePodcast?.host || 'WGRCFP Audio' }}</div>
                                     </div>
                                     <span class="podcast-badge">{{ activePodcast?.tag || 'Podcast' }}</span>
                                 </div>
@@ -572,7 +572,7 @@ const formatSeconds = (value: number) => {
 
 const normalizePodcast = (podcast: any): PodcastEpisode => {
     const contributors = Array.isArray(podcast?.contributors) ? podcast.contributors : []
-    const host = contributors.length ? contributors.map((c: any) => c.name).join(', ') : 'WGRCFCP Audio'
+    const host = contributors.length ? contributors.map((c: any) => c.name).join(', ') : 'WGRCFP Audio'
     const rawCover = podcast?.cover_path || podcast?.cover_url || null
     const rawAudio = podcast?.audio_path || podcast?.audio_url || null
     return {
