@@ -6,7 +6,7 @@
                     <div>
                         <div class="small text-uppercase fw-semibold hero-kicker mb-1">Search</div>
                         <h3 class="fw-bold mb-2">Find anything across your account</h3>
-                        <p class="mb-0">Courses, forums, events, and podcasts — all in one place.</p>
+                        <p class="mb-0">Courses, forums, events, podcasts, and articles -- all in one place.</p>
                     </div>
                     <div class="search-box mt-3 mt-lg-0">
                         <i class="bi bi-search text-muted"></i>
@@ -104,6 +104,28 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row g-3 mt-3">
+                    <div class="col-lg-6">
+                        <div class="card border-0 h-100">
+                            <div class="card-body">
+                                <div class="fw-semibold mb-2">Articles</div>
+                                <div v-if="articles.length === 0" class="small text-muted">No articles found.</div>
+                                <div v-else class="d-grid gap-2">
+                                    <div v-for="article in articles" :key="article.id" class="search-row">
+                                        <div>
+                                            <div class="fw-medium">{{ article.title }}</div>
+                                            <div class="small text-muted">{{ article.tag || 'Article' }}</div>
+                                        </div>
+                                        <NuxtLink :to="`/account/events`" class="btn btn-outline-theme btn-sm">
+                                            Read
+                                        </NuxtLink>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </template>
         </div>
     </NuxtLayout>
@@ -123,6 +145,7 @@ const courses = ref<any[]>([])
 const forums = ref<any[]>([])
 const events = ref<any[]>([])
 const podcasts = ref<any[]>([])
+const articles = ref<any[]>([])
 let searchTimer: number | null = null
 
 const loadSearch = async () => {
@@ -132,17 +155,19 @@ const loadSearch = async () => {
         forums.value = []
         events.value = []
         podcasts.value = []
+        articles.value = []
         return
     }
 
     loading.value = true
     try {
-        const [coursesRes, forumsRes, forumMineRes, eventsRes, podcastsRes] = await Promise.all([
+        const [coursesRes, forumsRes, forumMineRes, eventsRes, podcastsRes, articlesRes] = await Promise.all([
             api.learningCourses({ q: query }),
             api.forumList({ q: query }),
             api.forumList({ mine: 1, q: query }),
             api.events({ q: query }),
             api.podcasts({ search: query }),
+            api.articles({ q: query }),
         ])
 
         const coursesPayload = coursesRes?.data?.data?.data || coursesRes?.data?.data || []
@@ -161,6 +186,9 @@ const loadSearch = async () => {
 
         const podcastPayload = podcastsRes?.data?.data?.data || []
         podcasts.value = Array.isArray(podcastPayload) ? podcastPayload : []
+
+        const articlePayload = articlesRes?.data?.data?.data || []
+        articles.value = Array.isArray(articlePayload) ? articlePayload : []
     } finally {
         loading.value = false
     }

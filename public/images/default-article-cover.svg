@@ -1,0 +1,26 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="675" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1C2555"/>
+      <stop offset="0.55" stop-color="#2F3F86"/>
+      <stop offset="1" stop-color="#4A2A4B"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E5E9FF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.15"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <circle cx="965" cy="118" r="120" fill="#B03436" fill-opacity="0.25"/>
+  <circle cx="150" cy="540" r="180" fill="#1B1F3B" fill-opacity="0.5"/>
+  <rect x="96" y="130" width="1008" height="415" rx="24" fill="url(#accent)" opacity="0.45"/>
+  <rect x="140" y="190" width="920" height="64" rx="16" fill="#FFFFFF" fill-opacity="0.85"/>
+  <rect x="140" y="280" width="720" height="24" rx="12" fill="#FFFFFF" fill-opacity="0.6"/>
+  <rect x="140" y="320" width="560" height="24" rx="12" fill="#FFFFFF" fill-opacity="0.4"/>
+  <text x="140" y="460" fill="#F4F6FF" font-family="Inter, Arial, sans-serif" font-size="36" font-weight="600">
+    WGRCFP Article
+  </text>
+  <text x="140" y="505" fill="#D9DFFF" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="400">
+    Default cover image
+  </text>
+</svg>

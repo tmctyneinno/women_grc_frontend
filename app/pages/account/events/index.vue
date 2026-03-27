@@ -5,7 +5,13 @@
                 <div>
                     <h5 class="fw-bold mb-1">Events Dashboard</h5>
                     <p class="text-muted small mb-0">
-                        {{ viewMode === 'events' ? 'Manage and explore all registered events' : 'Stream event highlights and expert conversations' }}
+                        {{
+                            viewMode === 'events'
+                                ? 'Manage and explore all registered events'
+                                : viewMode === 'podcasts'
+                                    ? 'Stream event highlights and expert conversations'
+                                    : 'Read event insights, recaps, and expert articles'
+                        }}
                     </p>
                 </div>
 
@@ -25,14 +31,25 @@
                         >
                             <i class="bi bi-mic-fill me-1"></i> Podcasts
                         </button>
+                        <button
+                            class="btn"
+                            :class="viewMode === 'articles' ? 'btn-theme' : 'btn-outline-theme'"
+                            @click="viewMode = 'articles'"
+                        >
+                            <i class="bi bi-journal-text me-1"></i> Articles
+                        </button>
                     </div>
 
                     <div class="position-relative" style="max-width: 300px;" v-if="viewMode === 'events'">
                         <input v-model="searchQuery" type="text" placeholder="Search events..." class="form-control form-control-sm pe-5" />
                         <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
                     </div>
-                    <div class="position-relative" style="max-width: 300px;" v-else>
+                    <div class="position-relative" style="max-width: 300px;" v-else-if="viewMode === 'podcasts'">
                         <input v-model="podcastSearchQuery" type="text" placeholder="Search podcasts..." class="form-control form-control-sm pe-5" />
+                        <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
+                    </div>
+                    <div class="position-relative" style="max-width: 300px;" v-else>
+                        <input v-model="articleSearchQuery" type="text" placeholder="Search articles..." class="form-control form-control-sm pe-5" />
                         <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
                     </div>
                 </div>
@@ -146,7 +163,7 @@
                 </div>
             </div>
 
-            <div v-else class="card border-0 mb-4 podcast-section">
+            <div v-else-if="viewMode === 'podcasts'" class="card border-0 mb-4 podcast-section">
                 <div class="card-body">
                     <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start gap-3 mb-3">
                         <div>
@@ -303,6 +320,59 @@
                 </div>
             </div>
 
+            <div v-else-if="viewMode === 'articles'" class="card border-0 mb-4 article-section">
+                <div class="card-body">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
+                        <div>
+                            <div class="text-uppercase small text-muted">Events Library</div>
+                            <h6 class="fw-bold mb-1">Article Hub</h6>
+                            <p class="text-muted small mb-0">Explore event write-ups, insights, and community stories.</p>
+                        </div>
+                        <div class="d-flex flex-column align-items-md-end gap-2">
+                            <div class="article-chip">
+                                {{ filteredArticles.length }} articles
+                            </div>
+                            <NuxtLink class="btn btn-sm btn-theme" to="/account/events/articles/create">
+                                <i class="bi bi-plus-circle me-1"></i>
+                                Submit Article
+                            </NuxtLink>
+                        </div>
+                    </div>
+
+                    <div v-if="articlesLoading" class="text-center text-muted py-4">
+                        <div class="spinner-border spinner-border-sm text-theme" role="status"></div>
+                        <div class="small mt-2">Loading articles...</div>
+                    </div>
+
+                    <div v-else-if="filteredArticles.length === 0" class="text-center text-muted py-4">
+                        <i class="bi bi-journal-text fs-3"></i>
+                        <div class="small mt-2">No articles available yet.</div>
+                    </div>
+
+                    <div v-else class="article-grid">
+                        <NuxtLink
+                            v-for="article in filteredArticles"
+                            :key="article.id"
+                            class="article-card"
+                            :to="`/account/events/articles/${article.id}`"
+                        >
+                            <div class="article-cover">
+                                <img :src="article.cover_url" alt="cover" />
+                            </div>
+                            <div class="article-body">
+                                <div class="article-tag">{{ article.tag }}</div>
+                                <div class="fw-semibold">{{ article.title }}</div>
+                                <div class="small text-muted mt-1 article-summary">{{ article.summary }}</div>
+                                <div class="article-meta mt-2">
+                                    <span>{{ article.author }}</span>
+                                    <span>{{ formatDate(article.date) }}</span>
+                                </div>
+                            </div>
+                        </NuxtLink>
+                    </div>
+                </div>
+            </div>
+
             <div v-if="viewMode === 'events'" class="d-flex justify-content-between align-items-center mb-3">
                         <h6 class="fw-bold mb-0">All Events</h6>
                         <span class="small text-muted">{{ filteredEvents.length }} total</span>
@@ -453,20 +523,27 @@ const events = ref<any[]>([])
 const myBookings = ref<any[]>([])
 const cartStore = useCartStore()
 const { getCached, setCached, clearCached } = useAccountCache()
+const route = useRoute()
 const bookingCounts = ref<Record<number, number>>({})
-const viewMode = ref<'events' | 'podcasts'>('events')
+const viewMode = ref<'events' | 'podcasts' | 'articles'>('events')
 const podcastSearchQuery = ref('')
+const articleSearchQuery = ref('')
 const podcastAudioRef = ref<HTMLAudioElement | null>(null)
 const podcastEpisodes = ref<PodcastEpisode[]>([])
+const articles = ref<any[]>([])
 const podcastFilters = ['All', 'Leadership', 'Operations', 'Compliance', 'Security']
 const activePodcastFilter = ref('All')
 const activePodcast = ref<any>(null)
 const podcastLoading = ref(false)
 const podcastsLoaded = ref(false)
+const articlesLoading = ref(false)
+const articlesLoaded = ref(false)
+const defaultArticleCover = '/images/default-article-cover.png'
 const podcastProgress = ref<Record<number, any>>({})
 let podcastProgressTimer: number | null = null
 let eventSearchTimer: number | null = null
 let podcastSearchTimer: number | null = null
+let articleSearchTimer: number | null = null
 
 const filteredEvents = computed(() => events.value)
 
@@ -482,6 +559,7 @@ const paginatedEvents = computed(() => {
 })
 
 const filteredPodcastEpisodes = computed(() => podcastEpisodes.value)
+const filteredArticles = computed(() => articles.value)
 
 const podcastAudioSrc = computed(() => activePodcast.value?.audio_url || '')
 
@@ -491,6 +569,14 @@ watch(searchQuery, () => {
     if (eventSearchTimer) window.clearTimeout(eventSearchTimer)
     eventSearchTimer = window.setTimeout(() => {
         fetchEvents(false, searchQuery.value.trim())
+    }, 400)
+})
+
+watch(articleSearchQuery, () => {
+    if (viewMode.value !== 'articles') return
+    if (articleSearchTimer) window.clearTimeout(articleSearchTimer)
+    articleSearchTimer = window.setTimeout(() => {
+        fetchArticles(false, articleSearchQuery.value.trim())
     }, 400)
 })
 
@@ -523,6 +609,16 @@ type PodcastEpisode = {
     contributors?: { id: number; name: string; role?: string; photo_url?: string }[]
 }
 
+type ArticleItem = {
+    id: number
+    title: string
+    summary: string
+    tag: string
+    cover_url: string
+    author: string
+    date: string
+}
+
 const toNumber = (value: string | number | null | undefined) => {
     const parsed = Number(value ?? 0)
     return Number.isNaN(parsed) ? 0 : parsed
@@ -541,8 +637,8 @@ const escapeHtml = (content: string) => {
         .replace(/'/g, '&#39;')
 }
 
-const resolveImage = (path: string | null) => {
-    if (!path) return '/images/event-placeholder.svg'
+const resolveImage = (path: string | null, fallback = '/images/event-placeholder.svg') => {
+    if (!path) return fallback
     if (path.startsWith('http://')) return path.replace('http://', 'https://')
     if (path.startsWith('https://')) return path
     if (path.startsWith('/storage/')) return `${apiHost}${path}`
@@ -590,6 +686,23 @@ const normalizePodcast = (podcast: any): PodcastEpisode => {
             role: contributor?.role || '',
             photo_url: resolvePodcastImage(contributor?.photo_path || contributor?.photo_url || null),
         })),
+    }
+}
+
+const normalizeArticle = (article: any): ArticleItem => {
+    const creatorUser = article?.creator_user || article?.creatorUser || null
+    const creatorAdmin = article?.creator_admin || article?.creatorAdmin || null
+    const author = creatorUser
+        ? `${creatorUser.first_name || ''} ${creatorUser.last_name || ''}`.trim()
+        : creatorAdmin?.name || 'WGRCFP'
+    return {
+        id: Number(article?.id || 0),
+        title: article?.title || 'Untitled Article',
+        summary: stripHtml(article?.summary || article?.content || 'No summary available.').slice(0, 140),
+        tag: article?.tag || 'Article',
+        cover_url: resolveImage(article?.cover_image || null, defaultArticleCover),
+        author: author || 'WGRCFP',
+        date: article?.published_at || article?.created_at || '',
     }
 }
 
@@ -904,6 +1017,30 @@ const fetchMyBookings = async (force = false) => {
     }
 }
 
+const fetchArticles = async (force = false, query = '') => {
+    articlesLoading.value = true
+    try {
+        const cacheKey = `account-articles:${query || 'all'}`
+        if (!force) {
+            const cached = getCached<any[]>(cacheKey)
+            if (cached) {
+                articles.value = cached
+                articlesLoaded.value = true
+                return
+            }
+        }
+        const response = await api.articles(query ? { q: query } : {})
+        const payload = response?.data?.data?.data || []
+        articles.value = payload.map((item: any) => normalizeArticle(item))
+        setCached(cacheKey, articles.value, 180000)
+        articlesLoaded.value = true
+    } catch (error) {
+        articles.value = []
+    } finally {
+        articlesLoading.value = false
+    }
+}
+
 const fetchPodcasts = async (force = false, query = '', tag = '') => {
     if (podcastsLoaded.value && !force && !query && !tag) return
     if (podcastLoading.value) return
@@ -1033,6 +1170,12 @@ const onPodcastEnded = () => savePodcastProgress(true)
 
 onMounted(() => {
     cartStore.fetchCart()
+    const initialTab = String(route.query.tab || '')
+    if (initialTab === 'articles') {
+        viewMode.value = 'articles'
+    } else if (initialTab === 'podcasts') {
+        viewMode.value = 'podcasts'
+    }
     fetchEvents()
     fetchMyBookings()
 })
@@ -1040,6 +1183,9 @@ onMounted(() => {
 watch(viewMode, (value) => {
     if (value === 'podcasts' && !podcastsLoaded.value) {
         fetchPodcasts(false, podcastSearchQuery.value.trim(), activePodcastFilter.value === 'All' ? '' : activePodcastFilter.value)
+    }
+    if (value === 'articles' && !articlesLoaded.value) {
+        fetchArticles(false, articleSearchQuery.value.trim())
     }
     if (value === 'events') {
         fetchEvents(false, searchQuery.value.trim())
@@ -1329,6 +1475,75 @@ onBeforeUnmount(() => {
     padding: 20px;
     color: #7c86a7;
     gap: 6px;
+}
+
+.article-section {
+    background: linear-gradient(135deg, rgba(41, 53, 103, 0.06), rgba(176, 52, 54, 0.06));
+    border: 1px solid #eceffd;
+}
+
+.article-chip {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #fff3f3;
+    font-size: 12px;
+    color: #b03436;
+}
+
+.article-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.article-card {
+    background: #fff;
+    border: 1px solid #eceffc;
+    border-radius: 16px;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 140px 1fr;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.article-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(31, 43, 90, 0.08);
+}
+
+.article-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.article-body {
+    padding: 14px;
+    display: grid;
+    gap: 6px;
+}
+
+.article-tag {
+    font-size: 11px;
+    color: #2c3767;
+    background: #eef1ff;
+    display: inline-flex;
+    padding: 2px 8px;
+    border-radius: 999px;
+    width: fit-content;
+}
+
+.article-summary {
+    line-height: 1.4;
+}
+
+.article-meta {
+    display: flex;
+    justify-content: space-between;
+    color: #7b85a6;
+    font-size: 12px;
 }
 
 @media (max-width: 992px) {
