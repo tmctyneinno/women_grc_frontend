@@ -6,7 +6,10 @@
             <button ref="btnX" type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <ul class="list-group list-group-flush mt-5" :class="{ 'hide-but-keep-space': isGuest }">
+            <div class="mx-3">
+                <AccountNavBarCart />
+            </div>
+            <ul class="list-group list-group-flush mt-2" :class="{ 'hide-but-keep-space': isGuest }">
                 <li v-for="({ title, routePath, hasDropDown, dropdownItems }, i) in templateStore.accountMenus" :key="i"
                     class="list-group-item border-0 dismiss-on-click">
                     <nuxt-link :to="routePath">{{ title }}</nuxt-link>
@@ -32,6 +35,8 @@
         <div class="offcanvas-footer bg-light p-4 ps-1">
             <AccountNavBarLogout />
         </div>
+        
+
     </div>
 </template>
 

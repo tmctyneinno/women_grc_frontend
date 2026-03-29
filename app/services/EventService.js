@@ -1,19 +1,20 @@
 // services/EventService.js
 export class EventService {
   constructor() {
-    // Use relative path in production, full URL in development
+    const envBase = (import.meta?.env?.VITE_API_URL || '').replace(/\/$/, '');
+
     if (process.client) {
-      // Check if we're on production domain
-      this.baseURL = window.location.protocol === 'https:' 
-      ? 'https://api.wgrcfp.org/api/v1'
-      : 'http://api.wgrcfp.org/api/v1';
-      // this.baseURL = window.location.protocol === 'https:' 
-      // ? 'http://127.0.0.1:8000/api/v1'
-      // : 'http://127.0.0.1:8000/api/v1';
+      if (envBase) {
+        this.baseURL = `${envBase}/api/v1`;
+      } else {
+        this.baseURL = window.location.protocol === 'https:'
+          ? 'https://api.wgrcfp.org/api/v1'
+          : 'http://api.wgrcfp.org/api/v1';
+      }
     } else {
-      this.baseURL = '/api'; // For SSR
+      this.baseURL = envBase ? `${envBase}/api/v1` : 'https://api.wgrcfp.org/api/v1';
     }
-    
+
     console.log('[EventService] Base URL:', this.baseURL);
   }
 
@@ -47,6 +48,7 @@ export class EventService {
 
   async getEvents(page = 1, perPage = 10) {
     const url = `${this.baseURL}/events?page=${page}&per_page=${perPage}`;
+    console.log(`[EventService] Fetching events from: ${url}`);
     return this.fetchWithTimeout(url);
   }
 

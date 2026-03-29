@@ -349,27 +349,27 @@ const membershipCategories = {
         ],
         items: [
             {
-                tier: "Student Member", annual_fee: "$50",
+                tier: "Student Member", annual_fee: "£50",
                 target_audience: "University students or recent graduates",
                 benefits: "Access to entry-level GRC and Financial Crime Prevention resources, internships/job board, career support"
             },
             {
-                tier: "Associate Member", annual_fee: "$75",
+                tier: "Associate Member", annual_fee: "£75",
                 target_audience: "Early career professionals (0–5 years’ experience)",
                 benefits: "Monthly webinars, WGRCFP newsletter, member badge, discounted events"
             },
             {
-                tier: "Associate Member", annual_fee: "$150",
+                tier: "Associate Member", annual_fee: "£150",
                 target_audience: "Mid-career professionals & specialists.",
                 benefits: "Full event access, member directory listing, speaker opportunities"
             },
             {
-                tier: "Associate Member", annual_fee: "$250",
+                tier: "Associate Member", annual_fee: "£250",
                 target_audience: "Senior executives, directors, partners",
                 benefits: "Priority speaking roles, leadership roundtables, mentor opportunities"
             },
             {
-                tier: "Associate Member", annual_fee: "$300 (by invitation or assessment)",
+                tier: "Associate Member", annual_fee: "£300 (by invitation or assessment)",
                 target_audience: "Accredited senior experts & contributors",
                 benefits: "Voting rights, governance roles, advisory participation, advanced credentials"
             }
@@ -384,17 +384,17 @@ const membershipCategories = {
         ],
         items: [
             {
-                tier: "SME Partner", annual_fee: "$750",
+                tier: "SME Partner", annual_fee: "£750",
                 target_audience: "Small–medium enterprises (up to 250 employees)",
                 benefits: "2 staff accounts, company logo on partner page, discounted training bundles"
             },
             {
-                tier: "Corporate Member", annual_fee: "$2,000",
+                tier: "Corporate Member", annual_fee: "£2,000",
                 target_audience: "Large organisations or regional offices",
                 benefits: "5 staff accounts, free event passes, internal workshop session, DEI support tools"
             },
             {
-                tier: "Strategic Partner", annual_fee: "$5,000+",
+                tier: "Strategic Partner", annual_fee: "£5,000+",
                 target_audience: "Multinationals, government, academic or regulatory institutions",
                 benefits: "Co-branded initiatives, 10 accounts, policy roundtable access, joint publications"
             },

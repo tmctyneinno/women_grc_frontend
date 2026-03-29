@@ -151,7 +151,7 @@
                   <div>
                     <h3 class="text-lg font-semibold text-white mb-2">Details</h3>
                     <p class="text-2xl font-bold text-white mb-1">{{ eventPrice }}</p>
-                    <p v-if="event.capacity" class="text-white text-sm">
+                    <!--<p v-if="event.capacity" class="text-white text-sm">
                       {{ event.registered_count || 0 }} of {{ event.capacity }} spots filled
                     </p>
                     <div v-if="event.capacity && event.registered_count > 0" class="mt-2">
@@ -161,7 +161,7 @@
                           class="h-full bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full transition-all duration-1000"
                         ></div>
                       </div>
-                    </div>
+                    </div>-->
                   </div>
                 </div>
               </div>
@@ -241,7 +241,6 @@
                 }"
                 @load="onImageLoad"
                 @error="onImageError"
-                crossorigin="anonymous"
               />
 
               <!-- Status Badge -->
@@ -545,7 +544,7 @@
                   </div>
                 </div>
 
-                <!-- Registration Progress -->
+                <!-- Registration Progress
                 <div v-if="event.capacity" class="mt-8 pt-8 border-t border-gray-100">
                   <div class="flex justify-between items-center mb-4">
                     <span class="text-gray-700 font-medium">Registration Progress</span>
@@ -561,7 +560,7 @@
                     <span>{{ event.registered_count || 0 }} registered</span>
                     <span>{{ event.capacity }} total</span>
                   </div>
-                </div>
+                </div>-->
 
                 <!-- Share Buttons -->
                 <div class="mt-8 pt-8 border-t border-gray-100">
@@ -687,6 +686,7 @@
 </template>
 
 <script setup>
+import EventService from '@/services/EventService';
 import { ref, computed, onMounted, watch, onUnmounted } from 'vue'
 import { useRoute, useRouter } from '#imports'
 
@@ -952,21 +952,29 @@ watch(() => route.params.slug, async (newSlug) => {
 // ... [REST OF YOUR EXISTING SCRIPT CODE - KEEP ALL YOUR EXISTING COMPUTED PROPERTIES AND METHODS BELOW] ...
 
 // Computed properties (your existing ones)
+const apiHost = (import.meta.env.VITE_API_URL || 'https://api.wgrcfp.org').replace(/\/$/, '')
+
 const eventImageUrl = computed(() => {
   if (!event.value?.featured_image) {
-    return '/images/event-placeholder.jpg'
+    return '/images/event-placeholder.svg'
   }
   
   const imgPath = event.value.featured_image
   
-  if (imgPath.startsWith('https')) {
+  if (imgPath.startsWith('http://')) {
+    return imgPath.replace('http://', 'https://')
+  }
+
+  if (imgPath.startsWith('https://')) {
     return imgPath
   }
-  
-  const baseUrl = 'https://api.wgrcfp.org'
+
+  if (imgPath.startsWith('/storage/')) {
+    return `${apiHost}${imgPath}`
+  }
+
   const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath
-  
-  return `${baseUrl}/images/proxy/${cleanPath}`
+  return `${apiHost}/storage/${cleanPath}`
 })
 
 const formattedType = computed(() => {
@@ -1275,33 +1283,9 @@ const fetchEvent = async () => {
     imageError.value = false
     
     console.log('Fetching event with slug:', slug)
-    
-    const response = await fetch(`https://api.wgrcfp.org/api/v1/events/${slug}`, {
-      mode: 'cors',
-      credentials: 'omit',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    })
-    
-    console.log('Response status:', response.status)
-    console.log('Response headers:', [...response.headers.entries()])
-    
-    if (!response.ok) {
-      if (response.status === 404) {
-        throw new Error('Event not found')
-      }
-      
-      if (response.status === 0) {
-        throw new Error('CORS Error: Unable to access API. Please check server CORS configuration.')
-      }
-      
-      throw new Error(`Failed to fetch event: ${response.status} ${response.statusText}`)
-    }
-    
-    const result = await response.json()
-    
+
+    const result = await EventService.getEventBySlug(slug)
+
     if (result.success && result.data) {
       event.value = result.data
       console.log('Event data loaded:', event.value)
@@ -1321,9 +1305,9 @@ const fetchEvent = async () => {
   } catch (err) {
     console.error('Error fetching event:', err)
     
-    if (err.message.includes('CORS') || err.message.includes('Failed to fetch')) {
+    if (err.message?.includes('CORS') || err.message?.includes('Failed to fetch')) {
       error.value = 'CORS Error: Unable to connect to the server. The API server needs CORS headers for www.wgrcfp.org.'
-    } else if (err.message.includes('404')) {
+    } else if (err.message?.includes('404')) {
       error.value = 'Event not found. This event may have been removed or the URL is incorrect.'
     } else {
       error.value = err.message || 'An error occurred while loading the event'
@@ -1337,7 +1321,7 @@ const fetchEventLocal = async () => {
   try {
     loading.value = true
     
-    const apiUrl = `http://localhost:8000/api/v1/events/${slug}`
+    const apiUrl = `https://api.wgrcfp.org/api/v1/events/${slug}`
     console.log('Fetching from:', apiUrl)
     
     const response = await fetch(apiUrl)

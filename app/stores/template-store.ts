@@ -90,8 +90,8 @@ export const useTemplateStore = defineStore('template', () => {
       title: 'Learning Center',
       routePath: '/account/learning-center',
       relatedRoutes: [
-        '/account/cart',
-        '/account/cart/checkout',
+        // '/account/cart',
+        // '/account/cart/checkout',
         '/account/my-learning',
         '/account/my-learning/details',
       ]
@@ -110,7 +110,7 @@ export const useTemplateStore = defineStore('template', () => {
     },
 
     {
-      title: 'events',
+      title: 'Events',
       routePath: '/account/events',
     }
   ]

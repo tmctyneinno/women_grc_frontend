@@ -2,8 +2,11 @@ import axios from 'axios';
 // @ts-ignore
 import Cookies from 'js-cookie';
 
-// const hostURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-const hostURL =  'https://api.wgrcfp.org'; 
+const hostURL = import.meta.env.VITE_API_URL || 'https://api.wgrcfp.org';
+
+// const hostURL = import.meta.env.VITE_API_URL || 'https://api.wgrcfp.org';
+
+// const hostURL =  'https://api.wgrcfp.org'; 
 const apiURL = `${hostURL}/api/v1/`;
 
 // Create axios instances with better configuration
@@ -23,6 +26,7 @@ const createAxiosInstance = (contentType = 'application/json') => {
         (config) => {
             // Get token from cookie
             const token = Cookies.get('auth_token');
+
             
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`;
@@ -122,7 +126,7 @@ const createAxiosInstance = (contentType = 'application/json') => {
 
 // Create different instances for different content types
 export const $instance = createAxiosInstance('application/json');
-const $instanceForm = createAxiosInstance('multipart/form-data');
+export const $instanceForm = createAxiosInstance('multipart/form-data');
 const $instanceSilent = createAxiosInstance('application/json');
 
 // Configure silent instance to not trigger loading indicators

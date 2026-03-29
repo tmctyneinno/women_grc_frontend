@@ -74,23 +74,25 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div v-if="membershipStatusLoading" class="card h-100 border-0">
-                        <div class="card-body d-flex align-items-center justify-content-center text-muted">
-                            Checking membership status...
-                        </div>
+                    <div v-if="isMembershipsLoading" class="text-center py-4">
+                        Loading memberships...
                     </div>
 
-                    <div v-else-if="showMembershipPrompt" class="card h-100 border-0">
+
+                    <div v-else class="card h-100 border-0">
                         <div class="card-header bg-transparent border-0 fw-medium">
                             Join Our Community by Subscribing to Our Membership Plan!
                         </div>
                         <div class="card-body">
-                            <div v-if="isMembershipsLoading" class="text-center py-4">
-                                Loading memberships...
-                            </div>
+                            <div class="membership-shell p-3 p-md-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="small text-muted">Pick a membership type, then select a tier.</div>
+                                    <!--<button class="btn btn-sm btn-theme position-relative" type="button">
+                                        <i class="bi bi-bag"></i> Cart
+                                        <span v-if="cartStore.items.some(i => i.source === 'membership')" class="cart-count">{{ cartItems.length }}</span>
+                                    </button>-->
+                                </div>
 
-                            <div v-else class="membership-shell p-3 p-md-4">
-                                <div class="small text-muted mb-3">Pick a membership type, then select a tier.</div>
                                 <div class="row g-3">
                                     <div v-for="category in membershipCategories" :key="category.id" class="col-12 col-md-6">
                                         <div class="membership-pop h-100">
@@ -101,6 +103,21 @@
                                                 View Tiers
                                             </button>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div v-if="cartStore.items.some(i => i.source === 'membership')" class="cart-preview mt-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="fw-semibold">Selected Memberships</div>
+                                        <div class="small text-muted">Total: &pound;{{ cartTotal }}</div>
+                                    </div>
+                                    <div class="mt-2 d-flex flex-wrap gap-2">
+                                        <span v-for="item in cartItems" :key="item.key" class="cart-chip">
+                                            {{ item.category }} - {{ item.tier }} (&pound;{{ item.fee }})
+                                            <button class="btn btn-sm p-0 border-0 ms-1 remove-chip" @click="removeFromCart(item.key)">
+                                                <i class="bi bi-x-circle"></i>
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -126,86 +143,13 @@
                                             </div>
                                             <div class="small text-muted mt-1">{{ tier.targetAudience }}</div>
                                             <div class="small mt-2">{{ tier.benefits }}</div>
-                                            <button class="btn btn-sm btn-theme mt-3" @click="addMembershipToCart(activeCategory, tier)">
+                                            <button class="btn btn-sm btn-theme mt-3" @click="addToCart(activeCategory, tier)">
                                                 <i class="bi bi-cart-plus"></i> Add to Cart
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div v-else class="card h-100 border-0">
-                        <div class="card-header bg-transparent border-0 fw-medium">
-                            Recommended for You
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <div class="card border-0"
-                                        :style="{ backgroundColor: templateStore.themeColors.accountBg }">
-                                        <div class="card-body">
-                                            <span class="badge text-danger bg-danger-subtle fw-normal">
-                                                <i class="bi bi-calendar3"></i> Upcoming Event
-                                            </span>
-                                            <span class="float-end">Nov 8</span>
-
-                                            <div class="mt-3">
-                                                <div class="fw-medium">Women Leading in Compliance</div>
-                                                <p class="small">
-                                                    Join industry leaders as they share insights on navigating
-                                                    compliance
-                                                    challenges and building successful careers in GRC. Featuring Sarah
-                                                    Chen, VP
-                                                    of Compliance at TechCorp.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="card border-0"
-                                        :style="{ backgroundColor: templateStore.themeColors.accountBg }">
-                                        <div class="card-body">
-                                            <span class="badge text-success bg-success-subtle fw-normal">
-                                                <i class="bi bi-book"></i> Beginner
-                                            </span>
-                                            <span class="float-end">2h 30m</span>
-
-                                            <div class="mt-3">
-                                                <div class="fw-medium">Introduction to GRC</div>
-                                                <p class="small">
-                                                    Master the fundamentals of Governance, Risk, and Compliance. Perfect
-                                                    for those new to the field or looking to strengthen their
-                                                    foundation.
-                                                </p>
-
-                                                <div class="fw-medium mb-2">
-                                                    Progess
-                                                    <span class=" float-end fw-normal small">25%
-                                                        complete</span>
-                                                </div>
-
-                                                <CustomProgress :height="10" :width="25" color-class="bg-theme" />
-
-                                            </div>
-
-                                            <button class="btn btn-theme w-100 mt-4">
-                                                <i class="bi bi-play-circle"></i> Continue Learning
-                                            </button>
-
-                                        </div>
-                                    </div>
-
-
-                                </div>
-
-
-                            </div>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -225,18 +169,15 @@ definePageMeta({
 })
 
 const route = useRoute()
-const templateStore = useTemplateStore()
 const authStore = useAuthStore()
 const cartStore = useCartStore()
+
 
 const userName = ref<string>('User')
 const userProfile = ref<any>(null)
 const isLoading = ref<boolean>(false)
-const membershipStatusLoading = ref(false)
-const hasActiveMembership = ref<boolean | null>(null)
 
 type MembershipTier = {
-    id: number
     tier: string
     fee: number
     targetAudience: string
@@ -250,23 +191,15 @@ type MembershipCategory = {
     tiers: MembershipTier[]
 }
 
+type CartItem = {
+    key: string
+    category: string
+    tier: string
+    fee: number
+}
+
 const membershipCategories = ref<MembershipCategory[]>([])
 const isMembershipsLoading = ref(false)
-const activeCategory = ref<MembershipCategory | null>(null)
-const showMembershipPrompt = computed(() => hasActiveMembership.value === false)
-
-const fetchMembershipStatus = async () => {
-    try {
-        membershipStatusLoading.value = true
-        const response = await api.myMembershipStatus()
-        const data = response?.data?.data || {}
-        hasActiveMembership.value = Boolean(data?.is_active)
-    } catch (error) {
-        hasActiveMembership.value = false
-    } finally {
-        membershipStatusLoading.value = false
-    }
-}
 
 const fetchMemberships = async () => {
     try {
@@ -293,6 +226,11 @@ const fetchMemberships = async () => {
     }
 }
 
+const activeCategory = ref<MembershipCategory | null>(null)
+const cartItems = ref<CartItem[]>([])
+
+
+
 const openCategory = (category: MembershipCategory) => {
     activeCategory.value = category
 }
@@ -301,9 +239,10 @@ const closeCategory = () => {
     activeCategory.value = null
 }
 
-const addMembershipToCart = async (category: MembershipCategory, tier: MembershipTier) => {
-    const cartId = tier.id
-    const exists = cartStore.items.some(item => item.source === 'membership' && Number(item.id) === cartId)
+const addToCart = async (category: MembershipCategory, tier: MembershipTier) => {
+    const cartId = tier.id // numeric ID
+
+    const exists = cartStore.items.some(item => item.id === cartId)
 
     if (exists) {
         await Swal.fire({
@@ -350,6 +289,7 @@ const addMembershipToCart = async (category: MembershipCategory, tier: Membershi
     }
 }
 
+
 // Fetch user profile
 const fetchUserProfile = async () => {
     try {
@@ -383,11 +323,7 @@ onMounted(() => {
     // Fetch user profile data
     fetchUserProfile()
 
-    fetchMembershipStatus().then(() => {
-        if (hasActiveMembership.value === false) {
-            fetchMemberships()
-        }
-    })
+    fetchMemberships()
 })
 
 watch(userProfile, (newProfile) => {
@@ -396,11 +332,6 @@ watch(userProfile, (newProfile) => {
         navigateTo({ path: '/account/dashboard/guest', replace: true })
     }
 }, { immediate: true })
-
-const waitingEvents = ref<{ img: string, type: string, title: string, text: string }[]>([
-    { img: '/images/account/dashboard/women_in_leadership.png', type: 'Upcoming Event', title: 'Women in Leadership', text: 'Join industry leaders for insights on advancing your career in governance, risk, and compliance.', },
-    { img: '/images/account/dashboard/grc_fundamentals.png', type: 'Featured Course', title: 'GRC Fundamentals', text: 'Master the essential concepts of governance risk management, and compliance in this detailed course', },
-])
 
 const getStartedTimelines = ref<{ title: string, action: string, percent?: string, ischecked?: Boolean }[]>([
     { title: 'Complete your profile', action: 'Complete profile', percent: '40% complete', ischecked: false },
@@ -471,6 +402,45 @@ const getStartedTimelines = ref<{ title: string, action: string, percent?: strin
 .membership-ghost-btn:hover {
     background-color: #e4efff;
     color: #19489c;
+}
+
+.cart-preview {
+    border-radius: 12px;
+    background-color: #ffffff;
+    border: 1px solid #dce7ff;
+    padding: 12px;
+}
+
+.cart-chip {
+    border-radius: 999px;
+    border: 1px solid #d7e3ff;
+    background: #f8fbff;
+    color: #24406d;
+    padding: 4px 10px;
+    font-size: 12px;
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -6px;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: #dc3545;
+    color: #fff;
+    font-size: 11px;
+    line-height: 18px;
+    text-align: center;
+    padding: 0 4px;
+}
+
+.remove-chip {
+    color: #7f90b4;
+}
+
+.remove-chip:hover {
+    color: #c0392b;
 }
 
 .membership-modal-backdrop {

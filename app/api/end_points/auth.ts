@@ -1,4 +1,5 @@
-import { $instance } from '../instances'
+import {$instanceForm, $instance } from '../instances'
+
 
 // API methods
 export default {
@@ -15,8 +16,29 @@ export default {
     },
 
     profile() {
-        return $instance.get('auth/profile');
+        return $instance.get('user/profile');
     },
+
+    timezone() {
+        return $instance.get('timezone');
+    },
+
+    updateProfile(formData: FormData) {
+        return $instanceForm.post('user/profile', formData);
+    },
+
+    events() {
+        return $instance.get('events');
+    },
+
+    bookEvent(eventId: number) {
+        return $instance.post(`/events/${eventId}/book`)
+    },
+
+    membership(){
+        return $instance.get('memberships');
+    },
+
 
     verifyEmail(data: any) {
         return $instance.post('auth/email/verify', data);

@@ -17,7 +17,7 @@
                                 </div>
                             </div>
                             <h1 class="h3 text-center fw-bold text-dark mb-2">
-                                Create Your Accountc
+                                Create Your Account
                             </h1>
                             <p class="text-center text-muted mb-4">
                                 Join our community and unlock exclusive features.
@@ -51,7 +51,7 @@
                         </div> -->
                         <br/>
                         <!-- Full Name Field -->
-                        <div class="col-12">
+                        <!--<div class="col-12">
                             <label for="full_name" class="form-label fw-semibold">
                                 Full Name <span class="text-danger">*</span>
                             </label>
@@ -65,6 +65,42 @@
                             <div v-if="errors?.full_name" class="invalid-feedback d-block small">
                                 <i class="bi bi-exclamation-circle me-1"></i>
                                 {{ errors.full_name }}
+                            </div>
+                        </div>-->
+
+                        <!-- First Name -->
+                        <div class="col-md-6 col-12">
+                            <label for="first_name" class="form-label fw-semibold">
+                                First Name <span class="text-danger">*</span>
+                            </label>
+                            <CustomInputText 
+                                id="first_name"
+                                placeholder="Enter your first name"
+                                v-model="first_name"
+                                v-bind="firstNameAttr"
+                                :class="{ 'is-invalid': errors?.first_name }"
+                            />
+                            <div v-if="errors?.first_name" class="invalid-feedback d-block small">
+                                <i class="bi bi-exclamation-circle me-1"></i>
+                                {{ errors.first_name }}
+                            </div>
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="col-md-6 col-12">
+                            <label for="last_name" class="form-label fw-semibold">
+                                Last Name <span class="text-danger">*</span>
+                            </label>
+                            <CustomInputText 
+                                id="last_name"
+                                placeholder="Enter your last name"
+                                v-model="last_name"
+                                v-bind="lastNameAttr"
+                                :class="{ 'is-invalid': errors?.last_name }"
+                            />
+                            <div v-if="errors?.last_name" class="invalid-feedback d-block small">
+                                <i class="bi bi-exclamation-circle me-1"></i>
+                                {{ errors.last_name }}
                             </div>
                         </div>
 
@@ -234,11 +270,18 @@ const validationSchema = yup.object({
             'Please enter a valid email address',
             (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value || '')
         ),
-    full_name: yup
+    first_name: yup
         .string()
-        .required('Full name is required')
-        .min(2, 'Name must be at least 2 characters')
-        .max(100, 'Name is too long'),
+        .required('First name is required')
+        .min(2, 'First name must be at least 2 characters')
+        .max(255, 'First name is too long'),
+
+    last_name: yup
+        .string()
+        .required('Last name is required')
+        .min(2, 'Last name must be at least 2 characters')
+        .max(255, 'Last name is too long'),
+
     linked_in: yup
         .string()
         .required('LinkedIn profile is required')
@@ -279,7 +322,8 @@ const {
 });
 
 const [email, emailAttr] = defineField('email');
-const [full_name, full_nameAttr] = defineField('full_name');
+const [first_name, firstNameAttr] = defineField('first_name');
+const [last_name, lastNameAttr] = defineField('last_name');
 const [linked_in, linked_inAttr] = defineField('linked_in');
 const [password, passwordAttr] = defineField('password');
 const [confirm_password, confirm_passwordAttr] = defineField('confirm_password');
@@ -290,7 +334,8 @@ const validateAndSignUp = handleSubmit(async (values) => {
     try {
         // Prepare data
         const registrationData = {
-            name: values.full_name.trim(),
+            first_name: values.first_name.trim(),
+            last_name: values.last_name.trim(),
             email: values.email.trim().toLowerCase(),
             linkedin_profile: values.linked_in.trim(),
             password: values.password,
@@ -305,7 +350,8 @@ const validateAndSignUp = handleSubmit(async (values) => {
             // Store user data temporarily
             localStorage.setItem('WIGRFCTempReg', JSON.stringify({
                 email: values.email,
-                name: values.full_name,
+                first_name: values.first_name,
+                last_name:values.last_name,
                 registered_at: new Date().toISOString()
             }));
 

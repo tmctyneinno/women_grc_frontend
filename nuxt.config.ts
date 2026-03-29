@@ -11,8 +11,7 @@ export default defineNuxtConfig({
       cors: true
     },
     '/api/images/**': {
-      // proxy: 'http://localhost:8000/storage/**' ,
-      proxy: 'http://api.wgrcfp.org/storage/**'
+      proxy: 'https://api.wgrcfp.org/storage/**'
     },
     '/account/**': { ssr: false },
 
@@ -46,13 +45,11 @@ export default defineNuxtConfig({
     preset: 'static'
   },
   runtimeConfig: {
-    apiBaseUrl: process.env.API_BASE_URL || 'https://wgrcfp.org',
+    apiBaseUrl: process.env.API_BASE_URL || 'https://api.wgrcfp.org',
     public: {
-      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'https://localhost:8000/api/v1',
-      siteUrl: process.env.SITE_URL || 'https://localhost:3000',
-      googleSignIn: {
-        clientId: process.env.GOOGLE_CLIENT_ID || '',
-      }
+      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'https://api.wgrcfp.org/api/v1',
+      siteUrl: process.env.SITE_URL || 'https://wgrcfp.org',
+      recaptchaSiteKey: process.env.NUXT_PUBLIC_RECAPTCHA_SITE_KEY || '6LfN93wsAAAAAK5Z5X5VpEbtNyjJw9hn5GVpKEFp',
     }
   },
 
@@ -61,7 +58,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-aos',
     'vue3-carousel-nuxt',
-    'nuxt-vue3-google-signin',
+    // 'nuxt-vue3-google-signin',
     '@nuxt/image',
   ],
   build: {
@@ -140,7 +137,7 @@ export default defineNuxtConfig({
 - npx nuxi@latest module add vue3-carousel-nuxt
 - npm i @vueform/multiselect
 - npm install maska
-- npx nuxi@latest module add nuxt-vue3-google-signin
+// - npx nuxi@latest module add nuxt-vue3-google-signin
 - npm install --save-dev @types/node
 - npm install vue-tel-input
 - npm install vee-validate --save

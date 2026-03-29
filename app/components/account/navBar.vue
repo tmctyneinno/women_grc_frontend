@@ -2,7 +2,8 @@
     <nav class="navbar navbar-expand-lg fixed-top p-3 bg-white" :class="customClass">
         <div class="container">
             <NuxtLink class="navbar-brand" to="/account/dashboard">
-                <NuxtImg src="/images/WGRC-logo.png" width="30" alt="site_logo" />
+                <!--<NuxtImg src="/images/WGRC-logo.png" width="30" alt="site_logo" />-->
+                <img src="/images/WGRC-logo.png" width="60" alt="site_logo" />
             </NuxtLink>
             <button class="navbar-toggler border-0" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas"
                 aria-controls="menuOffcanvas" type="button">
@@ -30,7 +31,7 @@
                         </div>
                         <NuxtLink v-else class="nav-link me-2 " :class="{
                             'text-whit': route.path == '/' && !headerDropped,
-                            'router-link-active': (relatedRoutes ?? []).includes(route.path)
+                            'router-link-active': route.path === routePath || route.path.startsWith(routePath + '/') || (relatedRoutes ?? []).includes(route.path)
                         }" :to="routePath">
                             {{ title }}
                         </NuxtLink>

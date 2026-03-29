@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Event image placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f3f4f6"/>
+      <stop offset="1" stop-color="#e5e7eb"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0891b2" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#f59e0b" stop-opacity="0.25"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <path d="M0,540 C180,470 330,610 510,560 C720,500 840,350 1040,420 C1120,448 1168,500 1200,520 L1200,675 L0,675 Z" fill="url(#accent)"/>
+
+  <g transform="translate(600 310)" fill="none" stroke="#9ca3af" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" opacity="0.95">
+    <rect x="-170" y="-135" width="340" height="270" rx="28" fill="#ffffff" opacity="0.55" stroke="#d1d5db"/>
+    <path d="M-170 -65 H170" />
+    <path d="M-90 -155 V-105" />
+    <path d="M90 -155 V-105" />
+    <circle cx="-65" cy="15" r="10" fill="#9ca3af" stroke="none"/>
+    <circle cx="0" cy="15" r="10" fill="#9ca3af" stroke="none"/>
+    <circle cx="65" cy="15" r="10" fill="#9ca3af" stroke="none"/>
+    <path d="M-105 90 L-20 20 L40 65 L120 5" />
+  </g>
+
+  <text x="600" y="535" text-anchor="middle" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="28" fill="#6b7280">
+    Image not available
+  </text>
+</svg>
