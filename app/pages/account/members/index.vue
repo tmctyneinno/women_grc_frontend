@@ -12,9 +12,6 @@
                         <button class="btn btn-light btn-sm border" @click="refreshAll">
                             <i class="bi bi-arrow-clockwise me-1"></i> Refresh
                         </button>
-                        <button v-if="hasActiveMembership" class="btn btn-theme btn-sm" @click="showCreateForum = true">
-                            <i class="bi bi-plus-circle me-1"></i> Create Forum
-                        </button>
                         <NuxtLink v-if="hasActiveMembership" to="/account/forum" class="btn btn-outline-theme btn-sm">
                             Visit Forum Hub
                         </NuxtLink>
@@ -44,14 +41,14 @@
                     </div>
                     <div class="col-6 col-md-3">
                         <div class="metric-card h-100">
-                            <div class="metric-title">Pending Invites</div>
-                            <div class="metric-value">{{ pendingInvites.length }}</div>
+                            <div class="metric-title">Unread Alerts</div>
+                            <div class="metric-value">{{ unreadCount }}</div>
                         </div>
                     </div>
                     <div class="col-6 col-md-3">
                         <div class="metric-card h-100">
-                            <div class="metric-title">Unread Alerts</div>
-                            <div class="metric-value">{{ unreadCount }}</div>
+                            <div class="metric-title">Members Listed</div>
+                            <div class="metric-value">{{ forumMembers.length }}</div>
                         </div>
                     </div>
                 </div>
@@ -104,10 +101,10 @@
 
                 <div class="card border-0">
                     <div class="card-body">
-                        <div class="fw-semibold mb-2">My Forums</div>
-                        <div v-if="joinedForums.length === 0" class="small text-muted">
-                            You are not part of any forum yet. Create one to start inviting members.
-                        </div>
+                    <div class="fw-semibold mb-2">My Forums</div>
+                    <div v-if="joinedForums.length === 0" class="small text-muted">
+                        You are not part of any forum yet. Request access from the Forum Hub to join.
+                    </div>
                         <div v-else class="row g-3">
                             <div v-for="forum in joinedForums" :key="forum.id" class="col-md-6 col-xl-4">
                                 <div class="forum-card h-100">
@@ -215,63 +212,6 @@
                 </div>
             </div>
 
-            <div v-if="showCreateForum" class="modal-backdrop-custom" @click.self="showCreateForum = false">
-                <div class="modal-card-custom">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div class="fw-semibold">Create Member Forum</div>
-                        <button class="btn btn-sm btn-light border" @click="showCreateForum = false">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col-12">
-                            <label class="form-label small">Title</label>
-                            <input v-model="createForm.title" class="form-control form-control-sm">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label small">Description</label>
-                            <textarea v-model="createForm.description" class="form-control form-control-sm" rows="3"></textarea>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small">Category</label>
-                            <input v-model="createForm.category" class="form-control form-control-sm">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small">Type</label>
-                            <select v-model="createForm.type" class="form-select form-select-sm">
-                                <option value="public">Public</option>
-                                <option value="private">Private</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small">Tags (comma separated)</label>
-                            <input v-model="createForm.tagsText" class="form-control form-control-sm" placeholder="AML, ESG, Leadership">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small">Region (optional)</label>
-                            <select v-model="createForm.region" class="form-select form-select-sm">
-                                <option value="">Select region/timezone</option>
-                                <option v-for="option in regionOptions" :key="option" :value="option">
-                                    {{ option }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input id="region_based" v-model="createForm.region_based" class="form-check-input" type="checkbox">
-                                <label class="form-check-label small" for="region_based">Enable region-based visibility</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-end gap-2 mt-3">
-                        <button class="btn btn-light border btn-sm" @click="showCreateForum = false">Cancel</button>
-                        <button class="btn btn-theme btn-sm" :disabled="creatingForum" @click="createForum">
-                            <span v-if="creatingForum" class="spinner-border spinner-border-sm me-1"></span>Create
-                        </button>
-                    </div>
-                </div>
-            </div>
-
             <div class="card border-0 mt-4">
                 <div class="card-body">
                     <div class="fw-semibold text-uppercase text-muted small">Membership Eligibility</div>
@@ -370,36 +310,14 @@ const isMembershipsLoading = ref(false)
 const activeCategory = ref<MembershipCategory | null>(null)
 
 const joinedForums = ref<any[]>([])
-const pendingInvites = ref<any[]>([])
 const unreadCount = ref(0)
 const membersLoading = ref(false)
 const selectedForumId = ref<number | ''>('')
 const forumMembers = ref<any[]>([])
 const memberSearch = ref('')
-const showCreateForum = ref(false)
-const creatingForum = ref(false)
-const timezoneRows = ref<any[]>([])
-
-const createForm = reactive({
-    title: '',
-    description: '',
-    category: '',
-    type: 'public',
-    tagsText: '',
-    region_based: false,
-    region: '',
-})
 
 const totalMembersCount = computed(() => {
     return joinedForums.value.reduce((sum, forum) => sum + Number(forum.members_count || 0), 0)
-})
-
-const regionOptions = computed(() => {
-    const values = timezoneRows.value
-        .map((row: any) => row?.timezone || row?.name || row?.label || '')
-        .filter((value: string) => Boolean(value))
-
-    return Array.from(new Set(values))
 })
 
 const filteredMembers = computed(() => {
@@ -541,30 +459,12 @@ const loadForums = async () => {
     }
 }
 
-const loadInvitations = async () => {
-    try {
-        const res = await api.forumInvitations()
-        pendingInvites.value = res?.data?.data || []
-    } catch (error) {
-        pendingInvites.value = []
-    }
-}
-
 const loadNotifications = async () => {
     try {
         const res = await api.forumNotifications()
         unreadCount.value = Number(res?.data?.data?.unread_count || 0)
     } catch (error) {
         unreadCount.value = 0
-    }
-}
-
-const loadTimezones = async () => {
-    try {
-        const res = await api.timezone()
-        timezoneRows.value = res?.data?.data || []
-    } catch (error) {
-        timezoneRows.value = []
     }
 }
 
@@ -612,68 +512,13 @@ const leaveForum = async (forumId: number) => {
     }
 }
 
-const createForum = async () => {
-    if (!createForm.title.trim()) {
-        await Swal.fire({
-            icon: 'info',
-            title: 'Title required',
-            text: 'Please provide a forum title.',
-            confirmButtonColor: '#293567',
-        })
-        return
-    }
-
-    creatingForum.value = true
-    try {
-        const payload = {
-            title: createForm.title.trim(),
-            description: createForm.description.trim(),
-            category: createForm.category.trim(),
-            type: createForm.type,
-            tags: createForm.tagsText
-                .split(',')
-                .map(tag => tag.trim())
-                .filter(Boolean),
-            region_based: createForm.region_based,
-            region: createForm.region || null,
-        }
-        await api.forumCreate(payload)
-        showCreateForum.value = false
-        Object.assign(createForm, {
-            title: '',
-            description: '',
-            category: '',
-            type: 'public',
-            tagsText: '',
-            region_based: false,
-            region: '',
-        })
-        await loadForums()
-        await Swal.fire({
-            icon: 'success',
-            title: 'Forum created',
-            text: 'Your new member forum is ready.',
-            confirmButtonColor: '#293567',
-        })
-    } catch (error: any) {
-        await Swal.fire({
-            icon: 'warning',
-            title: 'Create failed',
-            text: error?.response?.data?.message || 'Unable to create forum.',
-            confirmButtonColor: '#293567',
-        })
-    } finally {
-        creatingForum.value = false
-    }
-}
-
 const refreshAll = async () => {
     await fetchMembershipStatus(true)
     if (hasActiveMembership.value === false) {
         await fetchMemberships(true)
         return
     }
-    await Promise.all([loadForums(), loadInvitations(), loadNotifications(), loadTimezones()])
+    await Promise.all([loadForums(), loadNotifications()])
 }
 
 watch(selectedForumId, (value) => {
@@ -686,7 +531,7 @@ onMounted(async () => {
         await fetchMemberships()
         return
     }
-    await Promise.all([loadForums(), loadInvitations(), loadNotifications(), loadTimezones()])
+    await Promise.all([loadForums(), loadNotifications()])
 })
 </script>
 
@@ -880,28 +725,6 @@ onMounted(async () => {
     border: 1px solid #deebff;
     background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
     padding: 12px;
-}
-
-.modal-backdrop-custom {
-    position: fixed;
-    inset: 0;
-    background: rgba(17, 29, 59, 0.45);
-    z-index: 1040;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-}
-
-.modal-card-custom {
-    width: min(700px, 100%);
-    max-height: 90vh;
-    overflow-y: auto;
-    border-radius: 16px;
-    border: 1px solid #d7e3ff;
-    background: #fff;
-    padding: 18px;
-    box-shadow: 0 20px 40px rgba(17, 29, 59, 0.22);
 }
 
 .criteria-card {

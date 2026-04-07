@@ -24,9 +24,6 @@
                                 <span class="header-pill text-capitalize">{{ forum.type }} forum</span>
                                 <span class="header-pill text-capitalize">{{ forum.status }}</span>
                             </div>
-                            <button v-if="isCreator" class="btn btn-danger btn-sm mt-3" @click="deleteForum">
-                                <i class="bi bi-trash me-1"></i> Delete Forum
-                            </button>
                         </div>
                         <div class="thread-box mt-3 mt-lg-0">
                             <div class="small text-muted mb-2">Start a discussion</div>
@@ -179,9 +176,19 @@ const newPost = reactive({
 })
 
 const authStore = useAuthStore()
-const isCreator = computed(() => Number(forum.value?.created_by || forum.value?.creator?.id || 0) === Number(authStore.userData?.id || 0))
 
 const formatDate = (date: string) => new Date(date).toLocaleString()
+const getErrorMessage = (error: any, fallback: string) => {
+    const data = error?.response?.data
+    if (data?.message) return data.message
+    const errors = data?.errors
+    if (errors && typeof errors === 'object') {
+        const firstKey = Object.keys(errors)[0]
+        const first = firstKey ? errors[firstKey]?.[0] : null
+        if (first) return first
+    }
+    return fallback
+}
 
 const runtimeConfig = useRuntimeConfig()
 const apiHost = (
@@ -300,7 +307,7 @@ const createThread = async () => {
         await Swal.fire({
             icon: 'warning',
             title: 'Thread creation failed',
-            text: error?.response?.data?.message || 'Unable to create thread.',
+            text: getErrorMessage(error, 'Unable to create thread.'),
             confirmButtonColor: '#293567',
         })
     } finally {
@@ -333,7 +340,7 @@ const postMessage = async () => {
         await Swal.fire({
             icon: 'warning',
             title: 'Unable to post',
-            text: error?.response?.data?.message || 'Please try again.',
+            text: getErrorMessage(error, 'Please try again.'),
             confirmButtonColor: '#293567',
         })
     } finally {
@@ -352,7 +359,7 @@ const react = async (postId: number, reaction: 'like' | 'dislike') => {
         await Swal.fire({
             icon: 'warning',
             title: 'Reaction failed',
-            text: error?.response?.data?.message || 'Unable to save reaction.',
+            text: getErrorMessage(error, 'Unable to save reaction.'),
             confirmButtonColor: '#293567',
         })
     }
@@ -382,40 +389,7 @@ const reportPost = async (postId: number) => {
         await Swal.fire({
             icon: 'warning',
             title: 'Report failed',
-            text: error?.response?.data?.message || 'Unable to report post.',
-            confirmButtonColor: '#293567',
-        })
-    }
-}
-
-const deleteForum = async () => {
-    if (!forum.value?.id) return
-
-    const result = await Swal.fire({
-        icon: 'warning',
-        title: 'Delete forum?',
-        text: 'This will permanently remove the forum, threads, and posts.',
-        showCancelButton: true,
-        confirmButtonText: 'Delete',
-        confirmButtonColor: '#dc3545',
-    })
-
-    if (!result.isConfirmed) return
-
-    try {
-        await api.forumDelete(forum.value.id)
-        await Swal.fire({
-            icon: 'success',
-            title: 'Forum deleted',
-            text: 'Your forum has been deleted.',
-            confirmButtonColor: '#293567',
-        })
-        await navigateTo('/account/forum')
-    } catch (error: any) {
-        await Swal.fire({
-            icon: 'warning',
-            title: 'Delete failed',
-            text: error?.response?.data?.message || 'Unable to delete forum.',
+            text: getErrorMessage(error, 'Unable to report post.'),
             confirmButtonColor: '#293567',
         })
     }

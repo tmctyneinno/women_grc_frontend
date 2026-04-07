@@ -12,9 +12,6 @@
                         <button class="btn btn-light btn-sm border" @click="loadAll">
                             <i class="bi bi-arrow-clockwise me-1"></i> Refresh
                         </button>
-                        <button class="btn btn-theme btn-sm" @click="showCreate = true">
-                            <i class="bi bi-plus-circle me-1"></i> Create Forum
-                        </button>
                     </div>
                 </div>
             </div>
@@ -34,8 +31,8 @@
                 </div>
                 <div class="col-6 col-md-3">
                     <div class="metric-card h-100">
-                        <div class="metric-title">Pending Invites</div>
-                        <div class="metric-value">{{ pendingInvites.length }}</div>
+                        <div class="metric-title">Pending Requests</div>
+                        <div class="metric-value">{{ pendingRequests.length }}</div>
                     </div>
                 </div>
                 <div class="col-6 col-md-3">
@@ -98,9 +95,13 @@
                                     <span class="tiny-pill">{{ forum.threads_count || 0 }} threads</span>
                                 </div>
                                 <div class="d-flex gap-2 mt-auto">
-                                    <button v-if="forum.type === 'public'" class="btn btn-theme btn-sm" @click="joinForum(forum.id)">Join Forum</button>
-                                    <button v-else class="btn btn-outline-theme btn-sm" disabled>Invite Only</button>
-                                    <NuxtLink :to="`/account/forum/${forum.id}`" class="btn btn-light border btn-sm">Preview</NuxtLink>
+                                    <button
+                                        class="btn btn-theme btn-sm"
+                                        :disabled="isPendingRequest(forum.id)"
+                                        @click="joinForum(forum.id)"
+                                    >
+                                        {{ isPendingRequest(forum.id) ? 'Pending Approval' : 'Request to Join' }}
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -108,81 +109,6 @@
                 </div>
             </div>
 
-            <div class="card border-0">
-                <div class="card-body">
-                    <div class="fw-semibold mb-2">Invitations</div>
-                    <div v-if="pendingInvites.length === 0" class="small text-muted">No pending invitations.</div>
-                    <div v-else class="d-grid gap-2">
-                        <div v-for="invite in pendingInvites" :key="invite.id" class="invite-row">
-                            <div>
-                                <div class="fw-medium">{{ invite.forum?.title }}</div>
-                                <div class="small text-muted">Invited by {{ invite.inviter?.first_name }} {{ invite.inviter?.last_name }}</div>
-                            </div>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-theme btn-sm" @click="respondInvite(invite.id, 'accept')">Accept</button>
-                                <button class="btn btn-light border btn-sm" @click="respondInvite(invite.id, 'decline')">Decline</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div v-if="showCreate" class="modal-backdrop-custom" @click.self="showCreate = false">
-                <div class="modal-card-custom">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div class="fw-semibold">Create Forum</div>
-                        <button class="btn btn-sm btn-light border" @click="showCreate = false">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col-12">
-                            <label class="form-label small">Title</label>
-                            <input v-model="createForm.title" class="form-control form-control-sm">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label small">Description</label>
-                            <textarea v-model="createForm.description" class="form-control form-control-sm" rows="3"></textarea>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small">Category</label>
-                            <input v-model="createForm.category" class="form-control form-control-sm">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small">Type</label>
-                            <select v-model="createForm.type" class="form-select form-select-sm">
-                                <option value="public">Public</option>
-                                <option value="private">Private</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small">Tags (comma separated)</label>
-                            <input v-model="createForm.tagsText" class="form-control form-control-sm" placeholder="AML, ESG, Leadership">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small">Region (optional)</label>
-                            <select v-model="createForm.region" class="form-select form-select-sm">
-                                <option value="">Select region/timezone</option>
-                                <option v-for="option in regionOptions" :key="option" :value="option">
-                                    {{ option }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input id="region_based" v-model="createForm.region_based" class="form-check-input" type="checkbox">
-                                <label class="form-check-label small" for="region_based">Enable region-based visibility</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-end gap-2 mt-3">
-                        <button class="btn btn-light border btn-sm" @click="showCreate = false">Cancel</button>
-                        <button class="btn btn-theme btn-sm" :disabled="creating" @click="createForum">
-                            <span v-if="creating" class="spinner-border spinner-border-sm me-1"></span>Create
-                        </button>
-                    </div>
-                </div>
-            </div>
         </div>
     </NuxtLayout>
 </template>
@@ -196,35 +122,15 @@ definePageMeta({
 })
 
 const loading = ref(false)
-const creating = ref(false)
-const showCreate = ref(false)
 const searchText = ref('')
 const joinedForums = ref<any[]>([])
 const discoverForums = ref<any[]>([])
-const invitations = ref<any[]>([])
 const unreadCount = ref(0)
-const timezoneRows = ref<any[]>([])
-
-const createForm = reactive({
-    title: '',
-    description: '',
-    category: '',
-    type: 'public',
-    tagsText: '',
-    region_based: false,
-    region: '',
-})
+const pendingRequests = ref<number[]>([])
 
 let forumSearchTimer: number | null = null
 
-const pendingInvites = computed(() => invitations.value.filter((invite) => invite.status === 'pending'))
-const regionOptions = computed(() => {
-    const values = timezoneRows.value
-        .map((row: any) => row?.timezone || row?.name || row?.label || '')
-        .filter((value: string) => Boolean(value))
-
-    return Array.from(new Set(values))
-})
+const isPendingRequest = (forumId: number) => pendingRequests.value.includes(Number(forumId))
 
 const loadForums = async () => {
     loading.value = true
@@ -241,9 +147,13 @@ const loadForums = async () => {
         joinedForums.value = mine
         const joinedIds = new Set(mine.map((f: any) => Number(f.id)))
         discoverForums.value = all.filter((forum: any) => !joinedIds.has(Number(forum.id)))
+        pendingRequests.value = all
+            .filter((forum: any) => Number(forum?.has_pending_request || 0) > 0)
+            .map((forum: any) => Number(forum.id))
     } catch (error: any) {
         joinedForums.value = []
         discoverForums.value = []
+        pendingRequests.value = []
         await Swal.fire({
             icon: 'error',
             title: 'Unable to load forums',
@@ -262,15 +172,6 @@ watch(searchText, () => {
     }, 400)
 })
 
-const loadInvitations = async () => {
-    try {
-        const res = await api.forumInvitations()
-        invitations.value = res?.data?.data || []
-    } catch (error) {
-        invitations.value = []
-    }
-}
-
 const loadNotifications = async () => {
     try {
         const res = await api.forumNotifications()
@@ -280,27 +181,24 @@ const loadNotifications = async () => {
     }
 }
 
-const loadTimezones = async () => {
-    try {
-        const res = await api.timezone()
-        timezoneRows.value = res?.data?.data || []
-    } catch (error) {
-        timezoneRows.value = []
-    }
-}
-
 const loadAll = async () => {
-    await Promise.all([loadForums(), loadInvitations(), loadNotifications(), loadTimezones()])
+    await Promise.all([loadForums(), loadNotifications()])
 }
 
 const joinForum = async (forumId: number) => {
     try {
-        await api.forumJoin(forumId)
+        const res = await api.forumJoin(forumId)
+        const status = res?.data?.data?.status
+        if (status === 'pending' && !pendingRequests.value.includes(Number(forumId))) {
+            pendingRequests.value.push(Number(forumId))
+        }
         await loadForums()
         await Swal.fire({
             icon: 'success',
-            title: 'Joined forum',
-            text: 'You can now participate in discussions.',
+            title: status === 'pending' ? 'Request sent' : 'Joined forum',
+            text: status === 'pending'
+                ? 'Your request has been sent for approval. You will be notified once approved.'
+                : 'You can now participate in discussions.',
             confirmButtonColor: '#293567',
         })
     } catch (error: any) {
@@ -330,81 +228,6 @@ const leaveForum = async (forumId: number) => {
             text: error?.response?.data?.message || 'Unable to leave forum.',
             confirmButtonColor: '#293567',
         })
-    }
-}
-
-const respondInvite = async (invitationId: number, action: 'accept' | 'decline') => {
-    try {
-        await api.forumRespondInvitation(invitationId, action)
-        await loadAll()
-        await Swal.fire({
-            icon: 'success',
-            title: action === 'accept' ? 'Invitation accepted' : 'Invitation declined',
-            confirmButtonColor: '#293567',
-        })
-    } catch (error: any) {
-        await Swal.fire({
-            icon: 'warning',
-            title: 'Action failed',
-            text: error?.response?.data?.message || 'Unable to process invitation.',
-            confirmButtonColor: '#293567',
-        })
-    }
-}
-
-const createForum = async () => {
-    if (!createForm.title.trim()) {
-        await Swal.fire({
-            icon: 'info',
-            title: 'Title required',
-            text: 'Please provide a forum title.',
-            confirmButtonColor: '#293567',
-        })
-        return
-    }
-
-    try {
-        creating.value = true
-        const tags = createForm.tagsText
-            .split(',')
-            .map((tag) => tag.trim())
-            .filter(Boolean)
-
-        await api.forumCreate({
-            title: createForm.title,
-            description: createForm.description,
-            category: createForm.category,
-            type: createForm.type,
-            tags,
-            region_based: createForm.region_based,
-            region: createForm.region || null,
-        })
-
-        showCreate.value = false
-        createForm.title = ''
-        createForm.description = ''
-        createForm.category = ''
-        createForm.type = 'public'
-        createForm.tagsText = ''
-        createForm.region_based = false
-        createForm.region = ''
-
-        await loadAll()
-        await Swal.fire({
-            icon: 'success',
-            title: 'Forum created',
-            text: 'Your forum has been created successfully.',
-            confirmButtonColor: '#293567',
-        })
-    } catch (error: any) {
-        await Swal.fire({
-            icon: 'warning',
-            title: 'Create failed',
-            text: error?.response?.data?.message || 'Unable to create forum.',
-            confirmButtonColor: '#293567',
-        })
-    } finally {
-        creating.value = false
     }
 }
 
@@ -501,32 +324,4 @@ onMounted(loadAll)
     color: #24386f;
 }
 
-.invite-row {
-    border: 1px solid #e6ebf8;
-    border-radius: 12px;
-    padding: 10px 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.modal-backdrop-custom {
-    position: fixed;
-    inset: 0;
-    background: rgba(17, 29, 59, 0.45);
-    z-index: 1040;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-}
-
-.modal-card-custom {
-    width: min(640px, 100%);
-    border-radius: 16px;
-    border: 1px solid #d7e3ff;
-    background: #fff;
-    padding: 16px;
-    box-shadow: 0 20px 40px rgba(17, 29, 59, 0.22);
-}
 </style>

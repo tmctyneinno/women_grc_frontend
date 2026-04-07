@@ -5,10 +5,6 @@ export default {
         return $instance.get('forums', { params })
     },
 
-    forumCreate(payload: any) {
-        return $instance.post('forums', payload)
-    },
-
     forumDetails(forumId: string | number) {
         return $instance.get(`forums/${forumId}`)
     },
@@ -23,18 +19,6 @@ export default {
 
     forumLeave(forumId: string | number) {
         return $instance.post(`forums/${forumId}/leave`)
-    },
-
-    forumInvite(forumId: string | number, payload: { user_id: number }) {
-        return $instance.post(`forums/${forumId}/invite`, payload)
-    },
-
-    forumInvitations() {
-        return $instance.get('forums/invitations')
-    },
-
-    forumRespondInvitation(invitationId: number | string, action: 'accept' | 'decline') {
-        return $instance.post(`forums/invitations/${invitationId}/respond`, { action })
     },
 
     forumThreads(forumId: string | number, params: Record<string, any> = {}) {
