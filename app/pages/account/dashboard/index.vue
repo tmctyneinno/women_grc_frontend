@@ -94,6 +94,50 @@
                         </div>
                     </div>
 
+                    <div v-else-if="showMembershipPending" class="card h-100 border-0">
+                        <div class="card-header bg-transparent border-0 fw-medium">
+                            Membership Approval In Progress
+                        </div>
+                        <div class="card-body">
+                            <div class="membership-wait p-4">
+                                <div class="d-flex flex-column flex-md-row align-items-start gap-3">
+                                    <div class="wait-icon">
+                                        <i class="bi bi-hourglass-split"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold fs-5 mb-2">Hang tight — we’re activating your membership</div>
+                                        <div class="text-muted">
+                                            Your subscription payment is confirmed. An admin is reviewing and activating your membership.
+                                            You’ll get access as soon as the approval is complete.
+                                        </div>
+                                        <div class="d-flex flex-wrap gap-2 mt-3">
+                                            <button class="btn btn-outline-theme btn-sm" @click="fetchMembershipStatus(true)">
+                                                <i class="bi bi-arrow-clockwise me-1"></i> Refresh Status
+                                            </button>
+                                            <NuxtLink to="/account/members" class="btn btn-theme btn-sm">
+                                                Explore Member Benefits
+                                            </NuxtLink>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wait-steps mt-4">
+                                    <div class="step-item">
+                                        <span class="step-dot"></span>
+                                        Payment received
+                                    </div>
+                                    <div class="step-item active">
+                                        <span class="step-dot"></span>
+                                        Admin approval in progress
+                                    </div>
+                                    <div class="step-item">
+                                        <span class="step-dot"></span>
+                                        Membership fully activated
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div v-else-if="showMembershipPrompt" class="card h-100 border-0">
                         <div class="card-header bg-transparent border-0 fw-medium">
                             Unlock the Member Circle
@@ -221,8 +265,10 @@ const userProfile = ref<any>(null)
 const isLoading = ref<boolean>(false)
 const membershipStatusLoading = ref(false)
 const hasActiveMembership = ref<boolean | null>(null)
+const membershipApprovalStatus = ref<'approved' | 'pending' | 'none'>('none')
 
 const showMembershipPrompt = computed(() => hasActiveMembership.value === false)
+const showMembershipPending = computed(() => hasActiveMembership.value === false && membershipApprovalStatus.value === 'pending')
 
 const fetchMembershipStatus = async (force = false) => {
     try {
@@ -237,9 +283,13 @@ const fetchMembershipStatus = async (force = false) => {
         const response = await api.myMembershipStatus()
         const data = response?.data?.data || {}
         hasActiveMembership.value = Boolean(data?.is_active)
+        membershipApprovalStatus.value = data?.has_membership
+            ? (data?.is_approved ? 'approved' : 'pending')
+            : 'none'
         setCached('account-membership-status', hasActiveMembership.value, 180000)
     } catch (error) {
         hasActiveMembership.value = false
+        membershipApprovalStatus.value = 'none'
     } finally {
         membershipStatusLoading.value = false
     }
@@ -363,6 +413,51 @@ const goTimeline = async (line: { route?: string }) => {
     background:
         radial-gradient(circle at top right, #f4f7ff 0%, transparent 45%),
         linear-gradient(140deg, #ffffff 0%, #f6f9ff 100%);
+}
+
+.membership-wait {
+    border-radius: 18px;
+    border: 1px dashed #d4def7;
+    background:
+        radial-gradient(circle at top right, rgba(176, 52, 54, 0.16) 0%, transparent 45%),
+        linear-gradient(140deg, #ffffff 0%, #f7f9ff 100%);
+}
+
+.wait-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #293567 0%, #b03436 100%);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.wait-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: #5b647b;
+    font-size: 13px;
+}
+
+.step-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.step-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #d2dbf4;
+}
+
+.step-item.active .step-dot {
+    background: #b03436;
 }
 
 .cta-icon {

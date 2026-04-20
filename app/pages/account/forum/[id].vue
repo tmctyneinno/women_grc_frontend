@@ -421,7 +421,7 @@ onMounted(loadForum)
 }
 
 .thread-box {
-    width: min(320px, 100%);
+    width: min(600px, 100%);
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.25);
     background: rgba(255, 255, 255, 0.95);

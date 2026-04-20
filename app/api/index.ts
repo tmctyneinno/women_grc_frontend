@@ -7,6 +7,7 @@ import learning from "./end_points/learning";
 import forum from "./end_points/forum";
 import podcasts from "./end_points/podcasts";
 import articles from "./end_points/articles";
+import mentorship from "./end_points/mentorship";
 
 
 export default {
@@ -19,4 +20,5 @@ export default {
     ...forum,
     ...podcasts,
     ...articles,
+    ...mentorship,
 }
